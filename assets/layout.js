@@ -1,33 +1,33 @@
 
 let index_data = `
 2025-news | 2025 news | pinned |
+32 | Politics, fundamentals | pinned |
+27 | Sex, gender, & transsexuals | pinned |
 
-31 | Reflections on Justin Trudeau                | politics | 2025-01-19
-32 | Political conservatism                       | politics | 2025-01-21
-24 | Enduring falsehoods about Warren, Clinton    | politics | 2024-12-19
-27 | Sex, gender, & transsexuals                  | politics | 2025-01-02
-7  | Fetishism & politics                         | politics | 2024-11-14
-14 | Reasons I’m glad to be Canadian              | politics | 2024-12-08
-13 | The military industrial complex              | politics | 2024-12-04
-11 | The Trump appeal                             | politics | 2024-12-03
-12 | The order of information                     | politics | 2024-12-03
-6  | Mark Robinson                                | politics | 2024-11-13
-9  | The default politician                       | politics | 2024-11-26
-2  | The trans prison stats argument              | politics | 2024-10-19
-22 | Dehumanization                               | politics | 2024-12-15
+31 | Reflections on Justin Trudeau | politics | 2025-01-19
+24 | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19
+7 | Fetishism & politics | politics | 2024-11-14
+14 | Reasons I’m glad to be Canadian | politics | 2024-12-08
+13 | The military industrial complex | politics | 2024-12-04
+11 | The Trump appeal | politics | 2024-12-03
+12 | The order of information | politics | 2024-12-03
+6 | Mark Robinson | politics | 2024-11-13
+9 | The default politician | politics | 2024-11-26
+2 | The trans prison stats argument | politics | 2024-10-19
+22 | Dehumanization | politics | 2024-12-15
 
-29 | Date formats                                 | other | 2025-01-11
-10 | Touchscreens and smartphones                 | other | 2024-12-02
+29 | Date formats | other | 2025-01-11
+10 | Touchscreens and smartphones | other | 2024-12-02
 
-1  | Language                                     | personal | 2024-10-29
-30 | The appearance of intelligence               | personal | 2025-01-18
-25 | A beauty holding a bird                      | personal | 2024-12-23
-8  | 10 Dollar                                    | personal | 2024-11-25
-28 | Therapy theory                               | personal | 2025-01-09
-21 | Relationships                                | personal | 2024-12-14
-4  | Anime reviews                                | personal | 2024-11-02
-3  | Poor things (2023 film)                      | personal | 2024-10-31
-5  | Types of masculinity                         | personal | 2024-11-08
+1 | Language | personal | 2024-10-29
+30 | The appearance of intelligence | personal | 2025-01-18
+25 | A beauty holding a bird | personal | 2024-12-23
+8 | 10 Dollar | personal | 2024-11-25
+28 | Therapy theory | personal | 2025-01-09
+21 | Relationships | personal | 2024-12-14
+4 | Anime reviews | personal | 2024-11-02
+3 | Poor things (2023 film) | personal | 2024-10-31
+5 | Types of masculinity | personal | 2024-11-08
 
 `;
 
@@ -72,9 +72,9 @@ function main() {
             category = cell[2],
             date     = cell[3];
             if (!sidebar_data[category]) { continue; }
-            let extras = (category == "pinned") ? `<img class="icon" src="assets/pin2.png" height="15" width="15">` : "";
+            let extras = (category == "pinned") ? `<img class="icon" src="assets/pin.png" height="15" width="15">` : "";
             let other_attributes = (title == document.title) ? `class="current-page"` : "";
-            let entry = `<div><a ${other_attributes} href="${file}.html">${title}</a>${extras}</div>`;
+            let entry = `<div ${other_attributes}><a href="${file}.html">${title}</a>${extras}</div>`;
             sidebar_data[category].push(entry); }
     }
     
