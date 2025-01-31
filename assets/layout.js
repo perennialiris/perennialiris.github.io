@@ -1,6 +1,6 @@
 
 let index_data = `
-2025-events-log | 2025 news | pinned |
+2025-news | 2025 news | pinned |
 
 31 | Reflections on Justin Trudeau                | politics | 2025-01-19
 32 | Political conservatism                       | politics | 2025-01-21
@@ -72,7 +72,7 @@ function main() {
             category = cell[2],
             date     = cell[3];
             if (!sidebar_data[category]) { continue; }
-            let extras = (category == "pinned") ? `<img src="assets/pin2.png" height="15" width="15">` : "";
+            let extras = (category == "pinned") ? `<img class="icon" src="assets/pin2.png" height="15" width="15">` : "";
             let other_attributes = (title == document.title) ? `class="current-page"` : "";
             let entry = `<div><a ${other_attributes} href="${file}.html">${title}</a>${extras}</div>`;
             sidebar_data[category].push(entry); }
@@ -80,15 +80,33 @@ function main() {
     
     const sidebar = document.getElementById("sidebar"); if (!sidebar) { console.error("{LAYOUT.JS: Can't find #sidebar}"); }
     if (sidebar) {
-        sidebar.innerHTML = `
+        sidebar.innerHTML = 
+        `<nav id="page-links">
         ${sidebar_data.pinned.join("")}
-        <h3>politics</h3>
+        <h3>Politics</h3>
         ${sidebar_data.politics.join("")}
-        <h3>other</h3>
+        <h3>Other</h3>
         ${sidebar_data.other.join("")}
         ${sidebar_data.personal.join("")}
-        `;}
-    
+        </nav>`;
+        
+        if (toc_array.length > 0) {
+            console.log(toc_array)
+            console.log(toc_array[0])
+            let x = toc_array[0].indexOf(">") + 1;
+            x += toc_array[0].substring(x).indexOf(">") + 1;
+            let y = toc_array[0].substring(x).indexOf("<") + x;
+            toc_array[0] = toc_array[0].substring(0, x) + "(Top)" + toc_array[0].substring(y);
+            
+            console.log(toc_array[0])
+            
+            sidebar.innerHTML +=
+            `<nav id="toc">
+                <div>
+                <h2>Article table of contents</h2>
+                ${toc_array.join("")}
+                </div>
+            </nav>`; } }
     
     document.title += " - North of Queen";
     const cover = document.getElementById("cover");

@@ -4,6 +4,7 @@
     code that parses links also push them to this array, which is then used to
     populate a citations list at the end automatically (see layout.js) */
 let citation_array = [];
+let toc_array = [];
 
 /*  I like being able to style numbers (0-9) separately from other text. However,
     you don't want to affect numbers that are inside <elements>, because those
@@ -91,8 +92,6 @@ function cleanForCode(input_string) {
 /*  .replaceAll is preferred over .replace when you don't need to regex
     functionality because it simply results in more readable code */
 
-
-
 /*  ![description](path/to/image.png)
     ![nice](path/to/other_image.png)
  ->v
@@ -120,7 +119,6 @@ function imageBoxParse(input_string) {
     }
     return `<div class="image-box">${lines.join("")}</div>`;
 }
-
 
 /* nested list parser */
 function listParser(inputString) {
@@ -247,27 +245,33 @@ function interpreter(targetElement) {
         if (input[i].startsWith("# ")) {
             /* .title-box */
             /* strict format requirement: "# title text |dddd-dd-dd" */
-            if (/\|(\d{4})-(\d{2})-(\d{2})/.test(input[i].substring(input[i].length - 11))) {
-                let date = input[i].slice(input[i].length - 10);
-                let title = input[i].slice(2, input[i].length - 11).trim();
-                input[i] = `<div class="title-box"><h1>${title}</h1><span class="date-box">date first posted: ${date}</span></div>`;
+            let title, titleId;
+            if (/\|(\d{4})-(\d{2})-(\d{2})/.test(input[i].slice(-11))) {
+                title = input[i].slice(2, -11).trim();
+                titleId = title.replace(/<\/?(i|b)>/g, "");
+                let date = input[i].slice(-10);
+                input[i] = `<div class="title-box"><h1 id=${titleId}>${title}</h1><span class="date-box">date first posted: ${date}</span></div>`;
                 title = title.replace(/<\/?(i|b)>/g, "").replace(/&amp;/g, "&");
                 if (document.title == "") { document.title = title; } }
             else {
-                let title = input[i].slice(2);
-                let titleId = title.replace(/<\/?(i|b)>/g, "");
+                title = input[i].slice(2);
+                titleId = title.replace(/<\/?(i|b)>/g, "");
                 input[i] = `<h1 id="${titleId}">${title}</h1>`; }
+            toc_array.push(`<div><a class="toc-h1" href="#${titleId}">${titleId}</a></div>`);
             continue; }
         /* ------ h2 ------ */
         if (input[i].startsWith("## ")) {
             let title = input[i].slice(3);
             let titleId = title.replace(/<\/?(i|b)>/g, "");
             input[i] = `<h2 id="${titleId}">${title}</h2>`;
+            toc_array.push(`<div><a class="toc-h2" href="#${titleId}">${titleId}</a></div>`);
             continue; }
         /* ------ h3 ------ */
         if (input[i].startsWith("### ")) {
-            let title = input[i].slice(3);
-            input[i] = "<h3>" + title + "</h2>";
+            let title = input[i].slice(4);
+            let titleId = title.replace(/<\/?(i|b)>/g, "");
+            input[i] = `<h3 id="${titleId}">${title}</h2>`;
+            toc_array.push(`<div><a class="toc-h3" href="#${titleId}">${titleId}</a></div>`);
             continue; }
         
         /* ------------ table of contents (not a table) ----------- */
