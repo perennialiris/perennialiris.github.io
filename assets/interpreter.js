@@ -250,7 +250,7 @@ function interpreter(targetElement) {
                 title = input[i].slice(2, -11).trim();
                 titleId = title.replace(/<\/?(i|b)>/g, "");
                 let date = input[i].slice(-10);
-                input[i] = `<div class="title-box"><h1 id="${titleId}">${title}</h1><span class="date-box">date first posted: ${date}</span></div>`;
+                input[i] = `<div class="title-box"><h1 id="${titleId}">${title}</h1><span class="date-box">${date}</span></div>`;
                 title = title.replace(/<\/?(i|b)>/g, "").replace(/&amp;/g, "&");
                 if (document.title == "") { document.title = title; } }
             else {

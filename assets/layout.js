@@ -1,39 +1,56 @@
 
-let index_data = `
-2025-news | 2025 news | pinned |
-32 | Politics, fundamentals | pinned |
-27 | Sex, gender, & transsexuals | pinned |
+let pages_data = `
 
-31 | Reflections on Justin Trudeau | politics | 2025-01-19
-24 | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19
-7 | Fetishism & politics | politics | 2024-11-14
-14 | Reasons I’m glad to be Canadian | politics | 2024-12-08
-13 | The military industrial complex | politics | 2024-12-04
-11 | The Trump appeal | politics | 2024-12-03
-12 | The order of information | politics | 2024-12-03
-6 | Mark Robinson | politics | 2024-11-13
-9 | The default politician | politics | 2024-11-26
-2 | The trans prison stats argument | politics | 2024-10-19
-22 | Dehumanization | politics | 2024-12-15
+2025-news | 2025 news                                 |   |            | pinned
 
-29 | Date formats | other | 2025-01-11
-10 | Touchscreens and smartphones | other | 2024-12-02
+32        | Politics, fundamentals                    | Politics |            | pinned
+27        | Sex, gender, & transsexuals               | Politics |            | pinned
+31        | Reflections on Justin Trudeau             | Politics | 2025-01-19 |       
+24        | Enduring falsehoods about Warren, Clinton | Politics | 2024-12-19 |       
+7         | Fetishism & politics                      | Politics | 2024-11-14 |       
+14        | Reasons I’m glad to be Canadian           | Politics | 2024-12-08 |       
+13        | The military industrial complex           | Politics | 2024-12-04 |       
+11        | The Trump appeal                          | Politics | 2024-12-03 |       
+12        | The order of information                  | Politics | 2024-12-03 |       
+6         | Mark Robinson                             | Politics | 2024-11-13 |       
+9         | The default politician                    | Politics | 2024-11-26 |       
+2         | The trans prison stats argument           | Politics | 2024-10-19 |       
+22        | Dehumanization                            | Politics | 2024-12-15 |       
 
-1 | Language | personal | 2024-10-29
-30 | The appearance of intelligence | personal | 2025-01-18
-25 | A beauty holding a bird | personal | 2024-12-23
-8 | 10 Dollar | personal | 2024-11-25
-28 | Therapy theory | personal | 2025-01-09
-21 | Relationships | personal | 2024-12-14
-4 | Anime reviews | personal | 2024-11-02
-3 | Poor things (2023 film) | personal | 2024-10-31
-5 | Types of masculinity | personal | 2024-11-08
+29        | Date formats                              | Other    | 2025-01-11 |       
+10        | Touchscreens and smartphones              | Other    | 2024-12-02 |       
 
+1         | Language                                  | Other    | 2024-10-29 |       
+30        | The appearance of intelligence            | Other    | 2025-01-18 |       
+25        | A beauty holding a bird                   | Other    | 2024-12-23 |       
+8         | 10 Dollar                                 | Other    | 2024-11-25 |       
+28        | Therapy theory                            | Other    | 2025-01-09 |       
+21        | Relationships                             | Other    | 2024-12-14 |       
+4         | Anime reviews                             | Other    | 2024-11-02 |       
+3         | Poor things (2023 film)                   | Other    | 2024-10-31 |       
+5         | Types of masculinity                      | Other    | 2024-11-08 |   
 `;
+
+function alignTable(dataString, splitChar) {
+    const table = dataString.split("\n").map(row => row.split(splitChar).map(cell => cell.trim()));
+    const tableWidth = Math.max(...table.map(row => row.length));
+    for (let column = 0; column < tableWidth; column += 1) {
+        let cellWidth = 0;
+        for (let i = 0; i < table.length; i += 1) {
+            if (table[i].length < tableWidth) continue;
+            if (table[i][column].length > cellWidth) {
+                cellWidth = table[i][column].length; } }
+        for (let i = 0; i < table.length; i += 1) {
+            if (table[i].length < tableWidth) continue;
+            table[i][column] += " ".repeat(cellWidth - table[i][column].length); } }
+    for (let i = 0; i < table.length; i += 1) {
+        table[i] = table[i].join(` ${splitChar} `); }
+    console.log(table.join("\n")); }
+alignTable(pages_data, "|");
 
 function main() {
     const top_ = document.getElementById("top"); if (!top_) { console.error("{LAYOUT.JS: Can't find #top}"); return; }
-    top_.innerHTML = `<header id="header"><div><a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a></div></header><div id="nav"></div>`;
+    top_.innerHTML = `<header id="header"><a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a></header><div id="nav"></div>`;
     document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
     const footer = document.body.appendChild(document.createElement("footer"));
     footer.id = "footer";
@@ -48,10 +65,6 @@ function main() {
     if (article) {
         interpreter(article);
         
-        let article_footer = main.appendChild(document.createElement("footer"));
-        article_footer.id = "article-footer";
-        article_footer.innerHTML = `<p>North of Queen is a personal webpage. I’m not part of any organization.</p>`;
-        
         if (citation_array) {
             if (citation_array.length > 0) {
                 for (let i = 0; i < citation_array.length; i += 1) {
@@ -62,44 +75,45 @@ function main() {
         }
     }
     
-    const sidebar_data = { "pinned" : [], "politics": [], "other": [], "personal": [] };
-    index_data = index_data.split("\n");
-    for (let i = 0; i < index_data.length; i += 1) {
-        const cell = index_data[i].trim().split("|").map(data => data.trim());
-        if (cell.length == 4) {
+    const sidebar_links = { };
+    pages_data = pages_data.split("\n");
+    for (let i = 0; i < pages_data.length; i += 1) {
+        const cell = pages_data[i].trim().split("|").map(data => data.trim());
+        if (cell.length == 5) {
             let file = cell[0],
             title    = cell[1],
             category = cell[2],
-            date     = cell[3];
-            if (!sidebar_data[category]) { continue; }
-            let extras = (category == "pinned") ? `<img class="icon" src="assets/pin.png" height="15" width="15">` : "";
-            let other_attributes = (title == document.title) ? `class="current-page"` : "";
-            let entry = `<div ${other_attributes}><a href="${file}.html">${title}</a>${extras}</div>`;
-            sidebar_data[category].push(entry); }
+            date     = cell[3],
+            options  = cell[4];
+            
+            if (category == "") category = "topLinks";
+            if (!sidebar_links.hasOwnProperty(category)) {
+                sidebar_links[category] = []; }
+            
+            let extras = (options == "pinned")
+                ? `<img class="icon" src="assets/pin.png" height="15" width="15">` : "";
+            let attributes = (title == document.title)
+                ? ` class="current-page"` : "";
+            
+            sidebar_links[category].push(
+                `<div${attributes}><a href="${file}.html">${title}</a>${extras}</div>`
+            ); }
     }
     
     const sidebar = document.getElementById("sidebar"); if (!sidebar) { console.error("{LAYOUT.JS: Can't find #sidebar}"); }
     if (sidebar) {
+        
+        let page_nav = "";
+        Object.keys(sidebar_links).forEach(key => {
+            page_nav += (key == "topLinks")
+                ? sidebar_links[key].join("")
+                : `<h3>${key}</h3>${sidebar_links[key].join("")}` });
+        
         sidebar.innerHTML = 
-        `<nav id="page-links">
-        ${sidebar_data.pinned.join("")}
-        <h3>Politics</h3>
-        ${sidebar_data.politics.join("")}
-        <h3>Other</h3>
-        ${sidebar_data.other.join("")}
-        ${sidebar_data.personal.join("")}
-        </nav>`;
+        `<nav id="page-links">${page_nav}</nav>`;
         
         if (toc_array.length > 0) {
-            console.log(toc_array)
-            console.log(toc_array[0])
-            let x = toc_array[0].indexOf(">") + 1;
-            x += toc_array[0].substring(x).indexOf(">") + 1;
-            let y = toc_array[0].substring(x).indexOf("<") + x;
-            toc_array[0] = toc_array[0].substring(0, x) + "(Top)" + toc_array[0].substring(y);
-            
-            console.log(toc_array[0])
-            
+            toc_array[0] = `<div><a class="toc-h1" href="#top">(Top)</a></div>`;
             sidebar.innerHTML +=
             `<nav id="toc">
                 <div>
@@ -108,13 +122,16 @@ function main() {
                 </div>
             </nav>`; } }
     
-    document.title += " - North of Queen";
+    if (document.title == "") {
+        document.title = "North of Queen"; }
+    else {
+        document.title += " - North of Queen"; }
+    
     const cover = document.getElementById("cover");
     if (cover) {
         cover.classList.add("fade-out");
         cover.addEventListener("animationend", () => {
-            cover.remove(); }); }
-}
+            cover.remove(); }); } }
 
 let viewerWrapper;
 let viewerImg;

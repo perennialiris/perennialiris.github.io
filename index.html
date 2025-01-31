@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>North of Queen</title>
+    <title>Homepage</title>
     <style>
-    #article-footer { display: none; }
+    #main { width: 738px !important; }
+    #article-footer, #citations { display: none; }
     </style>
 </head>
 <body>
@@ -12,10 +13,28 @@
 <div id="content-wrapper"><aside id="sidebar"></aside>
 <main id="main"><article id="article">
 
+**About me:** I'm Iris. I live in Canada. I'm white and from a British family. I'm a transsexual woman. I'm <span id="age"></span> years old. I'm an atheist. I'm not a vegan. I've been a very political person since I was a teenager and started reading about economics and philosophy. I remember when politics was more boring and less divisive, before social media came and pumped it into seemingly every aspect of everyone's lives. I'd describe myself as a liberal conservative. The great fight of this decade seems to be Western institutions and truth vs. extremism and conspiracy theorism---and since I value institutions and truth, that places me on the 'left', or at least that's how most people interpret me.
 
+**This page:** I'm using this to host things I write or create. I made every aspect of it in notepad. There's no server software; each page just pulls from the same JavaScript files, which add the layout, styling, and convert the text into elements through an interpreter. That black fade-in is there to hide the split second before the styling loads.
 
+I don't use Facebook, Instagram, or X/Twitter.
+
+Other places I post things:
+
+- **Bluesky:** [https://bsky.app/profile/irispol.bsky.social](https://bsky.app/profile/irispol.bsky.social)
+- **Tumblr:** [https://forthoseinterested.tumblr.com](https://forthoseinterested.tumblr.com)
+- **Discord** server I run: [https://discord.com/invite/fGdV7x5dk2](https://discord.com/invite/fGdV7x5dk2)
+- **Substack** -- there's no paywall or unique content, it's just another place I put stuff from here: [https://northofqueen.substack.com](https://northofqueen.substack.com)
+
+---
 
 </article></main></div>
+<script>
+let date = new Date();
+document.getElementById("age").innerHTML = (date.getMonth() > 2) ? date.getFullYear() - 1994 : date.getFullYear() - 1995;
+</script>
 <script src="assets/interpreter.js"></script>
 <script src="assets/layout.js"></script>
 </body></html>
+
+
