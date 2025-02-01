@@ -26,14 +26,12 @@ function wrapDigits(targetElement) {
         input = input.substring(closeTag + 1);
     }
     output += input.replace(/(\d+)/g, "<span class='rendered_digit'>$1</span>");
-    targetElement.innerHTML = output;
-}
+    targetElement.innerHTML = output; }
 
 /*  These are the replacements run over all inputs, separated into its
     own function because I needed to call it multiple times. */
 function stdReplacements(input_string) {
-    if (input_string == "") {
-        return ""; }
+    if (input_string == "") { return ""; }
     return input_string
         .replaceAll("\\*", "&ast;")
         .replaceAll("---", "&mdash;")
@@ -310,7 +308,6 @@ function interpreter(targetElement) {
             continue;
         }
         input[i] = input[i].replace(/\n/g, "<br>");
-        if (input[i] == "") { console.error("{INTERPRETER.JS: (C).}"); }
         
         input[i] = (smallPrint)
             ? "<p class=\"fine\">" + input[i] + "</p>"
