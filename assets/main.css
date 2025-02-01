@@ -24,7 +24,7 @@
 .nowrap { white-space: nowrap; }
 
 html { scrollbar-color: #999 #ddd; }
-body { color: var(--grey-20); font-size: 14px; font-family: system-ui; height: 100vh; }
+body { color: var(--grey-20); font-size: 14px; font-family: system-ui; height: 100vh; display: grid; grid-template-rows: auto 1fr 104px; }
   #top { }
     #header { background-image: linear-gradient(to bottom, #333, #000); display: grid; grid-template-columns: 3fr auto 4fr; }
       #header a { padding: 25px 0 19px; height: 67px; grid-column: 2; }
