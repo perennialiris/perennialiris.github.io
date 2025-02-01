@@ -111,7 +111,7 @@ function main() {
                     sidebar_links.recent.push(entry); } }
             if (fullPostList) {
                 if (date == "") {
-                    date = "ongoing"; }
+                    date = "---"; }
                 full_list.push(`<td><a href="${file}.html">${title}</a></td><td>${category}</td><td>${date}</td>`); } } }
     const sidebar = document.getElementById("sidebar"); if (!sidebar) { console.error("{LAYOUT.JS: Can't find #sidebar}"); }
     if (sidebar) {

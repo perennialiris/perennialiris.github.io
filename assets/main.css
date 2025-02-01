@@ -57,14 +57,14 @@ body { color: var(--grey-20); font-size: 14px; font-family: system-ui; display: 
       #main > * + * { margin-top: 40px; }
       
       #full-post-list table { border-collapse: collapse; margin: auto; color: var(--grey-90); }
-        #full-post-list table tr th { font-weight: 700; color: var(--grey-40); text-align: left; }
+        #full-post-list table tr th { text-underline-offset: 5px; text-decoration: underline; font-weight: 400; color: var(--grey-90); text-align: left; }
         #full-post-list table tr > * { padding: 3px 14px; }
         #full-post-list table tr td:first-child,
         #full-post-list table tr th:first-child { padding-left: 4px; }
         #full-post-list table tr td:last-child,
         #full-post-list table tr th:last-child { padding-right: 4px; }
-          #full-post-list table tr td a { color: var(--grey-20); }
-          #full-post-list table tr td a:hover { color: var(--accent); text-decoration: underline; }
+          #full-post-list table tr td a { color: var(--grey-50); }
+          #full-post-list table tr td a:hover { color: var(--grey-20); }
       
       #article { line-height: 1.7; font-size: 15px; background-color: var(--white); color: var(--grey-20); }
         #article > *:nth-child(1) { margin-top: 0; }
@@ -111,13 +111,12 @@ body { color: var(--grey-20); font-size: 14px; font-family: system-ui; display: 
           #article ol > li + li { margin-top: 7px; }
             #article li { line-height: 1.6; }
               #article li br { margin-bottom: 5px; }
-        
         /* handling numbers */
         #article p .rendered_digit,
         #article blockquote .rendered_digit,
         #article li .rendered_digit { font-family: "PT Serif","Sylfaen","Georgia",serif; }
         #article ol > li::marker { font-family: "PT Serif","Tahoma",serif; }
-        
+        /* -- */
         #article .citeref .rendered_digit,
         #article small .rendered_digit,
         #article code .rendered_digit,
@@ -128,7 +127,6 @@ body { color: var(--grey-20); font-size: 14px; font-family: system-ui; display: 
         #article h3 .rendered_digit,
         #article .fine .rendered_digit,
         #article .date-box .rendered_digit { font-family: inherit; }
-      
       #article-footer { opacity: 0.5; font-family: "Georgia",serif; font-size: 16px; text-align: center; }
         #article-footer p { margin: 5px 0; }
         #article-footer a { color: inherit; text-decoration: underline; }
