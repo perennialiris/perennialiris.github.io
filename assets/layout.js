@@ -10,7 +10,7 @@ function closeImageViewer() {
 
 let data = `
 2025-news | News 2025                                 | politics |            | pinned
-32        | Politics, fundamentals                    | politics | 2025-01-22 | pinned
+32        | Politics fundamentals                     | politics | 2025-01-22 | pinned
 31        | Reflections on Justin Trudeau             | politics | 2025-01-19 |       
 30        | The appearance of intelligence            | other    | 2025-01-18 |       
 29        | Date formats                              | other    | 2025-01-11 |       
@@ -40,7 +40,6 @@ la
 function alignTable(dataString, splitChar) {
     let table = dataString.split("\n").map(row => row.split(splitChar).map(cell => cell.trim()));
     tableWidth = Math.max(...table.map(row => row.length));
-    console.log(table)
     table.sort((a, b) => {
         if (a.length < tableWidth || b.length < tableWidth) return;
         return parseInt(b[3].replace(/\D/g,"")) - parseInt(a[3].replace(/\D/g,""));
@@ -59,7 +58,6 @@ function alignTable(dataString, splitChar) {
         table[i] = table[i].join(` ${splitChar} `); }
     
     data = table.join("\n");
-    console.log(data);
 }
 alignTable(data, "|");
 
@@ -113,23 +111,23 @@ function main() {
                 if (date == "") {
                     date = "---"; }
                 full_list.push(`<td><a href="${file}.html">${title}</a></td><td>${category}</td><td>${date}</td>`); } } }
-    const sidebar = document.getElementById("sidebar"); if (!sidebar) { console.error("{LAYOUT.JS: Can't find #sidebar}"); }
-    if (sidebar) {
-        sidebar.innerHTML = `<nav id="page-links">${sidebar_links.pins.join("")}${sidebar_links.recent.join("")}<div class='more-posts'><a href="full-post-list.html">Full page list</a></div></nav>`;
-        if (toc_array.length > 2) {
-            toc_array[0] = `<div><a class="toc-h1" href="#top">(Top of page)</a></div>`;
-            sidebar.innerHTML +=
-            `<nav id="toc">
-                <div>
-                <h3>This page table of contents</h3>
-                ${toc_array.join("")}
-                </div>
-            </nav>`; }
-    }
+    
+    const sidebar = document.createElement("div");
+    document.getElementById("content-wrapper").insertBefore(sidebar, document.getElementById("main"));
+    sidebar.id = "sidebar";
+    sidebar.innerHTML = `<nav id="page-links">${sidebar_links.pins.join("")}${sidebar_links.recent.join("")}<div class='more-posts'><a href="full-post-list.html">Full page list</a></div></nav>`;
+    if (toc_array.length > 3) {
+        toc_array[0] = `<div><a class="toc-h1" href="#top">(Top of page)</a></div>`;
+        sidebar.innerHTML +=
+        `<nav id="toc">
+            <div>
+            <h3>This page table of contents</h3>
+            ${toc_array.join("")}
+            </div>
+        </nav>`; }
     
     if (fullPostList) {
-        fullPostList.innerHTML = "<table><th>Title</th><th>Category</th><th>Date</th>"
-            + full_list.map(n => "<tr>" + n + "</tr>").join("") + "</table>"; }
+        fullPostList.innerHTML = `<table><th>Title</th><th>Category</th><th>Date</th><td>${full_list.join("</tr><tr>")}</td></table>`; }
     
     if (document.title == "") { document.title = "North of Queen"; }
     else { document.title += " - North of Queen"; }
