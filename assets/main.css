@@ -88,7 +88,7 @@ body { color: var(--grey-20); font-size: 14px; font-family: system-ui; display: 
         #article .noq-table { border-collapse: collapse; line-height: 1.5; font-size: 14px; }
           #article .noq-table tr.em { background-color: #0002; }
             #article .noq-table td { border: 1px solid var(--grey-90); padding: 3px 7px 4px; }
-        #article blockquote { padding: 14px 18px; line-height: 1.5; margin: 15px 0 19px; margin-left: 1px; background-color: #0001; border-left: 3px solid var(--grey-20); }
+        #article blockquote { padding: 12px 15px; line-height: 1.5; margin: 15px 0 19px; margin-left: 1px; background-color: #0001; border-left: 3px solid #bbb; }
           #article blockquote .bq-br { margin-bottom: 11px; background-color: #e9eaec; }
         #article code, .codeblock { white-space: pre-wrap; font-family: "Consolas",monospace; line-height: 1.4; }
         #article .codeblock { margin: 15px 0; padding: 10px 11px; border: 1px solid #ddd; font-size: 12px; }
@@ -100,7 +100,7 @@ body { color: var(--grey-20); font-size: 14px; font-family: system-ui; display: 
         #article li,
         #article blockquote { text-align: left; font-family: "Georgia",serif; }
         #article blockquote .attribution { text-align: right; }
-        #article p { margin: 15px 0; }
+        #article p { margin: 13px 0; }
         #article .mdash { margin-left: 1px; }
         #article .fine { font-family: "Roboto",sans-serif; color: var(--grey-60); font-size: 14px; }
         #article ol.fine li::marker { font-family: inherit; font-size: inherit; }
