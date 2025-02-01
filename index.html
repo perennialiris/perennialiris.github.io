@@ -4,29 +4,48 @@
     <title>Homepage</title>
     <style>
     #article-footer, #citations { display: none; }
-    #article div { padding: 10px; border: 1px solid grey; }
+    
+    #homepage { font-size: 15px; line-height: 1.7; font-family: "Georgia",serif; }
+    #homepage a { color: var(--accent); }
+    #homepage b { font-family: "Roboto",sans-serif; }
+    #homepage .rendered_digit { font-family: "PT Serif","Georgia",serif; }
+    
+    #homepage ul { padding: 0 40px; }
+    #homepage p + ul, #homepage ul > li + li { margin-top: 7px; }
+    
+    #homepage > div + div { margin-top: 14px; }
+    
     </style>
 </head>
 <body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
 <div id="top"></div>
 <div id="content-wrapper"><aside id="sidebar"></aside>
-<main id="main"><article id="article">
+<main id="main"><article id="homepage">
 
-**About me:** I'm Iris. I live in Canada. I'm white and from a British family. I'm a transsexual woman. I'm <span class="rendered_digit" id="age"></span> years old. I'm an atheist. I'm not a vegan. I've been a very political person since I was a teenager and started reading about economics and philosophy. I remember when politics was more boring and less divisive, before social media came and pumped it into seemingly every aspect of everyone's lives. I'd describe myself as a liberal conservative. The great fight of this age seems to be Western institutions and truth vs. extremism and conspiracy theorism—and since I value institutions and truth, that places me on the 'left', at least in terms of how most people interpret things.
+<div>
+    <p><b>About me:</b></p>
+    <p class="pa">I’m Iris. I live in Canada. I’m white and from a British family. I’m a transsexual woman. I’m <span class="rendered_digit" id="age"><span class="rendered_digit">30</span></span> years old. I’m an atheist. I’m not a vegan. I’ve been a very political person since I was a teenager and started reading about economics and philosophy. I remember when politics was more boring and less divisive, before social media came and pumped it into seemingly every aspect of everyone’s lives. I’d describe myself as a liberal conservative. The great fight of this age seems to be Western institutions and truth vs. extremism and conspiracy theorism—and since I value institutions and truth, that places me on the ‘left’, at least in terms of how most people interpret things.</p>
+</div>
 
-**This page:** I'm using this to host things I write or create. I made every aspect of it in notepad. There's no server software; each page just pulls from the same JavaScript files, which add the layout and styling and formats the body text. It's unusual, but I like that it means pages run the exact same way when run locally. The black fade-in is literally to hide the split second before the styling loads.
+<div>
+    <p><b>This repo:</b></p>
+    <p class="pa">I’m using this to host things I write or create. I made every aspect of it in notepad. There’s no server software; each page just pulls from the same JavaScript files, which add the layout and styling and formats the body text. It’s unusual, but it means that if I just clone the directory, it runs the exact same way locally, which pleases me for some reason. I literally added the black fade-in to hide the split second before the styling loads.</p>
+</div>
 
-Other places I post things:
+<div>
+    <p><b>Some other places I exist:</b></p>
+    <ul>
+        <li>my bluesky: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">https://bsky.app/profile/irispol.bsky.social</a></li>
+        <li>Tumblr: <a target="_blank" href="https://forthoseinterested.tumblr.com">https://forthoseinterested.tumblr.com</a></li>
+        <li>Discord server I run: <a target="_blank" href="https://discord.com/invite/fGdV7x5dk2">https://discord.com/invite/fGdV7x5dk2</a></li>
+        <li>Substack – there’s no paywall or unique content, it’s just another place I push things from here: <a target="_blank" href="https://northofqueen.substack.com">https://northofqueen.substack.com</a></li>
+    </ul>
+</div>
 
-- **Bluesky:** [https://bsky.app/profile/irispol.bsky.social](https://bsky.app/profile/irispol.bsky.social)
-- **Tumblr:** [https://forthoseinterested.tumblr.com](https://forthoseinterested.tumblr.com)
-- **Discord** server I run: [https://discord.com/invite/fGdV7x5dk2](https://discord.com/invite/fGdV7x5dk2)
-- **Substack** -- there's no paywall or unique content, it's just another place I put stuff from here: [https://northofqueen.substack.com](https://northofqueen.substack.com)
-
-I don't use Facebook, Instagram, or X/Twitter.
-
-</article></main></div>
+</article>
+</main>
+</div>
 <script>
 let date = new Date();
 document.getElementById("age").innerHTML = (date.getMonth() > 2) ? date.getFullYear() - 1994 : date.getFullYear() - 1995;
