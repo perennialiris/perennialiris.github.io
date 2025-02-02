@@ -86,6 +86,8 @@ function main() {
     loadLayout();
     loadArticle();
     
+    const NUMBER_OF_LINKS_IN_SIDEBAR = 9;
+    
     const title_ = document.title;
     const fullPostList = document.getElementById("full-post-list");
     const sidebar_links = { pins: [], recent: [] };
@@ -104,12 +106,14 @@ function main() {
             const icon = (pinned) ? `<img class="icon" src="assets/pin.png" height="15" width="15">` : "";
             const attributes = (title == title_.replace(/&rsquo;/g,"’")) ? ` class="current-page"` : "";
             
-            if (sidebar_links.pins.length + sidebar_links.recent.length < 16) {
-                let entry = `<div${attributes}><a href="${file}.html">${title}</a>${icon}</div>`;
-                if (pinned) {
-                    sidebar_links.pins.push(entry); }
-                else {
-                    sidebar_links.recent.push(entry); } }
+            let entry = `<div${attributes}><a href="${file}.html">${title}</a>${icon}</div>`;
+            if (pinned) {
+                sidebar_links.pins.push(entry); }
+            else {
+                if (sidebar_links.recent.length < NUMBER_OF_LINKS_IN_SIDEBAR ) {
+                    sidebar_links.recent.push(entry); }
+            }
+            
             if (fullPostList) {
                 if (date == "") {
                     date = "---"; }

@@ -18,7 +18,7 @@
 
 * { margin: 0; padding: 0; text-decoration: none; text-underline-offset: 2px; }
 ::selection { background-color: #ccc; }
-#noq-cover { pointer-events: none; }
+#cover { pointer-events: none; }
 .nowrap { white-space: nowrap; }
 
 html { }
