@@ -40,7 +40,7 @@ body { color: var(--grey-20); font-size: 14px; font-family: system-ui; height: 1
       #sidebar img.icon { margin-left: auto; opacity: 0.5; }
       #sidebar > * { padding: 10px 12px 0; }
         #page-links { }
-          #page-links h3 { padding: 6px 0 4px; }
+          #page-links h3 { padding: 7px 0 4px; }
           #page-links div { padding: 4px 8px; display: flex; gap: 4px; align-items: center; }
           #page-links div.current-page { background-color: #0001; }
           #page-links div.current-page a { color: var(--grey-40); font-weight: 700; }
@@ -115,6 +115,8 @@ body { color: var(--grey-20); font-size: 14px; font-family: system-ui; height: 1
         #article .mdash { margin-left: 1px; }
         #article .fine { font-family: "Roboto",sans-serif; color: var(--grey-60); font-size: 14px; }
         #article ol.fine li::marker { font-family: inherit; font-size: inherit; }
+        #article ul { list-style-type: disc; }
+        #article ul ul { list-style-type: inherit; }
         #article ul,
         #article ol { padding: 0 40px; margin: 15px 0; }
           #article ul > li + li { margin-top: 7px; }

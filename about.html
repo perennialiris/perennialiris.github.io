@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Homepage</title>
+    <style>
+    #citations { display: none; }
+    #article li b,
+    #article p b { font-family: "Roboto","Georgia",serif; }
+    #article ul { margin-top: -2px!important; }
+    </style>
+</head>
+<body>
+<div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
+<div id="top"></div>
+<div id="content-wrapper">
+<main id="main"><article id="article">
+
+**About me:**
+I'm Iris. I live in Canada. I'm a transsexual woman. I'm <span class="rendered_digit" id="age"><span class="rendered_digit">30</span></span> years old. I'm an atheist. I'm not a vegan. I've been a very political person since I was a teenager and started reading about economics and philosophy. I remember when politics was more boring and less divisive, before social media came and pumped it into seemingly every aspect of everyone's lives. I'd describe myself as a liberal conservative. The great fight of this age seems to be Western institutions and truth vs. extremism and conspiracy theorism—and since I value institutions and truth, that places me on the 'left', at least in terms of how most people interpret things.
+
+**This repo:**
+I'm using this to host things I write or create. I made every aspect of it in notepad. There's no server software; each page just pulls from the same JavaScript files, which add the layout and styling and formats the body text. It's unusual, but it means that if I just clone the directory, it runs the exact same way locally, which pleases me for some reason. I literally added the black fade-in to hide the split second before the styling loads.
+
+**Some other places I can be found:**
+
+- **Bluesky** -- [https://bsky.app/profile/irispol.bsky.social](https://bsky.app/profile/irispol.bsky.social)
+- **Discord** -- [https://discord.com/invite/fGdV7x5dk2](https://discord.com/invite/fGdV7x5dk2)
+- **Tumblr** -- [https://forthoseinterested.tumblr.com](https://forthoseinterested.tumblr.com)
+- **Substack** -- [https://northofqueen.substack.com](https://northofqueen.substack.com)
+
+</article>
+</main>
+</div>
+<script>
+let date = new Date();
+document.getElementById("age").innerHTML = (date.getMonth() > 2) ? date.getFullYear() - 1994 : date.getFullYear() - 1995;
+</script>
+<script src="assets/interpreter.js"></script>
+<script src="assets/layout.js"></script>
+</body></html>
+
+

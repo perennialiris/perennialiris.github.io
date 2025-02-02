@@ -74,7 +74,7 @@ function loadArticle() {
         interpreter(article);
         let articleFooter = main.appendChild(document.createElement("div"));
         articleFooter.id = "article-footer";
-        articleFooter.innerHTML = "<p>North of Queen is just my personal repo. I work alone and have no association with any other person or organization.</p><p>For more info about me, see the index page <a href=\"index.html\">here</a>.</p>";
+        articleFooter.innerHTML = "<p>North of Queen is just my personal repo. I work alone and have no association with any other person or organization.</p><p>For more info about me, see <a href=\"index.html\">here</a>.</p>";
         if (citation_array.length > 0) {
             for (let i = 0; i < citation_array.length; i += 1) {
                 citation_array[i] = `<li><a href="${citation_array[i]}">${citation_array[i]}</a></li>`; }
