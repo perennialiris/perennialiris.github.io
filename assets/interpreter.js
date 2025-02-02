@@ -315,7 +315,10 @@ function interpreter(targetElement) {
     }
     targetElement.innerHTML = input.join("");
     
-    function foo(y) { let x = targetElement.getElementsByTagName(y); for (let k = 0; k < x.length; k += 1) { x[k] = wrapDigits(x[k]); } }
+    function foo(y) {
+        let x = targetElement.getElementsByTagName(y);
+        for (let k = 0; k < x.length; k += 1) {
+            x[k] = wrapDigits(x[k]); } }
     foo("p");
     foo("li");
     foo("blockquote");

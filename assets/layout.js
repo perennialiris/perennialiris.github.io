@@ -34,7 +34,6 @@ let data = `
 3         | Poor things (2023 film)                   | culture  | 2024-10-31 |       
 1         | Language                                  | personal | 2024-10-29 |       
 2         | The trans prison stats argument           | politics | 2024-10-19 |       
-la
 `;
 
 function alignTable(dataString, splitChar) {
@@ -59,7 +58,7 @@ function alignTable(dataString, splitChar) {
     
     data = table.join("\n");
 }
-alignTable(data, "|");
+// alignTable(data, "|");
 
 function loadLayout() {
     const top_ = document.getElementById("top"); if (!top_) { console.error("{LAYOUT.JS: Can't find #top}"); return; }
@@ -137,8 +136,4 @@ function main() {
         cover.classList.add("fade-out");
         cover.addEventListener("animationend", () => { cover.remove(); }); }}
 
-window.onload = main;
-
-
-
-
+window.addEventListener("load", main);
