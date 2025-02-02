@@ -72,16 +72,20 @@ function loadArticle() {
     const main = document.getElementById("main");
     if (article) {
         interpreter(article);
-        if (citation_array) {
-            if (citation_array.length > 0) {
-                for (let i = 0; i < citation_array.length; i += 1) {
-                    citation_array[i] = `<li><a href="${citation_array[i]}">${citation_array[i]}</a></li>`; }
-                let citations = main.appendChild(document.createElement("div"));
-                citations.id = "citations";
-                citations.innerHTML = `<div>external resources linked above:</div><ol>${citation_array.join("")}</ol>`; } } } }
+        let articleFooter = main.appendChild(document.createElement("div"));
+        articleFooter.id = "article-footer";
+        articleFooter.innerHTML = "<p>North of Queen is just my personal repo. I work alone and have no association with any other person or organization.</p><p>For more info about me, see the index page <a href=\"index.html\">here</a>.</p>";
+        if (citation_array.length > 0) {
+            for (let i = 0; i < citation_array.length; i += 1) {
+                citation_array[i] = `<li><a href="${citation_array[i]}">${citation_array[i]}</a></li>`; }
+            let citations = main.appendChild(document.createElement("div"));
+            citations.id = "citations";
+            citations.innerHTML = `<div>external resources linked above:</div><ol>${citation_array.join("")}</ol>`; }
+    } }
 function main() {
     loadLayout();
     loadArticle();
+    
     const title_ = document.title;
     const fullPostList = document.getElementById("full-post-list");
     const sidebar_links = { pins: [], recent: [] };
@@ -101,7 +105,7 @@ function main() {
             const attributes = (title == title_.replace(/&rsquo;/g,"’")) ? ` class="current-page"` : "";
             
             if (sidebar_links.pins.length + sidebar_links.recent.length < 16) {
-                let entry = `<div${attributes}>${icon}<a href="${file}.html">${title}</a></div>`;
+                let entry = `<div${attributes}><a href="${file}.html">${title}</a>${icon}</div>`;
                 if (pinned) {
                     sidebar_links.pins.push(entry); }
                 else {
@@ -114,7 +118,7 @@ function main() {
     const sidebar = document.createElement("div");
     document.getElementById("content-wrapper").insertBefore(sidebar, document.getElementById("main"));
     sidebar.id = "sidebar";
-    sidebar.innerHTML = `<nav id="page-links">${sidebar_links.pins.join("")}${sidebar_links.recent.join("")}<div class='more-posts'><a href="full-post-list.html">Full page list</a></div></nav>`;
+    sidebar.innerHTML = `<nav id="page-links">${sidebar_links.pins.join("")}<h3>Recent pages:</h3>${sidebar_links.recent.join("")}<div class='more-posts'><a href="full-post-list.html">Full page list</a></div></nav>`;
     if (toc_array.length > 3) {
         toc_array[0] = `<div><a class="toc-h1" href="#top">(Top of page)</a></div>`;
         sidebar.innerHTML +=
