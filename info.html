@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About me</title>
+    <style>
+    #citations, #content-footer { display: none; }
+    #main-content b { font-family: "Roboto","Georgia",serif; }
+    </style>
+</head>
+<body>
+<div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
+<div id="top"></div>
+<div class="page-wrapper"><div class="main-wrapper narrow">
+<div id="main-content">
+
+**This repo:**
+I made this to host things I make. I wanted something like Google docs, so that's the design concept or whatever. I made every aspect of it myself in notepad. There's also no server software; each page just pulls from the same JavaScript file, which adds the layout and styling. It's unusual, but it means it runs the same way locally as online, which pleases me for some reason. I don't care if you copy any of what I put here code-wise; consider it open source.
+
+**About me:**
+My name is Iris. I live in Canada. I'm a transsexual woman. I'm <span class="rendered_digit" id="age"><span class="rendered_digit">30</span></span> years old. I'm an atheist. I'm not a vegan. I've been a very political person since I was a teenager and started reading about economics and philosophy. I remember when politics was more boring and less divisive, before social media came and pumped it into seemingly every aspect of everyone's lives. I'd describe myself as a liberal conservative.  I don't like extremism or conspiracy theories, which kind of forces me to be 'left-wing' in the current age of insanity. Not everything I put here is political, though.
+
+**Some other places I can be found:**
+
+- [Bluesky](https://bsky.app/profile/irispol.bsky.social)
+- [Discord](https://discord.com/invite/fGdV7x5dk2) (my server)
+- [Tumblr](https://forthoseinterested.tumblr.com)
+- [Substack](https://northofqueen.substack.com) (no unique content, just copies of stuff here)
+
+</article>
+</main>
+</div>
+<script>
+let date = new Date();
+document.getElementById("age").innerHTML = date.getFullYear() - ((date.getMonth() > 3) ? 1994 : 1995);
+</script>
+<script src="assets/interpreter.js"></script>
+<script src="assets/layout.js"></script>
+</body></html>
+
+

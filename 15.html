@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Full page list</title>
+    <style>
+    #article-footer, #citations { display: none; }
+    #full-page-list table { font-size: 14px; border-collapse: collapse; margin: auto; color: var(--grey-90); }
+    #full-page-list table tr th { padding: 3px 14px 7px; text-underline-offset: 6px; text-decoration: underline; font-weight: 400; color: var(--grey-90); text-align: left; }
+    #full-page-list table tr td { padding: 3px 14px; }
+    #full-page-list table tr > :first-child { padding-left: 4px; }
+    #full-page-list table tr > :last-child { padding-right: 4px; }
+    #full-page-list table tr td a { color: var(--grey-40); }
+    #full-page-list table tr td a:hover { color: var(--grey-20); }
+    </style>
+</head>
+<body>
+<div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
+<div id="top"></div>
+<div class="page-wrapper"><div class="main-wrapper wide">
+<div id="main-content">
+<div id="full-page-list"></div>
+</div>
+</div>
+</div>
+<script src="assets/interpreter.js"></script>
+<script src="assets/layout.js"></script>
+</body></html>

@@ -1,31 +1,25 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html><head>
     <title>Homepage</title>
     <style>
-    #citations { display: none; }
-    #article li b,
-    #article p b { font-family: "Roboto","Georgia",serif; }
-    #article ul { margin-top: -2px!important; }
+    #citations, #content-footer { display: none; }
+    #main-content li b,
+    #main-content p b { font-family: "Roboto","Georgia",serif; }
+    #main-content ul { margin-top: -2px!important; }
     </style>
-</head>
-<body>
+</head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
 <div id="top"></div>
-<div id="content-wrapper">
-<main id="main"><article>
+<div class="page-wrapper"><div class="main-wrapper">
+<div id="main-content">
 
 What should one put on a homepage?
+
+<p><a href="info.html">about me/more info</a></p>
 
 </article>
 </main>
 </div>
-<script>
-let date = new Date();
-document.getElementById("age").innerHTML = (date.getMonth() > 2) ? date.getFullYear() - 1994 : date.getFullYear() - 1995;
-</script>
 <script src="assets/interpreter.js"></script>
 <script src="assets/layout.js"></script>
 </body></html>
-
-

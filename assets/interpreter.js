@@ -49,10 +49,8 @@ function stdReplacements(input_string) {
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
         /* curly quotes: */
         .replace(/(\s|^|\[)"/g, "$1&ldquo;")
-        .replace(/(\W)"(\w)/g, "$1&ldquo;$2")
         .replace(/"/g, "&rdquo;")
         .replace(/(\s|^|\[)'/g, "$1&lsquo;")
-        .replace(/(\W)'(\w)/g, "$1&lsquo;$2")
         .replace(/'/g, "&rsquo;");
 }
 
@@ -97,6 +95,20 @@ function cleanForCode(input_string) {
         <div><img alt="description" title="description" src="path/to/image.png"></div>
         <div><img alt="nice" title="nice" src="path/to/other_image.png"></div>
     </div>                                                                     */
+function imageViewer(img) {
+    let ivw = document.getElementById("image-viewer-wrapper");
+    let iv = document.getElementById("image-viewer");
+    if (ivw && iv) {
+        ivw.style.display = "flex";
+        iv.src = img.src;
+        iv.alt = img.alt; } }
+function closeImageViewer(img) {
+    let ivw = document.getElementById("image-viewer-wrapper");
+    let iv = document.getElementById("image-viewer");
+    if (ivw && iv) {
+        ivw.style.display = "none";
+        iv.src = "";
+        iv.alt = ""; } }
 function imageBoxParse(input_string) {
     let lines = input_string.split("\n");
     for (let i = 0; i < lines.length; i += 1) {
@@ -104,7 +116,8 @@ function imageBoxParse(input_string) {
         const altText = parts[0].substring(2).replaceAll('"', '&quot;');
         let filePath = parts[1];
         let maxHeight = 350;
-        /* defaults to 350 max height unless specified otherwise - ![](images/1-1.png)|211 would have 211 max height */
+        /* defaults to 350 max height unless specified otherwise
+           ![](images/1-1.png)|211 would have 211 max height */
         let j = filePath.indexOf("|");
         if (j != -1) {
             maxHeight = filePath.substring(j + 1);
@@ -179,8 +192,8 @@ function listParser(inputString) {
     return items.join('\n');
 }
 
-/* The main interpreter loop. Pass the main article element to start. */
-function interpreter(targetElement) {
+/* The main interpreter loop. Pass the main element to start. */
+function interpreter(targetElement, widthSet) {
     let input = targetElement.innerHTML
         .replace(/\n\n+/g, "\n\n")
         .replace(/\r/g, "") /* safety */
@@ -242,44 +255,38 @@ function interpreter(targetElement) {
         /* ------ h1 ------ */
         if (input[i].startsWith("# ")) {
             /* .title-box */
-            /* strict format requirement: "# title text |dddd-dd-dd" */
-            let title, titleId;
-            if (/\|(\d{4})-(\d{2})-(\d{2})/.test(input[i].slice(-11))) {
-                title = input[i].slice(2, -11).trim();
-                titleId = title.replace(/<\/?(i|b)>/g, "");
-                let date = input[i].slice(-10);
-                input[i] = `<div class="title-box"><h1 id="${titleId}">${title}</h1><span class="date-box">${date}</span></div>`;
-                title = title.replace(/<\/?(i|b)>/g, "").replace(/&amp;/g, "&");
-                if (document.title == "") { document.title = title; } }
+            let temp = input[i].split("|");
+            if (temp.length > 2) { console.error("{INTERPRETER.JS: Is the title supposed to have multiple verbars?}"); }
+            
+            let title = temp[0].substring(1).trim();
+            let titleId = title.replace(/<\/?(i|b)>/g, "").replace(/&amp;/g, "&").replace(/’/g, "'").replace(/&rsquo;/g, "'");
+            
+            if (temp.length == 2) {
+                let date = temp[1].trim();
+                input[i] = `<div class="title-box"><h1 class="noq-header" id="${titleId}">${title}</h1><div class="date-box">${date}</div></div>`; }
             else {
-                title = input[i].slice(2);
-                titleId = title.replace(/<\/?(i|b)>/g, "");
-                input[i] = `<h1 id="${titleId}">${title}</h1>`; }
-            toc_array.push(`<div><a class="toc-h1" href="#${titleId}">${titleId}</a></div>`);
+                input[i] = `<h1 class="noq-header" id="${titleId}">${title}</h1>`; }
+            
+            title = title.replace(/<\/?(i|b)>/g, "").replace(/&amp;/g, "&").replace(/’/g, "'").replace(/&rsquo;/g, "'");
+            if (document.title == "") {
+                document.title = titleId; }
+            toc_array.push(`<a class="toc-row h1" href="#${titleId}">${titleId}</a>`);
             continue; }
         /* ------ h2 ------ */
         if (input[i].startsWith("## ")) {
             let title = input[i].slice(3);
             let titleId = title.replace(/<\/?(i|b)>/g, "");
-            input[i] = `<h2 id="${titleId}">${title}</h2>`;
-            toc_array.push(`<div><a class="toc-h2" href="#${titleId}">${titleId}</a></div>`);
+            input[i] = `<h2 class="noq-header" id="${titleId}">${title}</h2>`;
+            toc_array.push(`<a class="toc-row h2" href="#${titleId}">${titleId}</a>`);
             continue; }
         /* ------ h3 ------ */
         if (input[i].startsWith("### ")) {
             let title = input[i].slice(4);
             let titleId = title.replace(/<\/?(i|b)>/g, "");
-            input[i] = `<h3 id="${titleId}">${title}</h2>`;
-            toc_array.push(`<div><a class="toc-h3" href="#${titleId}">${titleId}</a></div>`);
+            input[i] = `<h3 class="noq-header" id="${titleId}">${title}</h2>`;
+            toc_array.push(`<a class="toc-row h3" href="#${titleId}">${titleId}</a>`);
             continue; }
-        
-        /* ------------ table of contents (not a table) ----------- */
-        if (input[i].startsWith("|toc")) {
-            let lines = input[i].split("\n"); lines.shift();
-            for (let j = 0; j < lines.length; j += 1) {
-                lines[j] = `<li><a href="#${lines[j]}">${lines[j]}</a></li>`; }
-            input[i] = "<ul class=\"toc\">" + lines.join("") + "</ul>";
-            continue; }
-        
+        /* the toc-row class is valuable because it's how they're selected by the ToC highlighter */
         /* ---------------------- blockquote ---------------------- */
         if (input[i].startsWith("&gt;")) {
             let lines = input[i].split("\n");
@@ -305,14 +312,11 @@ function interpreter(targetElement) {
             if (smallPrint) {
                 if (input[i].substring(0, 3) != "<ol" && input[i].substring(0, 3) != "<ul") console.error("{INTERPRETER.JS: (B).}")
                 input[i] = input[i].substring(0, 3) + " class=\"fine\"" + input[i].substring(3); }
-            continue;
-        }
+            continue; }
         input[i] = input[i].replace(/\n/g, "<br>");
-        
         input[i] = (smallPrint)
             ? "<p class=\"fine\">" + input[i] + "</p>"
-            : "<p>" + input[i] + "</p>";
-    }
+            : "<p>" + input[i] + "</p>"; }
     targetElement.innerHTML = input.join("");
     
     function foo(y) {
