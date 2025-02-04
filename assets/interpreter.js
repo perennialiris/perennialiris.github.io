@@ -48,7 +48,7 @@ function stdReplacements(input_string) {
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
         /* curly quotes: */
-        .replace(/(\s|^|\*|<[bi]>)"/g, "$1&ldquo;") // “
+        .replace(/(\s|^|\*|\[|\(|<[bi]>)"/g, "$1&ldquo;") // “
         .replace(/"/g, "&rdquo;")                   // ”
         .replace(/(\s|^|\*|<[bi]>)'/g, "$1&lsquo;") // ‘
         .replace(/'/g, "&rsquo;");                  // ’
