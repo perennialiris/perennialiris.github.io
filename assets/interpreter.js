@@ -48,10 +48,10 @@ function stdReplacements(input_string) {
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
         /* curly quotes: */
-        .replace(/(\s|^|\[)"/g, "$1&ldquo;")
-        .replace(/"/g, "&rdquo;")
-        .replace(/(\s|^|\[)'/g, "$1&lsquo;")
-        .replace(/'/g, "&rsquo;");
+        .replace(/(\s|^|\*|<[bi]>)"/g, "$1&ldquo;") // “
+        .replace(/"/g, "&rdquo;")                   // ”
+        .replace(/(\s|^|\*|<[bi]>)'/g, "$1&lsquo;") // ‘
+        .replace(/'/g, "&rsquo;");                  // ’
 }
 
 /* This is a general parser I run all input through. It safely ignores
@@ -240,7 +240,8 @@ function interpreter(targetElement, widthSet) {
         
         /* ------------------------ table ------------------------- */
         if (input[i].startsWith("|table")) {
-            let rows = input[i].split("\n"); rows.shift();
+            let rows = input[i].split("\n");
+            rows.shift();
             for (let j = 0; j < rows.length; j += 1) {
                 let cells = rows[j].split("|");
                 for (let k = 0; k < cells.length; k += 1) {
@@ -249,9 +250,24 @@ function interpreter(targetElement, widthSet) {
             input[i] = `<table id="${"table" + table_num++}" class="noq-table">${safeConvert(rows.join(""))}</table>`;
             continue; }
         
+        /* ---------------------- transcript ---------------------- */
+        if (input[i].startsWith("|transcript")) {
+            let rows = input[i].split("\n");
+            rows.shift();
+            for (let j = 0; j < rows.length; j += 1) {
+                let cells = rows[j].split("|");
+                if (cells.length != 2) { console.error("{INTERPRETER.JS: transcript width should be 2}"); }
+                for (let k = 0; k < cells.length; k += 1) {
+                    cells[k] = "<td>" + cells[k].trim() + "</td>"; }
+                rows[j] = "<tr>" + cells.join("") + "</tr>"; }
+            input[i] = `<table id="${"table" + table_num++}" class="transcript">${safeConvert(rows.join(""))}</table>`;
+            continue; }
+        
+        /* -------------------------------------------------------- */
+        
         input[i] = safeConvert(input[i]);
         
-        /* ------------------------ headers ------------------------ */
+        /* ------------------------ headers ----------------------- */
         /* ------ h1 ------ */
         if (input[i].startsWith("# ")) {
             /* .title-box */
@@ -319,8 +335,8 @@ function interpreter(targetElement, widthSet) {
             : "<p>" + input[i] + "</p>"; }
     targetElement.innerHTML = input.join("");
     
-    function foo(y) {
-        let x = targetElement.getElementsByTagName(y);
+    function foo(x) {
+        x = targetElement.getElementsByTagName(x);
         for (let k = 0; k < x.length; k += 1) {
             x[k] = wrapDigits(x[k]); } }
     foo("p");

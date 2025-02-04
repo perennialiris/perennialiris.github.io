@@ -4,6 +4,7 @@ let data = `
 27 | Sex, gender, & transsexuals               | politics |            | pinned
 32 | Politics fundamentals                     | politics |            | pinned
 37 | Bluesky accounts listing                  | other    |            |       
+16|Milo Yiannopoulos’s cancellation|politics|2025-02-03|
 35 | Show and tell, Lex Fridman                | politics | 2025-01-26 |       
 34 | The Nazi salute                           | politics | 2025-01-24 |       
 30 | The appearance of intelligence            | other    | 2025-01-18 |       
