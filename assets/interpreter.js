@@ -44,14 +44,16 @@ function stdReplacements(input_string) {
         .replaceAll("\\)", "&rpar;")
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
-        /* bold and italics */
+        /* curly quotes: */
+        .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
+        .replace(/"/g, "&rdquo;")
+        
+        .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
+        .replace(/'/g, "&rsquo;")
+        
+        
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
-        /* curly quotes: */
-        .replace(/(\s|^|\*|\[|\(|<[bi]>)"/g, "$1&ldquo;") // “
-        .replace(/"/g, "&rdquo;")                   // ”
-        .replace(/(\s|^|\*|<[bi]>)'/g, "$1&lsquo;") // ‘
-        .replace(/'/g, "&rsquo;");                  // ’
 }
 
 /* This is a general parser I run all input through. It safely ignores
