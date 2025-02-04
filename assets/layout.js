@@ -38,8 +38,7 @@ function alignTable(dataString, splitChar) {
     table.sort((a, b) => {
         if (a.length < tableWidth || b.length < tableWidth) {
             return; }
-        return parseInt(b[3].replace(/\D/g,"")) - parseInt(a[3].replace(/\D/g,""));
-    });
+        return parseInt(b[3].replace(/\D/g,"")) - parseInt(a[3].replace(/\D/g,"")); });
     for (let column = 0; column < tableWidth; column += 1) {
         let cellWidth = 0;
         for (let i = 0; i < table.length; i += 1) {
@@ -51,15 +50,13 @@ function alignTable(dataString, splitChar) {
             table[i][column] += " ".repeat(cellWidth - table[i][column].length); } }
     for (let i = 0; i < table.length; i += 1) {
         table[i] = table[i].join(` ${splitChar} `); }
-    data = table.join("\n");
-    console.log(data);
-}
+    console.log(table.join("\n")); }
 /* run this to automatically align table above (to console): */
 // alignTable(data, "|");
 
 function loadLayout() {
     const n_top = document.getElementById("top"); if (!n_top) { console.error("{LAYOUT.JS: Can't find #top}"); return; }
-    n_top.innerHTML = `<header id="header"><a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a></header><div id="nav"></div>`;
+    n_top.innerHTML = `<div id="header-wrapper"><header id="header"><a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a></header></div><div id="nav"></div>`;
     document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
     const footer = document.body.appendChild(document.createElement("footer"));
     footer.id = "footer";
