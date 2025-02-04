@@ -31,7 +31,7 @@ There will be a lot of things happening all at once. This is intentional. They w
 
 It also results in nobody remembering anything. That's what happened last time: by the end of his term, people couldn't remember what a disaster it was. It's hard to keep track. That's why it's useful to just keep a simple list of events.
 
-<div style="text-align:center"><button id="reverseButton" style="min-width:322px;padding:3px 5px">Click to reverse row order (chronological)</button></div>
+<div style="text-align:right"><button id="reverseButton" style="padding:2px 8px 5px">↑↓</button></div>
 
 |table
 2025-Jan-20 | Trump withdraws US from **World Health Organization**.[](https://www.nytimes.com/2025/01/20/us/politics/trump-world-health-organization.html)
@@ -48,13 +48,13 @@ It also results in nobody remembering anything. That's what happened last time: 
 2025-Jan-29 | Trump signs executive order to prepare a huge detention facility at Guantánamo Bay.[](https://www.theguardian.com/us-news/2025/jan/29/trump-guantanamo-detention-center)
 2025-Feb-01 | Trump imposes **tariffs**: 25% on goods from Canada and Mexico, 10% on goods from China, and 10% on Canadian oil.[](https://www.cbc.ca/news/politics/trump-tariffs-canada-february-1-1.7447829)[](https://www.theguardian.com/us-news/2025/feb/01/trump-tariffs-canada-mexico-china)
 2025-Feb-01 | Canada imposed retaliatory tariffs of 25% on American imports.[](https://www.reuters.com/world/americas/canadas-trudeau-announces-counter-tariffs-2025-02-02/)
+2025-Feb-03 | Trump delays Canada tariffs.[](https://www.reuters.com/world/americas/canadas-trudeau-announces-counter-tariffs-2025-02-02/)
 
 </article></main></div>
 <script src="assets/interpreter.js"></script>
 <script src="assets/layout.js"></script>
 <script>
 
-let chrono = true;
 window.addEventListener("load", () => {
     let btn = document.getElementById("reverseButton");
     btn.addEventListener('click', () => {
@@ -66,10 +66,6 @@ window.addEventListener("load", () => {
             console.log(rows)
             for (let i = 0; i < rows.length; i += 1) { temp += "<tr>" + rows[i].innerHTML + "</tr>"; }
             table.innerHTML = temp;
-            btn.innerHTML = (chrono)
-                ? "Click to reverse row order (reverse-chronological)"
-                : "Click to reverse row order (chronological)";
-            chrono = !chrono;
         }
     });
 });

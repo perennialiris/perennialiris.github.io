@@ -38,20 +38,14 @@ function stdReplacements(input_string) {
         .replaceAll("...", "&hellip;")
         .replaceAll("--", "&ndash;")
         .replaceAll("\\", "&#92;")
-        /*  you need these ][)( escapes for when putting links on the page, if you want
-            to use ][ as part of the text or link to a URL that has )( in it */
         .replaceAll("\\(", "&lpar;")
         .replaceAll("\\)", "&rpar;")
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
-        /* curly quotes: */
         .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
         .replace(/"/g, "&rdquo;")
-        
         .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
         .replace(/'/g, "&rsquo;")
-        
-        
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
 }
