@@ -43,8 +43,10 @@ function stdReplacements(input_string) {
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
         .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
+        .replace(/"\n/g, "&rdquo;\n")
         .replace(/"/g, "&rdquo;")
         .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
+        .replace(/'\n/g, "&rsquo;\n")
         .replace(/'/g, "&rsquo;")
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
@@ -227,8 +229,10 @@ function interpreter(targetElement, widthSet) {
             return "<code>" + cleanForCode(captureGroup) + "</code>"; });
         
         /* ------------------------ links ------------------------- */
-        input[i] = input[i].replace(/\[([^\]]*?)\]\((.+?)\)/g, (match, displayText, address) => {
+        input[i] = input[i].replace(/\[([^\]]*)\]\(([^\s]+)\)/g, (match, displayText, address) => {
             let index = citation_array.indexOf(address);
+            console.log("displayText: " + displayText)
+            console.log("address: "+address)
             if (index == -1) index = citation_array.push(address);
             return (displayText === "")
                 ? `<a class="citeref" target="_blank" href="${address}">[${index}]</a>`
@@ -305,10 +309,10 @@ function interpreter(targetElement, widthSet) {
             for (let j = 0; j < lines.length; j += 1) {
                 lines[j] = lines[j].replace(/^&gt;/, "").trim();
                 if (lines[j].startsWith("&mdash;")) {
-                    lines[j] = "<div class=\"attribution\">" + lines[j] + "</div>"; }
+                    lines[j] = `<div class="attribution">${lines[j]}</div>`; }
                 else {
                     if (lines[j].startsWith("^")) {
-                        lines[j] = "<div class=\"fine\">" + lines[j].substring(1) + "</div>"; }
+                        lines[j] = `<div class="fine">${lines[j].substring(1)}</div>`; }
                     else {
                         lines[j] += "\n"; } } }
             input[i] = lines.join("")
@@ -316,7 +320,6 @@ function interpreter(targetElement, widthSet) {
                 .replace(/\n/g, "<br>");
             input[i] = "<blockquote>" + input[i] + "</blockquote>";
             continue; }
-        input[i] = input[i].replaceAll("&mdash;", "<span class=\"mdash\">&mdash;</span>");
         
         /* ------------------------ lists ------------------------- */
         if (input[i].startsWith("* ") || input[i].startsWith("- ") || /^\d+\./.test(input[i])) {

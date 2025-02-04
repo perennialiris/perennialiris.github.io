@@ -1,6 +1,7 @@
 
 let data = `
 2025-news | News 2025                                 | politics |            | pinned
+17        | Showing and telling            | culture |            |
 27        | Sex, gender, & transsexuals               | politics |            | pinned
 32        | Politics fundamentals                     | politics |            | pinned
 37        | Bluesky accounts listing                  | other    |            |       
@@ -34,7 +35,6 @@ let data = `
 function alignTable(dataString, splitChar) {
     let table = dataString.split("\n").map(row => row.split(splitChar).map(cell => cell.trim()));
     tableWidth = Math.max(...table.map(row => row.length));
-    console.log("tableWidth: " + tableWidth)
     table.sort((a, b) => {
         if (a.length < tableWidth || b.length < tableWidth) {
             return; }
@@ -55,7 +55,7 @@ function alignTable(dataString, splitChar) {
     console.log(data);
 }
 /* run this to automatically align table above (to console): */
-alignTable(data, "|");
+// alignTable(data, "|");
 
 function loadLayout() {
     const n_top = document.getElementById("top"); if (!n_top) { console.error("{LAYOUT.JS: Can't find #top}"); return; }
@@ -148,7 +148,7 @@ function pageLoad() {
             ${page_links.recent.join("")}
             <div class="more-posts"><a href="15.html">Full page list</a></div>
         </nav>`;
-    if (toc_array.length > 2) {
+    if (toc_array.length > 1) {
         toc_array[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
         sidebar.innerHTML +=
         `<nav id="toc">
