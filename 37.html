@@ -38,11 +38,11 @@ p { max-width: 800px; }
 
 |table
 
-### Journalists & political figures
+### Noteworthy journalists & political figures
 
 |table
 
-### News outlets
+### Media outlets
 
 |table
 
@@ -54,7 +54,7 @@ p { max-width: 800px; }
 
 |table
 
-### Canadian local politicians
+### Canadian provincial or local politicians
 
 |table
 
@@ -112,6 +112,7 @@ function tableFormatter(inputString, splitChar) {
     return formattedTable; }
 
 let tableData = [
+    /* US politicians */
     `party names
     @aoc.bsky.social          | Alexandria Ocasio-Cortez | Democratic Party (US House Rep, New York)
     @warren.senate.gov        | Elizabeth Warren         | Democratic Party (US Senator, Massachusetts)
@@ -120,6 +121,7 @@ let tableData = [
     @sanders.senate.gov       | Bernie Sanders           | Independent (US Senator, Vermont)
     `
     ,
+    /* Canadian federal politicians */
     `party names
     @yfblanchet.bsky.social        | Yves-François Blanchet | Bloc Québécois leader, MP (Beloeil—Chambly, QC)
     @jagmeetsingh.ca               | Jagmeet Singh          | New Democratic Party leader, MP (Burnaby South, BC)
@@ -139,7 +141,9 @@ let tableData = [
     @blakedesjarlais.bsky.social   | Blake Desjarlais       | New Democratic Party MP (Edmonton Griesbach, AL)
     `
     ,
+    /* Noteworthy journalists & political figures */
     `
+    @crampell.bsky.social           | Catherine Rampell | CNN, WaPo, PBS columnist
     @mehdirhasan.bsky.social        | Mehdi Hasan       | MSNBC commentator
     @chrislhayes.bsky.social        | Chris Hayes       | MSNBC commentator
     @maddow.msnbc.com               | Rachel Maddow     | MSNBC commentator
@@ -154,6 +158,7 @@ let tableData = [
     @brandyzadrozny.bsky.social     | Brandy Zadrozny   | NBC journalist
     `
     ,
+    /* Media outlets */
     `position
     @reuters.com         | Reuters                                | Centre / Balanced
     @apnews.com          | Associated Press                       | Centre / Balanced
@@ -200,6 +205,7 @@ let tableData = [
     @washingtonpost.com  | Washington Post                        | Left-leaning
     `
     ,
+    /* Other noteworty people */
     `
     @hankgreen.bsky.social          | Hank Green        | YouTuber (vlogbrothers, Crash Course)
     @vivziepop.bsky.social | Vivienne Medrano (VivziePop) | American animator, creator of <i>Hazbin Hotel</i>, <i>Helluva Boss</i>
@@ -207,17 +213,18 @@ let tableData = [
     @pattonoswalt.bsky.social       | Patton Oswalt     | American actor, comedian
     `
     ,
+    /* International */
     `
     @lemonde.fr      | Le Monde       | Largest French-language newspaper
     `
     ,
+    /* Canadian provincial or local politicians */
     `party names
     @waterloompp.bsky.social    | Catherine Fife | New Democratic Party MPP (Ontario, Waterloo)
     @maritstilesndp.bsky.social | Marit Stiles   | New Democratic Party MPP (Ontario, Davenport)
     @jamiewestndp.bsky.social   | Jamie West     | New Democratic Party MPP (Ontario, Sudbury)
     @chrisgloverndp.bsky.social | Chris Glover   | New Democratic Party MPP (Ontario, Spadina—Fort York)
     `
-    
     ];
 
 window.addEventListener("load", function() {

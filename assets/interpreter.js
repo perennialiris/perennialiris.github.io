@@ -262,15 +262,17 @@ function interpreter(targetElement, widthSet) {
             rows.shift();
             for (let j = 0; j < rows.length; j += 1) {
                 let cells = rows[j].split("|");
-                if (cells.length != 2) { console.error("{interpreter.js: d}"); }
+                if (cells.length > 2) { console.error("{interpreter.js: d}"); }
                 for (let k = 0; k < cells.length; k += 1) {
+                    cells[k] = safeConvert(cells[k].trim());
+                    if (cells[k].charAt(0) == "^") {
+                        cells[k] = `<span class="fine">${cells[k].substring(1)}</span>`; }
                     cells[k] = "<td>" + safeConvert(cells[k].trim()) + "</td>"; }
                 rows[j] = "<tr>" + cells.join("") + "</tr>"; }
             input[i] = `<table id="${"table" + table_num++}" class="transcript">${rows.join("")}</table>`;
             continue; }
         
         /* -------------------------------------------------------- */
-        
         input[i] = safeConvert(input[i]);
         
         /* ------------------------ headers ----------------------- */
