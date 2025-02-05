@@ -1,7 +1,7 @@
 
 let data = `
 2025-news | News 2025                                 | politics |            | pinned
-17        | Showing and telling            | culture |            |
+17        | Showing and telling                       | culture  |            |       
 27        | Sex, gender, & transsexuals               | politics |            | pinned
 32        | Politics fundamentals                     | politics |            | pinned
 37        | Bluesky accounts listing                  | other    |            |       
@@ -54,14 +54,6 @@ function alignTable(dataString, splitChar) {
 /* run this to automatically align table above (to console): */
 // alignTable(data, "|");
 
-function loadLayout() {
-    const n_top = document.getElementById("top"); if (!n_top) { console.error("{LAYOUT.JS: Can't find #top}"); return; }
-    n_top.innerHTML = `<div id="header-wrapper"><header id="header"><a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a></header></div><div id="nav"></div>`;
-    document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
-    const footer = document.body.appendChild(document.createElement("footer"));
-    footer.id = "footer";
-    footer.innerHTML += `<div id="image-viewer-wrapper" onclick="closeImageViewer()"><img id="image-viewer"></div>`; }
-
 let tocLinks, sectionHeadings, tocUpdateFlag = true, currentHeading = "";
 function tocHighlighter() {
     if (!tocUpdateFlag) { return; }
@@ -81,95 +73,112 @@ function tocHighlighter() {
     currentHeading = headingId; }
 
 function pageLoad() {
-    loadLayout();
-    let mainContent = document.getElementById("main-content");
-    interpreter(mainContent);
-    let contentFooter = mainContent.parentNode.appendChild(document.createElement("div"));
-    contentFooter.id = "content-footer";
-    contentFooter.innerHTML = `
-    <section>
-        <img src="assets/favicon.ico">
-        <div>
-            <p><span style="color:var(--accent)">North of Queen</span> is my personal repo I use to host things I write. I work alone and have no association with any other person or organization.</p>
-            <p>For more info about me, see <a href="info.html">here</a>.</p>
-        </div>
-    </section>
-    `;
-    if (citation_array.length > 0) {
-        for (let i = 0; i < citation_array.length; i += 1) {
-            citation_array[i] = `<li><a href="${citation_array[i]}">${citation_array[i]}</a></li>`; }
-        let citations = mainContent.parentNode.appendChild(document.createElement("div"));
-        citations.id = "citations";
-        citations.innerHTML = `<div>external resources linked above:</div><ol>${citation_array.join("")}</ol>`; }
-    const pageTitle = document.title;
-    const full_post_list_container = document.getElementById("full-page-list");
-    const page_links = { pins: [], recent: [], full: [] };
-    const full_list = [];
-    let data_ = data.split("\n").map(row => row.split("|").map(cell => cell.trim()));
-    for (let i = 0; i < data_.length; i += 1) {
-        let cell = data_[i];
-        if (cell.length >= 5) {
-            let file = cell[0],
-            title = cell[1],
-            category = cell[2],
-            date = cell[3],
-            flags = cell[4];
-            
-            if (file == 16) { continue; }
-            
-            let pinned = (flags == "pinned");
-            let icon = (pinned) ? `<img class="icon" src="assets/pin.png" height="15" width="15">` : "";
-            
-            let divClass = "nav-row";
-            let currentPage = (title == pageTitle.replace(/&rsquo;/g,"’"));
-            if (currentPage) { divClass += " current-page"; }
-            
-            let entry = `<a href="${file}.html" class="${divClass}">${title}${icon}</a>`;
-            if (pinned) { page_links.pins.push(entry); }
-            else {
-                /* max number of links in sidebar: */
-                if (currentPage || page_links.recent.length < 7 ) {
-                    page_links.recent.push(entry); } }
-            if (full_post_list_container) {
-                if (date == "") { date = "---"; }
-                page_links.full.push(
-                   `<td><a href="${file}.html">${title}</a></td>
-                    <td>${category}</td>
-                    <td>${date}</td>`); } } }
-    const sidebar = document.createElement("div");
-    mainContent.parentNode.parentNode.insertBefore(sidebar, mainContent.parentNode);
-    sidebar.id = "sidebar";
-    sidebar.innerHTML = 
-        `<nav id="page-links">
-            ${page_links.pins.join("")}
-            ${page_links.recent.join("")}
-            <div class="more-posts"><a href="15.html">Full page list</a></div>
-        </nav>`;
-    if (toc_array.length > 1) {
-        toc_array[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
-        sidebar.innerHTML +=
-        `<nav id="toc">
+    document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
+    const footer = document.body.appendChild(document.createElement("footer"));
+    footer.id = "footer";
+    footer.innerHTML += `<div id="image-viewer-wrapper" onclick="closeImageViewer()"><img id="image-viewer"></div>`;
+    
+    const pageTop = document.getElementById("top");
+    if (pageTop) {
+        pageTop.innerHTML = `<div id="header-wrapper"><header id="header"><a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a></header></div><div id="nav"><div id="hamburger"></div></div>`; }
+    else console.error("layout.js: can't find #top");
+    
+    const mainContent = document.getElementById("main-content");
+    if (mainContent) {
+        interpreter(mainContent); }
+    else console.error("layout.js: can't find #main-content");
+    
+    const contentWrapper = document.getElementById("content-wrapper");
+    if (contentWrapper) {
+        let contentFooter = contentWrapper.appendChild(document.createElement("div"));
+        contentFooter.id = "content-footer";
+        contentFooter.innerHTML = `
+        <section>
+            <img src="assets/favicon.ico">
             <div>
-                <h3>This page table of contents</h3>
-                <div id="toc-links">${toc_array.join("")}</div>
+                <p><span style="color:var(--accent)">North of Queen</span> is my personal repo I use to host things I write. I work alone and have no association with any other person or organization.</p>
+                <p>For more info about me, see <a href="info.html">here</a>.</p>
             </div>
-        </nav>`;
-        if (!tocLinks) { tocLinks = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
-        if (!sectionHeadings) { sectionHeadings = Array.from(document.getElementsByClassName("noq-header")); }
-        window.addEventListener("scroll", tocHighlighter); }
-    else {
-        document.getElementById("page-links").classList.add("is-sticky"); }
+        </section>`;
+        
+        if (citationArray.length > 0) {
+            for (let i = 0; i < citationArray.length; i += 1) {
+                citationArray[i] = `<li><a href="${citationArray[i]}">${citationArray[i]}</a></li>`; }
+            let citations = contentWrapper.appendChild(document.createElement("div"));
+            citations.id = "citations";
+            citations.innerHTML = `<div>external resources linked above:</div><ol>${citationArray.join("")}</ol>`; } }
+    else console.error("layout.js: can't find #content-wrapper");
+    
+    const pageTitle = document.title;
+    const navPageLinks = { pins: [], recent: [], full: [] };
+    const dataVariable = data.split("\n").map(row => row.split("|").map(cell => cell.trim()));
+    const full_post_list_container = document.getElementById("full-page-list");
+    
+    const pageWrapper = document.getElementById("page-wrapper");
+    if (pageWrapper) {
+        for (let i = 0; i < dataVariable.length; i += 1) {
+            let cell = dataVariable[i];
+            if (cell.length >= 5) {
+                let file = cell[0],
+                title    = cell[1],
+                category = cell[2],
+                date     = cell[3],
+                flags    = cell[4];
+                if (file == 16) { continue; }
+                const pinned = (flags == "pinned");
+                let icon = (pinned) ? `<img class="icon" src="assets/pin.png" height="15" width="15">` : "";
+                
+                let divClass = "nav-row";
+                let currentPage = (title == pageTitle.replace(/&rsquo;/g,"’"));
+                if (currentPage) { divClass += " current-page"; }
+                
+                let entry = `<a href="${file}.html" class="${divClass}">${title}${icon}</a>`;
+                if (pinned) { navPageLinks.pins.push(entry); }
+                else {
+                    /* max number of links in sidebar: */
+                    if (currentPage || navPageLinks.recent.length < 11 ) {
+                        navPageLinks.recent.push(entry); } }
+                if (full_post_list_container) {
+                    if (date == "") { date = "---"; }
+                    navPageLinks.full.push(`<tr><td><a href="${file}.html">${title}</a></td><td>${category}</td><td>${date}</td></tr>`);
+                }
+            }
+        }
+        const sidebar = document.createElement("div");
+        pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
+        sidebar.id = "sidebar";
+        sidebar.innerHTML = 
+            `<nav id="page-links">
+                ${navPageLinks.pins.join("")}
+                ${navPageLinks.recent.join("")}
+                <div class="more-posts"><a href="15.html">Full page list</a></div>
+            </nav>`;
+        if (toc_array.length > 1) {
+            toc_array[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
+            sidebar.innerHTML +=
+            `<nav id="toc">
+                <div>
+                    <h3>This page table of contents</h3>
+                    <div id="toc-links">${toc_array.join("")}</div>
+                </div>
+            </nav>`;
+            if (!tocLinks) { tocLinks = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
+            if (!sectionHeadings) { sectionHeadings = Array.from(document.getElementsByClassName("noq-header")); }
+            window.addEventListener("scroll", tocHighlighter); }
+        else {
+            document.getElementById("page-links").classList.add("is-sticky"); } }
+    else console.error("layout.js: can't find #page-wrapper");
     
     if (full_post_list_container) {
         full_post_list_container.innerHTML =
-            `<table>
-                <tr>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Date</th>
-                </tr>
-                <tr>${page_links.full.join("</tr><tr>")}</tr>
-            </table>`; }
+        `<table>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Date</th>
+            </tr>
+            ${navPageLinks.full.join("")}
+        </table>`; }
     
     if (document.title === "") {
         document.title = "North of Queen"; }
@@ -179,7 +188,9 @@ function pageLoad() {
     const cover = document.getElementById("cover");
     if (cover) {
         cover.classList.add("fade-out");
-        cover.addEventListener("animationend", () => { cover.remove(); }); }}
+        cover.addEventListener("animationend", () => { cover.remove(); }); }
+    else console.error("layout.js: can't find #cover");
+}
 
 window.addEventListener("load", pageLoad);
 

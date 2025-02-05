@@ -3,7 +3,7 @@
     to throughout the article. Instead of doing this manually, I have the
     code that parses links also push them to this array, which is then used to
     populate a citations list at the end automatically (see layout.js) */
-let citation_array = [];
+let citationArray = [];
 let toc_array = [];
 
 /*  I like being able to style numbers (0-9) separately from other text. However,
@@ -110,7 +110,7 @@ function closeImageViewer(img) {
 function imageBoxParse(input_string) {
     let lines = input_string.split("\n");
     for (let i = 0; i < lines.length; i += 1) {
-        const parts = lines[i].split("]("); if (parts.length != 2) { console.error("Image parser is confused (bad input)"); break; }
+        const parts = lines[i].split("]("); if (parts.length != 2) { console.error("{interpreter.js: a}"); break; }
         const altText = parts[0].substring(2).replaceAll('"', '&quot;');
         let filePath = parts[1];
         let maxHeight = 350;
@@ -230,10 +230,8 @@ function interpreter(targetElement, widthSet) {
         
         /* ------------------------ links ------------------------- */
         input[i] = input[i].replace(/\[([^\]]*)\]\(([^\s]+)\)/g, (match, displayText, address) => {
-            let index = citation_array.indexOf(address);
-            console.log("displayText: " + displayText)
-            console.log("address: "+address)
-            if (index == -1) index = citation_array.push(address);
+            let index = citationArray.indexOf(address);
+            if (index == -1) index = citationArray.push(address);
             return (displayText === "")
                 ? `<a class="citeref" target="_blank" href="${address}">[${index}]</a>`
                 : `<a target="_blank" href="${address}">${displayText}</a>`; });
@@ -245,9 +243,9 @@ function interpreter(targetElement, widthSet) {
             for (let j = 0; j < rows.length; j += 1) {
                 let cells = rows[j].split("|");
                 for (let k = 0; k < cells.length; k += 1) {
-                    cells[k] = "<td>" + cells[k].trim() + "</td>"; }
+                    cells[k] = "<td>" + safeConvert(cells[k].trim()) + "</td>"; }
                 rows[j] = "<tr>" + cells.join("") + "</tr>"; }
-            input[i] = `<table id="${"table" + table_num++}" class="noq-table">${safeConvert(rows.join(""))}</table>`;
+            input[i] = `<table id="${"table" + table_num++}" class="noq-table">${rows.join("")}</table>`;
             continue; }
         
         /* ---------------------- transcript ---------------------- */
@@ -256,11 +254,11 @@ function interpreter(targetElement, widthSet) {
             rows.shift();
             for (let j = 0; j < rows.length; j += 1) {
                 let cells = rows[j].split("|");
-                if (cells.length != 2) { console.error("{INTERPRETER.JS: transcript width should be 2}"); }
+                if (cells.length != 2) { console.error("{interpreter.js: d}"); }
                 for (let k = 0; k < cells.length; k += 1) {
-                    cells[k] = "<td>" + cells[k].trim() + "</td>"; }
+                    cells[k] = "<td>" + safeConvert(cells[k].trim()) + "</td>"; }
                 rows[j] = "<tr>" + cells.join("") + "</tr>"; }
-            input[i] = `<table id="${"table" + table_num++}" class="transcript">${safeConvert(rows.join(""))}</table>`;
+            input[i] = `<table id="${"table" + table_num++}" class="transcript">${rows.join("")}</table>`;
             continue; }
         
         /* -------------------------------------------------------- */
@@ -272,7 +270,7 @@ function interpreter(targetElement, widthSet) {
         if (input[i].startsWith("# ")) {
             /* .title-box */
             let temp = input[i].split("|");
-            if (temp.length > 2) { console.error("{INTERPRETER.JS: Is the title supposed to have multiple verbars?}"); }
+            if (temp.length > 2) { console.error("{interpreter.js: c}"); }
             
             let title = temp[0].substring(1).trim();
             let titleId = title.replace(/<\/?(i|b)>/g, "").replace(/&amp;/g, "&").replace(/’/g, "'").replace(/&rsquo;/g, "'");
@@ -325,7 +323,7 @@ function interpreter(targetElement, widthSet) {
         if (input[i].startsWith("* ") || input[i].startsWith("- ") || /^\d+\./.test(input[i])) {
             input[i] = listParser(input[i]);
             if (smallPrint) {
-                if (input[i].substring(0, 3) != "<ol" && input[i].substring(0, 3) != "<ul") console.error("{INTERPRETER.JS: (B).}")
+                if (input[i].substring(0, 3) != "<ol" && input[i].substring(0, 3) != "<ul") console.error("{interpreter.js: b}")
                 input[i] = input[i].substring(0, 3) + " class=\"fine\"" + input[i].substring(3); }
             continue; }
         input[i] = input[i].replace(/\n/g, "<br>");
@@ -334,12 +332,7 @@ function interpreter(targetElement, widthSet) {
             : "<p>" + input[i] + "</p>"; }
     targetElement.innerHTML = input.join("");
     
-    function foo(x) {
-        x = targetElement.getElementsByTagName(x);
-        for (let k = 0; k < x.length; k += 1) {
-            x[k] = wrapDigits(x[k]); } }
-    foo("p");
-    foo("li");
-    foo("blockquote");
+    function foo(x) { x = targetElement.getElementsByTagName(x); for (let k = 0; k < x.length; k += 1) { x[k] = wrapDigits(x[k]); } }
+    foo("p"); foo("li"); foo("blockquote");
 }
 
