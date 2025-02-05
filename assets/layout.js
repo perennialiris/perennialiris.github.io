@@ -1,48 +1,56 @@
-
+"use strict"
 let data = `
-2025-news | News 2025                                 | politics |            | pinned
-17        | Showing and telling                       | culture  |            |       
-27        | Sex, gender, & transsexuals               | politics |            | pinned
-32        | Politics fundamentals                     | politics |            | pinned
-37        | Bluesky accounts listing                  | other    |            |       
-16        | Milo Yiannopoulos’s cancellation          | politics | 2025-02-03 |       
-34        | The Nazi salute                           | politics | 2025-01-24 |       
-30        | The appearance of intelligence            | other    | 2025-01-18 |       
-29        | Date formats                              | other    | 2025-01-11 |       
-28        | Therapy theory                            | personal | 2025-01-09 |       
-31        | Reflections on Justin Trudeau             | politics | 2025-01-08 |       
-25        | A beauty holding a bird                   | other    | 2024-12-23 |       
-24        | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19 |       
-22        | Dehumanization                            | politics | 2024-12-15 |       
-21        | Relationships                             | personal | 2024-12-14 |       
-14        | Reasons I’m glad to be Canadian           | politics | 2024-12-08 |       
-13        | The military industrial complex           | politics | 2024-12-04 |       
-11        | The Trump appeal                          | politics | 2024-12-03 |       
-12        | The order of information                  | politics | 2024-12-03 |       
-10        | Touchscreens and smartphones              | culture  | 2024-12-02 |       
-9         | The default politician                    | politics | 2024-11-26 |       
-8         | 10 Dollar                                 | culture  | 2024-11-25 |       
-7         | Fetishism & politics                      | politics | 2024-11-14 |       
-6         | Mark Robinson                             | politics | 2024-11-13 |       
-5         | Types of masculinity                      | culture  | 2024-11-08 |       
-4         | Anime reviews                             | culture  | 2024-11-02 |       
-3         | Poor things                               | culture  | 2024-10-31 |       
-1         | Language                                  | personal | 2024-10-29 |       
-2         | The trans prison stats argument           | politics | 2024-10-19 |       
-16        | Info                                      | personal |            |       
+2025-news | News 2025                                 | politics |            | pinned | wide  
+17        | Showing and telling                       | culture  |            |        |       
+27        | Sex, gender, & transsexuals               | politics |            | pinned | wide  
+37        | Bluesky accounts listing                  | other    |            |        | wide  
+16        | Milo Yiannopoulos’s cancellation          | politics | 2025-02-03 |        |       
+34        | The Nazi salute                           | politics | 2025-01-24 |        | narrow
+30        | The appearance of intelligence            | other    | 2025-01-18 |        | narrow
+29        | Date formats                              | other    | 2025-01-11 |        | narrow
+28        | Therapy theory                            | personal | 2025-01-09 |        | narrow
+31        | Reflections on Justin Trudeau             | politics | 2025-01-08 |        | narrow
+25        | A beauty holding a bird                   | other    | 2024-12-23 |        | narrow
+24        | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19 |        |       
+22        | Dehumanization                            | politics | 2024-12-15 |        |       
+21        | Relationships                             | personal | 2024-12-14 |        |       
+14        | Reasons I’m glad to be Canadian           | politics | 2024-12-08 |        |       
+13        | The military industrial complex           | politics | 2024-12-04 |        | narrow
+11        | The Trump appeal                          | politics | 2024-12-03 |        | narrow
+12        | The order of information                  | politics | 2024-12-03 |        |       
+10        | Touchscreens and smartphones              | culture  | 2024-12-02 |        |       
+9         | The default politician                    | politics | 2024-11-26 |        |       
+8         | 10 Dollar                                 | culture  | 2024-11-25 |        | narrow
+7         | Fetishism & politics                      | politics | 2024-11-14 |        |       
+6         | Mark Robinson                             | politics | 2024-11-13 |        | narrow
+5         | Types of masculinity                      | culture  | 2024-11-08 |        |       
+32        | Politics fundamentals                     | politics |            | pinned | wide  
+4         | Anime reviews                             | culture  | 2024-11-02 |        |       
+3         | Poor things                               | culture  | 2024-10-31 |        |       
+1         | Language                                  | personal | 2024-10-29 |        |       
+2         | The trans prison stats argument           | politics | 2024-10-19 |        |       
+15        | Full post list                            | personal |            |        | wide  
+16        | Info                                      | personal |            |        |       
 `;
 
+let tableWidth;
 function alignTable(dataString, splitChar) {
     let table = dataString.split("\n").map(row => row.split(splitChar).map(cell => cell.trim()));
     tableWidth = Math.max(...table.map(row => row.length));
     table.sort((a, b) => {
         if (a.length < tableWidth || b.length < tableWidth) {
             return; }
-        return parseInt(b[3].replace(/\D/g,"")) - parseInt(a[3].replace(/\D/g,"")); });
+        return b[4].length - a[4].length;
+        }).sort((a, b) => {
+        if (a.length < tableWidth || b.length < tableWidth) {
+            return; }
+        return parseInt(b[3].replace(/\D/g,"")) - parseInt(a[3].replace(/\D/g,""));
+    });
     for (let column = 0; column < tableWidth; column += 1) {
         let cellWidth = 0;
         for (let i = 0; i < table.length; i += 1) {
-            if (table[i].length < tableWidth) continue;
+            if (table[i].length == 1) { continue; }
+            while (table[i].length < tableWidth) { table[i].push(""); }
             if (table[i][column].length > cellWidth) {
                 cellWidth = table[i][column].length; } }
         for (let i = 0; i < table.length; i += 1) {
@@ -52,7 +60,7 @@ function alignTable(dataString, splitChar) {
         table[i] = table[i].join(` ${splitChar} `); }
     console.log(table.join("\n")); }
 /* run this to automatically align table above (to console): */
-// alignTable(data, "|");
+alignTable(data, "|");
 
 let tocLinks, sectionHeadings, tocUpdateFlag = true, currentHeading = "";
 function tocHighlighter() {
@@ -123,19 +131,21 @@ function pageLoad() {
                 title    = cell[1],
                 category = cell[2],
                 date     = cell[3],
-                flags    = cell[4];
-                if (file == 16) { continue; }
+                flags    = cell[4],
+                options  = cell[5];
+                if (file == 16 || file == 15) { continue; }
                 const pinned = (flags == "pinned");
                 let icon = (pinned) ? `<img class="icon" src="assets/pin.png" height="15" width="15">` : "";
                 
                 let divClass = "nav-row";
                 let currentPage = (title == pageTitle.replace(/&rsquo;/g,"’"));
-                if (currentPage) { divClass += " current-page"; }
-                
+                if (currentPage) {
+                    divClass += " current-page";
+                    if (options != "") {
+                        document.body.classList.add(...options.split(" ")); } }
                 let entry = `<a href="${file}.html" class="${divClass}">${title}${icon}</a>`;
                 if (pinned) { navPageLinks.pins.push(entry); }
                 else {
-                    /* max number of links in sidebar: */
                     if (currentPage || navPageLinks.recent.length < 11 ) {
                         navPageLinks.recent.push(entry); } }
                 if (full_post_list_container) {
@@ -158,7 +168,7 @@ function pageLoad() {
             sidebar.innerHTML +=
             `<nav id="toc">
                 <div>
-                    <h3>This page table of contents</h3>
+                    <h3>Table of contents (this page)</h3>
                     <div id="toc-links">${toc_array.join("")}</div>
                 </div>
             </nav>`;
