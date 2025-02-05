@@ -37,7 +37,7 @@ body { color: var(--grey-20); background-color: var(--grey-f0); font-size: 14px;
 body.narrow { --content-width: 650px; }
 body.wide { --content-width: 1024px; }
   #top {  }
-    #header-wrapper { background-color: var(--grey-20); }
+    #header-wrapper { background-color: #111; }
       #header { margin: 0 auto; max-width: var(--page-max-width); display: grid; grid-template-columns: var(--left-width) 2fr minmax(50px, var(--content-width)) 5fr; }
         #header a { display: block; max-width: var(--content-width); margin: 17px 0; height: 67px; grid-column: 3; box-sizing: border-box; padding: 0 60px; }
         #header a:hover { text-decoration: none; opacity: 0.85; }

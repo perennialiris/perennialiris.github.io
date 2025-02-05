@@ -37,6 +37,7 @@ function stdReplacements(input_string) {
         .replaceAll("---", "&mdash;")
         .replaceAll("...", "&hellip;")
         .replaceAll("--", "&ndash;")
+        .replaceAll("\\^", "&Hat;")
         .replaceAll("\\", "&#92;")
         .replaceAll("\\(", "&lpar;")
         .replaceAll("\\)", "&rpar;")
@@ -63,6 +64,8 @@ function safeConvert(input_string) {
         input = input.substring(closeTag + 1);
     }
     output += stdReplacements(input);
+    output = output.replace(/>&ldquo;(\W)/g, ">&rdquo;$1");
+    output = output.replace(/>&lsquo;(\W)/g, ">&rsquo;$1");
     return output;
 }
 
@@ -200,19 +203,24 @@ function interpreter(targetElement, widthSet) {
     
     let table_num = 1;
     for (let i = 0; i < input.length; i += 1) {
+        
         if (input[i].startsWith("\\")) {
             input[i] = input[i].substring(1);
             continue; }
+        
         let smallPrint = false;
         if (input[i].startsWith("^")) {
             smallPrint = true;
             input[i] = input[i].substring(1); }
+        
         if (input[i] == "***" || input[i] == "---") {
             input[i] = "<hr>";
             continue; }
+        
         if (input[i] == "**" || input[i] == "--") {
             input[i] = "<br>";
             continue; }
+        
         if (input[i].startsWith("![")) {
             input[i] = imageBoxParse(input[i]);
             continue; }
@@ -300,7 +308,7 @@ function interpreter(targetElement, widthSet) {
             input[i] = `<h3 class="noq-header" id="${titleId}">${title}</h2>`;
             toc_array.push(`<a class="toc-row h3" href="#${titleId}">${titleId}</a>`);
             continue; }
-        /* the toc-row class is valuable because it's how they're selected by the ToC highlighter */
+        /* toc-row class is useful for selecting the elements later */
         /* ---------------------- blockquote ---------------------- */
         if (input[i].startsWith("&gt;")) {
             let lines = input[i].split("\n");
