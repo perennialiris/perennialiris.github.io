@@ -229,7 +229,7 @@ function interpreter(targetElement, widthSet) {
             return "<code>" + cleanForCode(captureGroup) + "</code>"; });
         
         /* ------------------------ links ------------------------- */
-        input[i] = input[i].replace(/\[([^\]]*)\]\(([^\s]+)\)/g, (match, displayText, address) => {
+        input[i] = input[i].replace(/\[([^\]]*)\]\(([^\s\)]+)\)/g, (match, displayText, address) => {
             let index = citationArray.indexOf(address);
             if (index == -1) index = citationArray.push(address);
             return (displayText === "")
