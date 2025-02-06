@@ -113,8 +113,7 @@ function pageLoad() {
         <section>
             <img src="assets/favicon.ico">
             <div>
-                <p><span style="color:var(--accent)">North of Queen</span> is my personal repo I use to host things I write. I work alone and have no association with any other person or organization.</p>
-                <p>For more info about me, see <a href="index.html">here</a>.</p>
+                <p><span style="color:var(--accent)">North of Queen</span> is my personal repo for things I write. I work alone and have no association with any other person or organization.</p><p>For more info about me, see <a href="index.html">here</a>.</p>
             </div>
         </section>`;
         
