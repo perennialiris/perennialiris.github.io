@@ -4,7 +4,7 @@
     code that parses links also push them to this array, which is then used to
     populate a citations list at the end automatically (see layout.js) */
 let citationArray = [];
-let toc_array = [];
+let tocArray = [];
 
 /*  I like being able to style numbers (0-9) separately from other text. However,
     you don't want to affect numbers that are inside <elements>, because those
@@ -251,7 +251,7 @@ function interpreter(targetElement, widthSet) {
             return "<code>" + cleanForCode(captureGroup) + "</code>"; });
         
         /* ------------------------ links ------------------------- */
-        input[i] = input[i].replace(/\[([^\]]*)\]\(([^\s\)]+)\)/g, (match, displayText, address) => {
+        input[i] = input[i].replace(/\[([^\]]*)\]\(([^\s\[]+)\)/g, (match, displayText, address) => {
             let index = citationArray.indexOf(address);
             if (index == -1) index = citationArray.push(address);
             return (displayText === "")
@@ -310,21 +310,21 @@ function interpreter(targetElement, widthSet) {
                 .replace(/&rsquo;/g, "'");
             if (document.title == "") {
                 document.title = titleId; }
-            toc_array.push(`<a class="toc-row h1" href="#${titleId}">${titleId}</a>`);
+            tocArray.push(`<a class="toc-row h1" href="#${titleId}">${titleId}</a>`);
             continue; }
         /* ------ h2 ------ */
         if (input[i].startsWith("## ")) {
             let title = input[i].slice(3);
             let titleId = title.replace(/<\/?(i|b)>/g, "");
             input[i] = `<h2 class="noq-header" id="${titleId}">${title}</h2>`;
-            toc_array.push(`<a class="toc-row h2" href="#${titleId}">${titleId}</a>`);
+            tocArray.push(`<a class="toc-row h2" href="#${titleId}">${titleId}</a>`);
             continue; }
         /* ------ h3 ------ */
         if (input[i].startsWith("### ")) {
             let title = input[i].slice(4);
             let titleId = title.replace(/<\/?(i|b)>/g, "");
             input[i] = `<h3 class="noq-header" id="${titleId}">${title}</h2>`;
-            toc_array.push(`<a class="toc-row h3" href="#${titleId}">${titleId}</a>`);
+            tocArray.push(`<a class="toc-row h3" href="#${titleId}">${titleId}</a>`);
             continue; }
         /* toc-row class is useful for selecting the elements later */
         /* ---------------------- blockquote ---------------------- */

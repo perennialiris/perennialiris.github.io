@@ -123,7 +123,7 @@ function pageLoad() {
                 citationArray[i] = `<li><a href="${citationArray[i]}">${citationArray[i]}</a></li>`; }
             let citations = contentWrapper.appendChild(document.createElement("div"));
             citations.id = "citations";
-            citations.innerHTML = `<div>external resources linked above:</div><ol>${citationArray.join("")}</ol>`; } }
+            citations.innerHTML = `<div>things linked to on this page:</div><ol>${citationArray.join("")}</ol>`; } }
     else console.error("layout.js: can't find #content-wrapper");
     
     const pageTitle = document.title;
@@ -177,13 +177,13 @@ function pageLoad() {
                 ${navPageLinks.recent.join("")}
                 <div class="more-posts"><a href="list.html">Full page list</a></div>
             </nav>`;
-        if (toc_array.length > 1) {
-            toc_array[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
+        if (tocArray.length > 1) {
+            tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
             sidebar.innerHTML +=
             `<nav id="toc">
                 <div>
                     <h3>Table of contents (this page)</h3>
-                    <div id="toc-links">${toc_array.join("")}</div>
+                    <div id="toc-links">${tocArray.join("")}</div>
                 </div>
             </nav>`;
             if (!tocLinks) { tocLinks = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }

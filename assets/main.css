@@ -55,7 +55,7 @@ body.wide { --content-width: 1024px; }
         #page-links { display: flex; flex-direction: column; gap: 5px; }
         #page-links.is-sticky { position: sticky; top: 0; }
           #page-links .nav-row img.icon { opacity: 0.5; }
-          #page-links .nav-row { padding: 3px 6px; display: flex; align-items: center; justify-content: space-between; }
+          #page-links .nav-row { padding: 2px 6px 3px; display: flex; align-items: center; justify-content: space-between; }
           /* #page-links .nav-row:hover { background-color: var(--grey-e0); } */
           #page-links .nav-row.current-page { color: var(--grey-40); font-weight: 700; background-color: var(--grey-d0); }
           #page-links .more-posts { text-align: right; }
