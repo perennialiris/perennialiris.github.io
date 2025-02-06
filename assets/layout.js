@@ -3,8 +3,8 @@ let dataVariable = `
 2025-news | News 2025                                              | politics |            | pinned | wide  
 27        | Sex, gender, & transsexuals                            | politics |            | pinned | wide  
 32        | Politics fundamentals                                  | politics |            | pinned | wide  
-35        | Lex Fridman                                            | politics | 2025-02-05 |        |       
-16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        | narrow
+35        | Show and tell                                          | politics | 2025-02-05 |        |       
+16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |       
 34        | The Nazi salute                                        | politics | 2025-01-24 |        | narrow
 30        | The appearance of intelligence                         | other    | 2025-01-18 |        | narrow
 29        | Date formats                                           | other    | 2025-01-11 |        | narrow
@@ -31,7 +31,8 @@ let dataVariable = `
 19        | Ilham Omar's controversial comments about Somalia      | politics | 2024-01-28 |        | narrow
 37        | Bluesky accounts listing                               | other    |            |        | wide  
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        |       
-list      | Full post list                                         | personal |            |        | wide  
+list      | Full page list                                         | personal |            |        | unset 
+          | Why get bottom surgery?                                | personal |            |        | narrow
 `;
 
 let tableWidth;
@@ -108,12 +109,10 @@ function pageLoad() {
         let contentFooter = contentWrapper.appendChild(document.createElement("div"));
         contentFooter.id = "content-footer";
         contentFooter.innerHTML = `
-        <section>
             <img src="assets/favicon.ico">
             <div>
                 <p><span style="color:var(--accent)">North of Queen</span> is my personal repo for things I write. I work alone and have no association with any other person or organization.</p><p>For more info about me, see <a href="index.html">here</a>.</p>
-            </div>
-        </section>`;
+            </div>`;
         
         if (citationArray.length > 0) {
             for (let i = 0; i < citationArray.length; i += 1) {
@@ -139,7 +138,7 @@ function pageLoad() {
                 date     = cell[3],
                 flags    = cell[4],
                 options  = cell[5];
-                if (file == "list") { continue; }
+                
                 const pinned = (flags == "pinned");
                 let icon = (pinned) ? `<img class="icon" src="assets/pin.png" height="17" width="17">` : "";
                 
@@ -149,6 +148,7 @@ function pageLoad() {
                     aClass += " current-page";
                     if (options != "") {
                         document.body.classList.add(...options.split(" ")); } }
+                if (file == "" || file == "list") { continue; }
                 let entry = `<a href="${file}.html" class="${aClass}">${title}${icon}</a>`;
                 if (pinned) { navPageLinks.pins.push(entry); }
                 else {
@@ -166,7 +166,8 @@ function pageLoad() {
             }
         }
         const sidebar = document.createElement("div");
-        pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
+        // pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
+        pageWrapper.appendChild(sidebar);
         sidebar.id = "sidebar";
         sidebar.innerHTML = 
             `<nav id="page-links">

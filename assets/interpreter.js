@@ -353,9 +353,13 @@ function interpreter(targetElement, widthSet) {
                 input[i] = input[i].substring(0, 3) + " class=\"fine\"" + input[i].substring(3); }
             continue; }
         input[i] = input[i].replace(/\n/g, "<br>");
-        input[i] = (smallPrint)
-            ? "<p class=\"fine\">" + input[i] + "</p>"
-            : "<p>" + input[i] + "</p>"; }
+        if (input[i] == "") { continue; }
+        
+        if (smallPrint) {
+            input[i] = `<p class="fine">${input[i]}</p>`; }
+        else {
+            input[i] = `<p>${input[i]}</p>`; }
+    }
     targetElement.innerHTML = input.join("");
     
     function foo(x) { x = targetElement.getElementsByTagName(x); for (let k = 0; k < x.length; k += 1) { x[k] = wrapDigits(x[k]); } }
