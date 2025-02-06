@@ -4,8 +4,7 @@ let dataVariable = `
 27        | Sex, gender, & transsexuals                            | politics |            | pinned | wide  
 32        | Politics fundamentals                                  | politics |            | pinned | wide  
 35        | Lex Fridman                                            | politics | 2025-02-05 |        |       
-17        | Show and tell                                          | culture  | 2025-02-04 |        | narrow
-16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |       
+16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        | narrow
 34        | The Nazi salute                                        | politics | 2025-01-24 |        | narrow
 30        | The appearance of intelligence                         | other    | 2025-01-18 |        | narrow
 29        | Date formats                                           | other    | 2025-01-11 |        | narrow
@@ -30,8 +29,8 @@ let dataVariable = `
 1         | Language                                               | personal | 2024-10-29 |        |       
 2         | The trans prison stats argument                        | politics | 2024-10-19 |        |       
 19        | Ilham Omar's controversial comments about Somalia      | politics | 2024-01-28 |        | narrow
-18        | Transcripts: context for inflammatory Trump statements | politics |            |        |       
 37        | Bluesky accounts listing                               | other    |            |        | wide  
+18        | Transcripts: context for inflammatory Trump statements | politics |            |        |       
 list      | Full post list                                         | personal |            |        | wide  
 `;
 
@@ -84,7 +83,6 @@ function tocHighlighter() {
     if (headingId != currentHeading) {
     for (let i = 0; i < tocLinks.length; i += 1) {
         tocLinks[i].classList.remove("active-heading");
-        console.log(tocLinks[i].getAttribute("href"))
         if (tocLinks[i].getAttribute("href") == "#" + headingId) {
             tocLinks[i].classList.add("active-heading"); } } }
     currentHeading = headingId; }
