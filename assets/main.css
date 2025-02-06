@@ -12,7 +12,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 :root {
   --content-width: 800px;
-  --page-max-width: 2400px;
+  --page-max-width: 1300px;
   --left-width: 250px;
   --white: #ffffff;
   --accent: #c00020;
@@ -39,24 +39,24 @@ body.narrow { --content-width: 650px; }
 body.wide { --content-width: 1024px; }
   #top {  }
     #header-wrapper { background-color: #111; }
-      #header { margin: 0 auto; max-width: var(--page-max-width); display: grid; grid-template-columns: var(--left-width) 2fr minmax(50px, var(--content-width)) 5fr; }
+      #header { margin: 0 auto; max-width: var(--page-max-width); display: grid; grid-template-columns: var(--left-width) 1fr minmax(50px, var(--content-width)) 3fr; }
         #header a { display: block; max-width: var(--content-width); margin: 17px 0; height: 67px; grid-column: 3; box-sizing: border-box; padding: 0 60px; }
         #header a:hover { text-decoration: none; opacity: 0.85; }
           #header a img { margin: 0 auto; display: block; width: 252px; height: 67px; filter: invert(1); }
     #nav { height: 24px; background-color: var(--accent); background-image: linear-gradient(#444b, #444b); }
       /* #hamburger { height: 24px; width: 24px; margin-left: calc(var(--left-width) - 24px); background-color: var(--grey-f0); } */
   
-  #page-wrapper { width: 100%; margin: 0 auto; max-width: var(--page-max-width); background-color: var(--white); display: grid; grid-template-columns: var(--left-width) 2fr minmax(50px, var(--content-width)) 5fr; }
+  #page-wrapper { width: 100%; margin: 0 auto; max-width: var(--page-max-width); background-color: var(--white); display: grid; grid-template-columns: var(--left-width) 1fr minmax(50px, max-content) 3fr; }
     #sidebar { font-family: system-ui; color: var(--grey-20); width: var(--left-width); min-width: var(--left-width); grid-column: 1; box-sizing: border-box; background-color: var(--grey-f0); }
       #sidebar h3 { font-size: 15px; color: var(--grey-50); font-weight: 700; }
       #sidebar a { color: var(--grey-50); padding: 2px 0; }
       #sidebar a:hover { color: var(--grey-20); text-decoration: underline; }
       #sidebar > nav { padding: 10px; }
-        #page-links { display: flex; flex-direction: column; gap: 4px; }
+        #page-links { display: flex; flex-direction: column; gap: 5px; }
         #page-links.is-sticky { position: sticky; top: 0; }
           #page-links .nav-row img.icon { opacity: 0.5; }
-          #page-links .nav-row { padding: 4px 5px; display: flex; align-items: center; justify-content: space-between; }
-          #page-links .nav-row:hover { background-color: var(--grey-e0); }
+          #page-links .nav-row { padding: 3px 6px; display: flex; align-items: center; justify-content: space-between; }
+          /* #page-links .nav-row:hover { background-color: var(--grey-e0); } */
           #page-links .nav-row.current-page { color: var(--grey-40); font-weight: 700; background-color: var(--grey-d0); }
           #page-links .more-posts { text-align: right; }
           #page-links .more-posts a { padding: 3px 5px; }
@@ -64,9 +64,9 @@ body.wide { --content-width: 1024px; }
           #toc > div { padding-bottom: 44px; }
             #toc-links { padding: 10px; display: flex; flex-direction: column; gap: 5px; }
               #toc-links .toc-row { padding: 3px 5px; }
-              #toc-links .toc-row.h1 { margin-left: 5px; }
-              #toc-links .toc-row.h2 { margin-left: 15Px; }
-              #toc-links .toc-row.h3 { margin-left: 25px; }
+              #toc-links .toc-row.h1 {  }
+              #toc-links .toc-row.h2 { margin-left: 10Px; }
+              #toc-links .toc-row.h3 { margin-left: 20px; }
               #toc-links .toc-row.active-heading { color: var(--accent); filter: brightness(0.8); }
     
     #content-wrapper { max-width: var(--content-width); grid-column: 3; padding: 60px; box-sizing: border-box; min-height: 100%; }
@@ -86,7 +86,7 @@ body.wide { --content-width: 1024px; }
           #main-content .title-box { display: flex; justify-content: space-between; align-items: flex-end; }
           .narrow #main-content .title-box { border-bottom: none; }
           #main-content .title-box h1 { margin-right: 20px; }
-          #main-content .title-box .date-box { color: var(--grey-50); white-space: nowrap; }
+          #main-content .title-box .date-box { color: var(--grey-50); white-space: nowrap; font-family: Roboto,Arial; }
           #main-content .image-box { display: flex; justify-content: space-around; max-width: 100%; gap: 8px; overflow: hidden; align-items: center; }
           #main-content .image-box div { display: inline-block; border: 1px solid var(--grey-90); height: 100%; }
           #main-content .image-box div img { width: inherit; max-width: 100%; display: block; object-fit: contain; }
@@ -159,7 +159,16 @@ body.wide { --content-width: 1024px; }
           #citations a:hover { color: var(--grey-60); }
           #citations ol { margin: 0; padding: 5px 30px; }
             #citations ol li { text-align: left; padding: 2px; margin: 0; }
-  
+        
+        #full-page-list table { font-family: system-ui; font-size: 14px; border-collapse: collapse; margin: auto; color: var(--grey-90); }
+        #full-page-list table tr th { padding: 3px 14px 7px; font-weight: 400; color: var(--grey-90); text-align: left; }
+        #full-page-list table tr td { padding: 3px 14px; }
+        #full-page-list table tr > :first-child { padding-left: 4px; }
+        #full-page-list table tr > :last-child { padding-right: 4px; }
+        #full-page-list table tr td a { color: var(--grey-40); display: flex; align-items: center; gap: 3px; }
+        #full-page-list table tr td a:hover { color: var(--grey-20); }
+        #full-page-list img.icon { opacity: 0.5; }
+        
   #footer { width: 100%; height: 104px; background-color: #111; }
     #image-viewer-wrapper { z-index: 1; width: 100%; height: 100vh; background-color: #000c; position: fixed; left: 0; top: 0; display: none; align-items: center; justify-content: center; }
       #image-viewer { object-fit: contain; max-width: 90%; max-height: 90%; }

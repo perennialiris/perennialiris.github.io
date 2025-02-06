@@ -30,12 +30,12 @@ function wrapDigits(targetElement) {
 
 /*  These are the replacements run over all inputs, separated into its
     own function because I needed to call it multiple times. */
-function stdReplacements(input_string) {
-    if (input_string == "") { return ""; }
-    return input_string
+function stdReplacements(inputString) {
+    if (inputString == "") { return ""; }
+    // console.log(inputString);
+    let output = inputString
         .replaceAll("\\*", "&ast;")
         .replaceAll("---", "&mdash;")
-        .replaceAll("...", "&hellip;")
         .replaceAll("--", "&ndash;")
         .replaceAll("\\^", "&Hat;")
         .replaceAll("\\", "&#92;")
@@ -43,14 +43,30 @@ function stdReplacements(input_string) {
         .replaceAll("\\)", "&rpar;")
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
+        /*
+        It took many versions, but I think I finally got to a point
+        where this always works the way I want it to.
+        */
+        /* curly " replacement */
+        .replace(/(\S\*{1,3})"(\s)/g, "$1&rdquo;$2")
+        .replace(/^" /g, "&rdquo; ")
+        .replace(/ "$/g, " &ldquo;")
+        .replace(/"$/g, "&rdquo;")
         .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
-        .replace(/"\n/g, "&rdquo;\n")
         .replace(/"/g, "&rdquo;")
+        
+        /* curly ' replacement */
+        .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
+        .replace(/^' /g, "&rsquo; ")
+        .replace(/ '$/g, " &lsquo;")
+        .replace(/'$/g, "&rsquo;")
         .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
-        .replace(/'\n/g, "&rsquo;\n")
         .replace(/'/g, "&rsquo;")
+        
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
+        .replaceAll("...", "&hellip;")
+    return output;
 }
 
 /* This is a general parser I run all input through. It safely ignores
@@ -64,8 +80,6 @@ function safeConvert(input_string) {
         input = input.substring(closeTag + 1);
     }
     output += stdReplacements(input);
-    output = output.replace(/>&ldquo;(\W)/g, ">&rdquo;$1");
-    output = output.replace(/>&lsquo;(\W)/g, ">&rsquo;$1");
     return output;
 }
 
@@ -291,7 +305,9 @@ function interpreter(targetElement, widthSet) {
             else {
                 input[i] = `<h1 class="noq-header" id="${titleId}">${title}</h1>`; }
             
-            title = title.replace(/<\/?(i|b)>/g, "").replace(/&amp;/g, "&").replace(/’/g, "'").replace(/&rsquo;/g, "'");
+            title = title.replace(/<\/?(i|b)>/g, "")
+                .replace(/&amp;/g, "&").replace(/’/g, "'")
+                .replace(/&rsquo;/g, "'");
             if (document.title == "") {
                 document.title = titleId; }
             toc_array.push(`<a class="toc-row h1" href="#${titleId}">${titleId}</a>`);
@@ -345,4 +361,5 @@ function interpreter(targetElement, widthSet) {
     function foo(x) { x = targetElement.getElementsByTagName(x); for (let k = 0; k < x.length; k += 1) { x[k] = wrapDigits(x[k]); } }
     foo("p"); foo("li"); foo("blockquote");
 }
+
 

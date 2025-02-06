@@ -3,7 +3,8 @@ let dataVariable = `
 2025-news | News 2025                                              | politics |            | pinned | wide  
 27        | Sex, gender, & transsexuals                            | politics |            | pinned | wide  
 32        | Politics fundamentals                                  | politics |            | pinned | wide  
-17        | Showing and telling                                    | culture  | 2025-02-04 |        |       
+35        | Lex Fridman                                            | politics | 2025-02-05 |        |       
+17        | Show and tell                                          | culture  | 2025-02-04 |        | narrow
 16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |       
 34        | The Nazi salute                                        | politics | 2025-01-24 |        | narrow
 30        | The appearance of intelligence                         | other    | 2025-01-18 |        | narrow
@@ -39,18 +40,17 @@ function alignTable(dataString, splitChar) {
     let table = dataString.split("\n").map(row => row.split(splitChar).map(cell => cell.trim()));
     tableWidth = Math.max(...table.map(row => row.length));
     table.sort((a, b) => {
-        if (a.length < tableWidth || b.length < tableWidth) {
-            return; }
-        return b[3].length - a[3].length;
-        }).sort((a, b) => {
-        if (a.length < tableWidth || b.length < tableWidth) {
-            return; }
-        return parseInt(b[3].replace(/\D/g,"")) - parseInt(a[3].replace(/\D/g,""));
-        }).sort((a, b) => {
-        if (a.length < tableWidth || b.length < tableWidth) {
-            return; }
-        return b[4].length - a[4].length;
-    });
+        if (a.length >= tableWidth && b.length >= tableWidth) {
+            return b[3].length - a[3].length;
+        }})
+    .sort((a, b) => {
+        if (a.length >= tableWidth && b.length >= tableWidth) {
+            return parseInt(b[3].replace(/\D/g,"")) - parseInt(a[3].replace(/\D/g,""));
+        }})
+    .sort((a, b) => {
+        if (a.length >= tableWidth && b.length >= tableWidth) {
+            return b[4].length - a[4].length;
+        }});
     for (let column = 0; column < tableWidth; column += 1) {
         let cellWidth = 0;
         for (let i = 0; i < table.length; i += 1) {
@@ -64,7 +64,8 @@ function alignTable(dataString, splitChar) {
     for (let i = 0; i < table.length; i += 1) {
         table[i] = table[i].join(` ${splitChar} `); }
     dataVariable = table.join("\n");
-    console.log(dataVariable); }
+    // console.log(dataVariable);
+}
 /* run this to automatically align table above (to console): */
 alignTable(dataVariable, "|");
 
@@ -157,8 +158,7 @@ function pageLoad() {
                     if (currentPage || navPageLinks.recent.length < 11 ) {
                         navPageLinks.recent.push(entry); } }
                 if (full_post_list_container) {
-                    if (date == "") {
-                        date = "---"; }
+                    // if (date == "") { date = "---"; }
                     navPageLinks.full.push(`
                     <tr>
                         <td><a href="${file}.html">${title}${icon}</a></td>
