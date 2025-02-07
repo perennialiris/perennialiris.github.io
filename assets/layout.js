@@ -18,7 +18,7 @@ let dataVariable = `
 13        | The military–industrial complex                        | politics | 2024-12-04 |        | narrow
 11        | The Trump appeal                                       | politics | 2024-12-03 |        | narrow
 12        | The order of information                               | politics | 2024-12-03 |        |       
-10        | Touchscreens and smartphones                           | culture  | 2024-12-02 |        |       
+10        | Touchscreens and smartphones                           | culture  | 2024-12-02 |        | narrow
 9         | The default politician                                 | politics | 2024-11-26 |        |       
 8         | 10 Dollar                                              | culture  | 2024-11-25 |        | narrow
 7         | Fetishism & politics                                   | politics | 2024-11-14 |        |       
@@ -195,7 +195,7 @@ function pageLoad() {
                 <div class="more-posts"><a href="list.html">Full page list</a></div>
             </nav>`;
         if (tocArray.length > 1) {
-            tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
+            // tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
             sidebar.innerHTML +=
             `<nav id="toc">
                 <h3>Table of contents (this page)</h3>
