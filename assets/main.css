@@ -22,6 +22,7 @@
   --sidebar-width: 250px;
   --content-width: 824px;
 }
+
 body.narrow { --content-width: 650px; }
 body.wide { --content-width: 1080px; }
 body.unset { --content-width: unset; }
@@ -43,7 +44,8 @@ body { color: var(--grey-20); font-size: 14px; font-family: Inter,system-ui; lin
           #header a img { margin: 0 auto; display: block; width: 252px; height: 67px; filter: invert(1); }
     #nav { height: 24px; background-color: var(--accent); background-image: linear-gradient(#444b, #444b); }
   
-  #page-wrapper { background-color: var(--grey-f0); display: flex; align-items: stretch; justify-content: center; }
+  #page-wrapper { background-color: var(--grey-f0); display: grid; grid-template-columns: 250px minmax(50px, auto) auto; justify-content: center; }
+    #content-wrapper + div { width: calc(0.3 * calc(100vw - var(--sidebar-width) - var(--content-width))); }
     #sidebar { font-family: system-ui; color: var(--grey-20); width: var(--sidebar-width); min-width: var(--sidebar-width); box-sizing: border-box; background-color: var(--grey-f0); }
       #sidebar h3 { padding: 0 10px; font-size: 15px; color: var(--grey-50); font-weight: 700; }
       #sidebar a { color: var(--grey-50); padding: 2px 0; }

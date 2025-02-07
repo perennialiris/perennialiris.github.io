@@ -87,6 +87,20 @@ function tocHighlighter() {
         if (tocLinks[i].getAttribute("href") == "#" + headingId) {
             tocLinks[i].classList.add("active-heading"); } } }
     currentHeading = headingId; }
+/*
+    body
+        #top
+            #header-wrapper
+                #header
+            #nav
+        #page-wrapper
+            #content-wrapper
+                #main-content
+                    h1
+                    p
+                    p
+            #sidebar
+*/
 
 function pageLoad() {
     document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
@@ -104,6 +118,7 @@ function pageLoad() {
         interpreter(mainContent); }
     else console.error("layout.js: can't find #main-content");
     
+    // <img src="assets/favicon.ico">
     const contentWrapper = document.getElementById("content-wrapper");
     if (contentWrapper) {
         let contentFooter = contentWrapper.appendChild(document.createElement("div"));
@@ -166,8 +181,9 @@ function pageLoad() {
             }
         }
         const sidebar = document.createElement("div");
-        // pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
-        pageWrapper.appendChild(sidebar);
+        pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
+        // pageWrapper.appendChild(sidebar);
+        pageWrapper.appendChild(document.createElement("div"));
         sidebar.id = "sidebar";
         sidebar.innerHTML = 
             `<nav id="page-links">
