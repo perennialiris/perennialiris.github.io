@@ -172,7 +172,7 @@ function pageLoad() {
                 let entry = `<a href="${file}.html" class="${aClass}">${title}${icon}</a>`;
                 if (pinned) { navPageLinks.pins.push(entry); }
                 else {
-                    if (currentPage || navPageLinks.recent.length < 11 ) {
+                    if (currentPage || navPageLinks.recent.length < 12 ) {
                         navPageLinks.recent.push(entry); } }
                 // if (date == "") { date = "---"; }
                 navPageLinks.full.push(`
