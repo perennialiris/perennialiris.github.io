@@ -32,6 +32,7 @@ let dataVariable = `
 37        | Bluesky accounts listing                               | other    |            |        | wide  
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        |       
 list      | Full page list                                         | personal |            |        | unset 
+index     | Full page list                                         | personal |            |        | unset 
           | Why get bottom surgery?                                | personal |            |        | narrow
 `;
 
@@ -124,9 +125,11 @@ function pageLoad() {
         let contentFooter = contentWrapper.appendChild(document.createElement("div"));
         contentFooter.id = "content-footer";
         contentFooter.innerHTML = `
-            <img src="assets/favicon.ico">
             <div>
-                <p><span style="color:var(--accent)">North of Queen</span> is my personal repo for things I write. I work alone and have no association with any other person or organization.</p><p>For more info about me, see <a href="index.html">here</a>.</p>
+                <img src="assets/favicon.ico">
+                <div>
+                    <p><span style="color:var(--accent)">North of Queen</span> is my personal repo for things I write. I work alone and have no association with any other person or organization.</p><p>For more info about me, see <a href="index.html">here</a>.</p>
+                </div>
             </div>`;
         
         if (citationArray.length > 0) {
@@ -163,7 +166,9 @@ function pageLoad() {
                     aClass += " current-page";
                     if (options != "") {
                         document.body.classList.add(...options.split(" ")); } }
-                if (file == "" || file == "list") { continue; }
+                if (file == "") { continue; }
+                if (file == "list") { continue; }
+                if (file == "index") { continue; }
                 let entry = `<a href="${file}.html" class="${aClass}">${title}${icon}</a>`;
                 if (pinned) { navPageLinks.pins.push(entry); }
                 else {
@@ -183,7 +188,7 @@ function pageLoad() {
         const sidebar = document.createElement("div");
         pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
         // pageWrapper.appendChild(sidebar);
-        pageWrapper.appendChild(document.createElement("div"));
+        // pageWrapper.appendChild(document.createElement("div"));
         sidebar.id = "sidebar";
         sidebar.innerHTML = 
             `<nav id="page-links">
@@ -195,16 +200,14 @@ function pageLoad() {
             tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
             sidebar.innerHTML +=
             `<nav id="toc">
-                <div>
-                    <h3>Table of contents (this page)</h3>
-                    <div id="toc-links">${tocArray.join("")}</div>
-                </div>
+                <h3>Table of contents (this page)</h3>
+                <div id="toc-links">${tocArray.join("")}</div>
             </nav>`;
             if (!tocLinks) { tocLinks = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
             if (!sectionHeadings) { sectionHeadings = Array.from(document.getElementsByClassName("noq-header")); }
             window.addEventListener("scroll", tocHighlighter); }
-        else {
-            document.getElementById("page-links").classList.add("is-sticky"); } }
+        // else { document.getElementById("page-links").classList.add("is-sticky"); }
+    }
     else console.error("layout.js: can't find #page-wrapper");
     
     if (full_post_list_container) {

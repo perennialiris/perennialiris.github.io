@@ -232,7 +232,7 @@ function interpreter(targetElement, widthSet) {
             continue; }
         
         if (input[i] == "**" || input[i] == "--") {
-            input[i] = "<br>";
+            input[i] = "<p></p>";
             continue; }
         
         if (input[i].startsWith("![")) {
@@ -327,6 +327,13 @@ function interpreter(targetElement, widthSet) {
             tocArray.push(`<a class="toc-row h3" href="#${titleId}">${titleId}</a>`);
             continue; }
         /* toc-row class is useful for selecting the elements later */
+        /* ------ h4 ------ */
+        if (input[i].startsWith("#### ")) {
+            let title = input[i].slice(4);
+            let titleId = title.replace(/<\/?(i|b)>/g, "");
+            input[i] = `<h4 id="${titleId}">${title}</h4>`;
+            /* don't put these in toc */
+            continue; }
         /* ---------------------- blockquote ---------------------- */
         if (input[i].startsWith("&gt;")) {
             let lines = input[i].split("\n");
