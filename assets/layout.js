@@ -4,7 +4,7 @@ let dataVariable = `
 27        | Sex, gender, & transsexuals                            | politics |            | pinned | wide  
 32        | Politics fundamentals                                  | politics |            | pinned | wide  
 35        | Show and tell                                          | politics | 2025-02-05 |        |       
-16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        | narrow
+16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |       
 34        | The Nazi salute                                        | politics | 2025-01-24 |        | narrow
 30        | The appearance of intelligence                         | other    | 2025-01-18 |        | narrow
 29        | Date formats                                           | other    | 2025-01-11 |        | narrow

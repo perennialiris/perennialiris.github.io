@@ -1,8 +1,8 @@
 
-@font-face { font-family: "PT Serif"; src: url(pt-serif-regular.woff2); font-weight: 400; font-style: normal; }
-@font-face { font-family: "PT Serif"; src: url(pt-serif-italic.woff2); font-weight: 400; font-style: italic; }
-@font-face { font-family: "PT Serif"; src: url(pt-serif-bold.woff2); font-weight: 700; font-style: normal; }
-@font-face { font-family: "PT Serif"; src: url(pt-serif-bold-italic.woff2); font-weight: 700; font-style: italic; }
+@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-regular.woff2); font-weight: 400; font-style: normal; }
+@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-italic.woff2); font-weight: 400; font-style: italic; }
+@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold.woff2); font-weight: 700; font-style: normal; }
+@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold-italic.woff2); font-weight: 700; font-style: italic; }
 @font-face { font-family: "Inter"; src: url(inter-regular.woff2) format("woff2"); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Inter"; src: url(inter-italic.woff2) format("woff2"); font-weight: 400 700; font-style: italic; }
 @font-face { font-family: "Roboto"; src: url(roboto-regular.woff2) format("woff2"); font-weight: 400 700; font-style: normal; }
@@ -44,7 +44,7 @@ body.unset {
   --main-gap: 0;
 }
 
-::selection { background-color: #fff0b8; color: var(--grey-30); }
+::selection { background-color: #ffee90; color: var(--grey-30); }
 #main-content a::selection, #main-content a ::selection { background-color: #ccc; color: var(--accent); }
 * { margin: 0; padding: 0; text-underline-offset: 2px; }
 a { text-decoration: none; }
@@ -62,7 +62,7 @@ body { color: var(--grey-20); font-size: 14px; font-family: system-ui; line-heig
           #header a img { margin: 0 auto; display: block; width: 252px; height: 67px; filter: invert(1); }
     #nav { height: 24px; background-color: var(--accent); background-image: linear-gradient(#444b, #444b); }
   
-  #page-wrapper { width: 100%; margin: auto; background-color: var(--white); display: flex; align-items: stretch; gap: var(--main-gap); }
+  #page-wrapper { width: 100%; height: 100%; margin: auto; background-color: var(--white); display: flex; align-items: stretch; gap: var(--main-gap); }
     #sidebar { border-right: 1px solid var(--white); font-family: system-ui; color: var(--grey-20); width: var(--sidebar-width); min-width: var(--sidebar-width); box-sizing: border-box; background-color: var(--white); }
       #sidebar h3 { padding: 0 10px; font-size: 15px; color: var(--grey-50); font-weight: 700; }
       #sidebar a { color: var(--grey-50); padding: 2px 0; }
@@ -87,7 +87,7 @@ body { color: var(--grey-20); font-size: 14px; font-family: system-ui; line-heig
       #content-wrapper > div { width: 100%; }
       #content-wrapper > :nth-child(n + 2) { margin-top: 40px; }
       
-        #main-content { color: var(--grey-30); font-size: 15px; line-height: 1.5; background-color: var(--white); color: var(--grey-20); }
+        #main-content { color: var(--grey-30); font-size: 15px; line-height: 1.5; background-color: var(--white); }
           #main-content > :first-child { margin-top: 0; }
           /*  all possible children of #main-content:
                 #main-content h1
@@ -150,7 +150,7 @@ body { color: var(--grey-20); font-size: 14px; font-family: system-ui; line-heig
           #main-content .fine * { font-family: inherit; font-size: inherit; }
           #main-content p,
           #main-content li,
-          #main-content blockquote { font-family: Georgia,serif; line-height: 1.7; }
+          #main-content blockquote { font-family: Georgia Pro,Georgia,serif; line-height: 1.7; }
           #main-content blockquote .attribution { text-align: right; }
           #main-content blockquote .fine { color: var(--grey-90); }
           #main-content ul { list-style-type: disc; }
@@ -158,35 +158,12 @@ body { color: var(--grey-20); font-size: 14px; font-family: system-ui; line-heig
           #main-content ul,
           #main-content ol { padding: 0 40px; }
           #main-content ol > li { margin-left: -2px; padding-left: 2px; }
-          #main-content ol li br,
-          #main-content ul li br { margin-bottom: 5px; }
-          #main-content p .rendered_digit,
-          #main-content blockquote .rendered_digit,
-          #main-content td .rendered_digit,
-          #main-content li .rendered_digit,
-          #main-content ol > li::marker {
-            font-family: PT Serif,Tahoma,serif;
-          }
-          #main-content ol.fine > li::marker {
-            font-family: inherit;
-          }
-          #main-content .citeref .rendered_digit,
-          #main-content small .rendered_digit,
-          #main-content code .rendered_digit,
-          #main-content .codeblock .rendered_digit,
-          #main-content h1 .rendered_digit,
-          #main-content h2 .rendered_digit,
-          #main-content h3 .rendered_digit,
-          #main-content .fine .rendered_digit,
-          #main-content .date-box .rendered_digit {
-            font-size: inherit; font-family: inherit;
-          }
           
         #content-footer { border-top: 1px solid var(--grey-90); border-bottom: 1px solid var(--grey-90); margin-left: auto; margin-right: auto; padding: 20px 0; }
         #content-footer > div { display: flex; align-items: center; }
         #content-footer > div img { object-fit: contain; border: 1px solid var(--grey-90); width: 100px; height: 100px; }
         #content-footer > div div { display: flex; flex-direction: column; padding: 0 12px; }
-        #content-footer > div div p { margin: 5px auto; text-align: center; color: var(--grey-60); font-family: Georgia,serif; font-size: 15px; }
+        #content-footer > div div p { margin: 5px auto; text-align: center; color: var(--grey-60); font-family: Georgia Pro,Georgia,serif; font-size: 15px; }
         #content-footer > div div a { color: inherit; text-decoration: underline; }
         
         #citations { line-height: 1.5; font-family: Verdana,system-ui; font-size: 12px; color: var(--grey-90); }

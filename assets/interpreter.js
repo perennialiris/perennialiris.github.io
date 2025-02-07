@@ -6,28 +6,6 @@
 let citationArray = [];
 let tocArray = [];
 
-/*  I like being able to style numbers (0-9) separately from other text. However,
-    you don't want to affect numbers that are inside <elements>, because those
-    are often part of URLs or styling. This function takes an HTML element
-    and wraps digits in a span, but safely skips over the content of <tags>. */
-
-/*
-String.prototype.indexOf = function (string_, character_) {
-    for (let num = 0; num < string_.length; num += 1) if (string_[num] === character_) return num; return -1;
-}
-*/
-function wrapDigits(targetElement) {
-    let input = targetElement.innerHTML, output = "";
-    while (true) {
-        const openTag = input.indexOf("<"), closeTag = input.indexOf(">");
-        if (openTag == -1 || closeTag == -1) { break; }
-        output += input.substring(0, openTag).replace(/(\d+)/g, "<span class='rendered_digit'>$1</span>")
-            + input.substring(openTag, closeTag + 1);
-        input = input.substring(closeTag + 1);
-    }
-    output += input.replace(/(\d+)/g, "<span class='rendered_digit'>$1</span>");
-    targetElement.innerHTML = output; }
-
 /*  These are the replacements run over all inputs, separated into its
     own function because I needed to call it multiple times. */
 function stdReplacements(inputString) {
@@ -48,8 +26,9 @@ function stdReplacements(inputString) {
         where this always works the way I want it to.
         */
         /* curly " replacement */
-        .replace(/(\S\*{1,3})"(\s)/g, "$1&rdquo;$2")
+        .replace(/(\S\*{1,3})" /g, "$1&rdquo; ")
         .replace(/^" /g, "&rdquo; ")
+        .replace(/^"(\.|,)/g, "&rdquo;$1")
         .replace(/ "$/g, " &ldquo;")
         .replace(/"$/g, "&rdquo;")
         .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
@@ -58,6 +37,7 @@ function stdReplacements(inputString) {
         /* curly ' replacement */
         .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
         .replace(/^' /g, "&rsquo; ")
+        .replace(/^'(\.|,)/g, "&rsquo;$1")
         .replace(/ '$/g, " &lsquo;")
         .replace(/'$/g, "&rsquo;")
         .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
@@ -367,9 +347,6 @@ function interpreter(targetElement, widthSet) {
             input[i] = `<p>${input[i]}</p>`; }
     }
     targetElement.innerHTML = input.join("");
-    
-    function foo(x) { x = targetElement.getElementsByTagName(x); for (let k = 0; k < x.length; k += 1) { x[k] = wrapDigits(x[k]); } }
-    foo("p"); foo("li"); foo("blockquote");
 }
 
 
