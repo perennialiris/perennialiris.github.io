@@ -1,8 +1,8 @@
 
-@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-regular.ttf) format("ttf"); font-weight: 400; font-style: normal; }
-@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-italic.ttf) format("ttf"); font-weight: 400; font-style: italic; }
-@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold.ttf) format("ttf"); font-weight: 700; font-style: normal; }
-@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold-italic.ttf) format("ttf"); font-weight: 700; font-style: italic; }
+@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-regular.ttf); font-weight: 400; font-style: normal; }
+@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-italic.ttf); font-weight: 400; font-style: italic; }
+@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold.ttf); font-weight: 700; font-style: normal; }
+@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold-italic.ttf); font-weight: 700; font-style: italic; }
 @font-face { font-family: "Inter"; src: url(inter-regular.woff2) format("woff2"); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Inter"; src: url(inter-italic.woff2) format("woff2"); font-weight: 400 700; font-style: italic; }
 @font-face { font-family: "Roboto"; src: url(roboto-regular.woff2) format("woff2"); font-weight: 400 700; font-style: normal; }
