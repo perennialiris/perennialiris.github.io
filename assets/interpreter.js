@@ -329,9 +329,8 @@ function interpreter(targetElement, widthSet) {
         /* toc-row class is useful for selecting the elements later */
         /* ------ h4 ------ */
         if (input[i].startsWith("#### ")) {
-            let title = input[i].slice(4);
-            let titleId = title.replace(/<\/?(i|b)>/g, "");
-            input[i] = `<h4 id="${titleId}">${title}</h4>`;
+            let title = input[i].slice(5);
+            input[i] = `<h4>${title}</h4>`;
             /* don't put these in toc */
             continue; }
         /* ---------------------- blockquote ---------------------- */

@@ -81,9 +81,7 @@ body { color: var(--grey-20); font-size: 14px; font-family: Inter,system-ui; lin
           #main-content h2,
           #main-content h3,
           #main-content h4 { line-height: 1.3em; font-weight: 400; }
-          #main-content > h4 + p,
-          #main-content > h4 + ol,
-          #main-content > h4 + ul { margin-top: 0.5em!important; }
+          #main-content > h4 + p { margin-top: 0.7em!important; }
           #main-content > p + ul,
           #main-content > p + ol { margin-top: 7px!important; }
           #main-content .title-box .date-box { color: var(--grey-50); white-space: nowrap; font-family: Roboto,Arial; }
@@ -121,8 +119,6 @@ body { color: var(--grey-20); font-size: 14px; font-family: Inter,system-ui; lin
           #main-content ol > li { margin-left: -2px; padding-left: 2px; }
           #main-content ul > li + li,
           #main-content ol > li + li { margin-top: 7px; }
-          #main-content ul li,
-          #main-content ol li { line-height: 1.6; }
           #main-content ol li br,
           #main-content ul li br { margin-bottom: 5px; }
           #main-content p .rendered_digit,
