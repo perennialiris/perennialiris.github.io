@@ -4,7 +4,7 @@ let dataVariable = `
 27        | Sex, gender, & transsexuals                            | politics |            | pinned | wide  
 32        | Politics fundamentals                                  | politics |            | pinned | wide  
 35        | Show and tell                                          | politics | 2025-02-05 |        |       
-16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |       
+16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        | narrow
 34        | The Nazi salute                                        | politics | 2025-01-24 |        | narrow
 30        | The appearance of intelligence                         | other    | 2025-01-18 |        | narrow
 29        | Date formats                                           | other    | 2025-01-11 |        | narrow
@@ -15,7 +15,7 @@ let dataVariable = `
 22        | Dehumanization                                         | politics | 2024-12-15 |        |       
 21        | Relationships                                          | personal | 2024-12-14 |        |       
 14        | Reasons I'm glad to be Canadian                        | politics | 2024-12-08 |        |       
-13        | The military industrial complex                        | politics | 2024-12-04 |        | narrow
+13        | The military–industrial complex                        | politics | 2024-12-04 |        | narrow
 11        | The Trump appeal                                       | politics | 2024-12-03 |        | narrow
 12        | The order of information                               | politics | 2024-12-03 |        |       
 10        | Touchscreens and smartphones                           | culture  | 2024-12-02 |        |       
@@ -31,8 +31,8 @@ let dataVariable = `
 19        | Ilham Omar's controversial comments about Somalia      | politics | 2024-01-28 |        | narrow
 37        | Bluesky accounts listing                               | other    |            |        | wide  
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        |       
-list      | Full page list                                         | personal |            |        | unset 
-index     | Full page list                                         | personal |            |        | unset 
+list      | Full page list                                         | personal |            |        |       
+index     | Full page list                                         | personal |            |        |       
           | Why get bottom surgery?                                | personal |            |        | narrow
 `;
 
@@ -88,21 +88,22 @@ function tocHighlighter() {
         if (tocLinks[i].getAttribute("href") == "#" + headingId) {
             tocLinks[i].classList.add("active-heading"); } } }
     currentHeading = headingId; }
-/*
-    body
-        #top
-            #header-wrapper
-                #header
-            #nav
-        #page-wrapper
-            #content-wrapper
+    /*
+        body
+          #top
+             #header-wrapper
+               #header
+             #nav
+          #page-wrapper
+             #content-wrapper
                 #main-content
-                    h1
-                    p
-                    p
-            #sidebar
-*/
-
+             #sidebar
+                #page-links
+                   a.nav-row
+                #toc
+                   #toc-links
+                    a.toc-row
+    */
 function pageLoad() {
     document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
     const footer = document.body.appendChild(document.createElement("footer"));
@@ -143,7 +144,6 @@ function pageLoad() {
     const pageTitle = document.title;
     const navPageLinks = { pins: [], recent: [], full: [] };
     const data = dataVariable.split("\n").map(row => row.split("|").map(cell => cell.trim()));
-    const full_post_list_container = document.getElementById("full-page-list");
     
     const pageWrapper = document.getElementById("page-wrapper");
     if (pageWrapper) {
@@ -174,15 +174,13 @@ function pageLoad() {
                 else {
                     if (currentPage || navPageLinks.recent.length < 11 ) {
                         navPageLinks.recent.push(entry); } }
-                if (full_post_list_container) {
-                    // if (date == "") { date = "---"; }
-                    navPageLinks.full.push(`
-                    <tr>
-                        <td><a href="${file}.html">${title}${icon}</a></td>
-                        <td>${category}</td>
-                        <td>${date}</td>
-                    </tr>`);
-                }
+                // if (date == "") { date = "---"; }
+                navPageLinks.full.push(`
+                <tr>
+                    <td><a href="${file}.html">${title}${icon}</a></td>
+                    <td>${category}</td>
+                    <td>${date}</td>
+                </tr>`);
             }
         }
         const sidebar = document.createElement("div");
@@ -210,12 +208,12 @@ function pageLoad() {
     }
     else console.error("layout.js: can't find #page-wrapper");
     
-    if (full_post_list_container) {
-        full_post_list_container.innerHTML =
-        `<table>
-            <tr><th>Title</th><th>Category</th><th>Date</th></tr>
-            ${navPageLinks.full.join("")}
-        </table>`; }
+    if (pageTitle == "Full page list") {
+        let table = document.getElementsByClassName("noq-table");
+        console.log(table);
+        if (table.length > 0)
+        table[0].innerHTML = `<tr><th>Title</th><th>Category</th><th>Date</th></tr>${navPageLinks.full.join("")}`; }
+    
     if (document.title === "") {
         document.title = "North of Queen"; }
     else {
