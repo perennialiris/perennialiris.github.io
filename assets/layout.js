@@ -5,7 +5,7 @@ let dataVariable = `
 32        | Politics fundamentals                                  | politics |            | pinned | wide  
 35        | Show and tell                                          | politics | 2025-02-05 |        |       
 16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |       
-34        | The Nazi salute                                        | politics | 2025-01-24 |        | narrow
+34        | The Nazi salute                                        | politics | 2025-01-24 |        |       
 30        | The appearance of intelligence                         | other    | 2025-01-18 |        | narrow
 29        | Date formats                                           | other    | 2025-01-11 |        | narrow
 28        | Therapy theory                                         | personal | 2025-01-09 |        |       
@@ -199,7 +199,7 @@ function pageLoad() {
             `<nav id="page-links">
                 ${navPageLinks.pins.join("")}
                 ${navPageLinks.recent.join("")}
-                <div class="more-posts"><a href="list.html">Full page list</a></div>
+                <div class="more-posts"><a href="list.html"><img class="icon" src="assets/drarrow.png" height="17" width="17">Full page list</a></div>
             </nav>`;
         if (tocArray.length > 1) {
             tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;

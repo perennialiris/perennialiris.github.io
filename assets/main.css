@@ -73,8 +73,10 @@ body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-
           #page-links .nav-row { padding: 4px 5px; display: flex; align-items: center; justify-content: space-between; }
           #page-links .nav-row.current-page { color: var(--grey_40); font-weight: 700; background-color: var(--grey_f0); }
           #page-links .nav-row img.icon { opacity: 0.5; }
-          #page-links .more-posts { text-align: right; }
-          #page-links .more-posts a { padding: 4px 5px; }
+          /* #page-links .more-posts { padding: 4px 5px; display: flex; justify-content: space-between; } */
+          #page-links .more-posts { margin-left: auto; }
+          #page-links .more-posts a { padding: 4px 5px; display: flex; align-items: center; gap: 1px; }
+          #page-links .more-posts img.icon { opacity: 0.6; }
         #toc { position: sticky; top: 0; padding: 10px 10px 42px; max-height: 100vh; box-sizing: border-box; overflow-y: hidden; scrollbar-width: thin; }
         #toc:hover { overflow-y: auto; }
           #toc-links { padding: 10px; display: flex; flex-direction: column; gap: 5px; }
@@ -159,6 +161,7 @@ body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-
           ol li::marker,
           .rendered_digit { font-family: Georgia Pro; }
           .citeref .rendered_digit { font-family: inherit; }
+          #citations ol li::marker { font-family: inherit; }
           
           #main-content blockquote .attribution { text-align: right; }
           #main-content blockquote .fine { color: var(--grey_90); }
