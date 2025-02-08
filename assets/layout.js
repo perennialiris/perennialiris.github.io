@@ -8,7 +8,7 @@ let dataVariable = `
 34        | The Nazi salute                                        | politics | 2025-01-24 |        | narrow
 30        | The appearance of intelligence                         | other    | 2025-01-18 |        | narrow
 29        | Date formats                                           | other    | 2025-01-11 |        | narrow
-28        | Therapy theory                                         | personal | 2025-01-09 |        | narrow
+28        | Therapy theory                                         | personal | 2025-01-09 |        |       
 31        | Reflections on Justin Trudeau                          | politics | 2025-01-08 |        | narrow
 25        | A beauty holding a bird                                | other    | 2024-12-23 |        | narrow
 24        | Enduring falsehoods about Warren, Clinton              | politics | 2024-12-19 |        |       
