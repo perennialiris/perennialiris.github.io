@@ -275,8 +275,8 @@ function interpreter(targetElement, widthSet) {
                 if (cells[0].charAt(0) == "^") {
                     cells[0] = `<span class="fine">${cells[0].substring(1)}</span>`; }
                 cells[0] = safeConvert(cells[0].trim());
-                cells[1] = cells[1].replace(/(\[.+?\])/g, `<span class="transcript-note">$1</span>`);
                 cells[1] = safeConvert(cells[1].trim());
+                cells[1] = cells[1].replace(/(\[.+?\])/g, `<span class="transcript-note">$1</span>`);
                 if (cells[1].charAt(0) == "^") {
                     cells[1] = `<span class="fine">${cells[1].substring(1)}</span>`; }
                 
@@ -367,7 +367,7 @@ function interpreter(targetElement, widthSet) {
     }
     targetElement.innerHTML = input.join("");
     
-    // function wrapElements(x) { let temp = document.getElementsByTagName(x); for (let i = 0; i < temp.length; i += 1) { wrapDigits(temp[i]); } } wrapElements("p"); wrapElements("li"); wrapElements("blockquote");
+    function wrapElements(x) { let temp = document.getElementsByTagName(x); for (let i = 0; i < temp.length; i += 1) { wrapDigits(temp[i]); } } wrapElements("p"); wrapElements("li"); wrapElements("blockquote");
 }
 
 
