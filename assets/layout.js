@@ -91,8 +91,7 @@ function tocHighlighter() {
     /*
         body
           #top
-             #header-wrapper
-               #header
+             #header
              #nav
           #page-wrapper
              #content-wrapper
@@ -112,7 +111,15 @@ function pageLoad() {
     
     const pageTop = document.getElementById("top");
     if (pageTop) {
-        pageTop.innerHTML = `<div id="header-wrapper"><header id="header"><a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a></header></div><div id="nav"><div id="hamburger"></div></div>`; }
+        pageTop.innerHTML =
+        `<header id="header">
+            <a href="index.html">
+                <img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png">
+            </a>
+        </header>
+        <div id="nav">
+            <div id="hamburger"></div>
+        </div>`; }
     else console.error("layout.js: can't find #top");
     
     const mainContent = document.getElementById("main-content");
@@ -158,7 +165,7 @@ function pageLoad() {
                 options  = cell[5];
                 
                 const pinned = (flags == "pinned");
-                let icon = (pinned) ? `<img class="icon" src="assets/pin.png" height="17" width="17">` : "";
+                let icon = (pinned) ? `<img class="icon" src="assets/pin2.png" height="17" width="17">` : "";
                 
                 let aClass = "nav-row";
                 let currentPage = (title == pageTitle.replace(/&rsquo;/g,"'"));
@@ -195,10 +202,10 @@ function pageLoad() {
                 <div class="more-posts"><a href="list.html">Full page list</a></div>
             </nav>`;
         if (tocArray.length > 1) {
-            // tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
+            tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
             sidebar.innerHTML +=
             `<nav id="toc">
-                <h3>Table of contents (this page)</h3>
+                <h3>This page, table of contents</h3>
                 <div id="toc-links">${tocArray.join("")}</div>
             </nav>`;
             if (!tocLinks) { tocLinks = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }

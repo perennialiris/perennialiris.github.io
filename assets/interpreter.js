@@ -19,6 +19,7 @@ function stdReplacements(inputString) {
         .replaceAll("\\", "&#92;")
         .replaceAll("\\(", "&lpar;")
         .replaceAll("\\)", "&rpar;")
+        .replaceAll("\\_", "&lowbar;")
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
         /*
@@ -43,6 +44,7 @@ function stdReplacements(inputString) {
         .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
         .replace(/'/g, "&rsquo;")
         
+        .replace(/__(.+?)__/g, "<u>$1</u>")
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
         .replaceAll("...", "&hellip;")
@@ -62,6 +64,19 @@ function safeConvert(input_string) {
     output += stdReplacements(input);
     return output;
 }
+function wrapDigits(targetElement) {
+    let input = targetElement.innerHTML, output = "";
+    while (true) {
+        const openTag = input.indexOf("<"), closeTag = input.indexOf(">");
+        if (openTag == -1 || closeTag == -1) { break; }
+        output += input.substring(0, openTag).replace(/(\d+)/g, "<span class='rendered_digit'>$1</span>");
+        output += input.substring(openTag, closeTag + 1);
+        input = input.substring(closeTag + 1);
+    }
+    output += input.replace(/(\d+)/g, "<span class='rendered_digit'>$1</span>");
+    targetElement.innerHTML = output;
+}
+
 
 /*  This one is for <code> and <div class="codeblock"> elements, where you
     don't want any formatting to apply. Run this before safeConvert */
@@ -256,13 +271,17 @@ function interpreter(targetElement, widthSet) {
             rows.shift();
             for (let j = 0; j < rows.length; j += 1) {
                 let cells = rows[j].split("|");
-                if (cells.length > 2) { console.error("{interpreter.js: d}"); }
-                for (let k = 0; k < cells.length; k += 1) {
-                    cells[k] = safeConvert(cells[k].trim());
-                    if (cells[k].charAt(0) == "^") {
-                        cells[k] = `<span class="fine">${cells[k].substring(1)}</span>`; }
-                    cells[k] = "<td>" + safeConvert(cells[k].trim()) + "</td>"; }
-                rows[j] = "<tr>" + cells.join("") + "</tr>"; }
+                if (cells.length > 2) { console.error("{interpreter.js: jyvthqblfs}"); }
+                if (cells[0].charAt(0) == "^") {
+                    cells[0] = `<span class="fine">${cells[0].substring(1)}</span>`; }
+                cells[0] = safeConvert(cells[0].trim());
+                cells[1] = cells[1].replace(/(\[.+?\])/g, `<span class="transcript-note">$1</span>`);
+                cells[1] = safeConvert(cells[1].trim());
+                if (cells[1].charAt(0) == "^") {
+                    cells[1] = `<span class="fine">${cells[1].substring(1)}</span>`; }
+                
+                rows[j] = "<tr><td>"+cells[0]+"</td><td>"+cells[1]+"</td></tr>";
+                }
             input[i] = `<table id="${"table" + table_num++}" class="transcript">${rows.join("")}</table>`;
             continue; }
         
@@ -347,6 +366,18 @@ function interpreter(targetElement, widthSet) {
             input[i] = `<p>${input[i]}</p>`; }
     }
     targetElement.innerHTML = input.join("");
+    
+    function wrapElements(x) {
+        let temp = document.getElementsByTagName(x);
+        for (let i = 0; i < temp.length; i += 1) {
+            wrapDigits(temp[i]);
+        }
+    }
+    wrapElements("p")
+    wrapElements("li")
+    wrapElements("blockquote")
 }
+
+
 
 
