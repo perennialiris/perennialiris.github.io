@@ -194,7 +194,7 @@ body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-
     #image-viewer-wrapper { z-index: 1; width: 100%; height: 100vh; background-color: #000c; position: fixed; left: 0; top: 0; display: none; align-items: center; justify-content: center; }
       #image-viewer { object-fit: contain; max-width: 90%; max-height: 90%; }
   
-  @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-  .fade-out { animation: fadeOut 1.4s forwards; }
+  @keyframes fadeOut { from { left: 0; opacity: 1; } to { top: 100%; } }
+  .fade-out { animation: fadeOut 1.8s forwards; }
 
 
