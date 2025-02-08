@@ -156,6 +156,7 @@ body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-
           #main-content .transcript,
           #main-content blockquote { font-family: Georgia,serif; line-height: 1.7; }
           
+          ol li::marker,
           .rendered_digit { font-family: Georgia Pro; }
           .citeref .rendered_digit { font-family: inherit; }
           
