@@ -367,15 +367,7 @@ function interpreter(targetElement, widthSet) {
     }
     targetElement.innerHTML = input.join("");
     
-    function wrapElements(x) {
-        let temp = document.getElementsByTagName(x);
-        for (let i = 0; i < temp.length; i += 1) {
-            wrapDigits(temp[i]);
-        }
-    }
-    wrapElements("p")
-    wrapElements("li")
-    wrapElements("blockquote")
+    // function wrapElements(x) { let temp = document.getElementsByTagName(x); for (let i = 0; i < temp.length; i += 1) { wrapDigits(temp[i]); } } wrapElements("p"); wrapElements("li"); wrapElements("blockquote");
 }
 
 

@@ -48,7 +48,7 @@ a { text-decoration: none; }
 #cover { pointer-events: none; }
 .nowrap { white-space: nowrap; }
 .is-sticky { position: sticky; top: 0; }
-.rendered_digit { color: green!important; }
+/* .rendered_digit { font-family: Georgia Pro } */
 
 html { scroll-padding-top: 60px; }
 body { color: var(--grey_30); font-size: 14px; font-family: system-ui; line-height: 1.3; height: 100vh; display: grid; grid-template-rows: auto 1fr 104px; }
@@ -152,8 +152,9 @@ body { color: var(--grey_30); font-size: 14px; font-family: system-ui; line-heig
           #main-content a.citeref { margin-left: 1px; font-family: Verdana,sans-serif; line-height: 1.3; vertical-align: top; font-size: 13px; }
           #main-content .fine { font-family: Roboto,sans-serif; color: var(--grey_60); font-size: 14px; }
           #main-content .fine * { font-family: inherit; font-size: inherit; }
-          #main-content p, .transcript,
+          #main-content p,
           #main-content li,
+          #main-content .transcript,
           #main-content blockquote { font-family: Georgia Pro,Georgia,serif; line-height: 1.7; }
           #main-content blockquote .attribution { text-align: right; }
           #main-content blockquote .fine { color: var(--grey_90); }
