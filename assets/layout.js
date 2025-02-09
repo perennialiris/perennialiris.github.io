@@ -180,7 +180,7 @@ function pageLoad() {
         // spacer.innerHTML = "<!-- look at me, I'm a div whose only job is to take up space over here on the right -->"
         sidebar.innerHTML = 
             `<nav id="page-links">
-                ${navPageLinks.pins.join("")}
+                ${navPageLinks.pins.join("")}<hr>
                 ${navPageLinks.recent.join("")}
                 <div class="more-posts"><a href="list.html">Full page list</a></div>
             </nav>`;
