@@ -41,18 +41,6 @@ let tableWidth;
 function alignTable(dataString, splitChar) {
     let table = dataString.split("\n").map(row => row.split(splitChar).map(cell => cell.trim()));
     tableWidth = Math.max(...table.map(row => row.length));
-    table.sort((a, b) => {
-        if (a.length >= tableWidth && b.length >= tableWidth) {
-            return b[3].length - a[3].length;
-        }})
-    .sort((a, b) => {
-        if (a.length >= tableWidth && b.length >= tableWidth) {
-            return parseInt(b[3].replace(/\D/g,"")) - parseInt(a[3].replace(/\D/g,""));
-        }})
-    .sort((a, b) => {
-        if (a.length >= tableWidth && b.length >= tableWidth) {
-            return b[4].length - a[4].length;
-        }});
     for (let column = 0; column < tableWidth; column += 1) {
         let cellWidth = 0;
         for (let i = 0; i < table.length; i += 1) {
@@ -185,11 +173,11 @@ function pageLoad() {
             }
         }
         const sidebar = document.createElement("div");
-        // pageWrapper.appendChild(sidebar);
-        pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
-        let spacer = pageWrapper.appendChild(document.createElement("div"));
-        spacer.innerHTML = "<!-- look at me, I'm a div whose only job is to take up space over here on the right -->"
         sidebar.id = "sidebar";
+        pageWrapper.appendChild(sidebar);
+        // pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
+        // let spacer = pageWrapper.appendChild(document.createElement("div"));
+        // spacer.innerHTML = "<!-- look at me, I'm a div whose only job is to take up space over here on the right -->"
         sidebar.innerHTML = 
             `<nav id="page-links">
                 ${navPageLinks.pins.join("")}
