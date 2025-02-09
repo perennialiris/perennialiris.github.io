@@ -90,8 +90,12 @@ body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-
           #main-content table { margin-top: 0.8em; }
           #main-content hr { margin: 1.3em 0; border: none; height: 1px; width: 100%; background-color: var(--grey_90); }
           #main-content p + ul,
-          #main-content p + ol { margin-top: 0.5em; }
-          #main-content li + li { margin-top: 0.3em; }
+          #main-content p + ol,
+          #main-content li + ol,
+          #main-content li + ul,
+          #main-content ol + li,
+          #main-content ul + li,
+          #main-content li + li { margin-top: 0.8em; }
           #main-content h1,
           #main-content  h2,
           #main-content   h3,

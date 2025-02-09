@@ -35,6 +35,7 @@ let dataVariable = `
 list      | Full page list                                         | personal |            |        |       
 index     |                                                        |          |            |        |       
           | People don't really have world views                   | personal |            |        |       
+20        | Israel notes                                           | politics |            |        | wide 
 `;
 
 let tableWidth;

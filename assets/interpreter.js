@@ -294,7 +294,7 @@ function interpreter(targetElement, widthSet) {
         if (input[i].startsWith("# ")) {
             const temp = input[i].substring(2).split("|");
             const title = temp[0].trim();
-            const titleId = title.replace(/<\/?(i|b)>/g, "").replace(/&amp;/g, "&").replace(/’/g, "'").replace(/&rsquo;/g, "'");
+            const titleId = title.replace(/<\/?(i|b)>/g, "").replace(/&amp;/g, "&").replace(/’/g, "'").replace(/&rsquo;/g, "'").replace(/&ndash;/g, "–").replace(/&mdash;/g, "—");
             if (temp.length == 2) {
                 const date = temp[1].trim();
                 input[i] = `<div class="title-box"><h1 class="noq-header" id="${titleId}">${title}</h1><div class="date-box">${date}</div></div>`; }
