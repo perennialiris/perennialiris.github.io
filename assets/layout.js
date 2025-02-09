@@ -113,7 +113,6 @@ function pageLoad() {
         interpreter(mainContent); }
     else console.error("layout.js: can't find #main-content");
     
-    // <img src="assets/favicon.ico">
     const contentWrapper = document.getElementById("content-wrapper");
     if (contentWrapper) {
         let contentFooter = contentWrapper.appendChild(document.createElement("div"));
