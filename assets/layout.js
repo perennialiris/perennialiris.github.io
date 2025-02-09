@@ -186,7 +186,8 @@ function pageLoad() {
         const sidebar = document.createElement("div");
         // pageWrapper.appendChild(sidebar);
         pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
-        pageWrapper.appendChild(document.createElement("div"));
+        let spacer = pageWrapper.appendChild(document.createElement("div"));
+        spacer.innerHTML = "<!-- look at me, I'm a div whose only job is to take up space over here on the right -->"
         sidebar.id = "sidebar";
         sidebar.innerHTML = 
             `<nav id="page-links">
