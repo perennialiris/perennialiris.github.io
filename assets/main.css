@@ -53,18 +53,18 @@ body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-
       #header a img { display: block; padding: 17px; width: 252px; height: 67px; filter: invert(1); }
     #nav { height: 24px; background-color: var(--dark_accent); }
   
-  #page-wrapper { width: 100%; max-width: 1920px; margin: 0 auto; height: 100%; display: flex; align-items: flex-start; justify-content: center; gap: 20px; }
-    #sidebar { border-left: 1px solid var(--grey_d0); width: var(--sidebar_width); min-width: var(--sidebar_width); box-sizing: border-box; }
+  #page-wrapper { width: 100%; max-width: 1920px; margin: 0 auto; height: 100%; display: flex; align-items: stretch; justify-content: center; gap: 20px; }
+    #sidebar { width: var(--sidebar_width); min-width: var(--sidebar_width); box-sizing: border-box; }
       #sidebar h3 { padding: 0 10px; font-size: 15px; color: var(--grey_50); font-weight: 700; }
       #sidebar a { color: var(--grey_50); }
       #sidebar a:hover { color: var(--grey_20); text-decoration: underline; }
-        #page-links { padding: 10px; display: flex; flex-direction: column; gap: 5px; }
+        #page-links { border-right: 1px solid var(--grey_d0); padding: 10px; display: flex; flex-direction: column; gap: 5px; }
           #page-links .nav-row { padding: 4px 5px; display: flex; align-items: center; justify-content: space-between; }
           #page-links .nav-row.current-page { color: var(--grey_40); font-weight: 700; background-color: var(--grey_f0); }
           #page-links .nav-row img.icon { opacity: 0.5; }
           #page-links .more-posts { margin-left: auto; }
           #page-links .more-posts a { padding: 4px 5px; display: flex; align-items: center; gap: 1px; }
-        #toc { position: sticky; top: 0; padding: 10px 10px 42px; max-height: 100vh; box-sizing: border-box; overflow-y: hidden; scrollbar-width: thin; }
+        #toc { border-right: 1px solid var(--grey_d0); position: sticky; top: 0; padding: 10px 10px 42px; max-height: 100vh; box-sizing: border-box; overflow-y: hidden; scrollbar-width: thin; }
         #toc:hover { overflow-y: auto; }
           #toc-links { padding: 10px; display: flex; flex-direction: column; gap: 5px; }
           #toc-links a { color: var(--grey_90); }

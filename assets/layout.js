@@ -174,8 +174,8 @@ function pageLoad() {
         }
         const sidebar = document.createElement("div");
         sidebar.id = "sidebar";
-        pageWrapper.appendChild(sidebar);
-        // pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
+        // pageWrapper.appendChild(sidebar);
+        pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
         // let spacer = pageWrapper.appendChild(document.createElement("div"));
         // spacer.innerHTML = "<!-- look at me, I'm a div whose only job is to take up space over here on the right -->"
         sidebar.innerHTML = 
