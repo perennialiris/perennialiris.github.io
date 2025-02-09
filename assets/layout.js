@@ -5,7 +5,7 @@ let dataVariable = `
 32        | Politics fundamentals                                  | politics |            | pinned | wide  
 35        | Show and tell (Lex Fridman)                            | politics | 2025-02-05 |        |       
 16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |       
-34        | The Nazi salute                                        | politics | 2025-01-24 |        |       
+34        | The Nazi salute                                        | politics | 2025-01-24 |        |  
 30        | The appearance of intelligence                         | other    | 2025-01-18 |        | narrow
 29        | Date formats                                           | other    | 2025-01-11 |        | narrow
 28        | Therapy theory                                         | personal | 2025-01-09 |        |       
@@ -187,7 +187,7 @@ function pageLoad() {
         const sidebar = document.createElement("div");
         // pageWrapper.appendChild(sidebar);
         pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
-        // pageWrapper.appendChild(document.createElement("div"));
+        pageWrapper.appendChild(document.createElement("div"));
         sidebar.id = "sidebar";
         sidebar.innerHTML = 
             `<nav id="page-links">
