@@ -210,7 +210,8 @@ function interpreter(targetElement, widthSet) {
         .trim()
         .split("\n\n");
     
-    let table_num = 1;
+    let beforeTitle = false;
+    let tableNum = 1;
     for (let i = 0; i < input.length; i += 1) {
         
         if (input[i].startsWith("\\")) {
@@ -262,7 +263,7 @@ function interpreter(targetElement, widthSet) {
                 for (let k = 0; k < cells.length; k += 1) {
                     cells[k] = "<td>" + safeConvert(cells[k].trim()) + "</td>"; }
                 rows[j] = "<tr>" + cells.join("") + "</tr>"; }
-            input[i] = `<table id="${"table" + table_num++}" class="noq-table">${rows.join("")}</table>`;
+            input[i] = `<table id="${"table" + tableNum++}" class="noq-table">${rows.join("")}</table>`;
             continue; }
         
         /* ---------------------- transcript ---------------------- */
@@ -282,7 +283,7 @@ function interpreter(targetElement, widthSet) {
                 
                 rows[j] = "<tr><td>"+cells[0]+"</td><td>"+cells[1]+"</td></tr>";
                 }
-            input[i] = `<table id="${"table" + table_num++}" class="transcript">${rows.join("")}</table>`;
+            input[i] = `<table id="${"table" + tableNum++}" class="transcript">${rows.join("")}</table>`;
             continue; }
         
         /* -------------------------------------------------------- */
@@ -291,24 +292,16 @@ function interpreter(targetElement, widthSet) {
         /* ------------------------ headers ----------------------- */
         /* ------ h1 ------ */
         if (input[i].startsWith("# ")) {
-            /* .title-box */
-            let temp = input[i].split("|");
-            if (temp.length > 2) { console.error("{interpreter.js: c}"); }
-            
-            let title = temp[0].substring(1).trim();
-            let titleId = title.replace(/<\/?(i|b)>/g, "").replace(/&amp;/g, "&").replace(/’/g, "'").replace(/&rsquo;/g, "'");
-            
+            const temp = input[i].substring(2).split("|");
+            const title = temp[0].trim();
+            const titleId = title.replace(/<\/?(i|b)>/g, "").replace(/&amp;/g, "&").replace(/’/g, "'").replace(/&rsquo;/g, "'");
             if (temp.length == 2) {
-                let date = temp[1].trim();
+                const date = temp[1].trim();
                 input[i] = `<div class="title-box"><h1 class="noq-header" id="${titleId}">${title}</h1><div class="date-box">${date}</div></div>`; }
             else {
-                input[i] = `<h1 class="noq-header" id="${titleId}">${title}</h1>`; }
-            
-            title = title.replace(/<\/?(i|b)>/g, "")
-                .replace(/&amp;/g, "&").replace(/’/g, "'")
-                .replace(/&rsquo;/g, "'");
-            if (document.title == "") {
-                document.title = titleId; }
+                input[i] = `<h1 class="title-box" id="${titleId}">${title}</h1>`;
+            }
+            if (document.title == "") { document.title = titleId; }
             tocArray.push(`<a class="toc-row h1" href="#${titleId}">${titleId}</a>`);
             continue; }
         /* ------ h2 ------ */

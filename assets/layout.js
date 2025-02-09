@@ -3,7 +3,7 @@ let dataVariable = `
 2025-news | News 2025                                              | politics |            | pinned | wide  
 27        | Sex, gender, & transsexuals                            | politics |            | pinned | wide  
 32        | Politics fundamentals                                  | politics |            | pinned | wide  
-35        | Show and tell                                          | politics | 2025-02-05 |        |       
+35        | Show and tell (Lex Fridman)                            | politics | 2025-02-05 |        |       
 16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |       
 34        | The Nazi salute                                        | politics | 2025-01-24 |        |       
 30        | The appearance of intelligence                         | other    | 2025-01-18 |        | narrow
@@ -25,14 +25,14 @@ let dataVariable = `
 6         | Mark Robinson                                          | politics | 2024-11-13 |        | narrow
 5         | Types of masculinity                                   | culture  | 2024-11-08 |        |       
 4         | Anime reviews                                          | culture  | 2024-11-02 |        |       
-3         | Poor things                                            | culture  | 2024-10-31 |        |       
+3         | Poor things (2023 film)                                | culture  | 2024-10-31 |        |       
 1         | Language                                               | personal | 2024-10-29 |        |       
 2         | The trans prison stats argument                        | politics | 2024-10-19 |        |       
 19        | Ilham Omar's controversial comments about Somalia      | politics | 2024-01-28 |        | narrow
 37        | Bluesky accounts listing                               | other    |            |        | wide  
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        |       
 list      | Full page list                                         | personal |            |        |       
-index     | Full page list                                         | personal |            |        |       
+index     |                                                        |          |            |        |       
           | Why get bottom surgery?                                | personal |            |        | narrow
 `;
 
@@ -74,7 +74,7 @@ let tocLinks, sectionHeadings, tocUpdateFlag = true, currentHeading = "";
 function tocHighlighter() {
     if (!tocUpdateFlag) { return; }
     tocUpdateFlag = false;
-    setTimeout(() => { tocUpdateFlag = true; }, 100);
+    setTimeout(() => { tocUpdateFlag = true; }, 50);
     
     let headingId;
     for (let i = 0; i < sectionHeadings.length; i += 1) {
@@ -88,21 +88,7 @@ function tocHighlighter() {
         if (tocLinks[i].getAttribute("href") == "#" + headingId) {
             tocLinks[i].classList.add("active-heading"); } } }
     currentHeading = headingId; }
-    /*
-        body
-          #top
-             #header
-             #nav
-          #page-wrapper
-             #content-wrapper
-                #main-content
-             #sidebar
-                #page-links
-                   a.nav-row
-                #toc
-                   #toc-links
-                    a.toc-row
-    */
+
 function pageLoad() {
     document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
     const footer = document.body.appendChild(document.createElement("footer"));
@@ -148,58 +134,66 @@ function pageLoad() {
             citations.innerHTML = `<div>things linked to on this page:</div><ol>${citationArray.join("")}</ol>`; } }
     else console.error("layout.js: can't find #content-wrapper");
     
-    const pageTitle = document.title;
-    const navPageLinks = { pins: [], recent: [], full: [] };
-    const data = dataVariable.split("\n").map(row => row.split("|").map(cell => cell.trim()));
+    let gettingFileName = location.href.split("/");
+    while (gettingFileName[gettingFileName.length - 1] === "") { gettingFileName.pop(); }
     
+    const fileName = gettingFileName.pop().replace(/\.html$/, "");
+    
+    const navPageLinks = { pins: [], recent: [], full: [] };
+    const dataRows = dataVariable.split("\n");
     const pageWrapper = document.getElementById("page-wrapper");
     if (pageWrapper) {
-        for (let i = 0; i < data.length; i += 1) {
-            let cell = data[i];
-            if (cell.length >= 5) {
-                let file = cell[0],
-                title    = cell[1],
-                category = cell[2],
-                date     = cell[3],
-                flags    = cell[4],
-                options  = cell[5];
+        for (let i = 0; i < dataRows.length; i += 1) {
+            let cells = dataRows[i].split("|").map(cell => cell.trim());
+            if (cells.length >= 5) {
+                let row_fileName = cells[0],
+                    row_name     = cells[1],
+                    row_category = cells[2],
+                    row_date     = cells[3],
+                    row_flags    = cells[4],
+                    row_options  = cells[5];
                 
-                const pinned = (flags == "pinned");
-                let icon = (pinned) ? `<img class="icon" src="assets/pin2.png" height="17" width="17">` : "";
+                const isPinned = (row_flags == "pinned");
+                let pinIcon = (isPinned) ? `<img class="icon" src="assets/pin2.png" height="17" width="17">` : "";
                 
-                let aClass = "nav-row";
-                let currentPage = (title == pageTitle.replace(/&rsquo;/g,"'"));
-                if (currentPage) {
-                    aClass += " current-page";
-                    if (options != "") {
-                        document.body.classList.add(...options.split(" ")); } }
-                if (file == "") { continue; }
-                if (file == "list") { continue; }
-                if (file == "index") { continue; }
-                let entry = `<a href="${file}.html" class="${aClass}">${title}${icon}</a>`;
-                if (pinned) { navPageLinks.pins.push(entry); }
+                let row_class = "nav-row";
+                let isCurrentPage = (row_fileName == fileName);
+                if (isCurrentPage) {
+                    row_class += " current-page";
+                    if (row_options != "") { document.body.classList.add(...row_options.split(" ")); }
+                }
+                
+                if (row_fileName == "") { continue; }
+                if (row_fileName == "index") { continue; }
+                if (row_fileName == "list") { continue; }
+                
+                let sidebarLink = `<a href="${row_fileName}.html" class="${row_class}">${row_name}${pinIcon}</a>`;
+                if (isPinned) {
+                    navPageLinks.pins.push(sidebarLink); }
                 else {
-                    if (currentPage || navPageLinks.recent.length < 12 ) {
-                        navPageLinks.recent.push(entry); } }
-                // if (date == "") { date = "---"; }
+                    if (isCurrentPage || navPageLinks.recent.length < 12 ) {
+                        navPageLinks.recent.push(sidebarLink); }
+                }
+                
+                if (row_date == "") { row_date = "---"; }
                 navPageLinks.full.push(`
                 <tr>
-                    <td><a href="${file}.html">${title}${icon}</a></td>
-                    <td>${category}</td>
-                    <td>${date}</td>
+                    <td><a href="${row_fileName}.html">${row_name}${pinIcon}</a></td>
+                    <td>${row_category}</td>
+                    <td>${row_date}</td>
                 </tr>`);
             }
         }
         const sidebar = document.createElement("div");
-        pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
         // pageWrapper.appendChild(sidebar);
+        pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
         // pageWrapper.appendChild(document.createElement("div"));
         sidebar.id = "sidebar";
         sidebar.innerHTML = 
             `<nav id="page-links">
                 ${navPageLinks.pins.join("")}
                 ${navPageLinks.recent.join("")}
-                <div class="more-posts"><a href="list.html"><img class="icon" src="assets/drarrow.png" height="17" width="17">Full page list</a></div>
+                <div class="more-posts"><a href="list.html">Full page list</a></div>
             </nav>`;
         if (tocArray.length > 1) {
             tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
@@ -215,7 +209,7 @@ function pageLoad() {
     }
     else console.error("layout.js: can't find #page-wrapper");
     
-    if (pageTitle == "Full page list") {
+    if (document.title == "Full page list") {
         let table = document.getElementsByClassName("noq-table");
         console.log(table);
         if (table.length > 0)
@@ -229,7 +223,9 @@ function pageLoad() {
     const cover = document.getElementById("cover");
     if (cover) {
         cover.classList.add("fade-out");
-        cover.addEventListener("animationend", () => { cover.remove(); }); }
+        cover.addEventListener("animationend", () => { cover.remove(); });
+        // setTimeout(()=>cover.remove(), 50)
+    }
     else console.error("layout.js: can't find #cover");
 }
 
