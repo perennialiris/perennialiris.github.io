@@ -3,6 +3,7 @@ let dataVariable = `
 2025-news | News 2025                                              | politics |            | pinned | wide  
 27        | Sex, gender, & transsexuals                            | politics |            | pinned | wide  
 32        | Politics fundamentals                                  | politics |            | pinned | wide  
+17        | Why get bottom surgery?                                | culture  | 2025-02-09 |        |       
 35        | Show and tell (Lex Fridman)                            | politics | 2025-02-05 |        |       
 16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |       
 34        | The Nazi salute                                        | politics | 2025-01-24 |        |  
@@ -28,12 +29,12 @@ let dataVariable = `
 3         | Poor things (2023 film)                                | culture  | 2024-10-31 |        |       
 1         | Language                                               | personal | 2024-10-29 |        |       
 2         | The trans prison stats argument                        | politics | 2024-10-19 |        |       
-19        | Ilham Omar's controversial comments about Somalia      | politics | 2024-01-28 |        | narrow
+19        | Ilham Omar's controversial comments about Somalia      | politics | 2024-01-28 |        |       
 37        | Bluesky accounts listing                               | other    |            |        | wide  
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        |       
 list      | Full page list                                         | personal |            |        |       
 index     |                                                        |          |            |        |       
-          | Why get bottom surgery?                                | personal |            |        | narrow
+          | People don't really have world views                   | personal |            |        |       
 `;
 
 let tableWidth;
@@ -224,11 +225,11 @@ function pageLoad() {
     if (cover) {
         cover.classList.add("fade-out");
         cover.addEventListener("animationend", () => { cover.remove(); });
-        // setTimeout(()=>cover.remove(), 50)
     }
     else console.error("layout.js: can't find #cover");
 }
 
 window.addEventListener("load", pageLoad);
+
 
 

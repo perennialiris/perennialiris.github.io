@@ -17,7 +17,7 @@ c00020
 :root {
   --highlight: #d0d0d0;
   --accent: #c00020;
-  --dark_accent: #603030;
+  --dark_accent: #572a2e;
   --grey_f0: #f0f0f0;
   --grey_e0: #e0e0e0;
   --grey_d0: #d0d0d0;
@@ -54,7 +54,7 @@ body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-
     #nav { height: 24px; background-color: var(--dark_accent); }
   
   #page-wrapper { width: 100%; max-width: 1920px; margin: 0 auto; height: 100%; display: flex; align-items: stretch; justify-content: space-between; }
-  #content-wrapper + div { width: clamp(0px, calc(0.7 * calc(100% - var(--content_width) - var(--sidebar_width))), 480px); }
+  #content-wrapper + div { width: clamp(0px, calc(0.7 * calc(100% - var(--content_width) - var(--sidebar_width))), 500px); }
     #sidebar { width: var(--sidebar_width); min-width: var(--sidebar_width); box-sizing: border-box; }
       #sidebar h3 { padding: 0 10px; font-size: 15px; color: var(--grey_50); font-weight: 700; }
       #sidebar a { color: var(--grey_50); }
@@ -162,9 +162,7 @@ body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-
   @keyframes fadeOut {
     from { opacity: 1; }
     to { opacity: 0; }
-    /* from { top: 0; } */
-    /* to { top: 100vh; } */
   }
-  .fade-out { animation: fadeOut 1.4s forwards; }
+  .fade-out { animation: fadeOut 1.8s forwards; }
 
 
