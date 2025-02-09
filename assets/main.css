@@ -56,7 +56,7 @@ body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-
   #page-wrapper { width: 100%; max-width: 1920px; margin: 0 auto; height: 100%; display: flex; align-items: stretch; justify-content: center; gap: 20px; }
     #sidebar { width: var(--sidebar_width); min-width: var(--sidebar_width); box-sizing: border-box; }
       #sidebar h3 { padding: 0 10px; font-size: 15px; color: var(--grey_50); font-weight: 700; }
-      #sidebar hr { margin: 2px 0; border: none; height: 1px; width: 100%; background-color: var(--grey_90); }
+      #sidebar hr { margin: 2px 0; border: none; height: 1px; width: 100%; background-color: var(--grey_d0); }
       #sidebar a { color: var(--grey_50); }
       #sidebar a:hover { color: var(--grey_20); text-decoration: underline; }
         #page-links { border-right: 1px solid var(--grey_d0); padding: 10px; display: flex; flex-direction: column; gap: 5px; }
