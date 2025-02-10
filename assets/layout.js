@@ -177,12 +177,12 @@ function pageLoad() {
         sidebar.id = "sidebar";
         // pageWrapper.appendChild(sidebar);
         pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
-        // let spacer = pageWrapper.appendChild(document.createElement("div"));
-        // spacer.innerHTML = "<!-- look at me, I'm a div whose only job is to take up space over here on the right -->"
+        let spacer = pageWrapper.appendChild(document.createElement("div"));
+        spacer.innerHTML = "<!-- look at me, I'm a div whose only job is to take up space over here on the right -->"; spacer.id = "right-spacer";
         sidebar.innerHTML = 
             `<nav id="page-links">
                 ${navPageLinks.pins.join("")}<hr>
-                ${navPageLinks.recent.join("")}
+                ${navPageLinks.recent.join("")}<hr>
                 <div class="more-posts"><a href="list.html">Full page list</a></div>
             </nav>`;
         if (tocArray.length > 1) {

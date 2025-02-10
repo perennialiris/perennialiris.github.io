@@ -48,24 +48,25 @@ html { scroll-padding-top: 60px; }
 body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-family: system-ui; line-height: 1.3; height: 100vh; display: grid; grid-template-rows: auto 1fr 104px; }
   #top { width: 100%; height: 125px; background-color: #111; }
     #header { height: 101px; }
-      #header a { display: block; margin: 0 auto; width: 286px; }
+      #header a { display: block; margin: 0 auto; width: calc(var(--content_width) * 0.8); }
       #header a:hover { opacity: 0.8; }
       #header a img { display: block; padding: 17px; width: 252px; height: 67px; filter: invert(1); }
     #nav { height: 24px; background-color: var(--dark_accent); }
   
-  #page-wrapper { width: 100%; max-width: 1920px; margin: 0 auto; height: 100%; display: flex; align-items: stretch; justify-content: center; gap: 20px; }
+  #page-wrapper { width: 100%; max-width: 1920px; margin: 0 auto; height: 100%; display: flex; align-items: stretch; justify-content: space-between; gap: 20px; }
+  #right-spacer { width: calc(0.5 * calc(100% - var(--content_width) - var(--sidebar_width))); }
     #sidebar { width: var(--sidebar_width); min-width: var(--sidebar_width); box-sizing: border-box; }
       #sidebar h3 { padding: 0 10px; font-size: 15px; color: var(--grey_50); font-weight: 700; }
       #sidebar hr { margin: 2px 0; border: none; height: 1px; width: 100%; background-color: var(--grey_d0); }
       #sidebar a { color: var(--grey_50); }
       #sidebar a:hover { color: var(--grey_20); text-decoration: underline; }
-        #page-links { border-right: 1px solid var(--grey_d0); padding: 10px; display: flex; flex-direction: column; gap: 5px; }
+        #page-links { padding: 10px; display: flex; flex-direction: column; gap: 5px; }
           #page-links .nav-row { padding: 4px 5px; display: flex; align-items: center; justify-content: space-between; }
           #page-links .nav-row.current-page { color: var(--grey_40); font-weight: 700; background-color: var(--grey_f0); }
           #page-links .nav-row img.icon { opacity: 0.5; }
           #page-links .more-posts { margin-left: auto; }
           #page-links .more-posts a { padding: 4px 5px; display: flex; align-items: center; gap: 1px; }
-        #toc { border-right: 1px solid var(--grey_d0); position: sticky; top: 0; padding: 10px 10px 42px; max-height: 100vh; box-sizing: border-box; overflow-y: hidden; scrollbar-width: thin; }
+        #toc { position: sticky; top: 0; padding: 10px 10px 42px; max-height: 100vh; box-sizing: border-box; overflow-y: hidden; scrollbar-width: thin; }
         #toc:hover { overflow-y: auto; }
           #toc-links { padding: 10px; display: flex; flex-direction: column; gap: 5px; }
           #toc-links a { color: var(--grey_90); }
@@ -95,7 +96,7 @@ body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-
           #main-content li + ul,
           #main-content ol + li,
           #main-content ul + li,
-          #main-content li + li { margin-top: 0.8em; }
+          #main-content li + li { margin-top: 0.5em; }
           #main-content h1,
           #main-content  h2,
           #main-content   h3,
