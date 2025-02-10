@@ -6,7 +6,7 @@ let dataVariable = `
 17        | Why get bottom surgery?                                | culture  | 2025-02-09 |        |       
 35        | Show and tell (Lex Fridman)                            | politics | 2025-02-05 |        |       
 16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |       
-34        | The Nazi salute                                        | politics | 2025-01-24 |        |  
+34        | The Nazi salute                                        | politics | 2025-01-24 |        | narrow
 30        | The appearance of intelligence                         | other    | 2025-01-18 |        | narrow
 29        | Date formats                                           | other    | 2025-01-11 |        | narrow
 28        | Therapy theory                                         | personal | 2025-01-09 |        |       
@@ -111,7 +111,7 @@ function pageLoad() {
             <div>
                 <img src="assets/favicon.ico">
                 <div>
-                    <p><span style="color:var(--accent)">North of Queen</span> is my personal repo for things I write. I work alone and have no association with any other person or organization.</p><p>For more info about me, see <a href="index.html">here</a>.</p>
+                    <p><span style="color:var(--light_accent)">North of Queen</span> is my personal repo for things I write. I work alone and have no association with any other person or organization.</p><p>For more info about me, see <a href="index.html">here</a>.</p>
                 </div>
             </div>`;
         
@@ -149,7 +149,7 @@ function pageLoad() {
                 let isCurrentPage = (row_fileName == fileName);
                 if (isCurrentPage) {
                     row_class += " current-page";
-                    if (row_options != "") { document.body.classList.add(...row_options.split(" ")); }
+                    if (row_options != "") { pageWrapper.classList.add(...row_options.split(" ")); }
                 }
                 
                 if (row_fileName == "") { continue; }
@@ -177,12 +177,11 @@ function pageLoad() {
         sidebar.id = "sidebar";
         // pageWrapper.appendChild(sidebar);
         pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
-        let spacer = pageWrapper.appendChild(document.createElement("div"));
-        spacer.innerHTML = "<!-- look at me, I'm a div whose only job is to take up space over here on the right -->"; spacer.id = "right-spacer";
+        // let right = pageWrapper.appendChild(document.createElement("div")); right.id = "right";
         sidebar.innerHTML = 
             `<nav id="page-links">
-                ${navPageLinks.pins.join("")}<hr>
-                ${navPageLinks.recent.join("")}<hr>
+                ${navPageLinks.pins.join("")}
+                ${navPageLinks.recent.join("")}
                 <div class="more-posts"><a href="list.html">Full page list</a></div>
             </nav>`;
         if (tocArray.length > 1) {

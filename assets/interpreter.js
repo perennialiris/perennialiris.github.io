@@ -218,10 +218,15 @@ function interpreter(targetElement, widthSet) {
             input[i] = input[i].substring(1);
             continue; }
         
-        let smallPrint = false;
+        let dropCap = false;
+        let finePrint = false;
         if (input[i].startsWith("^")) {
-            smallPrint = true;
-            input[i] = input[i].substring(1); }
+            finePrint = true;
+            input[i] = input[i].substring(1);
+        } else if (input[i].startsWith("$")) {
+            dropCap = true;
+            input[i] = input[i].substring(1);
+        }
         
         if (input[i] == "***" || input[i] == "---") {
             input[i] = "<hr>";
@@ -346,16 +351,18 @@ function interpreter(targetElement, widthSet) {
         /* ------------------------ lists ------------------------- */
         if (input[i].startsWith("* ") || input[i].startsWith("- ") || /^\d+\./.test(input[i])) {
             input[i] = listParser(input[i]);
-            if (smallPrint) {
+            if (finePrint) {
                 if (input[i].substring(0, 3) != "<ol" && input[i].substring(0, 3) != "<ul") console.error("{interpreter.js: b}")
                 input[i] = input[i].substring(0, 3) + " class=\"fine\"" + input[i].substring(3); }
             continue; }
         input[i] = input[i].replace(/\n/g, "<br>");
         if (input[i] == "") { continue; }
         
-        if (smallPrint) {
-            input[i] = `<p class="fine">${input[i]}</p>`; }
-        else {
+        if (finePrint) {
+            input[i] = `<p class="fine">${input[i]}</p>`;
+        } else if (dropCap) {
+            input[i] = `<p class="drop-cap">${input[i]}</p>`;
+        } else {
             input[i] = `<p>${input[i]}</p>`; }
     }
     targetElement.innerHTML = input.join("");
