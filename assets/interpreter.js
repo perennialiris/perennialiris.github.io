@@ -291,6 +291,12 @@ function interpreter(targetElement, widthSet) {
             input[i] = `<table id="${"table" + tableNum++}" class="transcript">${rows.join("")}</table>`;
             continue; }
         
+        /* -------------- other places I posted this -------------- */
+        if (input[i].startsWith("|see-also")) {
+            
+            input[i] = `<br><p><i>This was also posted here:</i><br>${input[i].split("\n").splice(1).map(c => `<a style="color:#505050" href="${c}" target="_blank">${c}</a>`).join("<br>")}</p>`;
+            continue; }
+        
         /* -------------------------------------------------------- */
         input[i] = safeConvert(input[i]);
         

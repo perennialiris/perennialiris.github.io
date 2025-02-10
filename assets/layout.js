@@ -35,7 +35,7 @@ let dataVariable = `
 list      | Full page list                                         | personal |            |        |       
 index     |                                                        |          |            |        |       
           | People don't really have world views                   | personal |            |        |       
-20        | Israel notes                                           | politics |            |        | wide 
+20        | Israel notes                                           | politics |            |        | wide  
 `;
 
 let tableWidth;
@@ -94,31 +94,30 @@ function pageLoad() {
             </a>
         </header>
         <div id="nav">
-            <div id="hamburger"></div>
         </div>`; }
     else console.error("layout.js: can't find #top");
     
-    const mainContent = document.getElementById("main-content");
-    if (mainContent) {
-        interpreter(mainContent); }
-    else console.error("layout.js: can't find #main-content");
+    const main = document.getElementById("main");
+    if (main) {
+        interpreter(main); }
+    else console.error("layout.js: can't find #main");
     
-    const contentWrapper = document.getElementById("content-wrapper");
-    if (contentWrapper) {
-        let contentFooter = contentWrapper.appendChild(document.createElement("div"));
+    const content = document.getElementById("content");
+    if (content) {
+        let contentFooter = content.appendChild(document.createElement("div"));
         contentFooter.id = "content-footer";
         contentFooter.innerHTML = `
             <div>
                 <img src="assets/favicon.ico">
                 <div>
-                    <p><span style="color:var(--light_accent)">North of Queen</span> is my personal repo for things I write. I work alone and have no association with any other person or organization.</p><p>For more info about me, see <a href="index.html">here</a>.</p>
+                    <p><span style="color:var(--pale_accent)">North of Queen</span> is my personal repo for things I write. I work alone and have no association with any other person or organization.</p><p>For more info about me, see <a href="index.html">here</a>.</p>
                 </div>
             </div>`;
         
         if (citationArray.length > 0) {
             for (let i = 0; i < citationArray.length; i += 1) {
                 citationArray[i] = `<li><a href="${citationArray[i]}">${citationArray[i]}</a></li>`; }
-            let citations = contentWrapper.appendChild(document.createElement("div"));
+            let citations = content.appendChild(document.createElement("div"));
             citations.id = "citations";
             citations.innerHTML = `<div>things linked to on this page:</div><ol>${citationArray.join("")}</ol>`; } }
     else console.error("layout.js: can't find #content-wrapper");
@@ -130,8 +129,8 @@ function pageLoad() {
     
     const navPageLinks = { pins: [], recent: [], full: [] };
     const dataRows = dataVariable.split("\n");
-    const pageWrapper = document.getElementById("page-wrapper");
-    if (pageWrapper) {
+    const page = document.getElementById("page");
+    if (page) {
         for (let i = 0; i < dataRows.length; i += 1) {
             let cells = dataRows[i].split("|").map(cell => cell.trim());
             if (cells.length >= 5) {
@@ -149,7 +148,12 @@ function pageLoad() {
                 let isCurrentPage = (row_fileName == fileName);
                 if (isCurrentPage) {
                     row_class += " current-page";
-                    if (row_options != "") { pageWrapper.classList.add(...row_options.split(" ")); }
+                    if (row_options != "") {
+                        page.classList.add(...row_options.split(" "));
+                        if (pageTop) {
+                            pageTop.classList.add(...row_options.split(" "));
+                        }
+                    }
                 }
                 
                 if (row_fileName == "") { continue; }
@@ -173,12 +177,8 @@ function pageLoad() {
                 </tr>`);
             }
         }
-        const sidebar = document.createElement("div");
-        sidebar.id = "sidebar";
-        // pageWrapper.appendChild(sidebar);
-        pageWrapper.insertBefore(sidebar, pageWrapper.firstChild);
-        // let right = pageWrapper.appendChild(document.createElement("div")); right.id = "right";
-        sidebar.innerHTML = 
+        const left = document.getElementById("left");
+        left.innerHTML = 
             `<nav id="page-links">
                 ${navPageLinks.pins.join("")}
                 ${navPageLinks.recent.join("")}
@@ -186,7 +186,7 @@ function pageLoad() {
             </nav>`;
         if (tocArray.length > 1) {
             tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
-            sidebar.innerHTML +=
+            left.innerHTML +=
             `<nav id="toc">
                 <h3>This page, table of contents</h3>
                 <div id="toc-links">${tocArray.join("")}</div>
@@ -196,7 +196,7 @@ function pageLoad() {
             window.addEventListener("scroll", tocHighlighter); }
         // else { document.getElementById("page-links").classList.add("is-sticky"); }
     }
-    else console.error("layout.js: can't find #page-wrapper");
+    else console.error("layout.js: can't find #page");
     
     if (document.title == "Full page list") {
         let table = document.getElementsByClassName("noq-table");
