@@ -48,7 +48,7 @@ html { scroll-padding-top: 60px; }
 body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-family: system-ui; line-height: 1.3; height: 100vh; display: grid; grid-template-rows: auto 1fr 104px; }
   #top { width: 100%; height: 125px; background-color: #111; }
     #header { height: 101px; }
-      #header a { display: block; margin: 0 auto; width: calc(var(--content_width) * 0.5); }
+      #header a { display: block; margin: 0 auto; width: 540px; }
       #header a:hover { opacity: 0.8; }
       #header a img { display: block; padding: 17px; width: 252px; height: 67px; filter: invert(1); }
     #nav { height: 24px; background-color: var(--dark_accent); }
@@ -101,7 +101,7 @@ body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-
           #main-content  h2,
           #main-content   h3,
           #main-content    h4 { font-family: Inter,sans-serif; margin-top: 1em; line-height: 1.3; font-weight: 400; }
-          #main-content h1 { font-size: 35px; }
+          #main-content h1 { font-size: 31px; }
           #main-content  h2 { font-size: 25px; }
           #main-content   h3 { font-size: 19px; }
           #main-content    h4 { font-size: 17px; }
