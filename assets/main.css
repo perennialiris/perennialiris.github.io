@@ -104,7 +104,7 @@ body { text-underline-offset: 2px; color: var(--grey_30); font-size: 14px; font-
           #main-content h1 { font-size: 31px; }
           #main-content  h2 { font-size: 25px; }
           #main-content   h3 { font-size: 19px; }
-          #main-content    h4 { font-size: 17px; }
+          #main-content    h4 { font-size: 15px; }
           #main-content .title-box h1 { margin: 0; }
           #main-content .title-box .date-box { color: var(--grey_50); white-space: nowrap; font-family: Roboto,sans-serif; }
           #main-content .image-box { display: flex; justify-content: space-around; max-width: 100%; gap: 8px; overflow: hidden; align-items: center; }
