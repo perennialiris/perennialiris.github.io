@@ -51,96 +51,6 @@ function stdReplacements(inputString) {
     return output;
 }
 
-/* This is a general parser I run all input through. It safely ignores
-   anything <inside> of tags, with the same logic as wrapDigits */
-function safeConvert(input_string) {
-    let input = input_string, output = "";
-    while (true) {
-        let openTag = input.indexOf("<"), closeTag = input.indexOf(">");
-        if (openTag == -1 || closeTag == -1) break;
-        output += stdReplacements(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
-        input = input.substring(closeTag + 1);
-    }
-    output += stdReplacements(input);
-    return output;
-}
-function wrapDigits(targetElement) {
-    let input = targetElement.innerHTML, output = "";
-    while (true) {
-        const openTag = input.indexOf("<"), closeTag = input.indexOf(">");
-        if (openTag == -1 || closeTag == -1) { break; }
-        output += input.substring(0, openTag).replace(/(\d+)/g, "<span class='rendered_digit'>$1</span>");
-        output += input.substring(openTag, closeTag + 1);
-        input = input.substring(closeTag + 1);
-    }
-    output += input.replace(/(\d+)/g, "<span class='rendered_digit'>$1</span>");
-    targetElement.innerHTML = output;
-}
-
-
-/*  This one is for <code> and <div class="codeblock"> elements, where you
-    don't want any formatting to apply. Run this before safeConvert */
-function cleanForCode(input_string) {
-    return input_string
-        .replaceAll("=\"\"", "")
-        .replaceAll("\"", "&quot;")
-        .replaceAll("'", "&apos;")
-        .replaceAll("-", "&hyphen;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll("(", "&lpar;")
-        .replaceAll(")", "&rpar;")
-        .replaceAll("[", "&lbrack;")
-        .replaceAll("]", "&rbrack;")
-        .replaceAll("*", "&ast;")
-        .replaceAll("\n", "<br>");
-}
-/*  .replaceAll is preferred over .replace when you don't need to regex
-    functionality because it simply results in more readable code */
-
-/*  ![description](path/to/image.png)
-    ![nice](path/to/other_image.png)
- ->v
-    <div class="image-box">
-        <div><img alt="description" title="description" src="path/to/image.png"></div>
-        <div><img alt="nice" title="nice" src="path/to/other_image.png"></div>
-    </div>                                                                     */
-function imageViewer(img) {
-    let ivw = document.getElementById("image-viewer-wrapper");
-    let iv = document.getElementById("image-viewer");
-    if (ivw && iv) {
-        ivw.style.display = "flex";
-        iv.src = img.src;
-        iv.alt = img.alt; } }
-function closeImageViewer(img) {
-    let ivw = document.getElementById("image-viewer-wrapper");
-    let iv = document.getElementById("image-viewer");
-    if (ivw && iv) {
-        ivw.style.display = "none";
-        iv.src = "";
-        iv.alt = ""; } }
-function imageBoxParse(input_string) {
-    let lines = input_string.split("\n");
-    for (let i = 0; i < lines.length; i += 1) {
-        const parts = lines[i].split("]("); if (parts.length != 2) { console.error("{interpreter.js: a}"); break; }
-        const altText = parts[0].substring(2).replaceAll('"', '&quot;');
-        let filePath = parts[1];
-        let maxHeight = 350;
-        /* defaults to 350 max height unless specified otherwise
-           ![](images/1-1.png)|211 would have 211 max height */
-        let j = filePath.indexOf("|");
-        if (j != -1) {
-            maxHeight = filePath.substring(j + 1);
-            filePath = filePath.substring(0, j - 1); }
-        while (filePath.charAt(filePath.length - 1) == ")") {
-            filePath = filePath.substring(0, filePath.length - 1); }
-        lines[i] = (altText == "")
-            ? `<div><img onclick="imageViewer(this)" style="max-height:${maxHeight}px" src="${filePath}"></div>`
-            : `<div><img onclick="imageViewer(this)" style="max-height:${maxHeight}px" src="${filePath}" title="${altText}" alt="${altText}"></div>`;
-    }
-    return `<div class="image-box">${lines.join("")}</div>`;
-}
-
 /* nested list parser */
 function listParser(inputString) {
     const items = inputString.split("\n");
@@ -202,6 +112,75 @@ function listParser(inputString) {
     return items.join('\n');
 }
 
+/* This is a general parser I run all input through. It safely ignores
+   anything <inside> of tags, with the same logic as wrapDigits */
+function safeConvert(input_string) {
+    let input = input_string, output = "";
+    while (true) {
+        let openTag = input.indexOf("<"), closeTag = input.indexOf(">");
+        if (openTag == -1 || closeTag == -1) break;
+        output += stdReplacements(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
+        input = input.substring(closeTag + 1);
+    }
+    output += stdReplacements(input);
+    return output;
+}
+function wrapDigits(targetElement) {
+    let input = targetElement.innerHTML, output = "";
+    while (true) {
+        const openTag = input.indexOf("<"), closeTag = input.indexOf(">");
+        if (openTag == -1 || closeTag == -1) { break; }
+        output += input.substring(0, openTag).replace(/(\d+)/g, "<span class='rendered_digit'>$1</span>");
+        output += input.substring(openTag, closeTag + 1);
+        input = input.substring(closeTag + 1);
+    }
+    output += input.replace(/(\d+)/g, "<span class='rendered_digit'>$1</span>");
+    targetElement.innerHTML = output;
+}
+
+/*  This one is for <code> and <div class="codeblock"> elements, where you
+    don't want any formatting to apply. Run this before safeConvert */
+function cleanForCode(input_string) {
+    return input_string
+        .replaceAll("=\"\"", "")
+        .replaceAll("\"", "&quot;")
+        .replaceAll("'", "&apos;")
+        .replaceAll("-", "&hyphen;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll("(", "&lpar;")
+        .replaceAll(")", "&rpar;")
+        .replaceAll("[", "&lbrack;")
+        .replaceAll("]", "&rbrack;")
+        .replaceAll("*", "&ast;")
+        .replaceAll("\n", "<br>");
+}
+
+/*  .replaceAll is preferred over .replace when you don't need to regex
+    functionality because it simply results in more readable code */
+
+/*  ![description](path/to/image.png)
+    ![nice](path/to/other_image.png)
+ ->
+    <div class="image-box">
+        <div><img alt="description" title="description" src="path/to/image.png"></div>
+        <div><img alt="nice" title="nice" src="path/to/other_image.png"></div>
+    </div>                                                                     */
+function imageViewer(img) {
+    let ivw = document.getElementById("image-viewer-wrapper");
+    let iv = document.getElementById("image-viewer");
+    if (ivw && iv) {
+        ivw.style.display = "flex";
+        iv.src = img.src;
+        iv.alt = img.alt; } }
+function closeImageViewer(img) {
+    let ivw = document.getElementById("image-viewer-wrapper");
+    let iv = document.getElementById("image-viewer");
+    if (ivw && iv) {
+        ivw.style.display = "none";
+        iv.src = "";
+        iv.alt = ""; } }
+
 /* The main interpreter loop. Pass the main element to start. */
 function interpreter(targetElement, widthSet) {
     let input = targetElement.innerHTML
@@ -223,7 +202,8 @@ function interpreter(targetElement, widthSet) {
         if (input[i].startsWith("^")) {
             finePrint = true;
             input[i] = input[i].substring(1);
-        } else if (input[i].startsWith("$")) {
+        }
+        else if (input[i].startsWith("$")) {
             dropCap = true;
             input[i] = input[i].substring(1);
         }
@@ -236,9 +216,38 @@ function interpreter(targetElement, widthSet) {
             input[i] = "<p></p>";
             continue; }
         
-        if (input[i].startsWith("![")) {
-            input[i] = imageBoxParse(input[i]);
+        if (input[i].startsWith("||image-box")) {
+            let lines = input[i].split("\n").slice(1);
+            for (let j = 0; j < lines.length; j += 1) {
+                console.log(lines[j])
+                lines[j] = lines[j].replace(/\[(.*)\]\((.+)\)/g, (match, altText, filePath) => {
+                    let maxHeight = 320;
+                    altText = altText.replace(/"/, "&quot;");
+                    let j = filePath.indexOf("|");
+                    if (j != -1) {
+                        maxHeight = filePath.substring(j + 1);
+                        filePath = filePath.substring(0, j);
+                    }
+                    let imgAttributes = `onclick="imageViewer(this)" style="max-height:${maxHeight}px" src="${filePath}"`;
+                    if (altText != "") imgAttributes += ` title="${altText}" alt="${altText}"`;
+                    let temp = `<div><img ${imgAttributes}></div>`;
+                    console.log(temp)
+                    return temp
+                }); }
+            input[i] = `<div class="image-box">${lines.join("")}</div>`;
             continue; }
+        
+        if (input[i].startsWith("||image-right")) {
+            input[i] = input[i].split("\n")[1].replace(/\[(.+)\]\[(.+)\]\((.+)\)/g, (match, caption, altText, filePath) => {
+            return `<div class="image-float right"><img onclick="imageViewer(this)" src="${filePath}" title="${altText}" alt="${altText}"><div>${caption}</div></div>`; });
+            continue;
+        }
+        
+        if (input[i].startsWith("||image-left")) {
+            input[i] = input[i].split("\n")[1].replace(/\[(.+)\]\[(.+)\]\((.+)\)/g, (match, caption, altText, filePath) => {
+            return `<div class="image-float left"><img onclick="imageViewer(this)" src="${filePath}" title="${altText}" alt="${altText}"><div>${caption}</div></div>`; });
+            continue;
+        }
         
         /* before looking for code, fix any \` instances: */
         input[i] = input[i].replace(/\\`/g, "&#96;");
@@ -252,15 +261,18 @@ function interpreter(targetElement, widthSet) {
             return "<code>" + cleanForCode(captureGroup) + "</code>"; });
         
         /* ------------------------ links ------------------------- */
-        input[i] = input[i].replace(/\[([^\]]*)\]\(([^\s\[]+)\)/g, (match, displayText, address) => {
+        /* \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\) */
+        input[i] = input[i].replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
             let index = citationArray.indexOf(address);
+            address = address.replaceAll("\\)", ")");
             if (index == -1) index = citationArray.push(address);
-            return (displayText === "")
+            let result = (displayText === "")
                 ? `<a class="citeref" target="_blank" href="${address}">[${index}]</a>`
-                : `<a target="_blank" href="${address}">${displayText}</a>`; });
+                : `<a target="_blank" href="${address}">${displayText}</a>`;
+            return result; });
         
         /* ------------------------ table ------------------------- */
-        if (input[i].startsWith("|table")) {
+        if (input[i].startsWith("||table")) {
             let rows = input[i].split("\n");
             rows.shift();
             for (let j = 0; j < rows.length; j += 1) {
@@ -272,7 +284,7 @@ function interpreter(targetElement, widthSet) {
             continue; }
         
         /* ---------------------- transcript ---------------------- */
-        if (input[i].startsWith("|transcript")) {
+        if (input[i].startsWith("||transcript")) {
             let rows = input[i].split("\n");
             rows.shift();
             for (let j = 0; j < rows.length; j += 1) {
@@ -292,9 +304,8 @@ function interpreter(targetElement, widthSet) {
             continue; }
         
         /* -------------- other places I posted this -------------- */
-        if (input[i].startsWith("|see-also")) {
-            
-            input[i] = `<br><p><i>This was also posted here:</i><br>${input[i].split("\n").splice(1).map(c => `<a style="color:#505050" href="${c}" target="_blank">${c}</a>`).join("<br>")}</p>`;
+        if (input[i].startsWith("||see-also")) {
+            input[i] = `<br><div class="other-locations"><i>This was also posted here:</i><br>${input[i].split("\n").splice(1).map(c => `<a style="color:#505050" href="${c}" target="_blank">${c}</a>`).join("<br>")}</div>`;
             continue; }
         
         /* -------------------------------------------------------- */
