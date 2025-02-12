@@ -6,14 +6,11 @@
 @font-face { font-family: "Inter"; src: url(inter-regular.woff2); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Inter"; src: url(inter-italic.woff2); font-weight: 400 700; font-style: italic; }
 
-html { scroll-padding-top: 60px; }
-::selection { background-color: var(--selection); }
-
 /*  green: 273  |  red: c02  |  blue: 36b  |  orange: a50  */
 :root {
-    --selection: #d0d0d0;
+    --selection: #ccc;
     --white: #ffffff;
-    --accent:  #c13;
+    --accent:  #c02;
     --grey-f0: #f0f0f0;
     --grey-e0: #e0e0e0;
     --grey-d0: #d0d0d0;
@@ -39,6 +36,9 @@ body.dark-mode {
     --grey-20: #d4d4d4;
 }
 
+html { scroll-padding-top: 60px; }
+::selection { background-color: var(--selection); }
+
 #cover { pointer-events: none; }
 * { margin: 0; padding: 0; }
 
@@ -46,14 +46,15 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
 
     #top { height: 125px; width: 100%; background-color: #111; }
         #header { height: 101px; display: flex; justify-content: center; }
-            #header a { display: block; width: 286px; margin-right: 100px; }
+            #header a { display: block; width: 286px; }
             #header a:hover { opacity: 0.8; }
                 #header a img { display: block; padding: 17px; width: 252px; height: 67px; filter: invert(1); }
         #nav { height: 24px; background-color: var(--accent); background-image: linear-gradient(#404040c0, #404040c0); }
+        /* #nav { height: 24px; background-color: #444; } */
 
     #page { background-color: var(--white); font-size: 14px; font-family: system-ui; height: 100%; display: flex; justify-content: center; }
     /* #page div { border: 1px solid green; } */
-        #sidebar { width: 250px; min-width: 250px; }
+        #sidebar { width: 250px; min-width: 250px; padding: 0 25px; }
             #sidebar .label { padding: 2px 0px 1px; color: var(--grey-90); }
             #sidebar hr { margin: 0; border: none; height: 1px; background-color: var(--grey-d0); }
             #sidebar a { color: var(--grey-50); }
@@ -164,7 +165,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
 
                 .citeref .rendered_digit { font-family: inherit; }
 
-            #content-footer { max-width: 620px; margin: 0 auto; }
+            #content-footer { max-width: 620px; margin-left: auto; margin-right: auto; }
                 #content-footer > div { padding: 23px 0; border-top: 1px solid var(--grey-90); border-bottom: 1px solid var(--grey-90); display: flex; gap: 10px; align-items: center; margin: 0 auto; }
                     #content-footer > div img { object-fit: contain; border: 1px solid var(--grey-90); width: 100px; height: 100px; }
                     #content-footer > div div {  }

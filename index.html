@@ -2,6 +2,7 @@
 <html><head>
     <style>
     #content-footer, #citations { display: none; }
+    #sidebar > div { position: sticky; top: 0; }
     </style>
 </head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
@@ -11,15 +12,25 @@
 
 ## Info
 
-#### **About me**
-
-I'm Iris. I live in Canada. I'm <span id="age"><span class="rendered_digit"></span></span> years old. I'm a transsexual woman. I'm interested in software development and politics.
-
 #### **This repo**
 
-I've tried a lot of blogging sites and each of them is lacking in some way or another. A friend suggested I try making my own and hosting it here on GitHub. I wanted something like Google docs, but more easily shared and not mixed into my Google account, or something like Tumblr, but more easily indexed and navigated. And in general, I wanted more control over the presentation.
+I'm Iris. I'm using this repo to host things I make.
 
-If hosting this on GitHub ever doesn't work out anymore, like if I get in trouble with them somehow, then I'll probably move on to making my own website.
+I made everything here in notepad. It's just some pages duct taped together. There's no server software. I might change that at some point, because this isn't the 'proper' way to do things, but for now it works fine.
+
+I don't care if you copy anything here. It's so simple, consider it open source.
+
+#### **About me**
+
+I live in Canada. I'm <span id="age"></span> years old. I'm a trans woman.
+
+I'm a very political person, and many of the pages here are political analysis. Not all of it is, though.
+
+I'd describe myself as a liberal conservative. I don't like extremism or conspiracy theorism, which makes me 'left-wing' in our current age of insanity, though some important differences prevent me from being fully accepted in left-wing circles.
+
+I'm an atheist. I'm not a vegan. I'm a moral anti-realist and non-cognitivist. I care a lot about applied ethics and international politics.
+
+I also think a lot about design, media, writing, and software.
 
 #### **Other places I can be found**
 
@@ -28,29 +39,20 @@ If hosting this on GitHub ever doesn't work out anymore, like if I get in troubl
 - [Tumblr](https://forthoseinterested.tumblr.com)
 - [Substack](https://northofqueen.substack.com) (no special paid content, just another place I copy things to)
 
-I don't use Facebook, Instagram, or X-Twitter. I used to be on Reddit a lot, but I barely use that place at all anymore.
-
-#### **My politics**
-
-I've been a very political person since I began reading about economics and philosophy as a teenager. I remember when it was less decisive and more boring, before social media pumped it into seemingly every aspect of our lives.
-
-I'd describe myself as a liberal conservative. I don't like extremism or conspiracy theorism, which forces me to be 'left-wing' in our current age of insanity, though important differences prevent me from being fully accepted in left-wing circles.
-
-I'm an atheist. I'm not a vegan. I'm a moral anti-realist and non-cognitivist. I care about applied ethics and international politics.
+I don't use Facebook, Instagram, or X-Twitter. I used to be on Reddit a lot, but I barely use that place at all anymore. I just get banned from every subreddit.
 
 #### **Resources**
 
-I made everything here in notepad. Each page just pulls from the same JavaScript file to add the layout and styling, so there's no server software. I might change how that works in the future, since this is like redneck engineering: webdev edition.
+The painting I use for my icon is called [A beauty holding a bird](25.html). Every other image used across the site is visible at [/tree/main/images](https://github.com/northofqueen/northofqueen.github.io/tree/main/images).
 
-- The painting I use for my icon is called "[A beauty holding a bird](25.html)".
-- Every image used across the site is visible at [/tree/main/images](https://github.com/northofqueen/northofqueen.github.io/tree/main/images).
-- The fancy-looking font I used for that header image is called [Tangerine](https://fonts.google.com/specimen/Tangerine).
+The fancy-looking font I used for that header image is called [Tangerine](https://fonts.google.com/specimen/Tangerine).
+
+The body text is mostly in Georgia, but the numberals are in [Georgia Pro](https://learn.microsoft.com/en-us/typography/font-list/georgia-pro), which is imported in case your machine doesn't have those files natively.
+
+I think everything else is just your browser's default sans-serif and system-ui.
 
 </main></div>
-<script>
-let date = new Date();
-document.getElementById("age").innerHTML = date.getFullYear() - ((date.getMonth() > 3) ? 1994 : 1995);
-</script>
+<script>if (document.getElementById("age")) { let date = new Date(); document.getElementById("age").innerHTML = date.getFullYear() - ((date.getMonth() > 3) ? 1994 : 1995); }</script>
 <script src="assets/interpreter.js"></script>
 <script src="assets/layout.js"></script>
 </body></html>

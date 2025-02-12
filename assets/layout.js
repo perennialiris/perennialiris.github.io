@@ -171,11 +171,9 @@ function pageLoad() {
             if (isPinned) {
                 navLinks.pins.push(linkElement); }
             else {
-                if (isCurrentPage) {
-                    navLinks.recent.unshift(linkElement);
-                } else {
-                    if (navLinks.recent.length < 11 ) {
-                        navLinks.recent.push(linkElement); } }
+                if (isCurrentPage || navLinks.recent.length < 11) {
+                    navLinks.recent.push(linkElement);
+                }
             }
             
             if (row_date == "") { row_date = "---"; }
