@@ -2,8 +2,8 @@
 
 let data = `
 news-2025 | News 2025                                              | politics |            | pinned | wide
-27        | Sex, gender, & transsexuals                            | politics |            | pinned | full-width
-32        | Politics fundamentals                                  | politics |            | pinned | full-width
+27        | Sex, gender, & transsexuals                            | politics |            | pinned | wide
+32        | Politics fundamentals                                  | politics |            | pinned | wide
 19        | Ilhan Omar's comments about Somalia                    | politics | 2024-02-12 |        |       
 17        | Why get bottom surgery?                                | culture  | 2025-02-09 |        |       
 35        | Show and tell (Lex Fridman)                            | politics | 2025-02-05 |        |       
@@ -64,7 +64,7 @@ function alignTable(dataString, splitChar) {
 // alignTable(data, "|");
 
 /* function that enables the table of contents */
-let tocLinks, sectionHeadings, tocUpdateFlag = true, currentHeading = "", tocPage = false;
+let tocLinks, sectionHeadings, tocUpdateFlag = true, currentHeading = "";
 function tocHighlighter() {
     if (!tocUpdateFlag) { return; }
     tocUpdateFlag = false;
@@ -110,17 +110,14 @@ function pageLoad() {
     if (!page) { console.error("{layout.js: can't find #page}"); return; }
     
     page.innerHTML =
-       `<aside id="left"></aside>
-        <div>
-            <div id="content-wrapper">
-                <div id="content">${main.innerHTML}</div>
-            </div>
+       `<div class="container">
+            <div id="content">${main.innerHTML}</div>
         </div>
-        <aside id="right"></aside>`;
+        <aside id="sidebar"></aside>`;
     
     interpreter(document.getElementById("content")); /* <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- */
     
-    const contentWrapper = document.getElementById("content-wrapper");
+    const contentWrapper = document.getElementById("content").parentNode;
     let contentFooter = contentWrapper.appendChild(document.createElement("footer"));
     contentFooter.id = "content-footer";
     contentFooter.innerHTML =
@@ -162,10 +159,7 @@ function pageLoad() {
             if (isCurrentPage) {
                 row_class += " current-page";
                 if (row_options != "") {
-                    row_options = row_options.split(" ");
-                    document.body.classList.add(...row_options);
-                    if (fileName == row_fileName && row_options.includes("full-width")) {
-                        tocPage = true; }
+                    document.body.classList.add(...row_options.split(" "));
                 }
             }
             
@@ -194,8 +188,8 @@ function pageLoad() {
         }
     }
     
-    const right = document.getElementById("right");
-    right.innerHTML = 
+    const sidebar = document.getElementById("sidebar");
+    sidebar.innerHTML = 
        `<div>
         <nav class="page-links">
             ${navLinks.pins.join("")}
@@ -208,17 +202,16 @@ function pageLoad() {
         </nav>
         </div><div style="text-align:right;padding:5px 15px" id="dark-mode">click here to dark mode<br>(this page only)</div>`;
     
-    if (tocPage && tocArray.length > 1) {
+    if (tocArray.length > 2) {
+        console.log("here");
         tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
-        document.getElementById("left").innerHTML +=
+        sidebar.innerHTML +=
        `<nav id="toc">
             <div id="toc-links"><h3>This page, table of contents</h3>${tocArray.join("")}</div>
         </nav>`;
         if (!tocLinks) { tocLinks = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
         if (!sectionHeadings) { sectionHeadings = Array.from(document.getElementsByClassName("noq-header")); }
         window.addEventListener("scroll", tocHighlighter);
-    } else {
-        document.getElementById("left").remove();
     }
     
     if (fileName == "list") { document.getElementById("table1").innerHTML = `<tr><th>Title</th><th>Category</th><th>Date</th></tr>${navLinks.full.join("")}`; }

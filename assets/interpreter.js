@@ -219,7 +219,6 @@ function interpreter(targetElement) {
         if (input[i].startsWith("||image-box")) {
             let lines = input[i].split("\n").slice(1);
             for (let j = 0; j < lines.length; j += 1) {
-                console.log(lines[j])
                 lines[j] = lines[j].replace(/\[(.*)\]\((.+)\)/g, (match, altText, filePath) => {
                     let maxHeight = 320;
                     altText = altText.replace(/"/, "&quot;");
@@ -231,17 +230,14 @@ function interpreter(targetElement) {
                     let imgAttributes = `onclick="imageViewer(this)" style="max-height:${maxHeight}px" src="${filePath}"`;
                     if (altText != "") imgAttributes += ` title="${altText}" alt="${altText}"`;
                     let temp = `<div><img ${imgAttributes}></div>`;
-                    console.log(temp)
                     return temp
                 }); }
             input[i] = `<div class="image-box">${lines.join("")}</div>`;
             continue; }
         
         if (input[i].startsWith("||image-right")) {
-            console.log("image-right:...")
             input[i] = input[i].split("\n")[1].replace(/\[(.+)\]\[(.+)\]\((.+)\)/g, (match, caption, altText, filePath) => {
             return `<div class="image-float right"><img onclick="imageViewer(this)" src="${filePath}" title="${altText}" alt="${altText}"><div>${caption}</div></div>`; });
-            console.log(input[i])
             continue;
         }
         
