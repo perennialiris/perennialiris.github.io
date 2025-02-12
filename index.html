@@ -2,28 +2,24 @@
 <html><head>
     <style>
     #content-footer, #citations { display: none; }
-    h2 { font-family: Georgia !important; }
     </style>
 </head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
 <div id="top"></div>
 <div id="page">
-<div id="left"></div>
-<div id="content-wrapper">
-<div id="content">
-<div id="main">
+<main id="main">
 
 ## Info
 
 #### **This repo**
 
-I'm Iris. I use this to host things I make. I wanted something like Google docs, but more easily shared and not mixed into my Google account---or something like Tumblr, but more easily indexed and navigated. If it goes wrong, I'll probably try and make my own separate website at this point.
+I'm Iris. This is where I host things I make. I wanted something like Google docs, but more easily shared and not mixed into my Google account, so I made my own.
 
-I made everything here myself in notepad. There's no server software; each page just loads the same JavaScript file, which adds the layout and styling. I might change how that works in the future, because right now it's like redneck engineering. I duct taped some files together and said there, it works.
+I live in Canada. I'm <span id="age"><span class="rendered_digit"></span></span> years old. I'm a transsexual woman. I have been a very political person all my life. I still remember when politics was more fringe and sort of boring, before social media pumped it into seemingly every aspect of our lives.
 
-#### **About me**
+I'd describe myself as a liberal conservative. I don't like extremism or conspiracy theorism, which forces me to be 'left-wing' in our current age of insanity, though important differences prevent me from being fully accepted in left-wing circles.
 
-I'm <span id="age"><span class="rendered_digit"></span></span> years old. I live in Canada. I'm a transsexual woman. I'm an atheist. I'm not a vegan. I'm a very political person, and I have been since I was a teenager and started reading about economics and philosophy. I'd describe myself as a liberal conservative. I don't like extremism or conspiracy theorism, which forces me to be 'left-wing' in the current age of insanity, though important differences prevent me from fully getting along in many left-wing circles either.
+I'm an atheist. I'm not a vegan. My family history is white Anglo--Scottish.
 
 #### **Other places I can be found**
 
@@ -32,27 +28,17 @@ I'm <span id="age"><span class="rendered_digit"></span></span> years old. I live
 - [Tumblr](https://forthoseinterested.tumblr.com)
 - [Substack](https://northofqueen.substack.com) (no special paid content, just another place I copy things to)
 
-I don't use Facebook, Instagram, or X-Twitter. I used to be super active on Reddit, but I basically don't use it at all anymore. That place sucks now and I just get banned from every sub.
+I don't use Facebook, Instagram, or X-Twitter. I used to be super active on Reddit, but I barely use that place at all anymore.
 
 #### **Resources**
 
-Fonts used:
+I made everything here in notepad. Each page just pulls from the same JavaScript file to add the layout and styling, so there's no actual server software. Speaking of which, I don't care if you copy anything I do here code-wise; consider it all open source.
 
-- Georgia and [Georgia Pro](https://learn.microsoft.com/en-us/typography/font-list/georgia-pro) for the article body text
-- [Inter](https://fonts.google.com/specimen/Inter) for headers
-- [Roboto](https://fonts.google.com/specimen/Roboto) for small text/dateline
-- Verdana for cite notes and reference list
-- the sidebar is in your default system-ui font, so probably Segoe UI
-- [Tangerine](https://fonts.google.com/specimen/Tangerine) is that fancy-looking font I used to make the header image
+The painting I use for my icon is called "[A beauty holding a bird](25.html)". Every image used across the site is visible at [/tree/main/images](https://github.com/northofqueen/northofqueen.github.io/tree/main/images).
 
-The painting I use for my icon is called "[A beauty holding a bird](25.html)". Every image used is visible at [https://github.com/northofqueen/northofqueen.github.io/tree/main/images](https://github.com/northofqueen/northofqueen.github.io/tree/main/images)
+The fancy-looking font I used for that header image is called [Tangerine](https://fonts.google.com/specimen/Tangerine). I import [Georgia Pro](https://learn.microsoft.com/en-us/typography/font-list/georgia-pro) for the article body text.
 
-I should add a dark-mode button.
-
-</div>
-</div>
-</div>
-</div>
+</main></div>
 <script>
 let date = new Date();
 document.getElementById("age").innerHTML = date.getFullYear() - ((date.getMonth() > 3) ? 1994 : 1995);

@@ -10,7 +10,6 @@ let tocArray = [];
     own function because I needed to call it multiple times. */
 function stdReplacements(inputString) {
     if (inputString == "") { return ""; }
-    // console.log(inputString);
     let output = inputString
         .replaceAll("\\*", "&ast;")
         .replaceAll("---", "&mdash;")
@@ -23,8 +22,8 @@ function stdReplacements(inputString) {
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
         /*
-        It took many versions, but I think I finally got to a point
-        where this always works the way I want it to.
+            It took many versions, but I think I finally got to a point
+            where this always works the way I want it to.
         */
         /* curly " replacement */
         .replace(/(\S\*{1,3})" /g, "$1&rdquo; ")
@@ -36,6 +35,7 @@ function stdReplacements(inputString) {
         .replace(/"/g, "&rdquo;")
         
         /* curly ' replacement */
+        .replace(/'(\d{2}) /, "&rsquo;$1 ") // for saying '95 or '27 etc.
         .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
         .replace(/^' /g, "&rsquo; ")
         .replace(/^'(\.|,)/g, "&rsquo;$1")
@@ -182,7 +182,7 @@ function closeImageViewer(img) {
         iv.alt = ""; } }
 
 /* The main interpreter loop. Pass the main element to start. */
-function interpreter(targetElement, widthSet) {
+function interpreter(targetElement) {
     let input = targetElement.innerHTML
         .replace(/\n\n+/g, "\n\n")
         .replace(/\r/g, "") /* safety */
@@ -238,8 +238,10 @@ function interpreter(targetElement, widthSet) {
             continue; }
         
         if (input[i].startsWith("||image-right")) {
+            console.log("image-right:...")
             input[i] = input[i].split("\n")[1].replace(/\[(.+)\]\[(.+)\]\((.+)\)/g, (match, caption, altText, filePath) => {
             return `<div class="image-float right"><img onclick="imageViewer(this)" src="${filePath}" title="${altText}" alt="${altText}"><div>${caption}</div></div>`; });
+            console.log(input[i])
             continue;
         }
         
