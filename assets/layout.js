@@ -111,8 +111,10 @@ function pageLoad() {
     
     page.innerHTML =
        `<aside id="left"></aside>
-        <div id="content-wrapper">
-            <div id="content">${main.innerHTML}</div>
+        <div>
+            <div id="content-wrapper">
+                <div id="content">${main.innerHTML}</div>
+            </div>
         </div>
         <aside id="right"></aside>`;
     

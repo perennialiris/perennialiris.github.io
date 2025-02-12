@@ -37,6 +37,7 @@ body.dark-mode {
     --grey-20: #d4d4d4;
 }
 
+#cover { pointer-events: none; }
 * { margin: 0; padding: 0; }
 
 body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); text-underline-offset: 2px; font-size: 14px; font-family: system-ui; line-height: 1.3; height: 100vh; }
@@ -49,7 +50,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
         #nav { height: 24px; background-color: var(--accent); background-image: linear-gradient(#404040c0, #404040c0); }
 
     #page { background-color: var(--white); font-size: 14px; font-family: system-ui; height: 100%; display: flex; justify-content: center; }
-
+    /* #page div { border: 1px solid green; } */
         #right { width: 250px; min-width: 250px; }
             #right .label { padding: 2px 0px 1px; color: var(--grey-90); }
             #right hr { margin: 0; border: none; height: 1px; background-color: var(--grey-d0); }
@@ -180,7 +181,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                 #citations ol { margin: 0; padding: 5px 30px; }
                     #citations ol li { text-align: left; padding: 2px; margin: 0; }
 
-    #footer { width: 100%; height: 104px; background-color: var(--accent); background-image: linear-gradient(#222d, #222d); }
+    #footer { width: 100%; height: 104px; background-color: #111; }
 
         #image-viewer-wrapper { z-index: 1; width: 100%; height: 100vh; background-color: #000c; position: fixed; left: 0; top: 0; display: none; align-items: center; justify-content: center; }
         #image-viewer { object-fit: contain; max-width: 90%; max-height: 90%; }
