@@ -54,7 +54,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
 
     #page { background-color: var(--white); font-size: 14px; font-family: system-ui; height: 100%; display: flex; justify-content: center; }
     /* #page div { border: 1px solid green; } */
-        #sidebar { width: 250px; min-width: 250px; }
+        #sidebar { width: 250px; min-width: 250px; padding-right: 15px; }
             #sidebar .label { padding: 2px 0px 1px; color: var(--grey-90); }
             #sidebar hr { margin: 0; border: none; height: 1px; background-color: var(--grey-d0); }
             #sidebar a { color: var(--grey-50); }
@@ -70,18 +70,18 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                     #toc h3 { width: 210px; margin: 0; font-size: 15px; color: var(--grey-60); font-weight: 700; }
                         #toc-links { width: 210px; padding: 10px; display: flex; gap: 5px; flex-direction: column; }
                         #toc-links a { color: var(--grey-90); }
-                        #toc-links .toc-row { padding: 3px 5px; }
-                        #toc-links .toc-row.h1 { padding-left: 0px; }
-                        #toc-links .toc-row.h2 { padding-left: 0px; }
-                        #toc-links .toc-row.h3 { padding-left: 15px; }
-                        #toc-links .toc-row.active-heading { color: var(--grey-30); }
+                            .toc-row { padding: 3px 5px; }
+                            .toc-row.h1 { padding-left: 0px; }
+                            .toc-row.h2 { padding-left: 0px; }
+                            .toc-row.h3 { padding-left: 15px; }
+                            .toc-row.active-heading { color: var(--grey-30); }
 
-        .container { max-width: 720px; width: 100%; padding: 60px; }
-        .narrow .container { max-width: 600px; }
-        .wide .container { max-width: 900px; }
-            
-        .container > :nth-child(n + 2) { margin-top: 40px; }
+        .container { width: 100%; max-width: 720px; padding: 60px; }
+             .narrow .container { max-width: 600px; }
+             .wide   .container { max-width: 900px; }
         
+        .container > :nth-child(n + 2) { margin-top: 40px; }
+
             #content { font-size: 15px; line-height: 1.5; }
             #content > :nth-child(1) { margin-top: 0; }
 
@@ -104,6 +104,8 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                 .noq-table { margin-top: 1em; }
 
                 p + ul, p + ol,
+                ol + li,
+                ul + li,
                 li + li { margin-top: 0.5em; }
 
                 #content p,

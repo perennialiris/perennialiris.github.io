@@ -33,10 +33,10 @@ news-2025 | News 2025                                              | politics | 
 2         | The trans prison stats argument                        | politics | 2024-10-19 |        |       
 37        | Bluesky accounts listing                               | other    |            |        | wide
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        |       
-list      | Full page list                                         | personal |            |        |       
+list      | Full page list                                         | personal |            |        | narrow
 index     |                                                        |          |            |        | narrow
           | People don't really have world views                   | personal |            |        |       
-20        | Israel notes                                           | politics |            |        | 
+20        | Israel notes                                           | politics |            |        | wide
 `;
 
 /* This just helps keep the table above orderly. */
