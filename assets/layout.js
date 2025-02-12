@@ -121,10 +121,12 @@ function pageLoad() {
     let contentFooter = contentWrapper.appendChild(document.createElement("footer"));
     contentFooter.id = "content-footer";
     contentFooter.innerHTML =
-       `<img src="assets/favicon.ico" height="100" width="100">
-        <div>
-            <p><span style="color:var(--accent)">North of Queen</span> is my personal repo for things I write. I work alone and have no association with any other person or organization.</p>
-            <p>For more info about me, see <a href="index.html">here</a>.</p>
+       `<div>
+            <img src="assets/favicon.ico" height="100" width="100">
+            <div>
+                <p><span style="color:var(--accent)">North of Queen</span> is my personal repo for things I write. I work alone and have no association with any other person or organization.</p>
+                <p>For more info about me, see <a href="index.html">here</a>.</p>
+            </div>
         </div>`;
     
     if (citationArray.length > 0) {

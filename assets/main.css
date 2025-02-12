@@ -54,7 +54,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
 
     #page { background-color: var(--white); font-size: 14px; font-family: system-ui; height: 100%; display: flex; justify-content: center; }
     /* #page div { border: 1px solid green; } */
-        #sidebar { width: 250px; min-width: 250px; padding: 0 25px; }
+        #sidebar { width: 250px; min-width: 250px; }
             #sidebar .label { padding: 2px 0px 1px; color: var(--grey-90); }
             #sidebar hr { margin: 0; border: none; height: 1px; background-color: var(--grey-d0); }
             #sidebar a { color: var(--grey-50); }
@@ -160,16 +160,16 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
 
                 .other-locations { font-family: Georgia Pro,Georgia,serif; }
                 .other-locations a { color: var(--grey-50); }
-                
-                .fine, .fine *, .fine ::marker { color: var(--grey-60); font-size: 14px; font-family: sans-serif !important; }
+
+                .fine, .fine *, .fine ::marker { color: var(--grey-60); font-size: 14px; font-family: system-ui !important; }
 
                 .citeref .rendered_digit { font-family: inherit; }
 
-            #content-footer { max-width: 620px; padding: 30px 0; margin-left: auto; margin-right: auto; border-top: 1px solid var(--grey-90); border-bottom: 1px solid var(--grey-90); display: flex; gap: 10px; align-items: center; }
-                #content-footer img { object-fit: contain; border: 1px solid var(--grey-90); width: 100px; height: 100px; }
-                #content-footer div { padding-bottom: 5px; }
-                    #content-footer div p { text-align: center; margin: 5px auto; color: var(--grey-60); font-family: Georgia Pro,Georgia,serif; font-size: 15px; }
-                        #content-footer div p a { color: inherit; text-decoration: underline; }
+            #content-footer > div { max-width: 620px; padding: 28px 0; margin-left: auto; margin-right: auto; border-top: 1px solid var(--grey-90); border-bottom: 1px solid var(--grey-90); display: flex; gap: 10px; align-items: center; }
+                #content-footer > div > img { object-fit: contain; border: 1px solid var(--grey-90); width: 100px; height: 100px; }
+                #content-footer > div > div { padding-bottom: 5px; }
+                    #content-footer > div > div > p { text-align: center; margin: 5px auto; color: var(--grey-60); font-family: Georgia Pro,Georgia,serif; font-size: 15px; }
+                        #content-footer > div > div > p > a { color: inherit; text-decoration: underline; }
 
             #citations { font-family: Verdana,sans-serif; line-height: 1.5; font-size: 12px; color: var(--grey-90); }
                 #citations a { color: var(--grey-90); word-break: break-all; }
