@@ -75,7 +75,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                         #toc-links .toc-row.h3 { padding-left: 15px; }
                         #toc-links .toc-row.active-heading { color: var(--grey-30); }
 
-        .container { max-width: 720px; width: 100%; }
+        .container { max-width: 720px; width: 100%; padding: 60px; }
         .narrow .container { max-width: 600px; }
         .wide .container { max-width: 900px; }
             
