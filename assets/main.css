@@ -165,7 +165,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
 
                 .citeref .rendered_digit { font-family: inherit; }
 
-            #content-footer { max-width: 620px; padding: 23px 0; margin-left: auto; margin-right: auto; border-top: 1px solid var(--grey-90); border-bottom: 1px solid var(--grey-90); display: flex; gap: 10px; align-items: center; }
+            #content-footer { max-width: 620px; padding: 30px 0; margin-left: auto; margin-right: auto; border-top: 1px solid var(--grey-90); border-bottom: 1px solid var(--grey-90); display: flex; gap: 10px; align-items: center; }
                 #content-footer img { object-fit: contain; border: 1px solid var(--grey-90); width: 100px; height: 100px; }
                 #content-footer div { padding-bottom: 5px; }
                     #content-footer div p { text-align: center; margin: 5px auto; color: var(--grey-60); font-family: Georgia Pro,Georgia,serif; font-size: 15px; }
