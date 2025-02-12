@@ -4,6 +4,7 @@ let data = `
 news-2025 | News 2025                                              | politics |            | pinned | wide
 27        | Sex, gender, & transsexuals                            | politics |            | pinned | full-width
 32        | Politics fundamentals                                  | politics |            | pinned | full-width
+19        | Ilhan Omar's comments about Somalia                    | politics | 2024-02-12 |        |       
 17        | Why get bottom surgery?                                | culture  | 2025-02-09 |        |       
 35        | Show and tell (Lex Fridman)                            | politics | 2025-02-05 |        |       
 16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |       
@@ -30,7 +31,6 @@ news-2025 | News 2025                                              | politics | 
 3         | Poor things (2023 film)                                | culture  | 2024-10-31 |        |       
 1         | Language                                               | personal | 2024-10-29 |        |       
 2         | The trans prison stats argument                        | politics | 2024-10-19 |        |       
-19        | Ilham Omar's controversial comments about Somalia      | politics | 2024-03-25 |        |       
 37        | Bluesky accounts listing                               | other    |            |        | wide
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        |       
 list      | Full page list                                         | personal |            |        |       
