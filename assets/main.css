@@ -6,11 +6,10 @@
 @font-face { font-family: "Inter"; src: url(inter-regular.woff2); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Inter"; src: url(inter-italic.woff2); font-weight: 400 700; font-style: italic; }
 
-/*  green: 273  |  red: c02  |  blue: 36b  |  orange: a50  */
 :root {
     --selection: #ccc;
     --white: #ffffff;
-    --accent:  #c02;
+    --accent:  #b13;
     --grey-f0: #f0f0f0;
     --grey-e0: #e0e0e0;
     --grey-d0: #d0d0d0;
@@ -22,6 +21,8 @@
     --grey-20: #202020;
     --main: 720px;
 }
+.narrow { --main: 600px; }
+.wide { --main: 900px; }
 
 html { scroll-padding-top: 60px; }
 ::selection { background-color: var(--selection); }
@@ -30,15 +31,13 @@ html { scroll-padding-top: 60px; }
 * { margin: 0; padding: 0; }
 
 body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); text-underline-offset: 2px; font-size: 14px; font-family: system-ui; line-height: 1.3; height: 100vh; }
-body.narrow { --main: 600px; }
-body.wide { --main: 900px; }
 
     #top { height: 125px; width: 100%; background-color: #111; }
         #header { height: 101px; display: flex; justify-content: center; }
             #header a { display: block; width: 286px; }
             #header a:hover { opacity: 0.8; }
                 #header a img { display: block; padding: 17px; width: 252px; height: 67px; filter: invert(1); }
-        #nav { height: 24px; background-color: var(--accent); background-image: linear-gradient(#404040c0, #404040c0); }
+        #nav { height: 24px; background-color: var(--accent); background-image: linear-gradient(#333a, #333a); }
 
     #page { background-color: var(--white); font-size: 14px; font-family: system-ui; height: 100%; display: flex; justify-content: center; }
     /* #page div { border: 1px solid green; } */
