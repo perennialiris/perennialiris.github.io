@@ -111,16 +111,16 @@ function pageLoad() {
     
     page.innerHTML =
        `<div class="container">
-            <div id="content">${main.innerHTML}</div>
+            <div id="article">${main.innerHTML}</div>
         </div>
-        <aside id="sidebar"></aside>`;
+        <div id="sidebar"></div>`;
     
-    interpreter(document.getElementById("content")); /* <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- */
+    interpreter(document.getElementById("article")); /* <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- */
     
-    const contentWrapper = document.getElementById("content").parentNode;
-    let contentFooter = contentWrapper.appendChild(document.createElement("footer"));
-    contentFooter.id = "content-footer";
-    contentFooter.innerHTML =
+    const container = document.getElementById("article").parentNode;
+    let articleFooter = container.appendChild(document.createElement("footer"));
+    articleFooter.id = "article-footer";
+    articleFooter.innerHTML =
        `<div>
             <img src="assets/favicon.ico" height="100" width="100">
             <div>
@@ -132,8 +132,8 @@ function pageLoad() {
     if (citationArray.length > 0) {
         for (let i = 0; i < citationArray.length; i += 1) {
             citationArray[i] = `<li><a href="${citationArray[i]}">${citationArray[i]}</a></li>`; }
-        let citations = contentWrapper.appendChild(document.createElement("div"));
-        citations.id = "citations";
+        let citations = container.appendChild(document.createElement("div"));
+        citations.id = "article-citations";
         citations.innerHTML = `<div>things linked to on this page:</div><ol>${citationArray.join("")}</ol>`;
     }
     
@@ -190,16 +190,16 @@ function pageLoad() {
     const sidebar = document.getElementById("sidebar");
     sidebar.innerHTML = 
        `<div>
-        <nav class="page-links">
-            ${navLinks.pins.join("")}
-        </nav>
-        <hr>
-        <nav class="page-links">
-            <div class="label">Recently added:</div>
-            ${navLinks.recent.join("")}
-            <div class="more-posts"><a href="list.html">Full page list →</a></div>
-        </nav>
-        </div><div style="text-align:right;padding:5px 15px" id="dark-mode">click here to dark mode<br>(this page only)</div>`;
+            <nav class="page-links">
+                ${navLinks.pins.join("")}
+            </nav>
+            <hr>
+            <nav class="page-links">
+                <div class="label">Recently added:</div>
+                ${navLinks.recent.join("")}
+                <div class="more-posts"><a href="list.html">Full page list →</a></div>
+            </nav>
+        </div>`;
     
     if (tocArray.length > 2) {
         console.log("here");
@@ -223,18 +223,26 @@ function pageLoad() {
         cover.classList.add("fade-out");
         cover.addEventListener("animationend", () => { cover.remove(); });
     }
-    const darkmode = document.getElementById("dark-mode");
-    darkmode.addEventListener("click", () => {
-        if (document.body.classList.contains("dark-mode")) {
-            document.body.classList.remove("dark-mode");
-        }
-        else {
-            document.body.classList.add("dark-mode");
-        }
-    });
+}
+
+let canResize = true, sidebarCollapsed = false;
+function pageWidthCheck() {
+    if (!canResize) return;
+    let limit = (sidebarCollapsed) ? 1000 : 800;
+    if (window.innerWidth < limit) {
+        document.body.classList.add("vertical-sidebar");
+        canResize = false;
+        sidebarCollapsed = true;
+        setTimeout(() => { canResize = true; }, 500);
+    } else {
+        document.body.classList.remove("vertical-sidebar");
+        sidebarCollapsed = false;
+    }
 }
 
 window.addEventListener("load", pageLoad);
+window.addEventListener("load", pageWidthCheck);
+window.addEventListener("resize", pageWidthCheck);
 
 
 

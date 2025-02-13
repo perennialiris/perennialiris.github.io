@@ -303,7 +303,7 @@ function interpreter(targetElement) {
         
         /* -------------- other places I posted this -------------- */
         if (input[i].startsWith("||see-also")) {
-            input[i] = `<br><div class="other-locations"><i>This was also posted here:</i><br>${input[i].split("\n").splice(1).map(c => `<a style="color:#505050" href="${c}" target="_blank">${c}</a>`).join("<br>")}</div>`;
+            input[i] = `<br><div class="other-locations"><div style="padding-bottom:2px"><i>This was also posted here:</i></div>${input[i].split("\n").splice(1).map(c => `<a style="color:#505050" href="${c}" target="_blank">${c}</a>`).join("<br>")}</div>`;
             continue; }
         
         /* -------------------------------------------------------- */
