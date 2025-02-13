@@ -15,12 +15,12 @@ function stdReplacements(inputString) {
         .replaceAll("---", "&mdash;")
         .replaceAll("--", "&ndash;")
         .replaceAll("\\^", "&Hat;")
-        .replaceAll("\\", "&#92;")
+        .replaceAll("\\_", "&lowbar;")
         .replaceAll("\\(", "&lpar;")
         .replaceAll("\\)", "&rpar;")
-        .replaceAll("\\_", "&lowbar;")
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
+        .replaceAll("\\", "&#92;")
         /*
             It took many versions, but I think I finally got to a point
             where this always works the way I want it to.
