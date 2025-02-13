@@ -1,49 +1,49 @@
 "use strict"
 
 let data = `
-news-2025 | News 2025                                              | politics |            | pinned | wide
-27        | Sex, gender, & transsexuals                            | politics |            | pinned | wide
-32        | Politics fundamentals                                  | politics |            | pinned | wide
+news-2025 | News 2025                                              | politics |            | pinned | wide  
+27        | Sex, gender, & transsexuals                            | politics |            | pinned | wide  
+32        | Politics fundamentals                                  | politics |            | pinned | wide  
 19        | Ilhan Omar's comments about Somalia                    | politics | 2024-02-12 |        |       
 17        | Why get bottom surgery?                                | culture  | 2025-02-09 |        |       
 35        | Show and tell (Lex Fridman)                            | politics | 2025-02-05 |        |       
 16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |       
-34        | The Nazi salute                                        | politics | 2025-01-24 |        | 
-30        | The appearance of intelligence                         | other    | 2025-01-18 |        | 
+34        | The Nazi salute                                        | politics | 2025-01-24 |        |       
+30        | The appearance of intelligence                         | other    | 2025-01-18 |        |       
 29        | Date formats                                           | other    | 2025-01-11 |        | narrow
 28        | Therapy theory                                         | personal | 2025-01-09 |        |       
-31        | Reflections on Justin Trudeau                          | politics | 2025-01-08 |        | 
+31        | Reflections on Justin Trudeau                          | politics | 2025-01-08 |        |       
 25        | A beauty holding a bird                                | other    | 2024-12-23 |        | narrow
 24        | Enduring falsehoods about Warren, Clinton              | politics | 2024-12-19 |        |       
 22        | Dehumanization                                         | politics | 2024-12-15 |        |       
 21        | Relationships                                          | personal | 2024-12-14 |        |       
 14        | Reasons I'm glad to be Canadian                        | politics | 2024-12-08 |        |       
-13        | The military–industrial complex                        | politics | 2024-12-04 |        | 
-11        | The Trump appeal                                       | politics | 2024-12-03 |        | 
+13        | The military–industrial complex                        | politics | 2024-12-04 |        |       
+11        | The Trump appeal                                       | politics | 2024-12-03 |        |       
 12        | The order of information                               | politics | 2024-12-03 |        |       
-10        | Touchscreens and smartphones                           | culture  | 2024-12-02 |        | 
+10        | Touchscreens and smartphones                           | culture  | 2024-12-02 |        |       
 9         | The default politician                                 | politics | 2024-11-26 |        |       
 8         | 10 Dollar                                              | culture  | 2024-11-25 |        | narrow
 7         | Fetishism & politics                                   | politics | 2024-11-14 |        |       
-6         | Mark Robinson                                          | politics | 2024-11-13 |        | 
+6         | Mark Robinson                                          | politics | 2024-11-13 |        |       
 5         | Types of masculinity                                   | culture  | 2024-11-08 |        |       
 4         | Anime reviews                                          | culture  | 2024-11-02 |        |       
 3         | Poor things (2023 film)                                | culture  | 2024-10-31 |        |       
 1         | Language                                               | personal | 2024-10-29 |        |       
 2         | The trans prison stats argument                        | politics | 2024-10-19 |        |       
-37        | Bluesky accounts listing                               | other    |            |        | wide
+37        | Bluesky accounts listing                               | other    |            |        | wide  
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        |       
 list      | Full page list                                         | personal |            |        | narrow
 index     |                                                        |          |            |        | narrow
           | People don't really have world views                   | personal |            |        |       
-20        | Israel notes                                           | politics |            |        | wide
-39 | Movie list | personal |||
+20        | Israel notes                                           | politics |            |        | wide  
+39        | Movie list                                             | personal |            |        | narrow
 `;
 
 /* This just helps keep the table above orderly. */
 function alignTable(dataString, splitChar) {
     let table = dataString.split("\n").map(row => row.split(splitChar).map(cell => cell.trim()));
-    tableWidth = Math.max(...table.map(row => row.length));
+    let tableWidth = Math.max(...table.map(row => row.length));
     for (let column = 0; column < tableWidth; column += 1) {
         let cellWidth = 0;
         for (let i = 0; i < table.length; i += 1) {
@@ -62,7 +62,7 @@ function alignTable(dataString, splitChar) {
     data = table.join("\n");
     console.log(data);
 }
-// alignTable(data, "|");
+alignTable(data, "|");
 
 /* function that enables the table of contents */
 let tocLinks, sectionHeadings, tocUpdateFlag = true, currentHeading = "";
