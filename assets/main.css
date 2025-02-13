@@ -152,9 +152,6 @@ body.wide { --main: 900px; }
                 .image-float.left { float: left; }
                 .image-float.right { float: right; }
 
-                .other-locations { font-family: Georgia Pro,Georgia,serif; }
-                .other-locations a { color: var(--grey-50); }
-
                 .fine, .fine *, .fine ::marker { color: var(--grey-60); font-size: 14px; font-family: system-ui !important; }
 
                 .citeref .rendered_digit { font-family: inherit; }
