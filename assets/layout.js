@@ -37,6 +37,7 @@ list      | Full page list                                         | personal | 
 index     |                                                        |          |            |        | narrow
           | People don't really have world views                   | personal |            |        |       
 20        | Israel notes                                           | politics |            |        | wide
+39 | Movie list | personal |||
 `;
 
 /* This just helps keep the table above orderly. */
