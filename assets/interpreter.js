@@ -114,8 +114,8 @@ function listParser(inputString) {
 
 /* This is a general parser I run all input through. It safely ignores
    anything <inside> of tags, with the same logic as wrapDigits */
-function safeConvert(input_string) {
-    let input = input_string, output = "";
+function safeConvert(inputString) {
+    let input = inputString, output = "";
     while (true) {
         let openTag = input.indexOf("<"), closeTag = input.indexOf(">");
         if (openTag == -1 || closeTag == -1) break;
@@ -140,8 +140,8 @@ function wrapDigits(targetElement) {
 
 /*  This one is for <code> and <div class="codeblock"> elements, where you
     don't want any formatting to apply. Run this before safeConvert */
-function cleanForCode(input_string) {
-    return input_string
+function cleanForCode(inputString) {
+    return inputString
         .replaceAll("=\"\"", "")
         .replaceAll("\"", "&quot;")
         .replaceAll("'", "&apos;")
@@ -155,7 +155,9 @@ function cleanForCode(input_string) {
         .replaceAll("*", "&ast;")
         .replaceAll("\n", "<br>");
 }
-
+function titleFilter(inputString) {
+    return inputString.replace(/<.+?>/g,"").replace(/"/g,"&quot;").replace(/&rsquo;/g,"'").replace(/&ndash;/g,"–").replace(/&mdash;/g,"—").replace(/&amp;/g,"&");
+}
 /*  .replaceAll is preferred over .replace when you don't need to regex
     functionality because it simply results in more readable code */
 
@@ -314,7 +316,7 @@ function interpreter(targetElement) {
         if (input[i].startsWith("# ")) {
             const temp = input[i].substring(2).split("|");
             const title = temp[0].trim();
-            const titleId = title.replace(/<\/?(i|b)>/g, "").replace(/&amp;/g, "&").replace(/’/g, "'").replace(/&rsquo;/g, "'").replace(/&ndash;/g, "–").replace(/&mdash;/g, "—");
+            const titleId = titleFilter(title);
             if (temp.length == 2) {
                 const date = temp[1].trim();
                 input[i] = `<div class="title-box"><h1 class="noq-header" id="${titleId}">${title}</h1><div class="date-box">${date}</div></div>`; }
@@ -327,14 +329,14 @@ function interpreter(targetElement) {
         /* ------ h2 ------ */
         if (input[i].startsWith("## ")) {
             let title = input[i].slice(3);
-            let titleId = title.replace(/<\/?(i|b)>/g, "");
+            const titleId = titleFilter(title);
             input[i] = `<h2 class="noq-header" id="${titleId}">${title}</h2>`;
             tocArray.push(`<a class="toc-row h2" href="#${titleId}">${titleId}</a>`);
             continue; }
         /* ------ h3 ------ */
         if (input[i].startsWith("### ")) {
             let title = input[i].slice(4);
-            let titleId = title.replace(/<\/?(i|b)>/g, "");
+            const titleId = titleFilter(title);
             input[i] = `<h3 class="noq-header" id="${titleId}">${title}</h2>`;
             tocArray.push(`<a class="toc-row h3" href="#${titleId}">${titleId}</a>`);
             continue; }

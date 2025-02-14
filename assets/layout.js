@@ -36,8 +36,8 @@ news-2025 | News 2025                                              | politics | 
 list      | Full page list                                         | personal |            |        | narrow
 index     |                                                        |          |            |        | narrow
           | People don't really have world views                   | personal |            |        |       
-20        | Israel notes                                           | politics |            |        | wide  
 39        | Movie list                                             | personal |            |        | narrow
+20        | Israel notes                                           | politics |            |        |       
 `;
 
 /* This just helps keep the table above orderly. */
@@ -111,10 +111,12 @@ function pageLoad() {
     if (!page) { console.error("{layout.js: can't find #page}"); return; }
     
     page.innerHTML =
-       `<div class="container">
-            <div id="article">${main.innerHTML}</div>
-        </div>
-        <div id="sidebar"></div>`;
+       `<div class="c2">
+            <div class="c1">
+                <div id="article">${main.innerHTML}</div>
+            </div>
+            <div id="sidebar"></div>
+        </div>`;
     
     interpreter(document.getElementById("article")); /* <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- */
     
@@ -125,7 +127,7 @@ function pageLoad() {
        `<div>
             <img src="assets/favicon.ico" height="100" width="100">
             <div>
-                <p><span style="color:var(--accent)">North of Queen</span> is my personal repo for things I write. I work alone and have no association with any other person or organization.</p>
+                <p><span>North of Queen</span> is my personal repo for things I write. I work alone and have no association with any other person or organization.</p>
                 <p>For more info about me, see <a href="index.html">here</a>.</p>
             </div>
         </div>`;
@@ -173,7 +175,7 @@ function pageLoad() {
             if (isPinned) {
                 navLinks.pins.push(linkElement); }
             else {
-                if (isCurrentPage || navLinks.recent.length < 11) {
+                if (isCurrentPage || navLinks.recent.length < 8) {
                     navLinks.recent.push(linkElement);
                 }
             }
@@ -190,20 +192,15 @@ function pageLoad() {
     
     const sidebar = document.getElementById("sidebar");
     sidebar.innerHTML = 
-       `<div>
-            <nav class="page-links">
-                ${navLinks.pins.join("")}
-            </nav>
-            <hr>
-            <nav class="page-links">
-                <div class="label">Recently added:</div>
-                ${navLinks.recent.join("")}
-                <div class="more-posts"><a href="list.html">Full page list →</a></div>
-            </nav>
-        </div>`;
+       `<nav class="page-links">
+            ${navLinks.pins.join("")}
+        <hr>
+            <div class="label">Recently added:</div>
+            ${navLinks.recent.join("")}
+            <div class="nav-row more-posts"><a href="list.html">Full page list →</a></div>
+        </nav>`;
     
     if (tocArray.length > 2) {
-        console.log("here");
         tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
         sidebar.innerHTML +=
        `<nav id="toc">
@@ -228,16 +225,20 @@ function pageLoad() {
 
 let canResize = true, sidebarCollapsed = false;
 function pageWidthCheck() {
-    if (!canResize) return;
-    let limit = (sidebarCollapsed) ? 1000 : 800;
-    if (window.innerWidth < limit) {
-        document.body.classList.add("vertical-sidebar");
-        canResize = false;
-        sidebarCollapsed = true;
-        setTimeout(() => { canResize = true; }, 500);
-    } else {
-        document.body.classList.remove("vertical-sidebar");
-        sidebarCollapsed = false;
+    if (canResize) {
+        let limit = (sidebarCollapsed) ? 806 : 800;
+        if (window.innerWidth < limit) {
+            document.body.classList.add("vertical-sidebar");
+            canResize = false;
+            sidebarCollapsed = true;
+            setTimeout(() => {
+                canResize = true;
+                pageWidthCheck();
+            }, 500);
+        } else {
+            document.body.classList.remove("vertical-sidebar");
+            sidebarCollapsed = false;
+        }
     }
 }
 
