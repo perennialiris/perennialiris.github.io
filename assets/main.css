@@ -41,12 +41,12 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
 
     #page { font-family: system-ui; height: 100%; display: flex; justify-content: center; }
     
-    .vertical-sidebar .c2 { flex-direction: column-reverse; align-items: center; }
+    .vertical-sidebar .c1 { flex-direction: column-reverse; align-items: center; }
     .vertical-sidebar #sidebar { padding: 10px 20px; width: unset; margin: 0; }
     .vertical-sidebar #sidebar .label { padding: 4px 5px; }
     .vertical-sidebar .page-links { flex-direction: row; flex-wrap: wrap; }
     .vertical-sidebar #toc { display: none; }
-    .vertical-sidebar .c1 { max-width: 100%; box-sizing: border-box; padding: 0 20px; }
+    .vertical-sidebar .c2 { max-width: 100%; box-sizing: border-box; padding: 0 20px; }
     
             #sidebar { font-size: 14px; width: 250px; min-width: 250px; }
                 #sidebar .label { color: var(--grey-90); }
@@ -70,9 +70,9 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                                 .toc-row.h3 { padding-left: 15px; }
                                 .toc-row.active-heading { color: var(--grey-30); }
 
-        .c2 { display: flex; background-color: var(--white); }
-            .c1 { max-width: var(--main); padding: 54px; font-size: 15px; line-height: 1.5; }
-            .c1 > :nth-child(n + 2) { margin-top: 40px; }
+        .c1 { display: flex; background-color: var(--white); }
+            .c2 { max-width: var(--main); padding: 50px; font-size: 15px; line-height: 1.5; }
+            .c2 > :nth-child(n + 2) { margin-top: 40px; }
 
                 #article { }
                 #article > :nth-child(1) { margin-top: 0; }
@@ -128,9 +128,12 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                     .noq-table { border-collapse: collapse; font-size: calc(100% - 1px); }
                     .noq-table td { border: 1px solid var(--grey-90); padding: 3px 7px 4px; }
 
-                    .transcript { font-family: sans-serif; font-size: calc(100% - 1px); border: 10px solid var(--grey-f0); border-collapse: collapse; background-color: var(--grey-f0); }
-                    .transcript tr td { padding: 3px 6px; border: none; vertical-align: baseline; }
-                    .transcript tr > td:nth-child(1) { border-right: 1px solid var(--grey-d0); white-space: nowrap; text-align: right; }
+                    .transcript { font-size: calc(100% - 1px); background-color: var(--grey-f0); border-collapse: collapse; }
+                    .transcript tr td { padding: 2px 6px; border: none; vertical-align: baseline; }
+                    .transcript tr > td:nth-child(1) { border-left: 1px solid var(--grey-20); white-space: nowrap; text-align: right; padding-left: 15px; }
+                    .transcript tr > td:nth-child(2) { border-left: 1px solid var(--grey-d0); padding-right: 15px; }
+                    .transcript tr:first-child > td { padding-top: 12px; }
+                    .transcript tr:last-child > td { padding-bottom: 12px; }
                     /* .transcript tr > td:nth-child(2) { font-family: Georgia Pro,Georgia,serif; } */
                     .transcript .transcript-note { opacity: 0.7; font-weight: 400; }
 
@@ -157,7 +160,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
 
                     .citeref .rendered_digit { font-family: inherit; }
 
-                #article-footer > div { max-width: 620px; padding: 28px 0; margin-left: auto; margin-right: auto; border-top: 1px solid var(--grey-90); border-bottom: 1px solid var(--grey-90); display: flex; gap: 10px; align-items: center; }
+                #article-footer > div { max-width: 620px; padding: 19px 0; margin-left: auto; margin-right: auto; border-top: 1px solid var(--grey-90); border-bottom: 1px solid var(--grey-90); display: flex; gap: 10px; align-items: center; }
                     #article-footer > div > img { object-fit: contain; border: 1px solid var(--grey-90); width: 100px; height: 100px; }
                     #article-footer > div > div { padding-bottom: 5px; }
                         #article-footer > div > div > p { text-align: center; margin: 5px auto; color: var(--grey-60); font-family: Georgia Pro,Georgia,serif; }

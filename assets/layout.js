@@ -111,8 +111,8 @@ function pageLoad() {
     if (!page) { console.error("{layout.js: can't find #page}"); return; }
     
     page.innerHTML =
-       `<div class="c2">
-            <div class="c1">
+       `<div class="c1">
+            <div class="c2">
                 <div id="article">${main.innerHTML}</div>
             </div>
             <div id="sidebar"></div>
