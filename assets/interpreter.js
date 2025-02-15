@@ -12,8 +12,6 @@ function stdReplacements(inputString) {
     if (inputString == "") { return ""; }
     let output = inputString
         .replaceAll("\\*", "&ast;")
-        .replaceAll("---", "&mdash;")
-        .replaceAll("--", "&ndash;")
         .replaceAll("\\^", "&Hat;")
         .replaceAll("\\_", "&lowbar;")
         .replaceAll("\\(", "&lpar;")
@@ -47,6 +45,8 @@ function stdReplacements(inputString) {
         .replace(/__(.+?)__/g, "<u>$1</u>")
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
+        .replaceAll("---", "<span class=\"mdash\">&mdash;</span>")
+        .replaceAll("--", "&ndash;")
         .replaceAll("...", "&hellip;")
     return output;
 }
@@ -105,7 +105,7 @@ function listParser(inputString) {
                     if (items[k].indexOf("<") < indent) {
                         k += 1; break; } }
                 items[k] = items[k].slice(0, -5);
-                items[j] = "<br>" + li; } }
+                items[j] = "<br class=\"list-br\">" + li; } }
         items[j] = " ".repeat(indent) + items[j]; }
     while (end_tags.length > 0) {
         items[items.length - 1] += end_tags.pop(); }
@@ -140,7 +140,7 @@ function wrapDigits(targetElement) {
 
 /*  This one is for <code> and <div class="codeblock"> elements, where you
     don't want any formatting to apply. Run this before safeConvert */
-function cleanForCode(inputString) {
+function sanitizeForCode(inputString) {
     return inputString
         .replaceAll("=\"\"", "")
         .replaceAll("\"", "&quot;")
@@ -254,11 +254,11 @@ function interpreter(targetElement) {
         /* div.codeblock: */
         if (input[i].startsWith("```")) {
             input[i] = input[i].replace(/\s*```\n*/g, "");
-            input[i] = "<div class=\"codeblock\">" + cleanForCode(input[i]) + "</div>";
+            input[i] = "<div class=\"codeblock\">" + sanitizeForCode(input[i]) + "</div>";
             continue; }
         /* <code></code>: */
         input[i] = input[i].replace(/`(.+?)`/g, (match, captureGroup) => {
-            return "<code>" + cleanForCode(captureGroup) + "</code>"; });
+            return "<code>" + sanitizeForCode(captureGroup) + "</code>"; });
         
         /* ------------------------ links ------------------------- */
         /* \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\) */
@@ -289,7 +289,7 @@ function interpreter(targetElement) {
             rows.shift();
             for (let j = 0; j < rows.length; j += 1) {
                 let cells = rows[j].split("|");
-                if (cells.length > 2) { console.error("{interpreter.js: jyvthqblfs}"); }
+                if (cells.length > 2) { console.error("{interpreter.js: transcript table width}"); }
                 if (cells[0].charAt(0) == "^") {
                     cells[0] = `<span class="fine">${cells[0].substring(1)}</span>`; }
                 cells[0] = safeConvert(cells[0].trim());
@@ -303,9 +303,26 @@ function interpreter(targetElement) {
             input[i] = `<table id="${"table" + tableNum++}" class="transcript">${rows.join("")}</table>`;
             continue; }
         
-        /* -------------- other places I posted this -------------- */
+        /* ------------- "This was also posted here:" ------------- */
         if (input[i].startsWith("||see-also")) {
             input[i] = `<br><p class="other-locations"><i>This was also posted here:</i><br>${input[i].split("\n").splice(1).map(c => `<a style="color:var(--grey-50)" href="${c}" target="_blank">${c}</a>`).join("<br>")}</div>`;
+            continue; }
+        /* ---------------------- blockquote ---------------------- */
+        if (input[i].startsWith("&gt;")) {
+            let lines = input[i].split("\n");
+            for (let j = 0; j < lines.length; j += 1) {
+                lines[j] = lines[j].replace(/^&gt;/, "").trim();
+                if (lines[j].startsWith("---")) {
+                    lines[j] = `<div class="attribution">${lines[j]}</div>`; }
+                else {
+                    if (lines[j].startsWith("^")) {
+                        lines[j] = `<div class="fine">${lines[j].substring(1)}</div>`; }
+                    else {
+                        lines[j] += "\n"; } } }
+            input[i] = lines.join("")
+                .replace(/\n\n/g, "<br class=\"bq-br\">")
+                .replace(/\n/g, "<br>");
+            input[i] = "<blockquote>" + safeConvert(input[i]) + "</blockquote>";
             continue; }
         
         /* -------------------------------------------------------- */
@@ -346,23 +363,6 @@ function interpreter(targetElement) {
             let title = input[i].slice(5);
             input[i] = `<h4>${title}</h4>`;
             /* don't put these in toc */
-            continue; }
-        /* ---------------------- blockquote ---------------------- */
-        if (input[i].startsWith("&gt;")) {
-            let lines = input[i].split("\n");
-            for (let j = 0; j < lines.length; j += 1) {
-                lines[j] = lines[j].replace(/^&gt;/, "").trim();
-                if (lines[j].startsWith("&mdash;")) {
-                    lines[j] = `<div class="attribution">${lines[j]}</div>`; }
-                else {
-                    if (lines[j].startsWith("^")) {
-                        lines[j] = `<div class="fine">${lines[j].substring(1)}</div>`; }
-                    else {
-                        lines[j] += "\n"; } } }
-            input[i] = lines.join("")
-                .replace(/\n\n/g, "<br class=\"bq-br\">")
-                .replace(/\n/g, "<br>");
-            input[i] = "<blockquote>" + input[i] + "</blockquote>";
             continue; }
         
         /* ------------------------ lists ------------------------- */

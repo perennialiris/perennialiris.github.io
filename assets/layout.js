@@ -35,8 +35,7 @@ news-2025 | News 2025                                              | politics | 
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        |       
 list      | Full page list                                         | personal |            |        | narrow
 index     |                                                        |          |            |        | narrow
-          | People don't really have world views                   | personal |            |        |       
-39        | Movie list                                             | personal |            |        | narrow
+          | People don't really have world views                   |          |            |        |       
 20        | Israel notes                                           | politics |            |        |       
 `;
 
@@ -60,7 +59,7 @@ function alignTable(dataString, splitChar) {
     for (let i = 0; i < table.length; i += 1) {
         table[i] = table[i].join(` ${splitChar} `); }
     data = table.join("\n");
-    console.log(data);
+    // console.log(data);
 }
 alignTable(data, "|");
 
@@ -118,10 +117,10 @@ function pageLoad() {
             <div id="sidebar"></div>
         </div>`;
     
-    interpreter(document.getElementById("article")); /* <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- */
+    let article = document.getElementById("article");
+    interpreter(article); /* <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- <---- */
     
-    const container = document.getElementById("article").parentNode;
-    let articleFooter = container.appendChild(document.createElement("footer"));
+    let articleFooter = article.parentNode.appendChild(document.createElement("footer"));
     articleFooter.id = "article-footer";
     articleFooter.innerHTML =
        `<div>
@@ -135,13 +134,14 @@ function pageLoad() {
     if (citationArray.length > 0) {
         for (let i = 0; i < citationArray.length; i += 1) {
             citationArray[i] = `<li><a href="${citationArray[i]}">${citationArray[i]}</a></li>`; }
-        let citations = container.appendChild(document.createElement("div"));
+        let citations = article.parentNode.appendChild(document.createElement("div"));
         citations.id = "article-citations";
         citations.innerHTML = `<div>things linked to on this page:</div><ol>${citationArray.join("")}</ol>`;
     }
     
     /* interpreting data for sidebar or main list */
     const navLinks = { pins: [], recent: [], full: [] };
+    let raisedPage = "";
     const dataRows = data.split("\n");
     for (let i = 0; i < dataRows.length; i += 1) {
         let cells = dataRows[i].split("|").map(cell => cell.trim());
@@ -175,8 +175,12 @@ function pageLoad() {
             if (isPinned) {
                 navLinks.pins.push(linkElement); }
             else {
-                if (isCurrentPage || navLinks.recent.length < 8) {
+                if (navLinks.recent.length < 8) {
                     navLinks.recent.push(linkElement);
+                } else {
+                    if (isCurrentPage) {
+                        raisedPage = linkElement;
+                    }
                 }
             }
             
@@ -204,7 +208,7 @@ function pageLoad() {
         tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
         sidebar.innerHTML +=
        `<nav id="toc">
-            <div id="toc-links"><h3>This page, table of contents</h3>${tocArray.join("")}</div>
+            <div class="toc-links"><h3>This page, table of contents</h3>${tocArray.join("")}</div>
         </nav>`;
         if (!tocLinks) { tocLinks = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
         if (!sectionHeadings) { sectionHeadings = Array.from(document.getElementsByClassName("noq-header")); }
@@ -222,6 +226,7 @@ function pageLoad() {
         cover.addEventListener("animationend", () => { cover.remove(); });
     }
 }
+
 
 let canResize = true, sidebarCollapsed = false;
 function pageWidthCheck() {
