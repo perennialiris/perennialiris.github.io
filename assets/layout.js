@@ -133,7 +133,7 @@ function pageLoad() {
     // article.parentNode.appendChild(document.createElement("hr"))
     let articleFooter = article.parentNode.appendChild(document.createElement("footer"));
     articleFooter.id = "article-footer";
-    articleFooter.innerHTML = `<p style="text-align:center;font-family:monospace;opacity:0.8">* * *</p><p>North of Queen is a personal, independent repo. I work alone and have no association with any other person or organization. I&rsquo;m a 30-year-old Canadian. Find me on Bluesky <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">here</a>.</p>`;
+    articleFooter.innerHTML = `<hr><p>North of Queen is my personal repo. I work alone and have no association with any other person or organization.<br>I&rsquo;m a 30-year-old Canadian. Find me on Bluesky <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">here</a>.</p>`;
 
     interpreter(article);
 

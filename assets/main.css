@@ -171,8 +171,8 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
 
                     .citeref .rendered_digit { font-family: inherit; }
 
-                #article-footer { color: var(--grey-50); display: flex; flex-direction: column; gap: 15px; font-family: sans-serif; }
-                #article-footer a { color: var(--grey-30); text-decoration: 1px dotted underline var(--grey-50); text-underline-offset: 2px; }
+                #article-footer { color: var(--grey-60); display: flex; flex-direction: column; gap: 15px; font-family: sans-serif; }
+                #article-footer a { color: var(--grey-40); text-decoration: 1px dotted underline var(--grey-50); text-underline-offset: 2px; }
                     #article-footer p { margin: 0; }
 
                 #article-citations { line-height: 1.5; color: var(--grey-90); }
