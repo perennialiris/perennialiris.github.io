@@ -26,7 +26,7 @@
 }
 .wide { --main: 886px; }
 
-html { scroll-padding-top: 60px; }
+html { scroll-padding-top: 60px; scrollbar-color: #792a37 #ced1d6 !important }
 html ::selection { background-color: var(--selection); }
 html * { margin: 0; padding: 0; }
 #cover { pointer-events: none; }
