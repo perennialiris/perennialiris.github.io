@@ -127,11 +127,13 @@ function pageLoad() {
             <div id="sidebar"></div>
         </div>`;
 
+
+
     let article = document.getElementById("article");
     // article.parentNode.appendChild(document.createElement("hr"))
     let articleFooter = article.parentNode.appendChild(document.createElement("footer"));
     articleFooter.id = "article-footer";
-    articleFooter.innerHTML = `<p style="text-align:center">* * *</p><p><span class="blog-name">North of Queen</span> is my personal repo. I work alone and have no association with any other person or organization. For more info about me, see <a href="index.html"><u>here</u></a>.</p>`;
+    articleFooter.innerHTML = `<p>North of Queen is a personal, independent repo. I work alone and have no association with any other person or organization. I&rsquo;m a 30-year-old Canadian. Find me on <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social"><u>Bluesky</u></a>.</p>`;
 
     interpreter(article);
 
@@ -228,6 +230,8 @@ function pageLoad() {
         cover.classList.add("fade-out");
         cover.addEventListener("animationend", () => { cover.remove(); });
     }
+    
+    // articleFooter.innerHTML += `<p style="text-align:center">North of Queen</p>`;
 }
 
 
