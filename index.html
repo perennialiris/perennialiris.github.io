@@ -1,41 +1,48 @@
 <!DOCTYPE html>
-<html><head>
+<html>
+<head>
     <style>
-    #article-footer, #article-citations { display: none; }
+    #sidebar, #article-footer { display: none !important; }
+    hr { background-color: var(--grey-d0) !important; }
+    .c1 { width: 100% !important; max-width: 868px !important; }
+    
+    #table1 { color: var(--grey-90)!important; }
+    #table1 tr th { padding: 3px 14px 7px!important; font-weight: 400; color: var(--grey-90); text-align: left!important; }
+    #table1 tr td { padding: 5px 14px!important; border: none!important; }
+    #table1 tr > :first-child { padding-left: 6px!important; }
+    #table1 tr > :last-child { padding-right: 6px!important; }
+    #table1 a { color: var(--grey-20)!important; display: flex; align-items: center; gap: 3px; }
+    #table1 a:hover { color: var(--accent)!important; text-decoration: underline; }
+    #table1 img.icon { opacity: 0.5; margin-left: 1px; }
     </style>
-</head><body class="narrow">
+</head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
 <div id="top"></div>
 <div id="page">
 <main id="main">
+\<div id="index-top"></div>
 
-## Info
-
-This is a simple repo I use to host things I make. It's like a blog, sort of, or maybe like Google docs. I don't know, whatever.
-
-I'm Iris. I live in Canada. I'm <span id="age"></span> years old. I'm a trans woman. I'm a very political person and many pages here are political commentary.
-
-I'd describe myself as a centrist, or a liberal conservative. I don't like extremism or conspiracy theorism.
-
-**Other places to find me:**
-[Bluesky](https://bsky.app/profile/irispol.bsky.social) | [Tumblr](https://forthoseinterested.tumblr.com) | [Substack](https://northofqueen.substack.com) | [Discord](https://discord.com/invite/fGdV7x5dk2) (my server)
-
-I don't use Facebook, Instagram, or X-Twitter. I used to be on Reddit a lot, but I barely use that place at all anymore. I just get banned from every subreddit.
-
-The painting I use for my icon is called [a beauty holding a bird](25.html). Every other image used across the site is visible at [/tree/main/images](https://github.com/northofqueen/northofqueen.github.io/tree/main/images).
-
-The fancy-looking font I used for that header image is called [Tangerine](https://fonts.google.com/specimen/Tangerine).
-
+||table
 </main></div>
 <script>if (document.getElementById("age")) { let date = new Date(); document.getElementById("age").innerHTML = date.getFullYear() - ((date.getMonth() > 3) ? 1994 : 1995); }</script>
 <script src="assets/interpreter.js"></script>
 <script src="assets/layout.js"></script>
+<script>
+function addIndexPage() {
+document.getElementById("index-top").innerHTML = `
+
+<div style="float:right;border:1px solid var(--grey-d0);padding:8px;margin:0 0 10px 10px;"><img height="150" style="object-fit:contain;display:block;max-height:175px;" src="assets/001.png"></div>
+
+<p style="margin:0"><b style="font-family:system-ui">This repo:</b> I’m Iris. I made this to host things I write. I’m a very political person, and many pages here are political commentary.<br style="margin-bottom:2px;">I live in Canada. I’m <span id="age"><span class="rendered_digit">30</span></span> years old. I’m a trans woman. I’d describe myself as a centrist, or liberal conservative.</p>
+
+<div style="padding:8px 0 3px"><b>Other places you can find me:</b></div>
+
+<span style="font-family:Georgia"><a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://discord.com/invite/fGdV7x5dk2">Discord</a> (my server)</span>
+
+<hr>
+`};
+
+window.addEventListener("load", addIndexPage);
+</script>
 </body></html>
 
-
-
-<!--
-Kara Swisher
-Ezra Klein
-Catherine Rampell
--->

@@ -198,7 +198,7 @@ function interpreter(targetElement) {
         if (input[i].startsWith("\\")) {
             input[i] = input[i].substring(1);
             continue; }
-        
+
         let dropCap = false;
         let finePrint = false;
         if (input[i].startsWith("^")) {
@@ -209,15 +209,25 @@ function interpreter(targetElement) {
             dropCap = true;
             input[i] = input[i].substring(1);
         }
-        
+
         if (input[i] == "***" || input[i] == "---") {
             input[i] = "<hr>";
             continue; }
-        
+
         if (input[i] == "**" || input[i] == "--") {
             input[i] = "<p></p>";
             continue; }
-        
+
+        if (input[i].startsWith("||video-right-mp4")) {
+            console.log("catch: a")
+            input[i] = `<video class="noq-video right" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
+            continue; }
+
+        if (input[i].startsWith("||video-mp4")) {
+            console.log("catch: b")
+            input[i] = `<video class="noq-video" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
+            continue; }
+
         if (input[i].startsWith("||image-box")) {
             let lines = input[i].split("\n").slice(1);
             for (let j = 0; j < lines.length; j += 1) {
@@ -248,7 +258,7 @@ function interpreter(targetElement) {
             return `<div class="image-float left"><img onclick="imageViewer(this)" src="${filePath}" title="${altText}" alt="${altText}"><div>${caption}</div></div>`; });
             continue;
         }
-        
+
         /* before looking for code, fix any \` instances: */
         input[i] = input[i].replace(/\\`/g, "&#96;");
         /* div.codeblock: */
@@ -259,7 +269,7 @@ function interpreter(targetElement) {
         /* <code></code>: */
         input[i] = input[i].replace(/`(.+?)`/g, (match, captureGroup) => {
             return "<code>" + sanitizeForCode(captureGroup) + "</code>"; });
-        
+
         /* ------------------------ links ------------------------- */
         /* \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\) */
         input[i] = input[i].replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
@@ -270,7 +280,7 @@ function interpreter(targetElement) {
                 ? `<a class="citeref" target="_blank" href="${address}">[${index}]</a>`
                 : `<a target="_blank" href="${address}">${displayText}</a>`;
             return result; });
-        
+
         /* ------------------------ table ------------------------- */
         if (input[i].startsWith("||table")) {
             let rows = input[i].split("\n");
@@ -282,7 +292,7 @@ function interpreter(targetElement) {
                 rows[j] = "<tr>" + cells.join("") + "</tr>"; }
             input[i] = `<table id="${"table" + tableNum++}" class="noq-table">${rows.join("")}</table>`;
             continue; }
-        
+
         /* ---------------------- transcript ---------------------- */
         if (input[i].startsWith("||transcript")) {
             let rows = input[i].split("\n");
@@ -302,10 +312,11 @@ function interpreter(targetElement) {
                 }
             input[i] = `<table id="${"table" + tableNum++}" class="transcript">${rows.join("")}</table>`;
             continue; }
-        
+
         /* ------------- "This was also posted here:" ------------- */
         if (input[i].startsWith("||see-also")) {
-            input[i] = `<br><p class="other-locations"><i>This was also posted here:</i><br>${input[i].split("\n").splice(1).map(c => `<a style="color:var(--grey-50)" href="${c}" target="_blank">${c}</a>`).join("<br>")}</div>`;
+            document.getElementById("article-footer").innerHTML += `<p>This was also posted here:<br>${input[i].split("\n").splice(1).map(c => `<a href="${c}" target="_blank">${c}</a>`).join("<br>")}</p>`;
+            input[i] = "";
             continue; }
         /* ---------------------- blockquote ---------------------- */
         if (input[i].startsWith("&gt;")) {
@@ -324,10 +335,10 @@ function interpreter(targetElement) {
                 .replace(/\n/g, "<br>");
             input[i] = "<blockquote>" + safeConvert(input[i]) + "</blockquote>";
             continue; }
-        
+
         /* -------------------------------------------------------- */
         input[i] = safeConvert(input[i]);
-        
+
         /* ------------------------ headers ----------------------- */
         /* ------ h1 ------ */
         if (input[i].startsWith("# ")) {
@@ -364,7 +375,7 @@ function interpreter(targetElement) {
             input[i] = `<h4>${title}</h4>`;
             /* don't put these in toc */
             continue; }
-        
+
         /* ------------------------ lists ------------------------- */
         if (input[i].startsWith("* ") || input[i].startsWith("- ") || /^\d+\./.test(input[i])) {
             input[i] = listParser(input[i]);
@@ -383,8 +394,8 @@ function interpreter(targetElement) {
             input[i] = `<p>${input[i]}</p>`; }
     }
     targetElement.innerHTML = input.join("");
-    
-    function wrapElements(x) { let temp = document.getElementsByTagName(x); for (let i = 0; i < temp.length; i += 1) { wrapDigits(temp[i]); } } wrapElements("p"); wrapElements("li"); wrapElements("blockquote");
+
+    function wrapElements(x) { let temp = targetElement.getElementsByTagName(x); for (let i = 0; i < temp.length; i += 1) { wrapDigits(temp[i]); } } wrapElements("p"); wrapElements("li"); wrapElements("blockquote");
 }
 
 
