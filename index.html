@@ -6,14 +6,14 @@
     hr { background-color: var(--grey-d0) !important; }
     .c1 { width: 100% !important; max-width: 868px !important; }
     
-    #table1 { color: var(--grey-90)!important; }
-    #table1 tr th { padding: 3px 14px 7px!important; font-weight: 400; color: var(--grey-90); text-align: left!important; }
-    #table1 tr td { padding: 5px 14px!important; border: none!important; }
-    #table1 tr > :first-child { padding-left: 6px!important; }
-    #table1 tr > :last-child { padding-right: 6px!important; }
-    #table1 a { color: var(--grey-20)!important; display: flex; align-items: center; gap: 3px; }
-    #table1 a:hover { color: var(--accent)!important; text-decoration: underline; }
-    #table1 img.icon { opacity: 0.5; margin-left: 1px; }
+    #front-page-list { color: var(--grey-90)!important; }
+    #front-page-list tr th { padding: 3px 14px 7px!important; font-weight: 400; color: var(--grey-90); text-align: left!important; }
+    #front-page-list tr td { padding: 5px 14px!important; border: none!important; }
+    #front-page-list tr > :first-child { padding-left: 6px!important; }
+    #front-page-list tr > :last-child { padding-right: 6px!important; }
+    #front-page-list a { color: var(--grey-20)!important; display: flex; align-items: center; gap: 3px; }
+    #front-page-list a:hover { color: var(--accent)!important; text-decoration: underline; }
+    #front-page-list img.icon { opacity: 0.5; margin-left: 1px; }
     </style>
 </head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
@@ -22,7 +22,7 @@
 <main id="main">
 \<div id="index-top" style="font-size:15px"></div>
 
-||table
+\<table id="front-page-list"></table>
 </main></div>
 <script>if (document.getElementById("age")) { let date = new Date(); document.getElementById("age").innerHTML = date.getFullYear() - ((date.getMonth() > 3) ? 1994 : 1995); }</script>
 <script src="assets/interpreter.js"></script>

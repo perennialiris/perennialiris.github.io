@@ -195,8 +195,9 @@ function pageLoad() {
     }
     
     const sidebar = document.getElementById("sidebar");
-    if (fileName == "index") {
-        document.getElementById("table1").innerHTML = `<tr><th>Post title</th><th>Topic</th><th>Date posted</th></tr>${navLinks.full.join("")}`;
+    const frontPageList = document.getElementById("front-page-list");
+    if (frontPageList) {
+        frontPageList.innerHTML = `<tr><th>Post title</th><th>Topic</th><th>Date posted</th></tr>${navLinks.full.join("")}`;
         sidebar.remove();
     } else {
         const sidebar = document.getElementById("sidebar");
