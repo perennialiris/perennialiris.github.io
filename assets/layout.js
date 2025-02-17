@@ -29,7 +29,7 @@ news-2025 | News 2025                                              | politics | 
 35        | Show and tell (Lex Fridman)                            | politics | 2025-02-05 |        |     
 1         | Language                                               | personal | 2024-10-29 |        |     
 22        | Dehumanization                                         | politics | 2024-12-15 |        |     
-37        | Bluesky accounts listing                               | other    |            |        | wide
+37        | Bluesky accounts listing                               | other    |            | hidden | wide
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        |     
 index     |                                                        |          |            |        |     
 20        | Israel notes                                           | politics |            | hidden |     
