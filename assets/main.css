@@ -88,7 +88,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
 
                     h1, h2, h3, h4 { font-family: Inter,system-ui; color: var(--grey-20); }
 
-                    #article p,
+                    p,
                     ul,
                     ol { margin-top: 1em; }
 
@@ -110,6 +110,8 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                     ul + li,
                     li + li { margin: 0.5em 0; }
                     .list-br { margin-bottom: 0.5em; }
+
+                    h4 + p { margin-top: 0.5em; }
 
                     #article p .mdash { margin-left: 1px; }
 
