@@ -111,7 +111,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                     li + li { margin: 0.5em 0; }
                     .list-br { margin-bottom: 0.5em; }
 
-                    h4 + p { margin-top: 0.5em; }
+                    h4 + p { margin-top: 0.6em; }
 
                     #article p .mdash { margin-left: 1px; }
 
@@ -160,8 +160,8 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                     .image-box div { display: inline-block; border: 1px solid var(--grey-90); height: 100%; }
                     .image-box div img { width: inherit; max-width: 100%; display: block; object-fit: contain; }
 
-                    .image-float { padding: 8px; gap: 5px; border: 1px solid var(--grey-d0); margin: 10px; display: flex; flex-direction: column; align-items: center; }
-                    .image-float img { object-fit: contain; max-width: 200px; max-height: 250px; }
+                    .image-float { padding: 8px; gap: 5px; border: 1px solid var(--grey-90); margin: 10px; display: flex; flex-direction: column; align-items: center; }
+                    .image-float img { object-fit: contain; max-width: 200px; max-height: 250px; border: 1px solid var(--grey-90); }
                     .image-float div { text-align: center; line-height: 1; }
                     .image-float.left { float: left; }
                     .image-float.right { float: right; }
