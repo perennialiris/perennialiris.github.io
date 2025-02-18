@@ -22,9 +22,9 @@
     --grey-40: #404040;
     --grey-30: #303030;
     --grey-20: #202020;
-    --main: 714px;
+    --main: 734px;
 }
-.wide { --main: 886px; }
+.wide { --main: calc(734px + 150px); }
 
 html { scroll-padding-top: 60px; scrollbar-color: #555 #ccc !important; }
 html ::selection { background-color: var(--selection); }
@@ -45,11 +45,11 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
             #header a { margin: auto; display: block; width: 286px; padding-right: calc(0.04 * calc(100% - 286px)); }
             #header a:hover { opacity: 0.8; }
                 #header a img { display: block; padding: 17px; width: 252px; height: 67px; filter: invert(1); }
-        #nav { height: 24px; background-color: var(--accent); background-image: linear-gradient(#3339, #3339); }
+        #nav { height: 24px; background-color: var(--accent); background-image: linear-gradient(#333b, #333b); }
 
     #page { background-color: #fff; height: 100%; display: flex; justify-content: center; }
     
-            #sidebar { width: 250px; min-width: 250px; }
+            #sidebar { width: 250px; min-width: 250px; padding: 4px; }
                 #sidebar .label { color: var(--grey-90); }
                 #sidebar hr { margin: 5px 0; border: none; height: 1px; background-color: var(--grey-d0); }
                 #sidebar a:hover { color: var(--grey-20); text-decoration: underline; }
@@ -111,8 +111,6 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                     li + li { margin: 0.5em 0; }
                     .list-br { margin-bottom: 0.5em; }
 
-                    h4 + p { margin-top: 0.6em; }
-
                     #article p .mdash { margin-left: 1px; }
 
                     #article p,
@@ -160,7 +158,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                     .image-box div { display: inline-block; border: 1px solid var(--grey-90); height: 100%; }
                     .image-box div img { width: inherit; max-width: 100%; display: block; object-fit: contain; }
 
-                    .image-float { padding: 8px; gap: 5px; border: 1px solid var(--grey-90); margin: 10px; display: flex; flex-direction: column; align-items: center; }
+                    .image-float { padding: 7px; gap: 7px; border: 1px solid var(--grey-90); margin: 10px; display: flex; flex-direction: column; align-items: center; }
                     .image-float img { object-fit: contain; max-width: 200px; max-height: 250px; border: 1px solid var(--grey-90); }
                     .image-float div { text-align: center; line-height: 1; }
                     .image-float.left { float: left; }

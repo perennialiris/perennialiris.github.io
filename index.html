@@ -5,6 +5,10 @@
     #sidebar, #article-footer { display: none !important; }
     hr { background-color: var(--grey-d0) !important; }
     .c1 { width: 100% !important; max-width: 868px !important; }
+    .c2 { max-width: 714px !important; }
+    
+    #index-top h4 + ul { margin: 7px 0 0 !important; }
+    #index-top li + li { margin: 3px 0 0 !important; }
     
     #front-page-list { color: var(--grey-90)!important; }
     #front-page-list tr th { padding: 3px 14px 7px!important; font-weight: 400; color: var(--grey-90); text-align: left!important; }
@@ -32,11 +36,17 @@ document.getElementById("index-top").innerHTML = `
 
 <div style="float:right;border:1px solid var(--grey-d0);padding:8px;margin:0 0 10px 10px;"><img height="165" style="object-fit:contain;display:block;max-height:165px;" src="assets/001.png"></div>
 
-<p style="margin:0"><b style="font-family:system-ui">This repo:</b> I’m Iris. I made this to host things I write. I’m a very political person and many pages here are political commentary. I live in Canada. I’m a trans woman. I’d describe myself as a centrist, or liberal conservative.</p>
+<p style="margin:0"><b style="font-family:Inter,system-ui">This repo:</b> I’m Iris. I made this to host things I write. I’m a very political person and many pages here are political commentary. I live in Canada. I’m a trans woman. I’m a centrist, or liberal conservative.</p>
 
-<div style="padding:15px 0 7px"><b>Other places you can find me:</b></div>
-
-<span style="font-family:Georgia"><a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/fGdV7x5dk2">Discord</a> (my server)</span>
+<p>
+<h4><b>Other places to find me:</b></h4>
+<ul>
+<li>Bluesky <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">@irispol.bsky.social</a></li>
+<li>Substack: <a target="_blank" href="https://northofqueen.substack.com">https://northofqueen.substack.com</a></li>
+<li>Tumblr: <a target="_blank" href="https://forthoseinterested.tumblr.com">@forthoseinterested</a></li>
+<li>Discord server: <a target="_blank" href="https://discord.com/invite/fGdV7x5dk2">https://discord.com/invite/fGdV7x5dk2</a></li>
+</ul>
+</p>
 
 <hr>
 `};
@@ -45,3 +55,6 @@ window.addEventListener("load", addIndexPage);
 </script>
 </body></html>
 
+<!--
+<span style="font-family:Georgia"><a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/fGdV7x5dk2">Discord</a> (my server)</span>
+-->

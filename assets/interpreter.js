@@ -168,20 +168,26 @@ function titleFilter(inputString) {
         <div><img alt="description" title="description" src="path/to/image.png"></div>
         <div><img alt="nice" title="nice" src="path/to/other_image.png"></div>
     </div>                                                                     */
+
+let isKeyResponsive = false;
 function imageViewer(img) {
-    let ivw = document.getElementById("image-viewer-wrapper");
-    let iv = document.getElementById("image-viewer");
-    if (ivw && iv) {
-        ivw.style.display = "flex";
-        iv.src = img.src;
-        iv.alt = img.alt; } }
-function closeImageViewer(img) {
-    let ivw = document.getElementById("image-viewer-wrapper");
-    let iv = document.getElementById("image-viewer");
-    if (ivw && iv) {
-        ivw.style.display = "none";
-        iv.src = "";
-        iv.alt = ""; } }
+    let container = document.getElementById("image-viewer-wrapper");
+    let image_viewer = document.getElementById("image-viewer");
+    if (container && image_viewer) {
+        isKeyResponsive = false;
+        setTimeout(() => {
+            isKeyResponsive = true;
+            }, 150);
+        container.style.display = "flex";
+        image_viewer.src = img.src;
+        image_viewer.alt = img.alt; } }
+function closeImageViewer() {
+    let container = document.getElementById("image-viewer-wrapper");
+    let image_viewer = document.getElementById("image-viewer");
+    if (container && image_viewer) {
+        container.style.display = "none";
+        image_viewer.src = "";
+        image_viewer.alt = ""; } }
 
 /* The main interpreter loop. Pass the main element to start. */
 function interpreter(targetElement) {
@@ -249,13 +255,29 @@ function interpreter(targetElement) {
         
         if (input[i].startsWith("||image-right")) {
             input[i] = input[i].split("\n")[1].replace(/\[(.+)\]\[(.+)\]\((.+)\)/g, (match, caption, altText, filePath) => {
-            return `<div class="image-float right"><img onclick="imageViewer(this)" src="${filePath}" title="${altText}" alt="${altText}"><div>${caption}</div></div>`; });
+                let temp = `<div class="image-float right"><img onclick="imageViewer(this)" src="${filePath}"`;
+                if (altText.replace(/\s/g, "").length > 0) {
+                    temp += ` title="${altText}" alt="${altText}">`;
+                } else {
+                    temp += `>`; }
+                if (caption.replace(/\s/g, "").length > 0) {
+                    temp += `<div>${caption}</div>`;
+                }
+                return temp + "</div>"; });
             continue;
         }
         
         if (input[i].startsWith("||image-left")) {
             input[i] = input[i].split("\n")[1].replace(/\[(.+)\]\[(.+)\]\((.+)\)/g, (match, caption, altText, filePath) => {
-            return `<div class="image-float left"><img onclick="imageViewer(this)" src="${filePath}" title="${altText}" alt="${altText}"><div>${caption}</div></div>`; });
+                let temp = `<div class="image-float left"><img onclick="imageViewer(this)" src="${filePath}"`;
+                if (altText.replace(/\s/g, "").length > 0) {
+                    temp += ` title="${altText}" alt="${altText}">`;
+                } else {
+                    temp += `>`; }
+                if (caption.replace(/\s/g, "").length > 0) {
+                    temp += `<div>${caption}</div>`;
+                }
+                return temp + "</div>"; });
             continue;
         }
 

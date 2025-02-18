@@ -1,42 +1,42 @@
 "use strict"
 
 let data = `
-19        | Ilhan Omar's comments about Somalia                    | politics | 2025-02-12 |        |     
-34        | The Nazi salute                                        | politics | 2025-01-24 |        |     
-36        | People don't really have world views                   |          |            | hidden |     
-8         | 10 Dollar                                              | culture  | 2024-11-25 |        |     
-7         | Fetishism & politics                                   | politics | 2024-11-14 |        |     
-13        | The military–industrial complex                        | politics | 2024-12-04 |        |     
-30        | The appearance of intelligence                         | other    | 2025-01-18 |        |     
-28        | Therapy theory                                         | personal | 2025-01-09 |        |     
 news-2025 | News 2025                                              | politics |            | pinned | wide
-31        | Reflections on Justin Trudeau                          | politics | 2025-01-08 |        |     
 27        | Sex, gender, & transsexuals                            | politics |            | pinned | wide
+32        | Politics fundamentals                                  | politics |            | pinned | wide
+19        | Ilhan Omar's comments about Somalia                    | politics | 2025-02-12 |        |     
+17        | Why get bottom surgery?                                | culture  | 2025-02-09 |        |     
+35        | Show and tell (Lex Fridman)                            | politics | 2025-02-05 |        |     
+16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |     
+34        | The Nazi salute                                        | politics | 2025-01-24 |        |     
+30        | The appearance of intelligence                         | other    | 2025-01-18 |        |     
+29        | Date formats                                           | other    | 2025-01-11 |        |     
+28        | Therapy theory                                         | personal | 2025-01-09 |        |     
+31        | Reflections on Justin Trudeau                          | politics | 2025-01-08 |        |     
 25        | A beauty holding a bird                                | other    | 2024-12-23 |        |     
-2         | The trans prison stats argument                        | politics | 2024-10-19 |        |     
 24        | Enduring falsehoods about Warren, Clinton              | politics | 2024-12-19 |        |     
+22        | Dehumanization                                         | politics | 2024-12-15 |        |     
 21        | Relationships                                          | personal | 2024-12-14 |        |     
+14        | Reasons I'm glad to be Canadian                        | politics | 2024-12-08 |        |     
+13        | The military–industrial complex                        | politics | 2024-12-04 |        |     
 12        | The order of information                               | politics | 2024-12-03 |        |     
 11        | The Trump appeal                                       | politics | 2024-12-03 |        |     
-14        | Reasons I'm glad to be Canadian                        | politics | 2024-12-08 |        |     
-17        | Why get bottom surgery?                                | culture  | 2025-02-09 |        |     
 10        | Touchscreens and smartphones                           | culture  | 2024-12-02 |        |     
-32        | Politics fundamentals                                  | politics |            | pinned | wide
 9         | The default politician                                 | politics | 2024-11-26 |        |     
-29        | Date formats                                           | other    | 2025-01-11 |        |     
+8         | 10 Dollar                                              | culture  | 2024-11-25 |        |     
+7         | Fetishism & politics                                   | politics | 2024-11-14 |        |     
+15        | Mark Robinson transcript                               |          | 2024-11-13 | hidden |     
+6         | Mark Robinson                                          | politics | 2024-11-13 |        |     
+5         | Types of masculinity                                   | culture  | 2024-11-08 |        |     
 4         | Anime reviews                                          | culture  | 2024-11-02 |        |     
 3         | Poor things (2023 film)                                | culture  | 2024-10-31 |        |     
-35        | Show and tell (Lex Fridman)                            | politics | 2025-02-05 |        |     
 1         | Language                                               | personal | 2024-10-29 |        |     
-22        | Dehumanization                                         | politics | 2024-12-15 |        |     
+2         | The trans prison stats argument                        | politics | 2024-10-19 |        |     
+36        | People don't really have world views                   |          |            | hidden |     
 37        | Bluesky accounts listing                               | other    |            | hidden | wide
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        |     
 index     |                                                        |          |            |        |     
 20        | Israel notes                                           | politics |            | hidden |     
-16        | Milo Yiannopoulos's cancellation                       | politics | 2025-02-03 |        |     
-15        | Mark Robinson transcript                               |          | 2024-11-13 | hidden |     
-6         | Mark Robinson                                          | politics | 2024-11-13 |        |     
-5         | Types of masculinity                                   | culture  | 2024-11-08 |        |     
 `;
 /*    23    26    33    38    39    40    */
 
@@ -99,6 +99,9 @@ function pageLoad() {
     const footer = document.body.appendChild(document.createElement("footer"));
     footer.id = "footer";
     footer.innerHTML += `<div id="image-viewer-wrapper" onclick="closeImageViewer()"><img id="image-viewer"></div>`;
+    window.addEventListener("keydown", function(event) {
+        if (isKeyResponsive && event.key === 'Escape') { closeImageViewer(); }
+    })
     
     /* get file name */
     let fileName_get_ = location.href.split("/");
@@ -145,7 +148,7 @@ function pageLoad() {
         citations.innerHTML = `<div>links on this page:</div><ol>${citationArray.join("")}</ol>`;
     }
 
-    alignTable(data, "|");
+    // alignTable(data, "|");
     /* interpreting data for sidebar or main list */
     const navLinks = { pins: [], recent: [], full: [] };
     const dataRows = data.split("\n");
@@ -239,7 +242,7 @@ function pageLoad() {
 let canResize = true, sidebarCollapsed = false;
 function pageWidthCheck() {
     if (canResize) {
-        let limit = (sidebarCollapsed) ? 806 : 800;
+        let limit = (sidebarCollapsed) ? 804 : 800;
         if (window.innerWidth < limit) {
             document.body.classList.add("vertical-sidebar");
             canResize = false;
