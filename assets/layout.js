@@ -36,7 +36,7 @@ news-2025 | News 2025                                              | politics | 
 37        | Bluesky accounts listing                               | other    |            | hidden | wide
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        |     
 index     |                                                        |          |            |        |     
-20        | Israel notes                                           | politics |            | hidden |     
+20        | Israel notes                                           | politics |            | hidden | wide
 `;
 /*    23    26    33    38    39    40    */
 
