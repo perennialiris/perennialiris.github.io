@@ -7,8 +7,8 @@
     .c1 { width: 100% !important; max-width: 868px !important; }
     .c2 { max-width: 714px !important; }
     
-    #index-top h4 + ul { margin: 7px 0 0 !important; }
-    #index-top li + li { margin: 3px 0 0 !important; }
+    #index-top ul,
+    #index-top li { margin: 0 !important; }
     
     #front-page-list { color: var(--grey-90)!important; }
     #front-page-list tr th { padding: 3px 14px 7px!important; font-weight: 400; color: var(--grey-90); text-align: left!important; }
@@ -17,7 +17,7 @@
     #front-page-list tr > :last-child { padding-right: 6px!important; }
     #front-page-list a { color: var(--grey-20)!important; display: flex; align-items: center; gap: 3px; }
     #front-page-list a:hover { color: var(--accent)!important; text-decoration: underline; }
-    #front-page-list img.icon { opacity: 0.5; margin-left: 1px; }
+    #front-page-list img.icon { opacity: 0.6; margin-left: 1px; }
     </style>
 </head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
@@ -32,21 +32,28 @@
 <script src="assets/layout.js"></script>
 <script>
 function addIndexPage() {
+let date = new Date();
 document.getElementById("index-top").innerHTML = `
 
 <div style="float:right;border:1px solid var(--grey-d0);padding:8px;margin:0 0 10px 10px;"><img height="165" style="object-fit:contain;display:block;max-height:165px;" src="assets/001.png"></div>
 
-<p style="margin:0"><b style="font-family:Inter,system-ui">This repo:</b> I’m Iris. I made this to host things I write. I’m a very political person and many pages here are political commentary. I live in Canada. I’m a trans woman. I’m a centrist, or liberal conservative.</p>
+<p style="margin:0">
+    <b style="font-family:Roboto,system-ui">About me:</b>
+    Iris | Canada | ${date.getFullYear() - ((date.getMonth() > 3) ? 1994 : 1995)} | Trans woman | Centre-left
+</p>
 
 <p>
-<h4><b>Other places to find me:</b></h4>
-<ul>
-<li>Bluesky <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">@irispol.bsky.social</a></li>
-<li>Substack: <a target="_blank" href="https://northofqueen.substack.com">https://northofqueen.substack.com</a></li>
-<li>Tumblr: <a target="_blank" href="https://forthoseinterested.tumblr.com">@forthoseinterested</a></li>
-<li>Discord server: <a target="_blank" href="https://discord.com/invite/fGdV7x5dk2">https://discord.com/invite/fGdV7x5dk2</a></li>
-</ul>
+    <b style="font-family:Roboto,system-ui">This repo:</b>
+    This is just a place where I throw anything I want hosted. It's kind of just like a more customized Google docs.
 </p>
+
+<p><b style="font-family:Roboto,system-ui">Where to find me:</b></p>
+<ul>
+    <li>Bluesky <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">@irispol.bsky.social</a></li>
+    <li>Substack: <a target="_blank" href="https://northofqueen.substack.com">https://northofqueen.substack.com</a></li>
+    <li>Tumblr: <a target="_blank" href="https://forthoseinterested.tumblr.com">@forthoseinterested</a></li>
+    <li>my Discord server: <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">https://discord.gg/puJEP8HKk3</a></li>
+</ul>
 
 <hr>
 `};
@@ -56,5 +63,5 @@ window.addEventListener("load", addIndexPage);
 </body></html>
 
 <!--
-<span style="font-family:Georgia"><a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/fGdV7x5dk2">Discord</a> (my server)</span>
+<span style="font-family:Georgia"><a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a> (my server)</span>
 -->

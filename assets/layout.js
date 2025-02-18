@@ -136,8 +136,9 @@ function pageLoad() {
     // article.parentNode.appendChild(document.createElement("hr"))
     let articleFooter = article.parentNode.appendChild(document.createElement("footer"));
     articleFooter.id = "article-footer";
-    articleFooter.innerHTML = `<hr><p>North of Queen is my personal repo. I work alone and have no association with any other person or organization.<br>I&rsquo;m a 30-year-old Canadian. Find me on Bluesky <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">here</a>.</p>`;
-
+    let date = new Date();
+    articleFooter.innerHTML = `<hr><p><span>North of Queen</span> is my personal repo. I&rsquo;m ${date.getFullYear() - ((date.getMonth() > 3) ? 1994 : 1995)} years old. I live in Canada. I work alone and have no association with any other person or organization. Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> &verbar; <a target="_blank" href="https://northofqueen.substack.com">Substack</a> &verbar; <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> &verbar; <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></p>`;
+    
     interpreter(article);
 
     if (citationArray.length > 0) {
@@ -212,7 +213,7 @@ function pageLoad() {
                 ${navLinks.recent.join("")}
                 <div class="nav-row more-posts"><a href="index.html">Full page list →</a></div>
             </nav>`;
-        if (tocArray.length > 2) {
+        if (tocArray.length > 4) {
             tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
             sidebar.innerHTML +=
            `<nav id="toc">

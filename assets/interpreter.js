@@ -19,10 +19,9 @@ function stdReplacements(inputString) {
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
         .replaceAll("\\", "&#92;")
-        /*
-            It took many versions, but I think I finally got to a point
-            where this always works the way I want it to.
-        */
+        /*  It took many versions, but I think I finally got to a point
+            where this always works the way I want it to. */
+
         /* curly " replacement */
         .replace(/(\S\*{1,3})" /g, "$1&rdquo; ")
         .replace(/^" /g, "&rdquo; ")
@@ -31,7 +30,7 @@ function stdReplacements(inputString) {
         .replace(/"$/g, "&rdquo;")
         .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
         .replace(/"/g, "&rdquo;")
-        
+
         /* curly ' replacement */
         .replace(/'(\d{2}) /, "&rsquo;$1 ") // for saying '95 or '27 etc.
         .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
@@ -41,7 +40,7 @@ function stdReplacements(inputString) {
         .replace(/'$/g, "&rsquo;")
         .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
         .replace(/'/g, "&rsquo;")
-        
+
         .replace(/__(.+?)__/g, "<u>$1</u>")
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
