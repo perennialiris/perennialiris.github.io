@@ -18,6 +18,7 @@
     #front-page-list a { color: var(--grey-20)!important; display: flex; align-items: center; gap: 3px; }
     #front-page-list a:hover { color: var(--accent)!important; text-decoration: underline; }
     #front-page-list img.icon { opacity: 0.6; margin-left: 1px; }
+    #front-page-list ::selection { color: #444; }
     </style>
 </head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
@@ -35,7 +36,7 @@ function addIndexPage() {
 let date = new Date();
 document.getElementById("index-top").innerHTML = `
 
-<div style="float:right;border:1px solid var(--grey-d0);padding:8px;margin:0 0 10px 10px;"><img height="185" style="object-fit:contain;display:block;max-height:185px;" src="assets/001.png"></div>
+<div style="float:right;border:1px solid var(--grey-d0);padding:8px;margin:0 0 10px 10px;"><img height="180" style="object-fit:contain;display:block;max-height:180px;" src="assets/001.png"></div>
 
 <p style="margin:0;font-family:Georgia,serif">
     <b style="font-family:Roboto,system-ui">About me:</b>

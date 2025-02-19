@@ -12,7 +12,7 @@ news-2025 | News 2025                                              | politics | 
 28        | Therapy theory                                         | personal | 2025-01-09 |        |     
 31        | Reflections on Justin Trudeau                          | politics | 2025-01-08 |        |     
 32        | Politics fundamentals                                  | politics | 2025-01-05 |        | wide
-27        | Sex, gender, & transsexuals                            | politics | 2024-12-29 | pinned | wide
+27        | Sex, gender, & transsexuals                            | politics | 2024-12-29 |        | wide
 25        | A beauty holding a bird                                | other    | 2024-12-23 |        |     
 24        | Enduring falsehoods about Warren, Clinton              | politics | 2024-12-19 |        |     
 22        | Dehumanization                                         | politics | 2024-12-15 |        |     
@@ -172,7 +172,7 @@ function pageLoad() {
             if (row_fileName == fileName) {
                 row_class += " current-page";
                 if (row_options != "") {
-                    document.body.classList.add(...row_options.split(" "));
+                    page.classList.add(...row_options.split(" "));
                 }
             }
             
@@ -217,11 +217,12 @@ function pageLoad() {
             tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
             sidebar.innerHTML +=
            `<nav id="toc">
-                <div class="toc-links"><h3>This page, table of contents</h3>${tocArray.join("")}</div>
+                <div class="toc-links"><h3>This page, contents</h3>${tocArray.join("")}</div>
             </nav>`;
             if (!tocLinks) { tocLinks = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
             if (!sectionHeadings) { sectionHeadings = Array.from(document.getElementsByClassName("noq-header")); }
             window.addEventListener("scroll", tocHighlighter);
+            tocHighlighter();
         }
         window.addEventListener("load", pageWidthCheck);
         window.addEventListener("resize", pageWidthCheck);
