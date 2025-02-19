@@ -2,8 +2,6 @@
 
 let data = `
 news-2025 | News 2025                                              | politics |            | pinned | wide
-27        | Sex, gender, & transsexuals                            | politics |            | pinned | wide
-32        | Politics fundamentals                                  | politics |            | pinned | wide
 19        | Ilhan Omar's comments about Somalia                    | politics | 2025-02-12 |        |     
 17        | Why get bottom surgery?                                | culture  | 2025-02-09 |        |     
 35        | Show and tell (Lex Fridman)                            | politics | 2025-02-05 |        |     
@@ -13,6 +11,8 @@ news-2025 | News 2025                                              | politics | 
 29        | Date formats                                           | other    | 2025-01-11 |        |     
 28        | Therapy theory                                         | personal | 2025-01-09 |        |     
 31        | Reflections on Justin Trudeau                          | politics | 2025-01-08 |        |     
+32        | Politics fundamentals                                  | politics | 2025-01-05 |        | wide
+27        | Sex, gender, & transsexuals                            | politics | 2024-12-29 | pinned | wide
 25        | A beauty holding a bird                                | other    | 2024-12-23 |        |     
 24        | Enduring falsehoods about Warren, Clinton              | politics | 2024-12-19 |        |     
 22        | Dehumanization                                         | politics | 2024-12-15 |        |     

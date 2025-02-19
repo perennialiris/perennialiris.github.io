@@ -118,7 +118,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                     #article blockquote {
                         font-family: Georgia,serif;
                         font-size: 15px;
-                        line-height: 1.75;
+                        line-height: 1.7;
                         text-align: left;
                     }
                     #article .rendered_digit,
