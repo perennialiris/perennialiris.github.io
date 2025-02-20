@@ -15,13 +15,13 @@
 @font-face { font-family: "Lato"; src: url(lato-bold-italic.ttf); font-weight: 700; font-style: italic; }
 
 :root {
-    --selection: #cde;
+    --selection: #ccc;
     --white: #fff;
     --grey-f0: #f0f0f0;
     --grey-e0: #e0e0e0;
     --grey-d0: #d0d0d0;
     --grey-90: #909090;
-    --accent: #26b;
+    --accent: #c01;
     --grey-60: #606060;
     --grey-50: #505050;
     --grey-40: #404040;
@@ -36,7 +36,7 @@ html ::selection { background-color: var(--selection); }
 html * { margin: 0; padding: 0; }
 #cover { pointer-events: none; }
 
-body { display: grid; font-family: system-ui; color: var(--grey-30); grid-template-rows: auto 1fr auto; font-size: 14px; line-height: 1.5; height: 100vh; }
+body { display: grid; font-family: Lato,system-ui; color: var(--grey-30); grid-template-rows: auto 1fr auto; font-size: 14px; line-height: 1.5; height: 100vh; }
 
     .vertical-sidebar .c1 { flex-direction: column-reverse; align-items: center; justify-content: flex-end; }
     .vertical-sidebar #sidebar { padding: 10px 20px; width: unset; margin: 0; border-bottom: 1px solid grey; margin-bottom: 20px; }
@@ -91,7 +91,7 @@ body { display: grid; font-family: system-ui; color: var(--grey-30); grid-templa
                 #footer #image-viewer
             */
 
-                #article { font-size: 15px; }
+                #article { font-size: 15px; line-height: 1.7; }
                 #article u, #article a { text-underline-offset: 2px; }
                 #article > :nth-child(1) { margin-top: 0; }
                     #article hr { margin: 20px 0; border: none; height: 1px; width: 100%; background-color: var(--grey-90); }
@@ -112,40 +112,49 @@ body { display: grid; font-family: system-ui; color: var(--grey-30); grid-templa
                     #article p,
                     #article ul,
                     #article ol { margin-top: 1em; }
+
                     .image-box,
                     .transcript,
                     .noq-video,
                     .noq-table { margin-top: 1.5em; }
+
                     .codeblock,
                     blockquote { margin-top: 1em; }
+
                     ul,
                     ol { padding: 0 40px; }
+
                     ol > li { margin-left: -2px; padding-left: 2px; }
                     ul { list-style-type: disc; }
                         ul ul { list-style-type: inherit; }
+
                     p + ul, p + ol,
                     ol + li,
                     ul + li,
                     li + li { margin-top: 0.5em; }
                     .list-br { margin-bottom: 0.5em; }
+
                     #article p .mdash { margin-left: 1px; }
                     #article p,
                     #article li,
-                    #article blockquote {
-                        font-family: Lato,sans-serif;
+                    #article blockquote,
+                    .noq-table,
+                    .transcript { text-align: left; }
+
+                    #article p,
+                    #article li {
                         font-size: 16px;
-                        line-height: 1.7;
-                        text-align: left;
                     }
                     #article blockquote {
                         font-family: Georgia Pro;
+                        font-size: 15px;
                     }
                     /* #article .rendered_digit, #article ol li::marker { font-family: Georgia Pro,Georgia,serif; } */
                     /* .citeref .rendered_digit { font-family: inherit; } */
 
                     a { text-decoration: none; color: var(--accent); }
                     #article a:hover { text-decoration: underline; filter: brightness(0.85); }
-                    a.citeref { text-decoration: none; margin-left: 1px; font-family: Verdana,sans-serif; line-height: 1.3; vertical-align: top; font-size: 13px; }
+                    a.citeref { line-height: 1.3; text-decoration: none; margin-left: 1px; font-family: Verdana,sans-serif; vertical-align: top; font-size: 13px; }
 
                     .noq-table { border-collapse: collapse; }
                     .noq-table td { border: 1px solid var(--grey-90); padding: 3px 7px 4px; }
@@ -171,9 +180,9 @@ body { display: grid; font-family: system-ui; color: var(--grey-30); grid-templa
                     .image-box div { display: inline-block; border: 1px solid var(--grey-90); height: 100%; }
                     .image-box div img { width: inherit; max-width: 100%; display: block; object-fit: contain; }
 
-                    .image-float { padding: 7px; gap: 7px; border: 1px solid var(--grey-90); margin: 13px; display: flex; flex-direction: column; align-items: center; }
-                    .image-float img { object-fit: contain; max-width: 200px; max-height: 250px; border: 1px solid var(--grey-90); }
-                    .image-float div { text-align: center; line-height: 1; }
+                    .image-float { padding: 7px; border: 1px solid var(--grey-90); margin: 13px; }
+                    .image-float img { display: block; object-fit: contain; max-width: 200px; max-height: 250px; border: 1px solid var(--grey-90); }
+                    .image-float div { text-align: center; line-height: 1; margin-top: 0.4em; }
                     .image-float.left { float: left; }
                     .image-float.right { float: right; }
 
