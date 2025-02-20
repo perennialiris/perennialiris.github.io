@@ -136,9 +136,10 @@ function pageLoad() {
     // article.parentNode.appendChild(document.createElement("hr"))
     let articleFooter = article.parentNode.appendChild(document.createElement("footer"));
     articleFooter.id = "article-footer";
-    let date = new Date();
-    articleFooter.innerHTML = `<hr><p><span>North of Queen</span> is my personal repo. I&rsquo;m ${date.getFullYear() - ((date.getMonth() > 3) ? 1994 : 1995)} years old. I live in Canada. I work alone and have no association with any other person or organization. Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> &verbar; <a target="_blank" href="https://northofqueen.substack.com">Substack</a> &verbar; <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> &verbar; <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></p>`;
-    
+    articleFooter.innerHTML = 
+    `<p><span>North of Queen</span> is my personal repo. I work alone and have no association with any other person or organization.</p>
+    <p>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> &verbar; <a target="_blank" href="https://northofqueen.substack.com">Substack</a> &verbar; <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> &verbar; <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></p>`;
+
     interpreter(article);
 
     if (citationArray.length > 0) {
@@ -222,7 +223,10 @@ function pageLoad() {
             if (!tocLinks) { tocLinks = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
             if (!sectionHeadings) { sectionHeadings = Array.from(document.getElementsByClassName("noq-header")); }
             window.addEventListener("scroll", tocHighlighter);
-            tocHighlighter();
+            setTimeout(() => { tocHighlighter(); }, 100);
+        }
+        else {
+            sidebar.firstChild.classList.add("is-sticky");
         }
         window.addEventListener("load", pageWidthCheck);
         window.addEventListener("resize", pageWidthCheck);
@@ -239,7 +243,6 @@ function pageLoad() {
     
     // articleFooter.innerHTML += `<p style="text-align:center">North of Queen</p>`;
 }
-
 
 let canResize = true, sidebarCollapsed = false;
 function pageWidthCheck() {
