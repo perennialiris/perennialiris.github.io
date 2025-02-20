@@ -1,5 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-regular.ttf);     font-weight: 400; font-style: normal; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-italic.ttf);      font-weight: 400; font-style: italic; }
@@ -10,6 +9,10 @@
 @font-face { font-family: "Roboto"; src: url(roboto-regular.woff2); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Roboto"; src: url(roboto-italic.woff2); font-weight: 400 700; font-style: italic; }
 @font-face { font-family: "Roboto Slab"; src: url(roboto-slab.woff2); font-weight: 400 700; font-style: normal; }
+@font-face { font-family: "Lato"; src: url(lato-regular.ttf);     font-weight: 400; font-style: normal; }
+@font-face { font-family: "Lato"; src: url(lato-italic.ttf);      font-weight: 400; font-style: italic; }
+@font-face { font-family: "Lato"; src: url(lato-bold.ttf);        font-weight: 700; font-style: normal; }
+@font-face { font-family: "Lato"; src: url(lato-bold-italic.ttf); font-weight: 700; font-style: italic; }
 
 :root {
     --selection: #cde;
@@ -18,7 +21,7 @@
     --grey-e0: #e0e0e0;
     --grey-d0: #d0d0d0;
     --grey-90: #909090;
-    --accent: #16b;
+    --accent: #26b;
     --grey-60: #606060;
     --grey-50: #505050;
     --grey-40: #404040;
@@ -33,7 +36,7 @@ html ::selection { background-color: var(--selection); }
 html * { margin: 0; padding: 0; }
 #cover { pointer-events: none; }
 
-body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); font-size: 14px; font-family: system-ui; line-height: 1.5; height: 100vh; }
+body { display: grid; font-family: system-ui; color: var(--grey-30); grid-template-rows: auto 1fr auto; font-size: 14px; line-height: 1.5; height: 100vh; }
 
     .vertical-sidebar .c1 { flex-direction: column-reverse; align-items: center; justify-content: flex-end; }
     .vertical-sidebar #sidebar { padding: 10px 20px; width: unset; margin: 0; border-bottom: 1px solid grey; margin-bottom: 20px; }
@@ -51,7 +54,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
 
     #page { background-color: #fff; height: 100%; display: flex; justify-content: center; }
     
-            #sidebar { font-family: system-ui; width: 250px; min-width: 250px; line-height: 1.3; }
+            #sidebar { width: 250px; min-width: 250px; line-height: 1.3; }
                 #sidebar .label { color: var(--grey-90); }
                 #sidebar hr { margin: 5px 0; border: none; height: 1px; background-color: var(--grey-d0); }
                 #sidebar a:hover { color: var(--grey-20); text-decoration: underline; }
@@ -88,20 +91,16 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                 #footer #image-viewer
             */
 
-                #article { }
+                #article { font-size: 15px; }
                 #article u, #article a { text-underline-offset: 2px; }
                 #article > :nth-child(1) { margin-top: 0; }
-
                     #article hr { margin: 20px 0; border: none; height: 1px; width: 100%; background-color: var(--grey-90); }
-
                     #article h1 { font-size: 32px; }
                     #article h2 { font-size: 24px; }
                     #article h3 { font-size: 18px; }
                     #article h4 { font-size: 15px; }
-
                     #article .title-box h1 { margin-top: 0; }
                     #article .title-box .date-box { color: var(--grey-60); font-family: Roboto,sans-serif; margin-top: 0.3em; font-size: 15px; }
-
                     #article h1, #article h2, #article h3, #article h4 {
                         font-family: Inter,system-ui;
                         margin-top: 1.3em;
@@ -110,48 +109,42 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                         color: var(--grey-20);
                         clear: both;
                     }
-
                     #article p,
                     #article ul,
                     #article ol { margin-top: 1em; }
-
                     .image-box,
                     .transcript,
                     .noq-video,
                     .noq-table { margin-top: 1.5em; }
-                    
                     .codeblock,
                     blockquote { margin-top: 1em; }
-
                     ul,
                     ol { padding: 0 40px; }
-
                     ol > li { margin-left: -2px; padding-left: 2px; }
-
                     ul { list-style-type: disc; }
                         ul ul { list-style-type: inherit; }
-
                     p + ul, p + ol,
                     ol + li,
                     ul + li,
                     li + li { margin-top: 0.5em; }
                     .list-br { margin-bottom: 0.5em; }
-
                     #article p .mdash { margin-left: 1px; }
-
                     #article p,
                     #article li,
                     #article blockquote {
-                        font-family: Georgia,serif;
-                        font-size: 15px;
+                        font-family: Lato,sans-serif;
+                        font-size: 16px;
                         line-height: 1.7;
                         text-align: left;
                     }
-                    #article .rendered_digit,
-                    #article ol li::marker { font-family: Georgia Pro,Georgia,serif; }
+                    #article blockquote {
+                        font-family: Georgia Pro;
+                    }
+                    /* #article .rendered_digit, #article ol li::marker { font-family: Georgia Pro,Georgia,serif; } */
+                    /* .citeref .rendered_digit { font-family: inherit; } */
 
                     a { text-decoration: none; color: var(--accent); }
-                    #article a:hover { text-decoration: underline; filter: brightness(0.9); }
+                    #article a:hover { text-decoration: underline; filter: brightness(0.85); }
                     a.citeref { text-decoration: none; margin-left: 1px; font-family: Verdana,sans-serif; line-height: 1.3; vertical-align: top; font-size: 13px; }
 
                     .noq-table { border-collapse: collapse; }
@@ -163,7 +156,7 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                     .transcript tr > td:nth-child(2) { padding: 2px 17px 2px 7px; }
                     .transcript tr:nth-child(1) > td { padding-top: 10px; }
                     .transcript tr:last-child   > td { padding-bottom: 10px; }
-                    .transcript .transcript-note { opacity: 0.7; font-weight: 400; }
+                    .transcript .transcript-note { opacity: 0.8; font-weight: 400; }
 
                     blockquote { background-color: var(--grey-f0); padding: 10px 17px 13px; margin-left: 1px; border-left: 3px solid var(--grey-40); }
                     blockquote .bq-br { margin-bottom: 10px; }
@@ -187,8 +180,6 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
                     .noq-video { display: block; width: 100%; max-height: 300px; background-color: var(--grey-20); }
 
                     .fine, .fine *, .fine ::marker { font-size: 14px !important; font-family: system-ui !important; color: var(--grey-60); }
-
-                    .citeref .rendered_digit { font-family: inherit; }
 
                 #article-footer,
                 #article-citations { margin-top: 34px; padding-top: 28px; border-top: 1px solid var(--grey-90); }
