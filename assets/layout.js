@@ -226,7 +226,7 @@ function pageLoad() {
             setTimeout(() => { tocHighlighter(); }, 100);
         }
         else {
-            sidebar.firstChild.classList.add("is-sticky");
+            // sidebar.firstChild.classList.add("is-sticky");
         }
         window.addEventListener("load", pageWidthCheck);
         window.addEventListener("resize", pageWidthCheck);

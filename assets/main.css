@@ -192,12 +192,15 @@ body { display: grid; grid-template-rows: auto 1fr auto; color: var(--grey-30); 
 
                     .citeref .rendered_digit { font-family: inherit; }
 
-                #article-footer { color: var(--grey-40); margin: 30px 0; padding: 25px 0; border-block: 1px solid var(--grey-90); }
+                #article-footer,
+                #article-citations { margin-top: 34px; padding-top: 28px; border-top: 1px solid var(--grey-90); }
+
+                #article-footer { color: var(--grey-40); }
                     #article-footer p + p { margin-top: 0.8em; }
                         #article-footer a { color: var(--grey-40); text-decoration: underline; }
                         #article-footer a:hover { color: var(--accent); }
 
-                #article-citations { color: var(--grey-60); margin: 30px 0; }
+                #article-citations { color: var(--grey-60); }
                     #article-citations a { color: var(--grey-60); text-decoration: none; word-break: break-all; }
                     #article-citations a:hover { color: var(--grey-40); }
                     #article-citations ol { margin: 0; padding: 5px 30px; }
