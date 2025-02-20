@@ -9,10 +9,6 @@
 @font-face { font-family: "Roboto"; src: url(roboto-regular.woff2); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Roboto"; src: url(roboto-italic.woff2); font-weight: 400 700; font-style: italic; }
 @font-face { font-family: "Roboto Slab"; src: url(roboto-slab.woff2); font-weight: 400 700; font-style: normal; }
-@font-face { font-family: "Lato"; src: url(lato-regular.ttf);     font-weight: 400; font-style: normal; }
-@font-face { font-family: "Lato"; src: url(lato-italic.ttf);      font-weight: 400; font-style: italic; }
-@font-face { font-family: "Lato"; src: url(lato-bold.ttf);        font-weight: 700; font-style: normal; }
-@font-face { font-family: "Lato"; src: url(lato-bold-italic.ttf); font-weight: 700; font-style: italic; }
 
 :root {
     --selection: #ccc;
@@ -78,7 +74,7 @@ body { display: grid; font-family: system-ui; color: var(--grey-30); grid-templa
                             .toc-links .active-heading { color: var(--grey-30); }
 
         .c1 { display: flex; background-color: var(--white); }
-            .c2 { padding: 60px; max-width: 734px; width: 100%; }
+            .c2 { padding: 50px; max-width: 800px; width: 100%; }
 
             /*
                 #top #header
@@ -147,7 +143,7 @@ body { display: grid; font-family: system-ui; color: var(--grey-30); grid-templa
                         font-family: Georgia,Georgia Pro,serif;
                     }
                     #article blockquote {
-                        font-family: Georgia Pro,Georgia Pro,serif;
+                        font-family: Georgia,Georgia Pro,serif;
                         font-size: 15px;
                     }
                     #article .rendered_digit, #article ol li::marker { font-family: Georgia Pro,Georgia,serif; }
