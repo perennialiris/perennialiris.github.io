@@ -15,7 +15,7 @@ window.onload = function() {
     movies = movies.replace(/\) (\w)/g, ")\n$1").split("\n")
             .filter(c => c != "");
     let total = movies.length;
-    list.innerHTML = `<div style="margin-bottom:15px">I believe this is a list of every movie I’ve ever seen. So far it’s ${total} movies.<br>Here, I’ll sort them by year of release.</div>` +
+    list.innerHTML = `<div style="margin-bottom:15px">I believe this is a list of every movie I’ve ever seen. So far it’s ${total} movies. Here, I’ll sort them by year of release.</div>` +
         movies.sort((a, b) => { return parseInt(a.match(/\d{4}/)) - parseInt(b.match(/\d{4}/)) })
             .map(c => `<div style="padding:2px 0">${c}</div>`)
             .join('');

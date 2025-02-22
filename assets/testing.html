@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    body { margin: 0; height: 100%;}
+      #top { background-color: #bddbea; height: 125px; }
+      #page { height: 100%; }
+        .c1 {height: 100%; display: flex; justify-content: center; background-color: #eee; }
+          #article { background-color: #d1d1ec; width: 800px; color: #444; padding: 5px 10px; text-align: justify; }
+          #right-panel { height: 100%; position: absolute; right: 5px; top: 130px; background-color: #b8b1f0; }
+            #right-panel input { position: sticky; top: 5px; }
+    </style>
+</head>
+<body>
+<div id="top">
+</div>
+<div id="page">
+    <div class="c1">
+    <div id="article"></div>
+    <div id="right-panel"><input type="button" value="button"></div>
+    </div>
+</div>
+<script>
+document.getElementById("article").innerHTML += (" article text example".repeat(2000));
+</script>
+</body></html>

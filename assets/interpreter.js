@@ -1,10 +1,4 @@
 
-/*  I want a list at the bottom of each page that shows all the addresses linked
-    to throughout the article. Instead of doing this manually, I have the
-    code that parses links also push them to this array, which is then used to
-    populate a citations list at the end automatically (see layout.js) */
-let citationArray = [];
-let tocArray = [];
 
 /*  These are the replacements run over all inputs, separated into its
     own function because I needed to call it multiple times. */
@@ -162,13 +156,12 @@ function titleFilter(inputString) {
 
 /*  ![description](path/to/image.png)
     ![nice](path/to/other_image.png)
- ->
+
     <div class="image-box">
         <div><img alt="description" title="description" src="path/to/image.png"></div>
         <div><img alt="nice" title="nice" src="path/to/other_image.png"></div>
     </div>                                                                     */
 
-let isKeyResponsive = false;
 function imageViewer(img) {
     let container = document.getElementById("image-viewer-wrapper");
     let image_viewer = document.getElementById("image-viewer");
@@ -196,7 +189,6 @@ function interpreter(targetElement) {
         .trim()
         .split("\n\n");
     
-    let beforeTitle = false;
     let tableNum = 1;
     for (let i = 0; i < input.length; i += 1) {
         
@@ -204,14 +196,9 @@ function interpreter(targetElement) {
             input[i] = input[i].substring(1);
             continue; }
 
-        let dropCap = false;
-        let finePrint = false;
-        if (input[i].startsWith("^")) {
-            finePrint = true;
-            input[i] = input[i].substring(1);
-        }
-        else if (input[i].startsWith("$")) {
-            dropCap = true;
+        let fine = false;
+        if (input[i].charAt(0) == "^") {
+            fine = true;
             input[i] = input[i].substring(1);
         }
 
@@ -227,7 +214,6 @@ function interpreter(targetElement) {
             console.log("catch: a")
             input[i] = `<video class="noq-video right" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
             continue; }
-
         if (input[i].startsWith("||video-mp4")) {
             console.log("catch: b")
             input[i] = `<video class="noq-video" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
@@ -294,9 +280,9 @@ function interpreter(targetElement) {
         /* ------------------------ links ------------------------- */
         /* \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\) */
         input[i] = input[i].replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
-            let index = citationArray.indexOf(address);
+            let index = linksInArticle.indexOf(address);
             address = address.replaceAll("\\)", ")");
-            if (index == -1) index = citationArray.push(address);
+            if (index == -1) index = linksInArticle.push(address);
             let result = (displayText === "")
                 ? `<a class="citeref" target="_blank" href="${address}">[${index}]</a>`
                 : `<a target="_blank" href="${address}">${displayText}</a>`;
@@ -320,7 +306,7 @@ function interpreter(targetElement) {
             rows.shift();
             for (let j = 0; j < rows.length; j += 1) {
                 let cells = rows[j].split("|");
-                if (cells.length > 2) { console.error("{interpreter.js: transcript table width}"); }
+                if (cells.length > 2) { console.error("{interpreter.js: 309 (transcript width)}"); }
                 if (cells[0].charAt(0) == "^") {
                     cells[0] = `<span class="fine">${cells[0].substring(1)}</span>`; }
                 cells[0] = safeConvert(cells[0].trim());
@@ -336,7 +322,7 @@ function interpreter(targetElement) {
 
         /* ------------- "This was also posted here:" ------------- */
         if (input[i].startsWith("||see-also")) {
-            document.getElementById("article-footer").innerHTML += `<p>This post was also shared here:<br>${input[i].split("\n").splice(1).map(c => `<a href="${c}" target="_blank">${c}</a>`).join("<br>")}</p>`;
+            document.getElementById("article-footer").innerHTML += `<div>This post was also shared here:<br>${input[i].split("\n").splice(1).map(c => `<a href="${c}" target="_blank">${c}</a>`).join("<br>")}</div>`;
             input[i] = "";
             continue; }
         /* ---------------------- blockquote ---------------------- */
@@ -373,21 +359,21 @@ function interpreter(targetElement) {
                 input[i] = `<h1 class="title-box" id="${titleId}">${title}</h1>`;
             }
             if (document.title == "") { document.title = titleId; }
-            tocArray.push(`<a class="toc-row h1" href="#${titleId}">${titleId}</a>`);
+            tableOfContentsLinks.push(`<a class="toc-row h1" href="#${titleId}">${titleId}</a>`);
             continue; }
         /* ------ h2 ------ */
         if (input[i].startsWith("## ")) {
             let title = input[i].slice(3);
             const titleId = titleFilter(title);
             input[i] = `<h2 class="noq-header" id="${titleId}">${title}</h2>`;
-            tocArray.push(`<a class="toc-row h2" href="#${titleId}">${titleId}</a>`);
+            tableOfContentsLinks.push(`<a class="toc-row h2" href="#${titleId}">${titleId}</a>`);
             continue; }
         /* ------ h3 ------ */
         if (input[i].startsWith("### ")) {
             let title = input[i].slice(4);
             const titleId = titleFilter(title);
             input[i] = `<h3 class="noq-header" id="${titleId}">${title}</h2>`;
-            tocArray.push(`<a class="toc-row h3" href="#${titleId}">${titleId}</a>`);
+            tableOfContentsLinks.push(`<a class="toc-row h3" href="#${titleId}">${titleId}</a>`);
             continue; }
         /* toc-row class is useful for selecting the elements later */
         /* ------ h4 ------ */
@@ -400,25 +386,27 @@ function interpreter(targetElement) {
         /* ------------------------ lists ------------------------- */
         if (input[i].startsWith("* ") || input[i].startsWith("- ") || /^\d+\./.test(input[i])) {
             input[i] = listParser(input[i]);
-            if (finePrint) {
-                if (input[i].substring(0, 3) != "<ol" && input[i].substring(0, 3) != "<ul") console.error("{interpreter.js: b}")
+            if (fine) {
+                if (input[i].substring(0, 3) != "<ol" && input[i].substring(0, 3) != "<ul") console.error("{interpreter.js: 390 (confused list)}")
                 input[i] = input[i].substring(0, 3) + " class=\"fine\"" + input[i].substring(3); }
             continue; }
         input[i] = input[i].replace(/\n/g, "<br>");
-        if (input[i] == "") { continue; }
+
+        if (input[i] == "") {
+            console.error("{interpreter.js: 396 (blank result)}");
+            continue;
+        }
         
-        if (finePrint) {
-            input[i] = `<p class="fine">${input[i]}</p>`;
-        } else if (dropCap) {
-            input[i] = `<p class="drop-cap">${input[i]}</p>`;
-        } else {
-            input[i] = `<p>${input[i]}</p>`; }
+        if (fine) {
+            input[i] = `<p class="fine">${input[i]}</p>`
+            continue;
+        }
+        input[i] = `<p>${input[i]}</p>`;
     }
     targetElement.innerHTML = input.join("");
 
-    function wrapElements(x) { let temp = targetElement.getElementsByTagName(x); for (let i = 0; i < temp.length; i += 1) { wrapDigits(temp[i]); } } wrapElements("p"); wrapElements("li"); wrapElements("blockquote");
+    Array.from(targetElement.getElementsByTagName("li")).forEach(x => wrapDigits(x));
+    Array.from(targetElement.getElementsByTagName("p")).forEach(x => wrapDigits(x));
+    Array.from(targetElement.getElementsByTagName("blockquote")).forEach(x => wrapDigits(x));
+    // function wrapElements(x) { let temp = targetElement.getElementsByTagName(x); for (let i = 0; i < temp.length; i += 1) { wrapDigits(temp[i]); } } wrapElements("p"); wrapElements("li"); wrapElements("blockquote");
 }
-
-
-
-

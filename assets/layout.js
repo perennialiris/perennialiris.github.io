@@ -1,4 +1,19 @@
-"use strict"
+
+"use strict";
+
+var linksInArticle = [];
+var tableOfContentsLinks = [];
+var isKeyResponsive = false;
+var canResizePageWidth = true;
+var sidebarOnTop = false;
+var sidebarHidden = false;
+var sidebar;
+var page;
+var rowsInTableOfContents;
+var headersInArticle;
+var article;
+var tocUpdateFlag = true;
+var currentHeading = "";
 
 let data = `
 news-2025 | News 2025                                              | politics |            | pinned 
@@ -74,23 +89,22 @@ function alignTable(dataString, splitChar) {
 }
 
 /* function that enables the table of contents */
-let tocLinks, sectionHeadings, tocUpdateFlag = true, currentHeading = "";
 function tocHighlighter() {
     if (!tocUpdateFlag) { return; }
     tocUpdateFlag = false;
     setTimeout(() => { tocUpdateFlag = true; }, 50);
-    
+
     let headingId;
-    for (let i = 0; i < sectionHeadings.length; i += 1) {
-        if (pageYOffset > sectionHeadings[i].offsetTop - window.innerHeight * 0.5) {
-            headingId = sectionHeadings[i].id; }
+    for (let i = 0; i < headersInArticle.length; i += 1) {
+        if (pageYOffset > headersInArticle[i].offsetTop - window.innerHeight * 0.5) {
+            headingId = headersInArticle[i].id; }
         else {
             break; } }
     if (headingId != currentHeading) {
-    for (let i = 0; i < tocLinks.length; i += 1) {
-        tocLinks[i].classList.remove("active-heading");
-        if (tocLinks[i].getAttribute("href") == "#" + headingId) {
-            tocLinks[i].classList.add("active-heading"); } } }
+    for (let i = 0; i < rowsInTableOfContents.length; i += 1) {
+        rowsInTableOfContents[i].classList.remove("active-heading");
+        if (rowsInTableOfContents[i].getAttribute("href") == "#" + headingId) {
+            rowsInTableOfContents[i].classList.add("active-heading"); } } }
     currentHeading = headingId;
 }
 
@@ -100,164 +114,188 @@ function pageLoad() {
     footer.id = "footer";
     footer.innerHTML += `<div id="image-viewer-wrapper" onclick="closeImageViewer()"><img id="image-viewer"></div>`;
     window.addEventListener("keydown", function(event) {
-        if (isKeyResponsive && event.key === 'Escape') { closeImageViewer(); }
+        if (isKeyResponsive && event.key === 'Escape') {
+            closeImageViewer(); }
     })
-    
+
     /* get file name */
     let fileName_get_ = location.href.split("/");
     while (fileName_get_[fileName_get_.length - 1] === "") { fileName_get_.pop(); }
     fileName_get_ = fileName_get_.pop();
     if (fileName_get_.indexOf("#") != -1) fileName_get_ = fileName_get_.substring(0, fileName_get_.indexOf("#"));
     const fileName = fileName_get_.replace(/\.html$/, "");
-    
+
     document.getElementById("top").innerHTML =
        `<header id="header">
             <a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a>
         </header>
         <nav id="nav">
         </nav>`;
-    
-    const page = document.getElementById("page");
-    const main = document.getElementById("main");
-    if (!main) { console.error("{layout.js: can't find #main}"); return; }
-    if (!page) { console.error("{layout.js: can't find #page}"); return; }
+
+    page = document.getElementById("page");
+    if (!page) { console.error("{layout.js: 137 (lost #page)}"); return; }
+    if (document.getElementById("main") === null) { console.error("{layout.js: 136 (lost #main)}"); return; }
 
     page.innerHTML =
        `<div class="c1">
             <div class="c2">
-                <div id="article">${main.innerHTML}</div>
+                <div id="article">${document.getElementById("main").innerHTML}</div>
             </div>
             <div id="sidebar"></div>
-        </div>`;
+        </div>
+        <div id="toggle-container"><input class="toggle-subtle" type="button" onclick="toggleSidebarVisibility()" value="show sidebar"></div>`;
+    sidebar = document.getElementById("sidebar");
 
-
-
-    let article = document.getElementById("article");
-    // article.parentNode.appendChild(document.createElement("hr"))
+    article = document.getElementById("article");
     let articleFooter = article.parentNode.appendChild(document.createElement("footer"));
     articleFooter.id = "article-footer";
     articleFooter.innerHTML = 
-    `<p><span>North of Queen</span> is my personal repo. I work alone and have no association with any other person or organization.</p>
-    <p>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> &verbar; <a target="_blank" href="https://northofqueen.substack.com">Substack</a> &verbar; <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> &verbar; <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></p>`;
+    `<div><span>North of Queen</span> is my personal repo. I work alone and have no association with any other person or organization.</div>
+    <div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://northofqueen.substack.com">Substack</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>`;
 
     interpreter(article);
 
-    if (citationArray.length > 0) {
-        for (let i = 0; i < citationArray.length; i += 1) {
-            citationArray[i] = `<li><a href="${citationArray[i]}">${citationArray[i]}</a></li>`; }
-        let citations = article.parentNode.appendChild(document.createElement("div"));
-        citations.id = "article-citations";
-        citations.innerHTML = `<div>links on this page:</div><ol>${citationArray.join("")}</ol>`;
+    if (linksInArticle.length > 0) {
+        for (let i = 0; i < linksInArticle.length; i += 1) {
+            linksInArticle[i] = `<li><a href="${linksInArticle[i]}">${linksInArticle[i]}</a></li>`; }
+        let articleCitations = article.parentNode.appendChild(document.createElement("div"));
+        articleCitations.id = "article-citations";
+        articleCitations.innerHTML = `<div>links on this page:</div><ol>${linksInArticle.join("")}</ol>`;
     }
 
     // alignTable(data, "|");
     /* interpreting data for sidebar or main list */
-    const navLinks = { pins: [], recent: [], full: [] };
+    const sidebarNavContent = { pins: [], recent: [], full: [] };
     const dataRows = data.split("\n");
     for (let i = 0; i < dataRows.length; i += 1) {
         let cells = dataRows[i].split("|").map(cell => cell.trim());
         if (cells.length >= 5) {
-            let row_fileName = cells[0],
-                row_name     = cells[1],
-                row_category = cells[2],
-                row_date     = cells[3],
-                row_flags    = cells[4];
-            
-            const isPinned = (row_flags == "pinned");
-            let icon = (isPinned)
+            let articleName     = cells[0],
+                articleTitle    = cells[1],
+                articleCategory = cells[2],
+                articleDate     = cells[3],
+                articleFlags    = cells[4];
+
+            const isPinned = (articleFlags == "pinned");
+            let iconElement = (isPinned)
                 ? `<img class="icon" src="assets/pin2.png" height="17" width="17">`
                 : "";
-            
-            let row_class = "nav-row";
-            if (row_fileName == fileName) {
-                row_class += " current-page";
-            }
-            
-            if (row_flags == "hidden") { continue; }
-            
-            let linkElement = `<a href="${row_fileName}.html" class="${row_class}">${row_name}${icon}</a>`;
+
+            let contentClass = "nav-row";
+            if (articleName == fileName) { contentClass += " current-page"; }
+            if (isPinned) { contentClass += " pinned"; }
+
+            if (articleFlags == "hidden") { continue; }
+
+            let entryElement = `<a href="${articleName}.html" class="${contentClass}">${articleTitle}${iconElement}</a>`;
             if (isPinned) {
-                navLinks.pins.push(linkElement); }
+                sidebarNavContent.pins.push(entryElement); }
             else {
-                if (navLinks.recent.length < 8) {
-                    navLinks.recent.push(linkElement);
+                if (sidebarNavContent.recent.length < 8) {
+                    sidebarNavContent.recent.push(entryElement);
                 }
             }
-            
-            if (row_date == "") { row_date = "---"; }
-            navLinks.full.push(`
-            <tr>
-                <td><a href="${row_fileName}.html">${row_name}${icon}</a></td>
-                <td>${row_category}</td>
-                <td>${row_date}</td>
-            </tr>`);
+            if (articleDate == "") {
+                articleDate = "---"; }
+
+            sidebarNavContent.full.push(`
+                <tr>
+                    <td><a href="${articleName}.html">${articleTitle}${iconElement}</a></td>
+                    <td>${articleCategory}</td>
+                    <td>${articleDate}</td>
+                </tr>`);
         }
     }
     
-    const sidebar = document.getElementById("sidebar");
     const frontPageList = document.getElementById("front-page-list");
     if (frontPageList) {
-        frontPageList.innerHTML = `<tr><th>Post title</th><th>Topic</th><th>Date posted</th></tr>${navLinks.full.join("")}`;
+        frontPageList.innerHTML = `<tr><th>Post title</th><th>Topic</th><th>Date posted</th></tr>${sidebarNavContent.full.join("")}`;
         sidebar.remove();
     } else {
-        const sidebar = document.getElementById("sidebar");
+        
+        const enableToc = tableOfContentsLinks.length > 4;
+        let temp = `<input class="toggle-subtle" type="button" onclick="toggleSidebarVisibility()" value="hide sidebar">`;
+        let temp2 = "";
+        
+        if (enableToc) {
+            temp = "";
+            tableOfContentsLinks[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
+            temp2 = `<nav id="toc"><span class="toc-title"><div>This page, contents</div><input class="toggle-subtle" type="button" onclick="toggleSidebarVisibility()" value="hide"></span>${tableOfContentsLinks.join("")}</span>`;
+        }
         sidebar.innerHTML = 
-           `<nav class="page-links">
-                ${navLinks.pins.join("")}
+           `${enableToc ? '' : '<span class="is-sticky">'}
+            <nav class="page-links">
+                ${sidebarNavContent.pins.join("")}
             <hr>
                 <div class="label">Recently added:</div>
-                ${navLinks.recent.join("")}
-                <div class="nav-row more-posts"><a href="index.html">Full page list →</a></div>
-            </nav>`;
-        if (tocArray.length > 4) {
-            tocArray[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
-            sidebar.innerHTML +=
-           `<nav id="toc">
-                <div class="toc-links"><h3>This page, contents</h3>${tocArray.join("")}</div>
-            </nav>`;
-            if (!tocLinks) { tocLinks = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
-            if (!sectionHeadings) { sectionHeadings = Array.from(document.getElementsByClassName("noq-header")); }
+                ${sidebarNavContent.recent.join("")}
+                <div class="nav-row close-container">${temp}</div>
+            </nav>${enableToc ? '<span class="is-sticky">' : ''}
+            ${temp2}
+            </span>`;
+        
+        if (enableToc) {
+            if (rowsInTableOfContents === undefined) {
+                rowsInTableOfContents = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
+            if (headersInArticle === undefined) {
+                headersInArticle = Array.from(document.getElementsByClassName("noq-header")); }
             window.addEventListener("scroll", tocHighlighter);
             setTimeout(() => { tocHighlighter(); }, 100);
+            document.getElementById("toc").classList.add("is-sticky");
         }
-        // else { sidebar.firstChild.classList.add("is-sticky"); }
-        window.addEventListener("load", pageWidthCheck);
+        
         window.addEventListener("resize", pageWidthCheck);
+        window.addEventListener("load", pageWidthCheck);
+        setTimeout(() => { pageWidthCheck(); }, 50);
     }
     if (document.title === "") { document.title = "North of Queen"; }
     else { document.title += " – North of Queen"; }
     
     const cover = document.getElementById("cover");
-    if (!cover) { console.error("layout.js: can't find #cover"); }
+    if (!cover) { console.error("layout.js: 250 (lost #cover)"); }
     else {
         cover.classList.add("fade-out");
-        cover.addEventListener("animationend", () => { cover.remove(); });
-    }
-    
-    // articleFooter.innerHTML += `<p style="text-align:center">North of Queen</p>`;
+        cover.addEventListener("animationend", () => { cover.remove(); }); }
 }
 
-let canResize = true, sidebarCollapsed = false;
+function toggleSidebarVisibility() {
+    if (sidebarHidden == true) {
+        page.classList.remove("hide-sidebar");
+        document.getElementById("toggle-container").value = "hide";
+    }
+    else
+    if (sidebarHidden == false) {
+        page.classList.add("hide-sidebar");
+        document.getElementById("toggle-container").value = "unhide sidebar";
+    }
+    sidebarHidden = !sidebarHidden;
+}
+
 function pageWidthCheck() {
-    if (canResize) {
-        let limit = (sidebarCollapsed) ? 804 : 800;
+    if (canResizePageWidth) {
+        let limit = (sidebarOnTop) ? 804 : 800;
         if (window.innerWidth < limit) {
             document.body.classList.add("vertical-sidebar");
-            canResize = false;
-            sidebarCollapsed = true;
+            if (sidebarHidden) {
+                page.classList.remove("hide-sidebar");
+            }
+            canResizePageWidth = false;
+            sidebarOnTop = true;
             setTimeout(() => {
-                canResize = true;
+                canResizePageWidth = true;
                 pageWidthCheck();
             }, 500);
         } else {
             document.body.classList.remove("vertical-sidebar");
-            sidebarCollapsed = false;
+            sidebarOnTop = false;
+            if (sidebarHidden) {
+                page.classList.add("hide-sidebar");
+            }
         }
     }
 }
 
 window.addEventListener("load", pageLoad);
-
 
 
 
