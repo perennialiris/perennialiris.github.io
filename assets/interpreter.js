@@ -188,7 +188,7 @@ function interpreter(targetElement) {
         .replace(/\r/g, "") /* safety */
         .trim()
         .split("\n\n");
-    
+
     let tableNum = 1;
     for (let i = 0; i < input.length; i += 1) {
         

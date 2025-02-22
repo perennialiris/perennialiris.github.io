@@ -5,8 +5,6 @@ var linksInArticle = [];
 var tableOfContentsLinks = [];
 var isKeyResponsive = false;
 var canResizePageWidth = true;
-var sidebarOnTop = false;
-var sidebarHidden = false;
 var sidebar;
 var page;
 var rowsInTableOfContents;
@@ -14,6 +12,9 @@ var headersInArticle;
 var article;
 var tocUpdateFlag = true;
 var currentHeading = "";
+// if (window.sessionStorage.getItem("sidebarOnTop") === null) { window.sessionStorage.setItem("sidebarOnTop", "false"); }
+var sidebarOnTop = false;
+if (window.sessionStorage.getItem("sidebarHidden") === null) { window.sessionStorage.setItem("sidebarHidden", "false"); }
 
 let data = `
 news-2025 | News 2025                                              | politics |            | pinned 
@@ -143,7 +144,7 @@ function pageLoad() {
             </div>
             <div id="sidebar"></div>
         </div>
-        <div id="toggle-container"><input class="toggle-subtle" type="button" onclick="toggleSidebarVisibility()" value="show navbar"></div>`;
+        <div id="toggle-container"><input class="toggle-button" type="button" onclick="toggleSidebarVisibility()" value="show navbar"></div>`;
     sidebar = document.getElementById("sidebar");
 
     article = document.getElementById("article");
@@ -211,20 +212,20 @@ function pageLoad() {
     if (frontPageList) {
         frontPageList.innerHTML = `<tr><th>Post title</th><th>Topic</th><th>Date posted</th></tr>${sidebarNavContent.full.join("")}`;
         sidebar.remove();
-    } else {
-        
+    }
+    else {
         sidebar.innerHTML = 
            `<nav class="page-links">
                 ${sidebarNavContent.pins.join("")}
             <hr>
                 <div class="label">Recently added:</div>
                 ${sidebarNavContent.recent.join("")}
-                ${tableOfContentsLinks.length > 4 ? "" : `<div class="nav-row close-container"><input class="toggle-subtle" type="button" onclick="toggleSidebarVisibility()" value="hide sidebar"></div>`}
+                ${tableOfContentsLinks.length > 4 ? "" : `<div class="nav-row close-container"><input class="toggle-button" type="button" onclick="toggleSidebarVisibility()" value="hide sidebar"></div>`}
             </nav>`;
 
         if (tableOfContentsLinks.length > 3) {
             tableOfContentsLinks[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
-            sidebar.innerHTML += `<nav id="toc"><span class="toc-title"><div>Contents</div><input class="toggle-subtle" type="button" onclick="toggleSidebarVisibility()" value="hide"></span>${tableOfContentsLinks.join("")}</span>`;
+            sidebar.innerHTML += `<nav id="toc"><span class="toc-title"><div>Contents</div><input class="toggle-button" type="button" onclick="toggleSidebarVisibility()" value="hide"></span>${tableOfContentsLinks.join("")}</span>`;
             if (rowsInTableOfContents === undefined) { rowsInTableOfContents = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
             if (headersInArticle === undefined) { headersInArticle = Array.from(document.getElementsByClassName("noq-header")); }
             window.addEventListener("scroll", tocHighlighter);
@@ -233,11 +234,14 @@ function pageLoad() {
         } else {
             sidebar.firstChild.classList.add("is-sticky");
         }
-        
+
         window.addEventListener("resize", pageWidthCheck);
         window.addEventListener("load", pageWidthCheck);
         setTimeout(() => { pageWidthCheck(); }, 50);
     }
+    
+    setSidebar();
+    
     if (document.title === "") { document.title = "North of Queen"; }
     else { document.title += " – North of Queen"; }
     
@@ -248,39 +252,44 @@ function pageLoad() {
         cover.addEventListener("animationend", () => { cover.remove(); }); }
 }
 
-function toggleSidebarVisibility() {
-    if (sidebarHidden == true) {
-        page.classList.remove("hide-sidebar");
-        document.getElementById("toggle-container").value = "hide";
-    }
-    else
-    if (sidebarHidden == false) {
+function setSidebar() {
+    if (window.sessionStorage.sidebarHidden === "true") {
         page.classList.add("hide-sidebar");
-        document.getElementById("toggle-container").value = "unhide sidebar";
+    } else {
+        page.classList.remove("hide-sidebar");
     }
-    sidebarHidden = !sidebarHidden;
+    if (sidebarOnTop) {
+        page.classList.add("vertical-sidebar");
+    } else {
+        page.classList.remove("vertical-sidebar");
+    }
+}
+
+function toggleSidebarVisibility() {
+    if (window.sessionStorage.sidebarHidden === "true") {
+        page.classList.remove("hide-sidebar");
+        window.sessionStorage.sidebarHidden = "false";
+    }
+    else {
+        page.classList.add("hide-sidebar");
+        window.sessionStorage.sidebarHidden = "true";
+    }
 }
 
 function pageWidthCheck() {
     if (canResizePageWidth) {
-        let limit = (sidebarOnTop) ? 804 : 800;
+        let limit = sidebarOnTop ? 804 : 800;
         if (window.innerWidth < limit) {
             page.classList.add("vertical-sidebar");
-            if (sidebarHidden) {
-                // page.classList.remove("hide-sidebar");
-            }
             canResizePageWidth = false;
-            sidebarOnTop = true;
+            sidebarOnTop = "true";
             setTimeout(() => {
                 canResizePageWidth = true;
                 pageWidthCheck();
             }, 500);
         } else {
             page.classList.remove("vertical-sidebar");
-            sidebarOnTop = false;
-            if (sidebarHidden) {
-                // page.classList.add("hide-sidebar");
-            }
+            sidebarOnTop = "false";
         }
     }
 }
