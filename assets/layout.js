@@ -26,7 +26,7 @@ news-2025 | News 2025                                              | politics | 
 29        | Date formats                                           | other    | 2025-01-11 |        
 28        | Therapy theory                                         | personal | 2025-01-09 |        
 31        | Reflections on Justin Trudeau                          | politics | 2025-01-08 |        
-32        | Politics fundamentals                                  | politics | 2025-01-05 |        
+32        | Conservatism                                           | politics | 2025-01-05 |        
 27        | Sex, gender, & transsexuals                            | politics | 2024-12-29 |        
 25        | A beauty holding a bird                                | other    | 2024-12-23 |        
 24        | Enduring falsehoods about Warren, Clinton              | politics | 2024-12-19 |        
@@ -143,7 +143,7 @@ function pageLoad() {
             </div>
             <div id="sidebar"></div>
         </div>
-        <div id="toggle-container"><input class="toggle-subtle" type="button" onclick="toggleSidebarVisibility()" value="show sidebar"></div>`;
+        <div id="toggle-container"><input class="toggle-subtle" type="button" onclick="toggleSidebarVisibility()" value="show navbar"></div>`;
     sidebar = document.getElementById("sidebar");
 
     article = document.getElementById("article");
@@ -191,7 +191,7 @@ function pageLoad() {
             if (isPinned) {
                 sidebarNavContent.pins.push(entryElement); }
             else {
-                if (sidebarNavContent.recent.length < 8) {
+                if (sidebarNavContent.recent.length < 12) {
                     sidebarNavContent.recent.push(entryElement);
                 }
             }
@@ -213,35 +213,25 @@ function pageLoad() {
         sidebar.remove();
     } else {
         
-        const enableToc = tableOfContentsLinks.length > 4;
-        let temp = `<input class="toggle-subtle" type="button" onclick="toggleSidebarVisibility()" value="hide sidebar">`;
-        let temp2 = "";
-        
-        if (enableToc) {
-            temp = "";
-            tableOfContentsLinks[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
-            temp2 = `<nav id="toc"><span class="toc-title"><div>This page, contents</div><input class="toggle-subtle" type="button" onclick="toggleSidebarVisibility()" value="hide"></span>${tableOfContentsLinks.join("")}</span>`;
-        }
         sidebar.innerHTML = 
-           `${enableToc ? '' : '<span class="is-sticky">'}
-            <nav class="page-links">
+           `<nav class="page-links">
                 ${sidebarNavContent.pins.join("")}
             <hr>
                 <div class="label">Recently added:</div>
                 ${sidebarNavContent.recent.join("")}
-                <div class="nav-row close-container">${temp}</div>
-            </nav>${enableToc ? '<span class="is-sticky">' : ''}
-            ${temp2}
-            </span>`;
-        
-        if (enableToc) {
-            if (rowsInTableOfContents === undefined) {
-                rowsInTableOfContents = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
-            if (headersInArticle === undefined) {
-                headersInArticle = Array.from(document.getElementsByClassName("noq-header")); }
+                ${tableOfContentsLinks.length > 4 ? "" : `<div class="nav-row close-container"><input class="toggle-subtle" type="button" onclick="toggleSidebarVisibility()" value="hide sidebar"></div>`}
+            </nav>`;
+
+        if (tableOfContentsLinks.length > 3) {
+            tableOfContentsLinks[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
+            sidebar.innerHTML += `<nav id="toc"><span class="toc-title"><div>Contents</div><input class="toggle-subtle" type="button" onclick="toggleSidebarVisibility()" value="hide"></span>${tableOfContentsLinks.join("")}</span>`;
+            if (rowsInTableOfContents === undefined) { rowsInTableOfContents = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
+            if (headersInArticle === undefined) { headersInArticle = Array.from(document.getElementsByClassName("noq-header")); }
             window.addEventListener("scroll", tocHighlighter);
             setTimeout(() => { tocHighlighter(); }, 100);
             document.getElementById("toc").classList.add("is-sticky");
+        } else {
+            sidebar.firstChild.classList.add("is-sticky");
         }
         
         window.addEventListener("resize", pageWidthCheck);
@@ -275,9 +265,9 @@ function pageWidthCheck() {
     if (canResizePageWidth) {
         let limit = (sidebarOnTop) ? 804 : 800;
         if (window.innerWidth < limit) {
-            document.body.classList.add("vertical-sidebar");
+            page.classList.add("vertical-sidebar");
             if (sidebarHidden) {
-                page.classList.remove("hide-sidebar");
+                // page.classList.remove("hide-sidebar");
             }
             canResizePageWidth = false;
             sidebarOnTop = true;
@@ -286,16 +276,18 @@ function pageWidthCheck() {
                 pageWidthCheck();
             }, 500);
         } else {
-            document.body.classList.remove("vertical-sidebar");
+            page.classList.remove("vertical-sidebar");
             sidebarOnTop = false;
             if (sidebarHidden) {
-                page.classList.add("hide-sidebar");
+                // page.classList.add("hide-sidebar");
             }
         }
     }
 }
 
 window.addEventListener("load", pageLoad);
+
+
 
 
 
