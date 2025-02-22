@@ -225,7 +225,7 @@ function pageLoad() {
 
         if (tableOfContentsLinks.length > 3) {
             tableOfContentsLinks[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
-            sidebar.innerHTML += `<nav id="toc"><span class="toc-title"><div>Contents</div><input class="toggle-button" type="button" onclick="toggleSidebarVisibility()" value="hide"></span>${tableOfContentsLinks.join("")}</span>`;
+            sidebar.innerHTML += `<nav id="toc"><span class="toc-title"><div>Contents</div><input class="toggle-button" type="button" onclick="toggleSidebarVisibility()" value="hide sidebar"></span>${tableOfContentsLinks.join("")}</span>`;
             if (rowsInTableOfContents === undefined) { rowsInTableOfContents = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
             if (headersInArticle === undefined) { headersInArticle = Array.from(document.getElementsByClassName("noq-header")); }
             window.addEventListener("scroll", tocHighlighter);

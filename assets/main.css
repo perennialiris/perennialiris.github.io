@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-regular.ttf);     font-weight: 400; font-style: normal; }
@@ -27,7 +28,7 @@
     --top-height: 125px;
     --main: 750px;
 }
-.is-sticky { position: sticky; top: 0; }
+.is-sticky { position: sticky; top: 5px; }
 #cover { pointer-events: none; }
 
 html * { margin: 0; padding: 0; }
@@ -37,8 +38,8 @@ html ::selection { background-color: var(--selection); }
 
 body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: grid; grid-template-rows: auto 1fr auto; line-height: 1.5; height: 100vh; }
 
-    .vertical-sidebar .c1 { flex-direction: column-reverse; align-items: center; justify-content: flex-end; }
     .vertical-sidebar { --sidebar-width: 90%; }
+    .vertical-sidebar .c1 { flex-direction: column-reverse; align-items: center; justify-content: flex-end; }
     .vertical-sidebar #sidebar { padding: 10px 20px; margin: 0; border-bottom: 1px solid var(--grey-d0); margin-bottom: 30px; }
     .vertical-sidebar #sidebar .nav-row { display: inline-block; margin-inline: 5px; }
     .vertical-sidebar #sidebar .nav-row.more-posts { display: flex; }
@@ -79,16 +80,13 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
                         #toc .active-heading { color: var(--grey-30); }
 
                 .toggle-button { font-family: sans-serif; font-size: 13px; padding: 4px 6px; color: var(--grey-90); border: none; background: none; opacity: 0.7; }
-                .toggle-button:hover { background-color: var(--grey-f0); }
-                .toggle-button:active { background-color: var(--grey-e0); }
+                .toggle-button:hover { color: var(--grey-60); }
+                .toggle-button:active { color: var(--grey-40); }
                 #toggle-container { display: none; }
-                    #toggle-container .toggle-button { position: sticky; top: 5px; color: var(--grey-90); background: none; margin: 7px; }
-                    #toggle-container .toggle-button:hover { background-color: var(--grey-f0); }
-                    #toggle-container .toggle-button:active { background-color: var(--grey-d0); }
-                .hide-sidebar { width: 100%; display: flex; --sidebar-width: clamp(0px, calc(calc(100vw - var(--main)) * 0.1), 100px); }
+                    #toggle-container .toggle-button { position: sticky; top: 5px; margin: 7px; }
+                .hide-sidebar { width: 100%; display: flex; }
                 .hide-sidebar #toggle-container { display: block; }
-                .hide-sidebar #sidebar { padding: 0; }
-                .hide-sidebar #sidebar nav { display: none; }
+                .hide-sidebar #sidebar { display: none; }
                 .hide-sidebar .c1 { width: 100%; display: flex; justify-content: center; }
 
         .c1 { display: flex; background-color: var(--white); }
@@ -111,7 +109,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
                     .codeblock { font-size: 14px; padding: 8px 11px 5px; background-color: var(--grey-f0); border: 1px solid var(--grey-e0); }
                     /* ---------------- */
 
-                    ul, ol { padding: 0 40px; }
+                    ul, ol { padding: 0 36px; }
                     ol + li, ul + li, li + li, .list-br { margin-top: 0.5em; }
 
                     #article .title-box h1 { }
