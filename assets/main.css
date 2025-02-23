@@ -149,10 +149,11 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
                     #article a { text-underline-offset: 2px; }
                     a { text-decoration: none; color: var(--accent); }
                     #article a:hover { text-decoration: underline; filter: brightness(0.85); }
-                    a.citeref { font-size: calc(100% - 2px); text-decoration: none; margin-left: 1px; font-family: Verdana,sans-serif; vertical-align: top; }
+                    a.citeref { font-size: 13px; text-decoration: none; margin-left: 1px; font-family: Verdana,sans-serif; vertical-align: top; }
 
+                    .noq-table, .transcript { line-height: 1.5; }
                     .noq-table { border-collapse: collapse; }
-                        .noq-table td { border: 1px solid var(--grey-90); padding: 3px 7px 4px; }
+                        .noq-table td { border: 1px solid var(--grey-90); padding: 4px 7px; }
                     .transcript { background-color: var(--grey-f0); border-collapse: collapse; }
                         .transcript tr td { border: none; vertical-align: baseline; }
                         .transcript tr > td:nth-child(1) { padding: 2px 8px 2px 20px; border-left: 3px solid var(--grey-40); border-right: 1px solid var(--grey-d0); white-space: nowrap; text-align: right; }
