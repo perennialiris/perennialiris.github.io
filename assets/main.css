@@ -1,23 +1,20 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-regular.ttf);     font-weight: 400; font-style: normal; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-italic.ttf);      font-weight: 400; font-style: italic; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold.ttf);        font-weight: 700; font-style: normal; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold-italic.ttf); font-weight: 700; font-style: italic; }
 @font-face { font-family: "Inter"; src: url(inter-regular.woff2); font-weight: 400 700; font-style: normal; }
-@font-face { font-family: "Inter"; src: url(inter-italic.woff2); font-weight: 400 700; font-style: italic; }
+@font-face { font-family: "Inter"; src: url(inter-italic.woff2);  font-weight: 400 700; font-style: italic; }
 @font-face { font-family: "Roboto"; src: url(roboto-regular.woff2); font-weight: 400 700; font-style: normal; }
-@font-face { font-family: "Roboto"; src: url(roboto-italic.woff2); font-weight: 400 700; font-style: italic; }
-@font-face { font-family: "Roboto Slab"; src: url(roboto-slab.woff2); font-weight: 400 700; font-style: normal; }
+@font-face { font-family: "Roboto"; src: url(roboto-italic.woff2);  font-weight: 400 700; font-style: italic; }
 
 :root {
     --selection: #ccc;
-    --white: #fff;
+    --white:   #fff;
     --grey-f0: #f0f0f0;
     --grey-e0: #e0e0e0;
     --grey-d0: #d0d0d0;
-    --accent: #c40d16;
+    --accent:  #c40d16;
     --grey-90: #909090;
     --grey-60: #606060;
     --grey-50: #505050;
@@ -25,8 +22,8 @@
     --grey-30: #303030;
     --grey-20: #202020;
     --sidebar-width: 250px;
-    --top-height: 125px;
-    --main: 750px;
+    --top-height:    125px;
+    --main:          750px;
 }
 .is-sticky { position: sticky; top: 5px; }
 #cover { pointer-events: none; }
@@ -102,13 +99,22 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
                     h2 { font-size: 22px; }
                     h3 { font-size: 18px; }
                     h4 { font-size: 15px; }
-                    .noq-table, .transcript, blockquote { font-size: 14px; }
-                    .fine, .fine *, .fine ::marker { font-size: 14px; font-family: system-ui !important; color: var(--grey-60); }
+                    .noq-table,
+                    .transcript,
+                    blockquote {
+                        font-size: 14px;
+                    }
+                    .fine, .fine *, .fine ::marker {
+                        font-size: 14px;
+                        font-family: system-ui !important;
+                        color: var(--grey-60);
+                    }
                     code { font-size: 13px; margin: 0 1px; padding: 3px; background-color: var(--grey-e0); }
                     code, .codeblock { white-space: pre-wrap; font-family: Consolas,monospace; }
                     .codeblock { font-size: 14px; padding: 8px 11px 5px; background-color: var(--grey-f0); border: 1px solid var(--grey-e0); }
                     /* ---------------- */
 
+                    .noq-table, .transcript { font-family: Roboto,sans-serif; }
                     ul, ol { padding: 0 36px; }
                     ol + li, ul + li, li + li, .list-br { margin-top: 0.5em; }
 
@@ -153,7 +159,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
 
                     .noq-table, .transcript { line-height: 1.4; }
                     .noq-table { border-collapse: collapse; }
-                        .noq-table td { border: 1px solid var(--grey-90); padding: 4px 7px; }
+                        .noq-table td { border: 1px solid var(--grey-90); padding: 5px 7px 4px; }
                     .transcript { background-color: var(--grey-f0); border-collapse: collapse; }
                         .transcript tr td { border: none; vertical-align: baseline; }
                         .transcript tr > td:nth-child(1) { padding: 2px 8px 2px 20px; border-left: 3px solid var(--grey-40); border-right: 1px solid var(--grey-d0); white-space: nowrap; text-align: right; }
