@@ -326,21 +326,20 @@ function interpreter(targetElement) {
             input[i] = "";
             continue; }
         /* ---------------------- blockquote ---------------------- */
-        if (input[i].startsWith("&gt;")) {
-            let lines = input[i].split("\n");
+        if (input[i].startsWith("||indent")) {
+            let lines = input[i].split("\n").slice(1);
             for (let j = 0; j < lines.length; j += 1) {
-                lines[j] = lines[j].replace(/^&gt;/, "").trim();
                 if (lines[j].startsWith("---")) {
                     lines[j] = `<div class="attribution">${lines[j]}</div>`; }
                 else {
                     if (lines[j].startsWith("^")) {
                         lines[j] = `<div class="fine">${lines[j].substring(1)}</div>`; }
                     else {
-                        lines[j] += "\n"; } } }
-            input[i] = lines.join("")
-                .replace(/\n\n/g, "<br class=\"bq-br\">")
-                .replace(/\n/g, "<br>");
-            input[i] = "<blockquote>" + safeConvert(input[i]) + "</blockquote>";
+                        if (lines[j] === " ") {
+                            lines[j] = "<div class=\"bq-br\"></div>"; }
+                        else {
+                            lines[j] += "<br>"; } } } }
+            input[i] = "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
             continue; }
 
         /* -------------------------------------------------------- */
