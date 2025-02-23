@@ -5,6 +5,8 @@
     .noq-table tr td:nth-child(2) { white-space: nowrap; }
     .noq-table tr td:nth-child(1) { background-color: #eee; }
     .noq-table tr td:nth-child(2) { font-weight: 700; }
+    #toc div, #toc a { display: none !important; }
+    #toc input { margin-left: auto; }
     .handle { color: #048!important; text-transform: lowercase; }
     .handle:before { content: '@'; }
     .new-democratic-party-ca { color: #a50; }
@@ -36,7 +38,7 @@
 
 ||table
 
-### Noteworthy journalists & political figures
+### Journalists, political figures
 
 ||table
 
@@ -44,7 +46,7 @@
 
 ||table
 
-### Other noteworty people
+### Other noteworties
 
 ||table
 
@@ -157,49 +159,49 @@ let tableData = [
     ,
     /* Media outlets */
     `position
-    @reuters.com         | Reuters                                | Centre / Balanced
-    @apnews.com          | Associated Press                       | Centre / Balanced
-    @theglobeandmail.com | The Globe and Mail                     | Centre / Balanced
-    @theatlantic.com     | The Atlantic                           | Left-leaning
-    @bbc.com             | BBC (British Broadcasting Corporation) | Centre / Balanced (Public broadcaster)
-    @theguardian.com     | The Guardian                           | Left-leaning
-    @news.sky.com        | Sky News                               | Centre / Balanced
-    @nypost.com          | New York Post                          | Right-wing
-    @vox.com             | Vox                                    | Left-leaning
-    @bloomberg.com       | Bloomberg                              | Centre / Balanced
-    @npr.org             | NPR (National Public Radio)            | Centre / Balanced (Public broadcaster)
-    @axios.com           | Axios                                  | Left-leaning
-    @wsj.com             | The Wall Street Journal                | Right-leaning
-    @cnn.com             | CNN                                    | Centre / Balanced
-    @newyorker.com       | The New Yorker                         | Left-wing
-    @rollingstone.com    | Rolling Stone                          | Left-wing
-    @economist.com       | The Economist                          | Centre / Balanced
-    @forbes.com          | Forbes                                 | Centre / Balanced
-    @time.com            | Time                                   | Left-leaning
-    @thehill.com         | The Hill                               | Centre / Balanced
-    @businessinsider.com | Business Insider                       | Centre / Balanced
-    @reason.org          | Reason Magazine                        | Right-leaning (Libertarian focus)
-    @the-independent.com | The Independent                        | Left-leaning
-    @wired.com           | Wired                                  | Left-wing
-    @huffpost.com        | HuffPost (formerly Huffington Post)    | Left-leaning
-    @politico.com        | Politico                               | Centre / Balanced
-    @politico.eu         | Politico Europe                        | Centre / Balanced
-    @bostonglobe.com     | The Boston Globe                       | Left-leaning
-    @theverge.com        | The Verge                              | Left-leaning
-    @newrepublic.com     | New Republic                           | Left-wing
-    @latimes.com         | Los Angeles Times                      | Centre / Balanced
-    @nytimes.com         | New York Times                         | Left-leaning
-    @financialtimes.com  | Financial Times                        | Centre / Balanced
-    @theintercept.com    | The Intercept                          | Left-wing
-    @propublica.org      | ProPublica                             | Left-leaning (Nonprofit investigative reporting)
-    @motherjones.com     | Mother Jones                           | Left-wing (Nonprofit)
-    @newsweek.com        | Newsweek                               | Centre / Balanced
-    @democracynow.org    | Democracy Now                          | Left-wing   
-    @alternet.org        | AlterNet                               | Left-wing
-    @advocate.com        | Advocate                               | Left-wing (LGBT focus)
-    @rawstory.com        | Raw Story                              | Left-wing
-    @aljazeera.com       | Al Jazeera Media Network               | Left-leaning
-    @washingtonpost.com  | Washington Post                        | Left-leaning
+    @reuters.com         | Reuters                                |
+    @apnews.com          | Associated Press                       |
+    @theglobeandmail.com | The Globe and Mail                     |
+    @theatlantic.com     | The Atlantic                           | Considered left-leaning
+    @bbc.com             | BBC (British Broadcasting Corporation) | Public broadcaster
+    @theguardian.com     | The Guardian                           | Considered left-leaning
+    @news.sky.com        | Sky News                               |
+    @nypost.com          | New York Post                          | Firmly right-wing
+    @vox.com             | Vox                                    | Considered left-leaning
+    @bloomberg.com       | Bloomberg                              |
+    @npr.org             | NPR (National Public Radio)            | Public broadcaster
+    @axios.com           | Axios                                  | Considered left-leaning
+    @wsj.com             | The Wall Street Journal                | Considered right-leaning
+    @cnn.com             | CNN                                    |
+    @newyorker.com       | The New Yorker                         | Firmly left-wing
+    @rollingstone.com    | Rolling Stone                          | Firmly left-wing
+    @economist.com       | The Economist                          |
+    @forbes.com          | Forbes                                 |
+    @time.com            | Time                                   | Considered left-leaning
+    @thehill.com         | The Hill                               |
+    @businessinsider.com | Business Insider                       |
+    @reason.org          | Reason Magazine                        | Firmly right-wing (Libertarian focus)
+    @the-independent.com | The Independent                        | Considered left-leaning
+    @wired.com           | Wired                                  | Firmly left-wing
+    @huffpost.com        | HuffPost (formerly Huffington Post)    | Considered left-leaning
+    @politico.com        | Politico                               |
+    @politico.eu         | Politico Europe                        |
+    @bostonglobe.com     | The Boston Globe                       | Considered left-leaning
+    @theverge.com        | The Verge                              | Considered left-leaning
+    @newrepublic.com     | New Republic                           | Firmly left-wing
+    @latimes.com         | Los Angeles Times                      |
+    @nytimes.com         | New York Times                         | Considered left-leaning
+    @financialtimes.com  | Financial Times                        |
+    @theintercept.com    | The Intercept                          | Firmly left-wing
+    @propublica.org      | ProPublica                             | Considered left-leaning (Nonprofit investigative reporting)
+    @motherjones.com     | Mother Jones                           | Firmly left-wing (Nonprofit)
+    @newsweek.com        | Newsweek                               |
+    @democracynow.org    | Democracy Now                          | Firmly left-wing   
+    @alternet.org        | AlterNet                               | Firmly left-wing
+    @advocate.com        | Advocate                               | Firmly left-wing (LGBT focus)
+    @rawstory.com        | Raw Story                              | Firmly left-wing
+    @aljazeera.com       | Al Jazeera Media Network               | Considered left-leaning
+    @washingtonpost.com  | Washington Post                        | Considered left-leaning
     `
     ,
     /* Other noteworty people */
