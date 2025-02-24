@@ -92,7 +92,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
                 .hide-sidebar .c1 { width: 100%; display: flex; justify-content: center; }
 
         .c1 { display: flex; background-color: var(--white); }
-            .c2 { padding: 50px; max-width: var(--main); width: 100%; }
+            .c2 { padding: 40px 50px; max-width: var(--main); width: 100%; }
 
                 #article { font-size: 15px; line-height: 1.7; }
                 #article > :nth-child(1) { margin-top: 0; }
