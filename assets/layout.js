@@ -53,7 +53,7 @@ news-2025 | News 2025                                              | politics | 
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        
 index     |                                                        |          |            | hidden 
 `;
-/*    23    26    33    38    39    40    */
+/*    23    26    33    36        38    39    40    */
 
 /* This just helps keep the table above orderly. */
 function alignTable(dataString, splitChar) {

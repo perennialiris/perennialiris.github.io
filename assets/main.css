@@ -135,7 +135,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
 
                     #article .title-box h1 { }
                     #article .title-box .date-box { color: var(--grey-60); margin-top: 0.3em; }
-                    #article h1, #article h2, #article h3, #article h4 { line-height: 1.3; font-weight: 400; color: var(--grey-20); clear: both; }
+                    #article h1, #article h2, #article h3, #article h4 { line-height: 1.3; font-weight: 700; color: var(--grey-20); clear: both; }
                     .fine, .fine *, .fine ::marker { color: var(--grey-60); }
 
                     #article p .mdash { margin-left: 1px; }
