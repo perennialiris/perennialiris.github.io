@@ -158,7 +158,7 @@ function titleFilter(inputString) {
 }
 
 function quoteParse(inputString) {
-    lines = inputString.split("\n");
+    lines = inputString.split("\n").slice(1);
     for (let j = 0; j < lines.length; j += 1) {
         if (lines[j].startsWith("---")) {
             lines[j] = `<div class="attribution">${lines[j]}</div>`; }
