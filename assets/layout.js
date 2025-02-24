@@ -151,8 +151,13 @@ function pageLoad() {
     let articleFooter = article.parentNode.appendChild(document.createElement("footer"));
     articleFooter.id = "article-footer";
     articleFooter.innerHTML = 
-    `<div><span>North of Queen</span> is my personal repo. I work alone and have no association with any other person or organization.</div>
-    <div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://northofqueen.substack.com">Substack</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>`;
+    `
+    <div>
+    <span>North of Queen</span> is my personal repo. I have no association with any other person or organization.
+    <br>
+    Written works licensed per <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY</a>. Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://northofqueen.substack.com">Substack</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>
+    `;
+    // https://creativecommons.org/licenses/by/4.0/
 
     interpreter(article);
 
@@ -214,16 +219,18 @@ function pageLoad() {
         sidebar.remove();
     }
     else {
+        let includeToc = tableOfContentsLinks.length > 3;
+        
         sidebar.innerHTML = 
            `<nav class="page-links">
                 ${sidebarNavContent.pins.join("")}
             <hr>
                 <div class="label">Recently added:</div>
                 ${sidebarNavContent.recent.join("")}
-                ${tableOfContentsLinks.length > 4 ? "" : `<div class="nav-row close-container"><input class="toggle-button" type="button" onclick="toggleSidebarVisibility()" value="hide sidebar"></div>`}
+                ${includeToc ? "" : `<div class="nav-row close-container"><input class="toggle-button" type="button" onclick="toggleSidebarVisibility()" value="hide sidebar"></div>`}
             </nav>`;
 
-        if (tableOfContentsLinks.length > 3) {
+        if (includeToc) {
             tableOfContentsLinks[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
             sidebar.innerHTML += `<nav id="toc"><span class="toc-title"><div>Contents</div><input class="toggle-button" type="button" onclick="toggleSidebarVisibility()" value="hide sidebar"></span>${tableOfContentsLinks.join("")}</span>`;
             if (rowsInTableOfContents === undefined) { rowsInTableOfContents = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }

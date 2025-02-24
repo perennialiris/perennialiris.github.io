@@ -149,7 +149,28 @@ function sanitizeForCode(inputString) {
         .replaceAll("\n", "<br>");
 }
 function titleFilter(inputString) {
-    return inputString.replace(/<.+?>/g,"").replace(/"/g,"&quot;").replace(/&rsquo;/g,"'").replace(/&ndash;/g,"–").replace(/&mdash;/g,"—").replace(/&amp;/g,"&");
+    return inputString.replace(/<.+?>/g, "")
+        .replace(/"/g, "&quot;")
+        .replace(/&rsquo;/g, "'")
+        .replace(/&ndash;/g, "–")
+        .replace(/&mdash;/g, "—")
+        .replace(/&amp;/g, "&");
+}
+
+function quoteParse(inputString) {
+    lines = inputString.split("\n");
+    for (let j = 0; j < lines.length; j += 1) {
+        if (lines[j].startsWith("---")) {
+            lines[j] = `<div class="attribution">${lines[j]}</div>`; }
+        else {
+            if (lines[j].startsWith("^")) {
+                lines[j] = `<div class="fine">${lines[j].substring(1)}</div>`; }
+            else {
+                if (lines[j] === " ") {
+                    lines[j] = "<div class=\"bq-br\"></div>"; }
+                else {
+                    lines[j] += "<br>"; } } } }
+    return "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
 }
 /*  .replaceAll is preferred over .replace when you don't need to regex
     functionality because it simply results in more readable code */
@@ -282,6 +303,7 @@ function interpreter(targetElement) {
         input[i] = input[i].replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
             let index = linksInArticle.indexOf(address);
             address = address.replaceAll("\\)", ")");
+            
             if (index == -1) index = linksInArticle.push(address);
             let result = (displayText === "")
                 ? `<a class="citeref" target="_blank" href="${address}">[${index}]</a>`
@@ -325,21 +347,13 @@ function interpreter(targetElement) {
             document.getElementById("article-footer").innerHTML += `<div>This post was also shared here:<br>${input[i].split("\n").splice(1).map(c => `<a href="${c}" target="_blank">${c}</a>`).join("<br>")}</div>`;
             input[i] = "";
             continue; }
+        
         /* ---------------------- blockquote ---------------------- */
         if (input[i].startsWith("||indent")) {
-            let lines = input[i].split("\n").slice(1);
-            for (let j = 0; j < lines.length; j += 1) {
-                if (lines[j].startsWith("---")) {
-                    lines[j] = `<div class="attribution">${lines[j]}</div>`; }
-                else {
-                    if (lines[j].startsWith("^")) {
-                        lines[j] = `<div class="fine">${lines[j].substring(1)}</div>`; }
-                    else {
-                        if (lines[j] === " ") {
-                            lines[j] = "<div class=\"bq-br\"></div>"; }
-                        else {
-                            lines[j] += "<br>"; } } } }
-            input[i] = "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
+            input[i] = quoteParse(input[i]);
+            continue; }
+        if (input[i].startsWith("&gt;")) {
+            input[i] = quoteParse(input[i].substring(4));
             continue; }
 
         /* -------------------------------------------------------- */
