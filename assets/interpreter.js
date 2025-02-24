@@ -24,6 +24,8 @@ function stdReplacements(inputString) {
         .replace(/"$/g, "&rdquo;")
         .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
         .replace(/"/g, "&rdquo;")
+        
+        .replace(/&rdquo;(,|\.)/g, `<span class="rdquo-right-margin">&rdquo;</span>$1`)
 
         /* curly ' replacement */
         .replace(/'(\d{2}) /, "&rsquo;$1 ") // for saying '95 or '27 etc.

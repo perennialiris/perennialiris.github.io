@@ -60,7 +60,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
     #page { background-color: #fff; height: 100%; display: flex; justify-content: center; }
 
         #sidebar { font-size: 14px; width: var(--sidebar-width); max-width: var(--sidebar-width); min-width: var(--sidebar-width); padding: 0 24px; line-height: 1.3; font-family: system-ui; }
-            #sidebar .label { color: var(--grey-90); }
+            #sidebar .label { color: var(--grey-90); line-height: 1.5; }
             #sidebar hr { margin: 10px 0; border: none; height: 1px; background-color: var(--grey-d0); }
             #sidebar a:hover { color: var(--grey-20); text-decoration: underline; }
                 #sidebar nav { padding: 10px; }
@@ -114,7 +114,6 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
                     .citeref { font-size: 13px; }
                     .image-float div { font-size: 14px; }
                     /* ------------------------------------------------------------------------------------------ */
-
                     /* ---------------- font family ---------------- */
                     h1,
                     h2,
@@ -138,7 +137,8 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
                     #article h1, #article h2, #article h3, #article h4 { line-height: 1.3; font-weight: 700; color: var(--grey-20); clear: both; }
                     .fine, .fine *, .fine ::marker { color: var(--grey-60); }
 
-                    #article p .mdash { margin-left: 1px; }
+                    #article p .mdash { margin-inline: 1px; }
+                    #article .rdquo-right-margin { margin-right: -2px; }
 
                     code { margin: 0 1px; padding: 3px; background-color: var(--grey-e0); }
                     code, .codeblock { white-space: pre-wrap; }
