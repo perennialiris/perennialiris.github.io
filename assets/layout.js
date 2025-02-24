@@ -155,7 +155,7 @@ function pageLoad() {
     <div>
     <span>North of Queen</span> is my personal repo. I have no association with any other person or organization.
     <br>
-    Written works licensed per <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY</a>. Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://northofqueen.substack.com">Substack</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>
+    Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://northofqueen.substack.com">Substack</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>
     `;
     // https://creativecommons.org/licenses/by/4.0/
 
