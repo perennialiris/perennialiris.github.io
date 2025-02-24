@@ -12,12 +12,12 @@ var headersInArticle;
 var article;
 var tocUpdateFlag = true;
 var currentHeading = "";
-// if (window.sessionStorage.getItem("sidebarOnTop") === null) { window.sessionStorage.setItem("sidebarOnTop", "false"); }
 var sidebarOnTop = false;
 if (window.sessionStorage.getItem("sidebarHidden") === null) { window.sessionStorage.setItem("sidebarHidden", "false"); }
 
 let data = `
 news-2025 | News 2025                                              | politics |            | pinned 
+20        | Israel–Palestine notes                                 | politics | 2025-02-24 |        
 19        | Ilhan Omar's comments about Somalia                    | politics | 2025-02-12 |        
 17        | Why get bottom surgery?                                | culture  | 2025-02-09 |        
 35        | Show and tell (Lex Fridman)                            | politics | 2025-02-05 |        
@@ -52,7 +52,6 @@ news-2025 | News 2025                                              | politics | 
 37        | Bluesky accounts listing                               | other    |            | hidden 
 18        | Transcripts: context for inflammatory Trump statements | politics |            |        
 index     |                                                        |          |            | hidden 
-20        | Israel notes                                           | politics |            | hidden 
 `;
 /*    23    26    33    38    39    40    */
 
