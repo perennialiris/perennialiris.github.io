@@ -66,8 +66,8 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
             #sidebar a:hover { color: var(--grey-20); text-decoration: underline; }
                 #sidebar nav { padding: 10px; }
                     .page-links a { color: var(--grey-50); }
-                        .nav-row { margin-top: 6px; display: block; color: var(--grey-50); padding: 3px 6px; }
-                        .nav-row ~ .nav-row {  }
+                        .nav-row { display: block; color: var(--grey-50); padding: 3px 6px; }
+                        .nav-row ~ .nav-row { margin-top: 6px; }
                         .nav-row.pinned { display: flex; align-items: center; justify-content: flex-start; gap: 4px; }
                         .nav-row.current-page { color: var(--grey-40); padding: 3px 6px; background-color: var(--grey-f0); font-weight: 700; }
                         .nav-row img.icon { opacity: 0.5; }
