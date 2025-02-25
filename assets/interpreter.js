@@ -260,9 +260,10 @@ function interpreter(targetElement) {
                 }); }
             input[i] = `<div class="image-box">${lines.join("")}</div>`;
             continue; }
-        
+
         if (input[i].startsWith("||image-right")) {
-            input[i] = input[i].split("\n")[1].replace(/\[(.+)\]\[(.+)\]\((.+)\)/g, (match, caption, altText, filePath) => {
+            input[i] = input[i].split("\n")[1].replace(/\[([^\]]*)[^\\]?\]\[(.*)\]\((.+)\)/g, (match, caption, altText, filePath) => {
+            // input[i] = input[i].split("\n")[1].replace(/\[(.*)\]\[(.*)\]\((.+)\)/g, (match, caption, altText, filePath) => {
                 let temp = `<div class="image-float right"><img onclick="imageViewer(this)" src="${filePath}"`;
                 if (altText.replace(/\s/g, "").length > 0) {
                     temp += ` title="${altText}" alt="${altText}">`;
@@ -274,7 +275,7 @@ function interpreter(targetElement) {
                 return temp + "</div>"; });
             continue;
         }
-        
+
         if (input[i].startsWith("||image-left")) {
             input[i] = input[i].split("\n")[1].replace(/\[(.+)\]\[(.+)\]\((.+)\)/g, (match, caption, altText, filePath) => {
                 let temp = `<div class="image-float left"><img onclick="imageViewer(this)" src="${filePath}"`;

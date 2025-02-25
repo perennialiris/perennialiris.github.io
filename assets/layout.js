@@ -17,10 +17,10 @@ if (window.sessionStorage.getItem("sidebarHidden") === null) { window.sessionSto
 
 let data = `
 news-2025 | News 2025 | politics | | pinned 
-23|Passing|trans|2025-02-24|
+23 | Passing | transgender | 2025-02-24 | 
 20 | Israel–Palestine notes | politics | 2025-02-24 | 
 19 | Ilhan Omar's comments about Somalia | politics | 2025-02-12 | 
-17 | Why get bottom surgery? | culture | 2025-02-09 | 
+17 | Why get bottom surgery? | transgender | 2025-02-09 | 
 35 | Show and tell (Lex Fridman) | politics | 2025-02-05 | 
 16 | Milo Yiannopoulos's cancellation | politics | 2025-02-03 | 
 34 | The Nazi salute | politics | 2025-01-24 | 
@@ -29,7 +29,7 @@ news-2025 | News 2025 | politics | | pinned
 28 | Therapy theory | personal | 2025-01-09 | 
 31 | Reflections on Justin Trudeau | politics | 2025-01-08 | 
 32 | Conservatism | politics | 2025-01-05 | 
-27 | Sex, gender, & transsexuals | politics | 2024-12-29 | 
+27 | Sex, gender, & transsexuals | transgender | 2024-12-29 | 
 25 | A beauty holding a bird | other | 2024-12-23 | 
 24 | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19 | 
 22 | Dehumanization | politics | 2024-12-15 | 
@@ -41,14 +41,14 @@ news-2025 | News 2025 | politics | | pinned
 10 | Touchscreens and smartphones | culture | 2024-12-02 | 
 9 | The default politician | politics | 2024-11-26 | 
 8 | 10 Dollar | culture | 2024-11-25 | 
-7 | Fetishism & politics | politics | 2024-11-14 | 
+7 | Fetishism & politics | transgender | 2024-11-14 | 
 15 | Mark Robinson transcript | | 2024-11-13 | hidden 
 6 | Mark Robinson | politics | 2024-11-13 | 
 5 | Types of masculinity | culture | 2024-11-08 | 
 4 | Anime reviews | culture | 2024-11-02 | 
 3 | Poor things (2023 film) | culture | 2024-10-31 | 
 1 | Language | personal | 2024-10-29 | 
-2 | The trans prison stats argument | politics | 2024-10-19 | 
+2 | The trans prison stats argument | transgender | 2024-10-19 | 
 36 | People don't really have world views | | | hidden 
 37 | Bluesky accounts listing | other | | hidden 
 18 | Transcripts: context for inflammatory Trump statements | politics | | 
@@ -140,14 +140,16 @@ function pageLoad() {
     page.innerHTML =
        `<div class="c1">
             <div class="c2">
-                <div id="article">${document.getElementById("main").innerHTML}</div>
+                <div class="c3">
+                    <div id="article">${document.getElementById("main").innerHTML}</div>
+                </div>
             </div>
             <div id="sidebar"></div>
-        </div>
-        <div id="toggle-container"><input class="toggle-button" type="button" onclick="toggleSidebarVisibility()" value="show navbar"></div>`;
-    sidebar = document.getElementById("sidebar");
+        </div>`;
 
+    sidebar = document.getElementById("sidebar");
     article = document.getElementById("article");
+
     let articleFooter = article.parentNode.appendChild(document.createElement("footer"));
     articleFooter.id = "article-footer";
     articleFooter.innerHTML = 
@@ -198,7 +200,7 @@ function pageLoad() {
             if (isPinned) {
                 sidebarNavContent.pins.push(entryElement); }
             else {
-                if (sidebarNavContent.recent.length < 12) {
+                if (sidebarNavContent.recent.length < 10) {
                     sidebarNavContent.recent.push(entryElement);
                 }
             }
@@ -217,30 +219,38 @@ function pageLoad() {
     const frontPageList = document.getElementById("front-page-list");
     if (frontPageList) {
         frontPageList.innerHTML = `<tr><th>Post title</th><th>Topic</th><th>Date posted</th></tr>${sidebarNavContent.full.join("")}`;
-        sidebar.remove();
     }
     else {
         let includeToc = tableOfContentsLinks.length > 3;
         
         sidebar.innerHTML = 
-           `<nav class="page-links">
-                ${sidebarNavContent.pins.join("")}
+           `<button id="sidebar-button" class="toggle-button-1" type="button" onclick="toggleSidebarVisibility()"><img src="assets/chevron-right.png"></button>
+            <nav class="page-links">
+            ${sidebarNavContent.pins.join("")}
             <hr>
-                <div class="label">Recently added:</div>
-                ${sidebarNavContent.recent.join("")}
-                ${includeToc ? "" : `<div class="nav-row close-container"><input class="toggle-button" type="button" onclick="toggleSidebarVisibility()" value="hide sidebar"></div>`}
+            <div class="label">Recently added:</div>
+            ${sidebarNavContent.recent.join("")}
             </nav>`;
 
+        document.getElementById("sidebar-button").title = window.sessionStorage.sidebarHidden === "true" ? "show sidebar" : "hide sidebar";
+
         if (includeToc) {
-            tableOfContentsLinks[0] = `<a class="toc-row h1" href="#top">(Top of page)</a>`;
-            sidebar.innerHTML += `<nav id="toc"><span class="toc-title"><div>Contents</div><input class="toggle-button" type="button" onclick="toggleSidebarVisibility()" value="hide sidebar"></span>${tableOfContentsLinks.join("")}</span>`;
+            sidebar.innerHTML +=
+           `<nav id="toc">
+                <div class="toc-title">Contents</div>
+                <span class="scroller">
+                    <a class="toc-row h1" href="#top">(Top of page)</a>
+                    ${tableOfContentsLinks.slice(1).join("")}
+                </span>
+            </nav>`;
             if (rowsInTableOfContents === undefined) { rowsInTableOfContents = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
             if (headersInArticle === undefined) { headersInArticle = Array.from(document.getElementsByClassName("noq-header")); }
             window.addEventListener("scroll", tocHighlighter);
             setTimeout(() => { tocHighlighter(); }, 100);
-            document.getElementById("toc").classList.add("is-sticky");
+            document.getElementById("toc").classList.add("sidebar-sticky");
         } else {
-            sidebar.firstChild.classList.add("is-sticky");
+            sidebar.innerHTML += "</nav>";
+            sidebar.firstChild.classList.add("sidebar-sticky");
         }
 
         window.addEventListener("resize", pageWidthCheck);
@@ -277,10 +287,12 @@ function toggleSidebarVisibility() {
     if (window.sessionStorage.sidebarHidden === "true") {
         page.classList.remove("hide-sidebar");
         window.sessionStorage.sidebarHidden = "false";
+        document.getElementById("sidebar-button").title = "hide sidebar";
     }
     else {
         page.classList.add("hide-sidebar");
         window.sessionStorage.sidebarHidden = "true";
+        document.getElementById("sidebar-button").title = "show sidebar";
     }
 }
 

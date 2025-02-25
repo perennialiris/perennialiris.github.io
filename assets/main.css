@@ -26,9 +26,10 @@
     --grey-30: #303030;
     --grey-20: #202020;
     --sidebar-width: 250px;
+    --top-height: 125px;
     --main: 750px;
 }
-.is-sticky { position: sticky; top: 5px; }
+.sidebar-sticky { position: sticky; top: 5px; }
 #cover { pointer-events: none; }
 
 html * { margin: 0; padding: 0; }
@@ -49,7 +50,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
     .vertical-sidebar #toggle-container { position: absolute; right: 0; }
 
     #top { }
-        #header { background-color: #111; height: 101px; }
+        #header { height: 101px; background-color: #111; }
             #header a { margin: auto; display: block; width: 286px; padding-right: calc(0.04 * calc(100% - 286px)); }
             #header a:hover { opacity: 0.8; }
                 #header a img { display: block; padding: 17px; width: 252px; height: 67px; filter: invert(1); }
@@ -60,44 +61,49 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
     #page { background-color: #fff; height: 100%; display: flex; justify-content: center; }
 
         #sidebar { font-size: 14px; width: var(--sidebar-width); max-width: var(--sidebar-width); min-width: var(--sidebar-width); padding: 0 24px; line-height: 1.3; font-family: system-ui; }
-            #sidebar .label { color: var(--grey-90); line-height: 1.5; }
+            #sidebar .label { color: var(--grey-90); }
             #sidebar hr { margin: 10px 0; border: none; height: 1px; background-color: var(--grey-d0); }
             #sidebar a:hover { color: var(--grey-20); text-decoration: underline; }
                 #sidebar nav { padding: 10px; }
                     .page-links a { color: var(--grey-50); }
-                        .nav-row { display: block; color: var(--grey-50); padding: 3px 6px; }
-                        .nav-row ~ .nav-row { margin-top: 6px; }
-                        .nav-row.pinned { display: flex; align-items: center; justify-content: space-between; }
+                        .nav-row { margin-top: 6px; display: block; color: var(--grey-50); padding: 3px 6px; }
+                        .nav-row ~ .nav-row {  }
+                        .nav-row.pinned { display: flex; align-items: center; justify-content: flex-start; gap: 4px; }
                         .nav-row.current-page { color: var(--grey-40); padding: 3px 6px; background-color: var(--grey-f0); font-weight: 700; }
                         .nav-row img.icon { opacity: 0.5; }
                         .nav-row.close-container { display: flex; justify-content: flex-end; }
-                    #toc { display: flex; flex-direction: column; max-height: calc(100vh - 50px); overflow-y: hidden; scrollbar-width: thin; box-sizing: border-box; scrollbar-color: var(--grey-90) var(--grey-e0) !important; scrollbar-gutter: stable; }
-                    #toc:hover { overflow-y: auto; }
-                        .toc-title { display: flex; justify-content: space-between; align-items: center; }
-                            .toc-title div { font-size: 15px; margin: 0; color: var(--grey-60); font-weight: 700; }
-                        .toc-row { padding: 0; color: var(--grey-90); margin-top: 11px; }
+                    #toc { max-height: calc(100vh - 50px); }
+                    #toc .scroller { padding: 11px 0; display: flex; flex-direction: column; gap: 11px; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: var(--grey-90) var(--grey-e0) !important; scrollbar-gutter: stable; }
+                    #toc .scroller:hover { overflow-y: auto; }
+                        .toc-title { font-size: 16px; margin: 0; color: var(--grey-60); font-weight: 700; }
+                        .toc-row { display: block; padding: 0; color: var(--grey-90); }
                             .toc-row.h1 { padding-left: 0px; }
                             .toc-row.h2 { padding-left: 0px; }
                             .toc-row.h3 { padding-left: 15px; }
-                        #toc .active-heading { color: var(--grey-30); }
+                            .active-heading { color: var(--grey-30); }
 
-                .toggle-button { font-size: 13px; font-family: system-ui; padding: 4px 6px; color: var(--grey-90); border: none; background: none; opacity: 0.7; }
-                .toggle-button:hover { color: var(--grey-60); }
-                .toggle-button:active { color: var(--grey-40); }
+                .toggle-button-1 { z-index: 1; margin-top: 7px; position: sticky; top: 10px; float: right; padding: 4px; border: none; background-color: var(--grey-f0); }
+                .toggle-button-1:hover { background-color: var(--grey-e0); }
+                .toggle-button-1:active { background-color: var(--grey-d0); }
+                    .toggle-button-1 img { display: block; }
+
                 #toggle-container { display: none; }
-                    #toggle-container .toggle-button { position: sticky; top: 5px; margin: 7px; }
-                .hide-sidebar { width: 100%; display: flex; }
                 .hide-sidebar #toggle-container { display: block; }
-                .hide-sidebar #sidebar { display: none; }
-                .hide-sidebar .c1 { width: 100%; display: flex; justify-content: center; }
 
-        .c1 { display: flex; background-color: var(--white); }
-            .c2 { padding: 40px 50px; max-width: var(--main); width: 100%; }
+                .hide-sidebar .toggle-button-1 { transform: rotate(180deg); }
+                .hide-sidebar { --sidebar-width: auto; }
+                .hide-sidebar #sidebar nav { display: none; }
+                .hide-sidebar .c1 { width: 100%;  }
+                .hide-sidebar .c2 { width: 100%; display: flex; justify-content: center; }
+
+        .c1 { background-color: var(--white); display: flex; }
+            .c2 {  }
+                .c3 { padding: 40px 50px; max-width: var(--main); width: 100%; }
 
                 #article { font-size: 15px; line-height: 1.7; }
                 #article > :nth-child(1) { margin-top: 0; }
-                #article > :nth-child(n + 2):not(.image-float) { margin-top: 1em; }
-                    #article hr { margin: 20px 0; border: none; height: 1px; width: 100%; background-color: var(--grey-90); }
+                #article > :nth-child(n + 2):not(.image-float) { margin-top: 0.8em; }
+                    #article hr { margin-block: 20px !important; border: none; height: 1px; width: 100%; background-color: var(--grey-90); }
 
                     ul, ol { padding: 0 36px; }
                     ol + li, ul + li, li + li { margin-top: 0.5em; }
@@ -124,7 +130,6 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
                     #article blockquote { font-family: Georgia,serif; }
                     #article .rendered_digit,
                     #article ol li::marker { font-family: Georgia Pro,Georgia,serif; }
-                    .noq-table, .transcript { font-family: sans-serif; }
                     code, .codeblock { font-family: Consolas,monospace; }
                     .title-box .date-box { font-family: Roboto,sans-serif; }
                     .fine, .fine *, .fine ::marker { font-family: system-ui !important; }
@@ -177,7 +182,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); display: 
                         .image-box div { display: inline-block; border: 1px solid var(--grey-90); height: 100%; }
                             .image-box div img { width: inherit; max-width: 100%; display: block; object-fit: contain; }
                     .image-float { padding: 7px; border: 1px solid var(--grey-90); background-color: var(--white); margin: 16px; }
-                        .image-float img { display: block; object-fit: contain; max-width: 200px; max-height: 250px; border: 1px solid var(--grey-90); }
+                        .image-float img { margin: auto; display: block; object-fit: contain; max-width: 200px; max-height: 250px; border: 1px solid var(--grey-90); }
                         .image-float div { text-align: center; line-height: 1; margin-top: 0.4em; }
                     .image-float.left { float: left; }
                     .image-float.right { float: right; }
