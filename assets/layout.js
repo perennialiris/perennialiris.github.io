@@ -115,7 +115,7 @@ function pageLoad() {
     const footer = document.body.appendChild(document.createElement("footer"));
     footer.id = "footer";
     footer.innerHTML +=
-    `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. I give permission for my writing to be used, reposted, etc. for noncommercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>). Any computer code I upload to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>).</div></div>
+    `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I give broad permission for my writing to be used, reposted, etc. for noncommercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>
     <div id="image-viewer-wrapper" onclick="closeImageViewer()"><img id="image-viewer"></div>
     `;
     window.addEventListener("keydown", function(event) {
