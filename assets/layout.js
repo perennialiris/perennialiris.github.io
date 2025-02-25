@@ -115,7 +115,7 @@ function pageLoad() {
     const footer = document.body.appendChild(document.createElement("footer"));
     footer.id = "footer";
     footer.innerHTML +=
-    `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I give broad permission for my writing to be used, reposted, etc. for noncommercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>
+    `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for noncommercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>
     <div id="image-viewer-wrapper" onclick="closeImageViewer()"><img id="image-viewer"></div>
     `;
     window.addEventListener("keydown", function(event) {
@@ -164,13 +164,13 @@ function pageLoad() {
     
     interpreter(article);
     
-    /*if (linksInArticle.length > 0) {
+    if (linksInArticle.length > 0) {
         for (let i = 0; i < linksInArticle.length; i += 1) {
             linksInArticle[i] = `<li><a href="${linksInArticle[i]}">${linksInArticle[i]}</a></li>`; }
         let articleCitations = article.parentNode.appendChild(document.createElement("div"));
         articleCitations.id = "article-citations";
         articleCitations.innerHTML = `<div>links on this page:</div><ol>${linksInArticle.join("")}</ol>`;
-    }*/
+    }
 
     /* interpreting data for sidebar or main list */
     const sidebarNavContent = { pins: [], recent: [], full: [] };
