@@ -288,7 +288,8 @@ function toggleSidebarVisibility() {
 
 function pageWidthCheck() {
     if (canResizePageWidth) {
-        let limit = sidebarOnTop ? 804 : 800;
+        let limit = sidebarOnTop ? 884 : 881;
+        // if (window.sessionStorage.sidebarHidden === "true") { limit = 0; }
         if (window.innerWidth < limit) {
             page.classList.add("vertical-sidebar");
             canResizePageWidth = false;
