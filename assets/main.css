@@ -58,7 +58,6 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                         .nav-row.pinned { display: flex; align-items: center; justify-content: flex-start; gap: 4px; }
                         .nav-row.current-page { color: var(--grey-40); padding: 3px 6px; background-color: var(--grey-f0); font-weight: 700; }
                         .nav-row img.icon { opacity: 0.5; }
-                        .nav-row.close-container { display: flex; justify-content: flex-end; }
                     #toc { max-height: calc(100vh - 50px); }
                     #toc .scroller { padding: 11px 0; display: flex; flex-direction: column; gap: 11px; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: var(--grey-90) var(--grey-e0) !important; scrollbar-gutter: stable; }
                     #toc .scroller:hover { overflow-y: auto; }

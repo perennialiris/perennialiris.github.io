@@ -87,7 +87,6 @@ function alignTable(dataString, splitChar) {
     data = table.map(c => c.join(` ${splitChar} `)).join("\n");
     console.log(data);
 }
-alignTable(data,"|");
 
 /* function that enables the table of contents */
 function tocHighlighter() {
@@ -159,6 +158,7 @@ function pageLoad() {
 
     interpreter(article);
 
+    alignTable(data,"|");
     /* processing data from variable at the top of this file */
     const sidebarNavContent = { pins: [], recent: [], full: [] };
     const dataRows = data.split("\n");
@@ -198,12 +198,11 @@ function pageLoad() {
             if (rowDate == "") {
                 rowDate = "---"; }
 
-            sidebarNavContent.full.push(`
-                <tr>
-                    <td><a href="${rowFile}.html">${rowTitle}${icon}</a></td>
-                    <td>${rowCategory}</td>
-                    <td>${rowDate}</td>
-                </tr>`);
+            let fullEntry = `<tr><td><a href="${rowFile}.html">${rowTitle}${icon}</a></td> <td>${rowCategory}</td><td>${rowDate}</td></tr>`;
+            if (isPinned) {
+                sidebarNavContent.full.unshift(fullEntry); }
+            else {
+                sidebarNavContent.full.push(fullEntry); }
         }
     }
 
