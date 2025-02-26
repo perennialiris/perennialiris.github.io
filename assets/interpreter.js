@@ -212,6 +212,7 @@ function interpreter(targetElement) {
         .trim()
         .split("\n\n");
 
+    let linksInArticle = [];
     let tableNum = 1;
     for (let i = 0; i < input.length; i += 1) {
         
@@ -304,11 +305,14 @@ function interpreter(targetElement) {
         /* ------------------------ links ------------------------- */
         /* \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\) */
         input[i] = input[i].replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
+            let index = linksInArticle.indexOf(address);
             address = address.replaceAll("\\)", ")");
-            return (displayText === "")
+            
+            if (index == -1) index = linksInArticle.push(address);
+            let result = (displayText === "")
                 ? `<a class="citeref" target="_blank" href="${address}">[${index}]</a>`
                 : `<a target="_blank" href="${address}">${displayText}</a>`;
-            });
+            return result; });
 
         /* ------------------------ table ------------------------- */
         if (input[i].startsWith("||table")) {

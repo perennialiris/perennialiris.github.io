@@ -50,7 +50,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
             #sidebar .label { color: var(--grey-90); line-height: 1.5; }
             #sidebar hr { margin: 10px 0; border: none; height: 1px; background-color: var(--grey-d0); }
             #sidebar a { text-decoration: none; }
-            #sidebar a:hover { color: var(--grey-20); text-decoration: underline; }
+            #sidebar a:hover { color: var(--grey-30); text-decoration: underline; }
                 #sidebar nav { padding: 10px; }
                     .page-links a { color: var(--grey-50); }
                         .nav-row { display: block; color: var(--grey-50); padding: 3px 6px; }
@@ -126,7 +126,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                         #article code { font-size: 13px; }
                         #article .codeblock { font-size: 14px; }
                         #article .fine { font-size: 14px; }
-                        #article .citeref { font-size: 13px; }
+                        #article .citeref { font-size: 12px; }
                         #article .image-float div { font-size: 14px; }
                         /* ----------------------- font family ----------------------- */
                         #article h1,
@@ -143,7 +143,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                         #article .fine,
                         #article .fine *,
                         #article .fine ::marker { font-family: system-ui !important; }
-                        #article .citeref { font-family: Verdana,sans-serif; }
+                        #article .citeref { font-family: monospace; }
                         #article .citeref .rendered_digit { font-family: inherit; }
                         /* ----------------------------------------------------------- */
                         #article .title-box h1 { }
