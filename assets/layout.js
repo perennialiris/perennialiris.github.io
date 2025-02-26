@@ -5,12 +5,12 @@ var tableOfContentsLinks = [];
 var isKeyResponsive = false;
 var canResizePageWidth = true;
 var page;
+var article;
 var rowsInTableOfContents;
 var headersInArticle;
-var article;
-var tocUpdateFlag = true;
 var currentHeading = "";
 var sidebarOnTop = false;
+var tocUpdateFlag = true;
 if (window.sessionStorage.getItem("sidebarHidden") === null) { window.sessionStorage.setItem("sidebarHidden", "false"); }
 
 let data = `
@@ -51,6 +51,7 @@ news-2025 | News 2025                                              | politics   
 37        | Bluesky accounts listing                               | other       |            | document | hidden
 18        | Transcripts: context for inflammatory Trump statements | politics    |            | document |       
 index     |                                                        |             |            | document | hidden
+39        |                                                        |             |            | document | hidden
 `;
 /*    23    26    33    36        38    39    40    */
 
@@ -109,10 +110,19 @@ function tocHighlighter() {
 
 function pageLoad() {
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
-    document.body.outerHTML = 
-    `<div id="top"></div>
-    <header id="header"><a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a></header><nav id="nav"></nav>
-    <div id="page">
+    
+    const header = document.createElement("header");
+    header.id = "header";
+    header.innerHTML = `<a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a>`;
+    const nav = document.createElement("nav");
+    nav.id = "nav";
+    nav.innerHTML = "";
+
+    page = document.getElementById("page");
+    document.body.insertBefore(header, page);
+    document.body.insertBefore(nav, page);
+
+    page.innerHTML = `
         <div class="c1">
             <div class="c2">
                 <div class="c3">
@@ -122,13 +132,14 @@ function pageLoad() {
                 <div id="sidebar"></div>
             </div>
             <div id="right-edge"><button id="sidebar-button" class="toggle-button-1" type="button" onclick="toggleSidebarVisibility()"><img src="assets/chevron-right.png"></button></div>
-        </div>
-    </div>
-    <footer id="footer"><div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for noncommercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div></footer>
-    <div id="image-viewer-wrapper" onclick="closeImageViewer()"><img id="image-viewer"></div>
-    `;
-    page = document.getElementById("page");
-    interpreter(document.getElementById("article"));
+        </div>`;
+    
+    article = document.getElementById("article");
+    interpreter(article);
+    
+    const footer = document.body.appendChild(document.createElement("footer"));
+    footer.id = "footer";
+    footer.innerHTML = `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>`;
 
     window.addEventListener("keydown", function(event) {
         if (isKeyResponsive && event.key === 'Escape') {
@@ -136,11 +147,11 @@ function pageLoad() {
     })
 
     /* get file name */
-    let fileName_get_ = location.href.split("/");
-    while (fileName_get_[fileName_get_.length - 1] === "") { fileName_get_.pop(); }
-    fileName_get_ = fileName_get_.pop();
-    if (fileName_get_.indexOf("#") != -1) fileName_get_ = fileName_get_.substring(0, fileName_get_.indexOf("#"));
-    const fileName = fileName_get_.replace(/\.html$/, "");
+    let getFileName = location.href.split("/");
+    while (getFileName[getFileName.length - 1] === "") { getFileName.pop(); }
+    getFileName = getFileName.pop();
+    if (getFileName.indexOf("#") != -1) getFileName = getFileName.substring(0, getFileName.indexOf("#"));
+    const fileName = getFileName.replace(/\.html$/, "");
 
     alignTable(data,"|");
 
@@ -161,8 +172,7 @@ function pageLoad() {
             const isPinned = rowFlag == "pinned";
 
             if (isCurrent) {
-                if (rowType == "document") {
-                    document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css">`; } }
+                document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css">`; }
             if (rowFlag == "hidden") {
                 continue; }
 
@@ -229,36 +239,39 @@ function pageLoad() {
         setTimeout(() => { pageWidthCheck(); }, 50);
     }
 
-    setSidebar();
+    updateSidebar();
+
+    const cover = document.getElementById("cover");
+    if (!cover) { console.error("layout.js: 250 (lost #cover)"); }
+    else {
+        cover.classList.add("fade-out");
+        cover.addEventListener("animationend", () => { cover.remove(); }); }
 
     if (document.title === "") { document.title = "North of Queen"; }
     else { document.title += " – North of Queen"; }
+
+    // const cover = document.getElementById("cover"); if (!cover) { console.error("layout.js: 250 (lost #cover)"); } else { cover.classList.add("fade-out"); cover.addEventListener("animationend", () => { cover.remove(); }); }
 }
 
-function setSidebar() {
+function updateSidebar() {
     if (window.sessionStorage.sidebarHidden === "true") {
         page.classList.add("hide-sidebar");
-    } else {
+        document.getElementById("sidebar-button").title = "show sidebar"; }
+    else {
         page.classList.remove("hide-sidebar");
-    }
+        document.getElementById("sidebar-button").title = "hide sidebar"; }
+
     if (sidebarOnTop) {
-        page.classList.add("vertical-sidebar");
-    } else {
-        page.classList.remove("vertical-sidebar");
-    }
+        page.classList.add("vertical-sidebar"); }
+    else {
+        page.classList.remove("vertical-sidebar"); }
+    
+    pageWidthCheck();
 }
 
 function toggleSidebarVisibility() {
-    if (window.sessionStorage.sidebarHidden === "true") {
-        page.classList.remove("hide-sidebar");
-        window.sessionStorage.sidebarHidden = "false";
-        document.getElementById("sidebar-button").title = "hide sidebar";
-    }
-    else {
-        page.classList.add("hide-sidebar");
-        window.sessionStorage.sidebarHidden = "true";
-        document.getElementById("sidebar-button").title = "show sidebar";
-    }
+    window.sessionStorage.sidebarHidden = (window.sessionStorage.sidebarHidden === "true") ? "false" : "true";
+    updateSidebar();
 }
 
 function pageWidthCheck() {
@@ -279,6 +292,8 @@ function pageWidthCheck() {
         }
     }
 }
+
+
 
 window.addEventListener("load", pageLoad);
 

@@ -16,8 +16,8 @@
     --grey-f0: #f0f0f0;
     --grey-e0: #e0e0e0;
     --grey-d0: #d0d0d0;
-    --accent: #c40d16;
-    --nav-accent: #6a2828;
+    --accent: #a00;
+    --nav-accent: #522;
     --grey-90: #909090;
     --grey-60: #606060;
     --grey-50: #505050;
@@ -25,7 +25,7 @@
     --grey-30: #303030;
     --grey-20: #202020;
     --top-height: 125px;
-    --main: 740px;
+    --main: 750px;
     --pad: 35px;
     --side: 250px;
 }
@@ -40,11 +40,11 @@ html ::selection { background-color: var(--selection); }
 
 body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: grid; grid-template-rows: auto 1fr auto; line-height: 1.5; min-height: 100vh; }
     #top { }
-        #header { height: 101px; background-color: #111; }
-            #header a { margin: auto; display: block; width: 286px; padding-right: calc(0.04 * calc(100% - 286px)); }
-            #header a:hover { opacity: 0.8; }
-                #header a img { display: block; padding: 17px; width: 252px; height: 67px; filter: invert(1); }
-        #nav { height: 24px; background-color: var(--nav-accent); }
+    #header { height: 101px; background-color: #111; }
+        #header a { margin: auto; display: block; width: 286px; padding-right: calc(0.04 * calc(100% - 286px)); }
+        #header a:hover { opacity: 0.8; }
+            #header a img { display: block; padding: 17px; width: 252px; height: 67px; filter: invert(1); }
+    #nav { height: 24px; background-color: var(--nav-accent); }
 
     #page { background-color: var(--white); height: 100%; }
 
@@ -82,7 +82,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                 .hide-sidebar #right-edge { min-width: 10%; }
                 .hide-sidebar #sidebar { display: none; margin-bottom: 0; }
                 .hide-sidebar .toggle-button-1 { transform: rotate(180deg); margin-left: 30px; }
-                .hide-sidebar ~ #footer .f1 { max-width: calc(10% + var(--main) + calc(2 * 30px)); }
+                .hide-sidebar ~ #footer .f1 { max-width: calc(10% + var(--main) + var(--pad) + var(--pad)); }
 
                 /* when page is too narrow (put sidebar on top) */
                 .vertical-sidebar .c2 { flex-direction: column-reverse; align-items: center; justify-content: flex-end; }
@@ -202,11 +202,19 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
 
     #footer { padding: 1em; background-color: #111; display: flex; justify-content: center; }
         .f1 { padding-bottom: 1em; max-width: calc(var(--main) + var(--side) + calc(2 * var(--pad))); width: 100%; text-align: justify; }
-            .f2 { padding: calc(0.5 * var(--pad)) var(--pad); max-width: var(--main); color: #4a4a4a; text-align: justify; }
+            .f2 { padding: 0 var(--pad) calc(0.5 * var(--pad)); max-width: var(--main); color: #4a4a4a; text-align: justify; }
             .f2 a { max-width: var(--main); color: #4a4a4a; }
 
     #image-viewer-wrapper { z-index: 1; width: 100%; height: 100vh; background-color: #000c; position: fixed; left: 0; top: 0; display: none; align-items: center; justify-content: center; }
         #image-viewer { object-fit: contain; max-width: 90%; max-height: 90%; }
+
+    @keyframes fadeOut {
+        from { opacity: 1; } to { opacity: 0; }
+        /* from { top: 0; } to { top: 100vh; } */
+    }
+    .fade-out { animation: fadeOut 0.4s forwards; }
+
+
 
 
 

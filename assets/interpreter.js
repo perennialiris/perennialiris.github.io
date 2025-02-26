@@ -206,7 +206,6 @@ function closeImageViewer() {
 
 /* The main interpreter loop. Pass the main element to start. */
 function interpreter(targetElement) {
-    console.log(targetElement)
     let input = targetElement.innerHTML
         .replace(/\n\n+/g, "\n\n")
         .replace(/\r/g, "") /* safety */
@@ -411,7 +410,7 @@ function interpreter(targetElement) {
         input[i] = input[i].replace(/\n/g, "<br>");
 
         if (input[i] == "") {
-            console.error("{interpreter.js: 396 (blank result)}");
+            // console.error("{interpreter.js: (blank result)}");
             continue;
         }
         
