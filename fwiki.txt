@@ -1,0 +1,113 @@
+Capitalism
+
+The term capitalism came into use during the 19th century to describe production as guided by the investment of private finance-capital, and later to economies where this form of wealth had become most important for securing political power (as contrasted with centuries prior, in which rulers substantiated their position by land-claims). The rise to preeminence of such a system was the consequence of the Enlightenment – which saw the codification and protection of the private property of the capitalist as well as the restraint and disenfranchisement of the landed aristocrat, under whom capitalists once operated – as well as the Industrial Revolution, which greatly expanded the social role of capital itself, as what used to be mere merchants grew into powerful industrialists.
+
+While the essential components of capitalism – money, trade, investments, profit – existed in some form or another for all of human history, it was only in modern times capitalists acquired the political status and protections they now enjoy. Their ability to amass wealth was in the past limited by technology, as well as by the direct authority of the nobility. Traditional caste systems acknowledged the role of merchants, but universally considered them more lowly than warriors, and in some cases even more so than peasants or other labourers. Early joint-stock companies like the VOC or the East India Company are considered proto-capitalist, in the sense they were largely controlled by their governments and thus manipulated to serve the national interest – supporting colonialism, expanding their home nation's influence and tax-base, laying claim to global resources, and restricting international trade to harm the economies of rival-nations – rather than merely to generate returns for investors. In hindsight this period became known as mercantilism.
+
+The argument against mercantilism – for the decoupling of the monarchy from private companies, for the lowering of subsidies and tariffs, for an embrace of international trade, and thus to bring proto-capitalism to a close and welcome the dawn of modern, 'bourgeois' capitalism – was made most prominently in the 1700s by French physiocrats (originating the term 'laissez-faire'), and later that century by English rationalists, beginning a tradition we today know as classical economics. A key figure here was Adam Smith, noted for his 1776 work *The Wealth of Nations*, in which he popularized many of the ideas behind the modern capitalist economy: supporting free trade between nations; arguing in favour of specialization, or the division of labour; expounding the concept of 'absolute advantage'; and in one brief passage introducing his oft-cited metaphor of 'the invisible hand' to describe how market forces guide self-interested producers toward satisfying the demands of others. (Other noteworthy figures of this period: Thomas Malthus, David Ricardo, J. S. Mill.)
+
+Throughout the 20th century and especially in reaction to the Great Depression, many liberal theorists moved away from 'laissez-faire,' to advocate instead for a 'mixed-market' capitalist economy: still consisting primarily of private actors, but in which the government should help to provide for the common welfare by maintaining 'safety nets,' and play a more *directive* (as opposed to only a *regulatory*) role within the market, especially in response to financial crises. John Maynard Keynes was a major figure in bringing about this change in paradigm with the publication of his *General Theory* in 1936. But in the 1980s there was eventually a renewed interest in laissez-faire, as many countries experienced a rightward shift, and so came the rise of politicians such as Reagan and Thatcher, a phenomenon later dubbed neoliberalism. In online communities like ours, both views tend to be represented. In general capitalism is still understood as an economy where trade and industry is controlled privately, and the defenders of capitalism unite in being proponents of international commerce, and of fighting attempts (by socialists or otherwise) to nationalize capitalist industries.
+Keynesian economics
+
+Keynesian economics:
+
+> in the short run – and especially during recessions – economic output is strongly influenced by aggregate demand (total spending in the economy)
+> 
+> aggregate demand does not necessarily equal the productive capacity of the economy; instead, it is influenced by a host of factors and sometimes behaves erratically, affecting production, employment, and inflation
+> 
+> Keynesian economists generally argue that as aggregate demand is volatile and unstable, a market economy often experiences inefficient macroeconomic outcomes in the form of economic recessions (when demand is low) and inflation (when demand is high)
+> 
+> these can be mitigated by economic policy responses, in particular, monetary policy actions by the central bank and fiscal policy actions by the government, which can help stabilize output over the business cycle
+> 
+> Keynesian economists generally advocate a managed market economy – predominantly private sector, but with an active role for government intervention during recessions and depressions
+> 
+> A series of developments occurred that shook neo-Keynesian theory in the 1970s as the advent of stagflation and the work of monetarists like Milton Friedman cast doubt on neo-Keynesian theories
+> 
+> The next great wave of Keynesian thinking began with the attempt to give Keynesian macroeconomic reasoning a microeconomic basis. These new Keynesians helped create a 'new neoclassical synthesis' that currently forms the mainstream of macroeconomic theory
+> 
+> New Keynesian analysis usually assumes a variety of market failures. In particular, New Keynesians assume that there is imperfect competition in price and wage setting to help explain why prices and wages can become 'sticky,' which means they do not adjust instantaneously to changes in economic conditions
+
+Liberalism
+
+The post-war period was a great time for the West economically, but by the 1970s things came to a slow. Inflation, a stagnating economy, and energy crises in [1973](https://en.wikipedia.org/wiki/1973_oil_crisis) and [1979](https://en.wikipedia.org/wiki/1979_oil_crisis) led many to the conclusion the status-quo, no longer comfortable, had to change. But how? A critique of Keynesianism and a resurgence of earlier liberal ideas became the answer.
+
+Though not alone in helping to bring about this resurgence of liberalism (neoliberalism), a key figure in the transition was Milton Friedman. This wildly influential academic at the University of Chicago advocated for deregulation, privatization, lowering taxes, and criticized the prevailing economic thought that dominated Western policy-making, going on to serve as economic advisors for many governments (including the Reagan and Thatcher administrations). Against Keynesian ideas about monetary policy, he would recommend his own newly-formed, evidence-based ideas he dubbed 'monetarism,' in short advocating the money supply be expanded slowly and steadily, avoiding the sudden variation in the money supply that resulted from Keynesian policies.
+Libertarian capitalism
+
+Though as a real tendency it seems to have emerged out of the broader trend of neoliberalism in the USA, a capitalist libertarianism, or right-libertarianism, has also grown into a distinct philosophy of its own, emphasizing the clear delineation of and high respect for property rights, economic policies promoting free trade, and, ethically, the importance of non-aggression within this framework.
+
+A very influential figure in the development of right-libertarianism was the American philosopher and writer Robert Nozick.
+Minarchism
+
+A minarchist state, sometimes called a night-watchman state, would be one in which a society has privatized all functions except for those bare essentials necessary for the rule of law: the police, courts, and military. These institutions in place, a market economy is able to grow that would provide for everything else.
+Anarcho-capitalism
+
+Anarcho-capitalists aim to privatize all elements of government, to the point where there is no longer any government at all. The police, courts, and military – or rather, the functions that such agencies currently provide – will all be provided by for-profit businesses on the market.
+
+Though numerous different takes on anarcho-capitalism have emerged over time, the most influential anarcho-capitalist is without a doubt Murray Rothbard, the 'founder' of anarcho-capitalism who is remembered for coining the term and fleshing out the concept while expanding in the work of classical liberals such as Ludwig von Mises and Friedrich Hayek.
+
+There have been other writers to expound on what may be considered precursors to anarcho-capitalist thought, such as Gustave de Molinari, who in his 1849 article 'The Production of Security' argued that government itself ought to be viewed as a service, and that governments should have to compete with one another to provide this service as businesses do.
+
+Influential anarcho-capitalist figures today include David D. Friedman, Hans-Hermann Hoppe, and Bryan Caplan.
+
+ 
+Socialism
+
+While some ancient societies had elements we could understand as socialistic in hindsight, socialism in its modern ideological sense first emerged in the early 1800s in reaction to the Enlightenment, the French Revolution, and the changes brought to society by Industrialization. The early socialist figures – like Charles Fourier, Henri de Saint-Simon, and Robert Owen (in hindsight often designated as 'Utopians') – were especially critical of the *individualism* of early capitalism, and called for the organization of the impoverished labouring classes.
+
+Today in the West, socialism is largely associated, for better or for worse, with the Soviet Union, a country founded by the Marxist Bolsheviks in early 1900s Russia. However, socialism has grown in numerous directions since its inception, and there is not a single, comprehensive answer today for what a socialist program must entail. Its uniting feature is a critique of capitalism, which focuses upon and attempts by some means to resolve the defining class relationship of capitalism: the ownership, as property, of all facets of economic life by a privileged *capitalist class*, for whom the remaining masses of people must pledge their labour. A socialist society is thus one where the existing capitalist class has been dissolved.
+
+Socialists have always been divided on various questions, but none more pressing than the role of the state. How should socialists use the state today, during a revolution, and afterwards? In the 1870s, the disagreement between anarchists and Marxists – with the latter wanting a proletarian state to succeed an overthrow of their contemporary governments, and the former opposed – became most pronounced, effectively splitting up a major socialist organization known as the International Workingmen's Association. Though not every self-described socialist identifies strictly as one or the other, these remain the two major types of socialism today.
+Marxism
+
+Throughout the 19th century Karl Marx, in collaboration with Friedrich Engels, would cement his place as the most influential voice of the socialist movement. In his various works such as *Das Kapital* and *The German Ideology*, he analyzed the existing relations of capitalism, presented an understanding of history as shaped by class conflict, and called for the industrial labouring class, the 'proletariat,' to organize a revolution against the present state of things, as led by the capitalist 'bourgeoisie,' to establish *communism* – a new sort of society, to be defined, in contrast with capitalism, by the 'free association of producers.'
+
+For Marxists, this was not to be the contrived vision of a privileged intelligentsia such as themselves, but a natural progression of history, the result of working people pursuing their own class interests. Communism was to be 'the real movement of the working class.' It was not, however, something that comes about instantly. To build a new society requires power, which must be taken from the bourgeoisie, ending their stranglehold on society through their ownership, as private property, of all facets of economic life. The proletariat would seek to free itself from bourgeois control: from the factories, farms, mines, and workshops, to the warehouses, storefronts, and office buildings, to the ports, railways, and airliners, to control of critical infrastructure like electricity and, of increasing importance, the media and telecommunications.
+
+This theoretical interim – where a rising proletariat is fighting back and taking power, but has not yet established a communist society – was referred to as 'the dictatorship of the proletariat.' This usage precedes much of the negative connotation about 'dictatorship' today, and should instead be taken merely as a term for when the proletariat becomes the ruling class, usurping what we may call 'the dictatorship of the bourgeoisie' (present society). What exactly a proletarian-ruled interim-society ought to do, and which countries in history can fairly be said to have been proletarian-ruled, are both debated. The most common perspective is that many 'failed' socialist states, like Russia and China, did succeed at establishing proletarian rule by their respective revolutions, but that such regimes failed to materialize into communism.
+Leninism
+
+In the early 1900s, Vladimir Lenin argued that common workers left to their own devices would only ever focus on simple economic matters such as their own hours and wages. To become revolutionary, there must be a broader revolutionary theory, and this requires not only the legwork of trade-unionists but also the guidance of dedicated 'revolutionary intellectuals' such as Marx, Engels, and now Lenin himself, to be organized as a 'vanguard party' of 'professional revolutionaries,' whose role would be to represent the interests of the revolution politically, and to organize and educate the working classes about Marxism and the revolution to instill in them a sense of class consciousness, and help them to throw off the shackles of their existing bourgeois society.
+
+A key contribution Lenin made to revolutionary theory is the now-prevalent leftist conception of imperialism. In the preceding century, capitalism was often spoken of as being near-collapse; its resilience demanded explanation. Lenin identified that capitalists could withstand organization and resistance from their domestic proletariat by expanding into foreign markets, outsourcing the worst excesses of their exploitation while chasing cheap resources of conquered foreigners. In this way capitalism naturally grew from being a matter of national economy to being a 'world system,' and it was for this reason the proletariat must be an international force if capital is to be defeated.
+
+Lenin was instrumental to the formation of the Soviet Union, returning to Russia from exile in early 1917, after the Tsar had abdicated, to overthrow the new provisional government and install his own party, the 'Bolsheviks,' as the new ruling faction in the October Revolution, setting off the years-long Russian Civil War. Lenin died after suffering a stroke in 1924, just two years after concluding the war and formally establishing the Soviet Union; in his place, Joseph Stalin came to be the country's new ruler, serving from then until his death in 1953. To capitalize on Lenin's reputation, Stalin named his own ideology, and that of the Soviet state in general, 'Marxism–Leninism.'
+Left-communism
+
+Left-communism is an opposition faction of orthodox Marxists who are critical of Marxism–Leninism as it developed. In some cases they agree with Lenin's early work and even consider themselves Leninists, but disagree with how his ideas materialized under the Soviet Union and onward, and consider Stalinism (Marxism–Leninism) a distortion of authentic Marxist principles. (Amadeo Bordiga, Antonio Gramsci.)
+
+In other cases however, the divergence originates earlier, with Lenin himself considered a point of divergence from authentic Marxism. Instead an advocacy for 'council communism' – indirect rule by worker's associations, rather than a Leninist vanguard party – is preferred, along with a more libertarian interpretation of orthodox Marxist writing. (Antonie Pannekoek, Otto Rühle.)
+Trotskism
+
+Trotsky was a contemporary of Lenin and commander of the Red Army in the Russian Civil War, and an early member of the Soviet government. He is known for his support of 'permanent revolution.' Trotsky was removed from his position in government by Stalin in 1927, and expelled from the Soviet Union altogether in 1929. He continued openly opposing and criticizing Stalinism until he was assassinated for his dissent in 1940.
+
+Trotsky believed Stalin's bureaucracy had become focused merely on sustaining itself at the expense of the Russian population and was no longer capable of leading the international working class to power.
+
+Trotsky and his allies created the Fourth International in 1938 to pose an alternative to the Comintern.
+Maoism
+
+Mao Tsê-tung ruled over mainland China as head of the Chinese Communist Party from 1949 until his death in the 70s. His contributions to Marxist thought have since been called 'Mao Zedong Thought' (using the more modern transliteration), or simply Maoism.
+
+Mao identified that a weakness of the revolutionary vanguard was its own slow degradation, becoming stagnant and counter-revolutionary over time due to the lingering effects of 'bourgeois ideology,' even in a society where the bourgeoisie had been materially eliminated. To protect the revolution these cultural remnants must be eliminated. Such was the thinking behind the Chinese Cultural Revolution and, to Maoists, must be an element of future revolutions.
+
+Though he didn't abandon the vanguard party concept, Mao put comparatively greater emphasis on popular involvement, which became his synthesis theory of the 'mass line.'
+
+A common Maoist belief is that first-world workers constitute a 'labour aristocracy,' as beneficiaries of the cheap labour of capitalist imperialism in the form of inflated wages, cheaper commodities, and expansive welfare states. The concept of a labour aristocracy was used originally to criticize an upper stratum of workers who had, perhaps by their own unionization, achieved better pay or conditions than most other workers, and were willing to defend the system in general in order to hold onto this particular advantage, thus becoming traitors to the rest of the ruling class. In a modern setting it's been proposed first-world workers have become naturally supportive of capitalism and especially of neo-imperialism in order to maintain their position of privilege over the rest of the world's workers.
+Libertarian socialism
+
+Libertarian socialism is an umbrella term for those flavours of socialism which emphasize the liberty of the individual from systems of control like capitalism but also from the state – in contrast with the style of Marxism–Leninism that was behind most Communist governments in the 20th century (one-party states that exercised extensive control over the economy, and which were generally lacking the checks and balances of Western liberal governance and justice systems).
+
+Libertarianism may range from promoting more accountable, democratic governments – often part of what is called Libertarian Marxism – to opposing the organization of governments altogether, as in anarchism.
+
+Historically, movements associated with libertarian socialism have included the anarchist Revolutionary Catalonia and the anarchist [Ukraine Free Territory (or Makhnovia)](https://en.wikipedia.org/wiki/Makhnovshchina). Today, libertarian socialism is typically associated with the 'Democratic Confederalist' ideas of [Rojava](https://en.wikipedia.org/wiki/Autonomous_Administration_of_North_and_East_Syria), or MAREZ, the autonomous territories in the southern Mexican state of Chiapas controlled by the Zapatistas (the Zapatista Army of National Liberation, or EZLN).
+Anarchism
+
+The term anarchy had long been used to mean the chaos or disorder that would result from a breakdown of the rule of law. The first person to take this term and use it to describe theirself in a more positive, ideological sense – appending an ism or ist – was Pierre-Joseph Proudhon, a French writer, politician, and polemicist known especially for his 1840 work *What is Property?*, in which he controversially analyzed 'the inanity of our institutions.' Proudhon suggested we pursue a society of liberty where men did not govern each other, and described his aspirations as a 'synthesis of communism and property.' Interestingly, Proudhon did not specifically insist on a society with no state, as do modern anarchists, but a society where the state was now just an instrument of the people; however, many chalk this up to the way our use of the term 'state' has changed over time, and believe that what Proudhon described – a state that did not govern – was essentially no state at all, but merely a description of an institution by which people could organize public works. The specifics aside, it was undoubtedly Proudhon who began the conversation, the man who got the ball rolling: nearly all anarchists who came after Proudhon were directly influenced by him and his works, and there has been no great shyness about describing him as the father of anarchism.
+
+Some other major anarchist figures in the 20th century were Mikhail Bakunin and Pyotr Kropotkin. The modern American intellectuals Noam Chomsky and David Graeber identify as anarchists.
+Individualist anarchism
+
+Max Stirner, Benjamin Tucker. Voltairine de Cleyre.
+
+
+

@@ -1,7 +1,6 @@
 
 "use strict";
 
-var linksInArticle = [];
 var tableOfContentsLinks = [];
 var isKeyResponsive = false;
 var canResizePageWidth = true;
@@ -114,10 +113,9 @@ function pageLoad() {
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
     const footer = document.body.appendChild(document.createElement("footer"));
     footer.id = "footer";
-    footer.innerHTML +=
-    `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for noncommercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>
-    <div id="image-viewer-wrapper" onclick="closeImageViewer()"><img id="image-viewer"></div>
-    `;
+    footer.innerHTML += `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for noncommercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>
+    <div id="image-viewer-wrapper" onclick="closeImageViewer()"><img id="image-viewer"></div>`;
+
     window.addEventListener("keydown", function(event) {
         if (isKeyResponsive && event.key === 'Escape') {
             closeImageViewer(); }
@@ -146,33 +144,22 @@ function pageLoad() {
             <div class="c2">
                 <div class="c3">
                     <div id="article">${document.getElementById("main").innerHTML}</div>
+                    <div id="article-trailer"></div>
                 </div>
                 <div id="sidebar"></div>
             </div>
-            <div id="right-gutter"><button id="sidebar-button" class="toggle-button-1" type="button" onclick="toggleSidebarVisibility()"><img src="assets/chevron-right.png"></button></div>
+            <div id="right-edge"><button id="sidebar-button" class="toggle-button-1" type="button" onclick="toggleSidebarVisibility()"><img src="assets/chevron-right.png"></button></div>
         </div>`;
 
     sidebar = document.getElementById("sidebar");
     article = document.getElementById("article");
+    const articleTrailer = document.getElementById("article-trailer");
 
-    let articleFooter = article.parentNode.appendChild(document.createElement("footer"));
-    articleFooter.id = "article-footer";
-    articleFooter.innerHTML = 
-    `
-    <div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://northofqueen.substack.com">Substack</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> <span class="betw">&verbar;</span> <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>
-    `;
-    
+    articleTrailer.innerHTML = `<div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>`;
+
     interpreter(article);
-    
-    if (linksInArticle.length > 0) {
-        for (let i = 0; i < linksInArticle.length; i += 1) {
-            linksInArticle[i] = `<li><a href="${linksInArticle[i]}">${linksInArticle[i]}</a></li>`; }
-        let articleCitations = article.parentNode.appendChild(document.createElement("div"));
-        articleCitations.id = "article-citations";
-        articleCitations.innerHTML = `<div>links on this page:</div><ol>${linksInArticle.join("")}</ol>`;
-    }
 
-    /* interpreting data for sidebar or main list */
+    /* processing data from variable at the top of this file */
     const sidebarNavContent = { pins: [], recent: [], full: [] };
     const dataRows = data.split("\n");
     for (let i = 0; i < dataRows.length; i += 1) {
@@ -189,24 +176,25 @@ function pageLoad() {
             const isPinned = rowFlag == "pinned";
 
             if (isCurrent) {
-                if (rowType == "document") { document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css">`; }
-            }
-            if (rowFlag == "hidden") { continue; }
+                if (rowType == "document") {
+                    document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css">`; } }
+            if (rowFlag == "hidden") {
+                continue; }
 
             let icon = "";
             let entryClass = "nav-row";
 
-            if (rowFile == fileName) { entryClass += " current-page"; }
-            if (isPinned) { entryClass += " pinned"; icon = `<img class="icon" src="assets/pin2.png" height="17" width="17">`; }
+            if (rowFile == fileName) {
+                entryClass += " current-page"; }
+            if (isPinned) {
+                entryClass += " pinned"; icon = `<img class="icon" src="assets/pin2.png" height="17" width="17">`; }
 
             let entryElement = `<a href="${rowFile}.html" class="${entryClass}">${rowTitle}${icon}</a>`;
             if (isPinned) {
                 sidebarNavContent.pins.push(entryElement); }
             else {
                 if (sidebarNavContent.recent.length < 10) {
-                    sidebarNavContent.recent.push(entryElement);
-                }
-            }
+                    sidebarNavContent.recent.push(entryElement); } }
             if (rowDate == "") {
                 rowDate = "---"; }
 
@@ -218,11 +206,10 @@ function pageLoad() {
                 </tr>`);
         }
     }
-    
+
     const frontPageList = document.getElementById("front-page-list");
     if (frontPageList) {
-        frontPageList.innerHTML = `<tr><th>Post title</th><th>Topic</th><th>Date posted</th></tr>${sidebarNavContent.full.join("")}`;
-    }
+        frontPageList.innerHTML = `<tr><th>Post title</th><th>Topic</th><th>Date posted</th></tr>${sidebarNavContent.full.join("")}`; }
     else {
 
         let sidebarContent = 
@@ -263,6 +250,9 @@ function pageLoad() {
     
     if (document.title === "") { document.title = "North of Queen"; }
     else { document.title += " – North of Queen"; }
+    
+    let bottomInfo = 
+    `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for noncommercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>`
     
     const cover = document.getElementById("cover");
     if (!cover) { console.error("layout.js: 250 (lost #cover)"); }

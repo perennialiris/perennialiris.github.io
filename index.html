@@ -2,19 +2,20 @@
 <html>
 <head>
     <style>
-    #right-gutter, #sidebar, #article-footer, #article-citations { display: none !important; }
-    .c1 { width: 100% !important; max-width: 868px !important; }
-    .c2 { max-width: 714px !important; }
+    #right-edge, #sidebar, #article-trailer { display: none !important; }
 
     table ::selection { color: #444; }
     table { width: 100%; color: var(--grey-90)!important; }
     table tr th { padding: 2px 14px 7px!important; font-weight: 400; color: var(--grey-90); text-align: left!important; }
     table tr td { padding: 2px 14px!important; border: none!important; }
-    table tr > :first-child { padding-left: 6px!important; }
-    table tr > :last-child { padding-right: 6px!important; }
-    table a { color: var(--grey-20)!important; display: flex; align-items: center; gap: 3px; }
+    table tr > :first-child { padding-left: 6px !important; }
+    table tr > :last-child { padding-right: 6px !important; text-align: right !important; }
+    table a { color: var(--grey-20) !important; display: flex; align-items: center; gap: 3px; }
     table a:hover { color: var(--accent)!important; text-decoration: underline; }
-    table img.icon { opacity: 0.6; margin-left: 1px; }
+
+    ul { margin-top: 7px !important; }
+    li { margin-top: 4px !important; }
+    .f1, .f2 { max-width: var(--main) !important; padding: calc(0.5 * var(--main-pad)) 0 !important; }
     </style>
 </head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
@@ -25,7 +26,7 @@
 ||image-right
 [][](assets/001.png)
 
-\<div style="line-height: 1.3; margin-top: 0; font-weight: 700; color: var(--grey-20); font-size: 22px; font-family: Open Sans,sans-serif;">Full page list</div>
+\<div style="line-height: 1.3; margin-top: 0; font-weight: 700; color: var(--grey-20); font-size: 22px; font-family: Inter,Open Sans,sans-serif;">Full page list</div>
 
 I'm Iris. I live in Canada. I'm a trans woman. I'm <span id="age"></span> years old. This is where I throw anything I want hosted.
 
@@ -35,7 +36,6 @@ Places you can find me:
 - [Substack](https://northofqueen.substack.com)
 - [Tumblr](https://forthoseinterested.tumblr.com)
 - [Discord server](https://discord.com/invite/puJEP8HKk3)
-
 
 ---
 

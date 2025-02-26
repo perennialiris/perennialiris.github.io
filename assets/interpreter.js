@@ -304,14 +304,11 @@ function interpreter(targetElement) {
         /* ------------------------ links ------------------------- */
         /* \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\) */
         input[i] = input[i].replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
-            let index = linksInArticle.indexOf(address);
             address = address.replaceAll("\\)", ")");
-            
-            if (index == -1) index = linksInArticle.push(address);
-            let result = (displayText === "")
+            return (displayText === "")
                 ? `<a class="citeref" target="_blank" href="${address}">[${index}]</a>`
                 : `<a target="_blank" href="${address}">${displayText}</a>`;
-            return result; });
+            });
 
         /* ------------------------ table ------------------------- */
         if (input[i].startsWith("||table")) {
@@ -347,7 +344,7 @@ function interpreter(targetElement) {
 
         /* ------------- "This was also posted here:" ------------- */
         if (input[i].startsWith("||see-also")) {
-            document.getElementById("article-footer").innerHTML += `<div>This was also posted here:<br>${input[i].split("\n").splice(1).map(c => `<a href="${c}" target="_blank">${c}</a>`).join("<br>")}</div>`;
+            document.getElementById("article-trailer").innerHTML += `<div>This was also posted here:<br>${input[i].split("\n").splice(1).map(c => `<a href="${c}" target="_blank">${c}</a>`).join("<br>")}</div>`;
             input[i] = "";
             continue; }
         
