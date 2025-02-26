@@ -4,7 +4,6 @@
 var tableOfContentsLinks = [];
 var isKeyResponsive = false;
 var canResizePageWidth = true;
-var sidebar;
 var page;
 var rowsInTableOfContents;
 var headersInArticle;
@@ -85,7 +84,7 @@ function alignTable(dataString, splitChar) {
     });
     
     data = table.map(c => c.join(` ${splitChar} `)).join("\n");
-    console.log(data);
+    // console.log(data);
 }
 
 /* function that enables the table of contents */
@@ -110,10 +109,26 @@ function tocHighlighter() {
 
 function pageLoad() {
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
-    const footer = document.body.appendChild(document.createElement("footer"));
-    footer.id = "footer";
-    footer.innerHTML += `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for noncommercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>
-    <div id="image-viewer-wrapper" onclick="closeImageViewer()"><img id="image-viewer"></div>`;
+    document.body.outerHTML = 
+    `<div id="top"></div>
+    <header id="header"><a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a></header><nav id="nav"></nav>
+    <div id="page">
+        <div class="c1">
+            <div class="c2">
+                <div class="c3">
+                    <div id="article">${document.getElementById("main").innerHTML}</div>
+                    <footer id="article-footer"><div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div></footer>
+                </div>
+                <div id="sidebar"></div>
+            </div>
+            <div id="right-edge"><button id="sidebar-button" class="toggle-button-1" type="button" onclick="toggleSidebarVisibility()"><img src="assets/chevron-right.png"></button></div>
+        </div>
+    </div>
+    <footer id="footer"><div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for noncommercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div></footer>
+    <div id="image-viewer-wrapper" onclick="closeImageViewer()"><img id="image-viewer"></div>
+    `;
+    page = document.getElementById("page");
+    interpreter(document.getElementById("article"));
 
     window.addEventListener("keydown", function(event) {
         if (isKeyResponsive && event.key === 'Escape') {
@@ -127,38 +142,8 @@ function pageLoad() {
     if (fileName_get_.indexOf("#") != -1) fileName_get_ = fileName_get_.substring(0, fileName_get_.indexOf("#"));
     const fileName = fileName_get_.replace(/\.html$/, "");
 
-    document.getElementById("top").innerHTML =
-       `<header id="header">
-            <a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a>
-        </header>
-        <nav id="nav">
-        </nav>`;
-
-    page = document.getElementById("page");
-    if (!page) { console.error("{layout.js: 137 (lost #page)}"); return; }
-    if (document.getElementById("main") === null) { console.error("{layout.js: 136 (lost #main)}"); return; }
-
-    page.innerHTML =
-       `<div class="c1">
-            <div class="c2">
-                <div class="c3">
-                    <div id="article">${document.getElementById("main").innerHTML}</div>
-                    <footer id="article-footer"></footer>
-                </div>
-                <div id="sidebar"></div>
-            </div>
-            <div id="right-edge"><button id="sidebar-button" class="toggle-button-1" type="button" onclick="toggleSidebarVisibility()"><img src="assets/chevron-right.png"></button></div>
-        </div>`;
-
-    sidebar = document.getElementById("sidebar");
-    article = document.getElementById("article");
-    const articleFooter = document.getElementById("article-footer");
-
-    articleFooter.innerHTML = `<div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>`;
-
-    interpreter(article);
-
     alignTable(data,"|");
+
     /* processing data from variable at the top of this file */
     const sidebarNavContent = { pins: [], recent: [], full: [] };
     const dataRows = data.split("\n");
@@ -218,13 +203,12 @@ function pageLoad() {
                 <div class="label">Recently added:</div>
                 ${sidebarNavContent.recent.join("")}
                 <div class="nav-row"><a style="float:right" href="index.html">Full page list →</a></div>
-            </nav>
-            `;
+            </nav>`;
 
         if (tableOfContentsLinks.length < 6) {
-            sidebar.innerHTML = `<span class="is-sticky">${sidebarContent}</span>`;
+            document.getElementById("sidebar").innerHTML = `<span class="is-sticky">${sidebarContent}</span>`;
         } else {
-            sidebar.innerHTML = `${sidebarContent}
+            document.getElementById("sidebar").innerHTML = `${sidebarContent}
             <span class="is-sticky">
             <nav id="toc">
                 <div class="toc-title">Contents</div>
@@ -244,20 +228,11 @@ function pageLoad() {
         window.addEventListener("load", pageWidthCheck);
         setTimeout(() => { pageWidthCheck(); }, 50);
     }
-    
+
     setSidebar();
-    
+
     if (document.title === "") { document.title = "North of Queen"; }
     else { document.title += " – North of Queen"; }
-    
-    let bottomInfo = 
-    `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for noncommercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>`
-    
-    const cover = document.getElementById("cover");
-    if (!cover) { console.error("layout.js: 250 (lost #cover)"); }
-    else {
-        cover.classList.add("fade-out");
-        cover.addEventListener("animationend", () => { cover.remove(); }); }
 }
 
 function setSidebar() {
