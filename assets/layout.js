@@ -143,7 +143,7 @@ function pageLoad() {
             <div class="c2">
                 <div class="c3">
                     <div id="article">${document.getElementById("main").innerHTML}</div>
-                    <div id="article-trailer"></div>
+                    <footer id="article-footer"></footer>
                 </div>
                 <div id="sidebar"></div>
             </div>
@@ -152,9 +152,9 @@ function pageLoad() {
 
     sidebar = document.getElementById("sidebar");
     article = document.getElementById("article");
-    const articleTrailer = document.getElementById("article-trailer");
+    const articleFooter = document.getElementById("article-footer");
 
-    articleTrailer.innerHTML = `<div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>`;
+    articleFooter.innerHTML = `<div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>`;
 
     interpreter(article);
 
