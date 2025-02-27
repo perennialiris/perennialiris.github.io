@@ -3,8 +3,6 @@
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-italic.ttf);      font-weight: 400; font-style: italic; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold.ttf);        font-weight: 700; font-style: normal; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold-italic.ttf); font-weight: 700; font-style: italic; }
-@font-face { font-family: "Inter"; src: url(inter-regular.woff2); font-weight: 400 700; font-style: normal; }
-@font-face { font-family: "Inter"; src: url(inter-italic.woff2);  font-weight: 400 700; font-style: italic; }
 @font-face { font-family: "Roboto"; src: url(roboto-regular.woff2); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Roboto"; src: url(roboto-italic.woff2);  font-weight: 400 700; font-style: italic; }
 @font-face { font-family: "Open Sans"; src: url(open-sans-regular.woff2); font-weight: 400 700; font-style: normal; }
@@ -116,7 +114,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                         #article > h1,
                         #article h2,
                         #article h3,
-                        #article h4 { margin-top: 1em; }
+                        #article h4 { margin-top: 1.15em; }
                         #article ul, ol { padding: 0 36px; }
                         #article ol + li,
                         #article ul + li,

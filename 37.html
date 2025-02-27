@@ -1,29 +1,23 @@
 <!DOCTYPE html>
 <html lang="en"><head><style>
+    #article, .c1, .c2, .c3, .c4 { max-width: unset !important; }
+    .c1, .c2, .c3 { max-width: unset !important; display: flex; justify-content: center; }
     .noq-table { font-family: "Roboto",sans-serif !important; margin-left: 10px !important; }
-    .noq-table tr td:nth-child(1),
-    .noq-table tr td:nth-child(2) { white-space: nowrap; }
-    .noq-table tr td:nth-child(1) { background-color: #eee; }
-    .noq-table tr td:nth-child(2) { font-weight: 700; color: var(--grey-20); }
+
+    td:nth-child(1) { background-color: #eee; }
+    td:nth-child(1), td:nth-child(2) { white-space: nowrap; }
+    td:nth-child(2) { font-weight: 700; }
+   
+    .handle { color: var(--grey-40) !important; }
+    .tag { white-space: nowrap; color: #eee; padding: 0 4px 1px 3px; border-radius: 3px; font-size: 12px; vertical-align: 1px; background-image: linear-gradient(transparent, #0003); font-family: system-ui; margin-left: 3px; }
     
-    /*#toc div, #toc a { display: none !important; }
-    #toc input { margin-left: auto; }*/
+    .ca-liberal { background-color: #ac4d57; } .ca-liberal::before { content: 'Liberal Party'; }
+    .ca-ndp { background-color: #c17c4a; } .ca-ndp::before { content: 'NDP'; }
+    .ca-green { background-color: #6b9d5d; } .ca-green::before { content: 'Green Party'; }
+    .ca-bloc { background-color: #649aae; } .ca-bloc::before { content: 'Bloc Québécois'; }
     
-    .handle { color: #048!important; text-transform: lowercase; }
-    .handle:before { content: '@'; }
-    .new-democratic-party-ca { color: #a50; }
-    .liberal-party-ca { color: #a33; }
-    .conservative-party-ca { color: #03c; }
-    .green-party-ca { color: #1d770e; }
-    .bloc-quebecois-ca { color: #27a; }
-    .democratic-party-us { color: #34a; }
-    .republican-party-us { color: #e44; }
-    .independent-us { color: #606f33; }
-    .bias-balanced { color: #222; }
-    .bias-left-leaning { color: #a65656; }
-    .bias-left-wing { color: #ac2a2a; }
-    .bias-right-leaning { color: #4f72b3; }
-    .bias-right-wing { color: #2746a6; }
+    .us-dem { background-color: #6d6db3; } .us-dem::before { content: 'Democratic Party'; }
+    .us-independent { background-color: #819187; } .us-independent::before { content: 'Independent'; }
 </style></head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
 <div id="top"></div>
@@ -35,128 +29,52 @@
 ### Media outlets
 
 ||table
+@reuters.com | Reuters
+@apnews.com | Associated Press
+@theglobeandmail.com | The Globe and Mail
+@theatlantic.com | The Atlantic
+@bbc.com | BBC (British Broadcasting Corporation)
+@theguardian.com | The Guardian
+@nypost.com | New York Post
+@vox.com | Vox
+@bloomberg.com | Bloomberg
+@npr.org | NPR (National Public Radio)
+@axios.com | Axios
+@wsj.com | The Wall Street Journal
+@cnn.com | CNN
+@newyorker.com | The New Yorker
+@rollingstone.com | Rolling Stone
+@economist.com | The Economist
+@forbes.com | Forbes
+@time.com | Time
+@thehill.com | The Hill
+@businessinsider.com | Business Insider
+@reason.org | Reason Magazine
+@the-independent.com | The Independent
+@wired.com | Wired
+@huffpost.com | HuffPost (formerly Huffington Post)
+@politico.com | Politico
+@politico.eu | Politico Europe
+@bostonglobe.com | The Boston Globe
+@theverge.com | The Verge
+@newrepublic.com | New Republic
+@latimes.com | Los Angeles Times
+@nytimes.com | New York Times
+@financialtimes.com | Financial Times
+@theintercept.com | The Intercept
+@propublica.org | ProPublica
+@motherjones.com | Mother Jones
+@newsweek.com | Newsweek
+@democracynow.org | Democracy Now
+@alternet.org | AlterNet
+@advocate.com | Advocate
+@rawstory.com | Raw Story
+@aljazeera.com | Al Jazeera Media Network
+@washingtonpost.com | Washington Post
 
 ### Journalists & pundits
 
 ||table
-
-### US politicians
-
-||table
-
-### Canadian federal politicians
-
-||table
-
-### Organizations
-
-||table
-
-### Public figures
-
-||table
-
-### International
-
-||table
-
-
-</main></div>
-<script src="assets/interpreter.js"></script>
-<script src="assets/layout.js"></script>
-<script>
-
-function partyNames(inputString) {
-    let str = inputString
-        .replace("Liberal Party", "<span class=\"liberal-party-ca\">Liberal Party</span>")
-        .replace("Green Party", "<span class=\"green-party-ca\">Green Party</span>")
-        .replace("Conservative Party", "<span class=\"conservative-party-ca\">Conservative Party</span>")
-        .replace("Bloc Québécois", "<span class=\"bloc-quebecois-ca\">Bloc Québécois</span>")
-        .replace("Republican Party", "<span class=\"republican-party-us\">Republican Party</span>")
-        .replace("Independent", "<span class=\"independent-us\">Independent</span>");
-    if (str.includes("New Democratic Party")) {
-        str = str.replace("New Democratic Party", "<span class=\"new-democratic-party-ca\">New Democratic Party</span>"); }
-    else {
-        str = str.replace("Democratic Party", "<span class=\"democratic-party-us\">Democratic Party</span>"); }
-    return str;
-}
-function leftRightPosition(inputString) {
-    return inputString
-        .replace("left-leaning", "<span class=\"bias-left-leaning\">left-leaning</span>")
-        .replace("left-wing", "<span class=\"bias-left-wing\">left-wing</span>")
-        .replace("right-leaning", "<span class=\"bias-right-leaning\">right-leaning</span>")
-        .replace("right-wing", "<span class=\"bias-right-wing\">right-wing</span>");
-}
-function tableFormatter(inputString, splitChar) {
-    let data = inputString.replace(/\r/g, "").split('\n').map(row => row.split(splitChar).map(cell => cell.trim()));
-    let formattedTable = "";
-    for (let i = 0; i < data.length; i += 1) {
-        let row = data[i];
-        if (row.length == 1) {
-            continue; }
-        for (let j = 0; j < row.length; j += 1) {
-            if (j == 0) {
-                while (row[j].charAt(0) == "@") { row[j] = row[j].substring(1); }
-                row[j] = `<td><a class="handle" href="https://bsky.app/profile/${row[j].toLowerCase()}" target="_blank">${row[j]}</a></td>`; }
-            else {
-                if (j == 1) {
-                    row[j] = `<td><b>${row[j]}</b></td>`; }
-                else {
-                    if (data[0] == "party names") { row[j] = partyNames(row[j]); }
-                    else if (data[0] == "position") { row[j] = leftRightPosition(row[j]); }
-                    row[j] = `<td>${row[j]}</td>`; } } }
-        formattedTable += `<tr>${row.join('')}</tr>`; }
-    return formattedTable; }
-
-let tableData = [
-/* Media outlets */
-`position
-@reuters.com | Reuters                                |
-@apnews.com | Associated Press                       |
-@theglobeandmail.com | The Globe and Mail                     |
-@theatlantic.com | The Atlantic | Considered left-leaning
-@bbc.com | BBC (British Broadcasting Corporation) | Public broadcaster
-@theguardian.com | The Guardian | Considered left-leaning
-@news.sky.com | Sky News                               |
-@nypost.com | New York Post | Firmly right-wing
-@vox.com | Vox | Considered left-leaning
-@bloomberg.com | Bloomberg                              |
-@npr.org | NPR (National Public Radio) | Public broadcaster
-@axios.com | Axios | Considered left-leaning
-@wsj.com | The Wall Street Journal | Considered right-leaning
-@cnn.com | CNN                                    |
-@newyorker.com | The New Yorker | Firmly left-wing
-@rollingstone.com | Rolling Stone | Firmly left-wing
-@economist.com | The Economist                          |
-@forbes.com | Forbes                                 |
-@time.com | Time | Considered left-leaning
-@thehill.com | The Hill                               |
-@businessinsider.com | Business Insider                       |
-@reason.org | Reason Magazine | Firmly right-wing (Libertarian focus)
-@the-independent.com | The Independent | Considered left-leaning
-@wired.com | Wired | Firmly left-wing
-@huffpost.com | HuffPost (formerly Huffington Post) | Considered left-leaning
-@politico.com | Politico                               |
-@politico.eu | Politico Europe                        |
-@bostonglobe.com | The Boston Globe | Considered left-leaning
-@theverge.com | The Verge | Considered left-leaning
-@newrepublic.com | New Republic | Firmly left-wing
-@latimes.com | Los Angeles Times                      |
-@nytimes.com | New York Times | Considered left-leaning
-@financialtimes.com | Financial Times                        |
-@theintercept.com | The Intercept | Firmly left-wing
-@propublica.org | ProPublica | Considered left-leaning (Nonprofit investigative reporting)
-@motherjones.com | Mother Jones | Firmly left-wing (Nonprofit)
-@newsweek.com | Newsweek                               |
-@democracynow.org | Democracy Now | Firmly left-wing   
-@alternet.org | AlterNet | Firmly left-wing
-@advocate.com | Advocate | Firmly left-wing (LGBT focus)
-@rawstory.com | Raw Story | Firmly left-wing
-@aljazeera.com | Al Jazeera Media Network | Considered left-leaning
-@washingtonpost.com | Washington Post | Considered left-leaning`
-,
-/* Journalists & pundits */
-`
 @maddow.msnbc.com | Rachel Maddow | MSNBC commentator
 @mehdirhasan.bsky.social | Mehdi Hasan | MSNBC commentator
 @chrislhayes.bsky.social | Chris Hayes | MSNBC commentator
@@ -167,47 +85,43 @@ let tableData = [
 @briantylercohen.bsky.social | Brian Tyler Cohen | YouTuber, American political commentator
 @davidpakman.bsky.social | David Pakman | YouTuber, American political commentator
 @jefftiedrich.bsky.social | Jeff Tiedrich | Internet commentator
-`
-,
-/* US politicians */
-`party names
-@aoc.bsky.social | Alexandria Ocasio-Cortez | Democratic Party (US House Rep, New York)
-@schiff.senate.gov | Adam Schiff | Democratic Party (US Senator, California)
-@petebuttigieg.bsky.social | Pete Buttigieg | Democratic Party (Transportation Secretary)
-@warren.senate.gov | Elizabeth Warren | Democratic Party (US Senator, Massachusetts)
-@murray.senate.gov | Patty Murray | Democratic Party (US Senator, Washington)
-@chrismurphyct.bsky.social | Chris Murphy | Democratic Party (US Senator, Connecticut)
-@robertgarcia.bsky.social | Robert Garcia | Democratic Party (US House Rep, California)
-@ilhanmn.bsky.social | Ilhan Omar | Democratic Party (US House Rep, Minnesota)
-@sanders.senate.gov | Bernie Sanders | Independent (US Senator, Vermont)`
-,
-/* Canadian federal politicians */
-`party names
-@yfblanchet.bsky.social | Yves-François Blanchet | Bloc Québécois leader, MP (Quebec)
-@jagmeetsingh.ca | Jagmeet Singh | New Democratic Party leader (British Columbia)
-@elizabethemay.bsky.social | Elizabeth May | Green Party leader, MP (British Columbia)
-@turnbullwhitby.bsky.social | Ryan Turnbull | Liberal Party MP (Ontario)
-@avankoeverden.bsky.social | Adam van Koeverden | Liberal Party MP (Ontario)
-@chrisbittle.bsky.social | Chris Bittle | Liberal Party MP (Ontario)
-@vivianelapointe.bsky.social | Viviane Lapointe | Liberal Party MP (Ontario)
-@pattyhajdu.bsky.social | Patty Hajdu | Liberal Party MP (Ontario)
-@terryBeech.bsky.social | Terry Beech | Liberal Party MP (British Columbia)
-@jyduclos.bsky.social | Jean-Yves Duclos | Liberal Party MP (Quebec)
-@alexandramendes.bsky.social | Alexandra Mendès | Liberal Party MP (Quebec)
-@seanfraser.bsky.social | Sean Fraser | Liberal Party MP (Nova Scotia)
-@charlieangus104.bsky.social | Charlie Angus | MP from Ontario (New Democratic Party)
-@taylorbachrach.bsky.social | Taylor Bachrach | New Democratic Party MP (British Columbia)
-@mp-bonitazarrillo.bsky.social | Bonita Zarrillo | New Democratic Party MP (British Columbia)
-@blakedesjarlais.bsky.social | Blake Desjarlais | New Democratic Party MP (Alberta)`
-,
-/* Organizations */
-`
-@nba.com | National Basketball Association
-@barnesandnoble.com | Barnes & Noble
-`
-,
-/* Public figures */
-`
+
+### US politicians
+
+||table
+@aoc.bsky.social | Alexandria Ocasio-Cortez | House of Representatives (New York)<span class="tag us-dem"></span>
+@schiff.senate.gov | Adam Schiff | Senator (California)<span class="tag us-dem"></span>
+@petebuttigieg.bsky.social | Pete Buttigieg | Fmr. Transportation Secretary<span class="tag us-dem"></span>
+@warren.senate.gov | Elizabeth Warren | Senator (Massachusetts)<span class="tag us-dem"></span>
+@murray.senate.gov | Patty Murray | Senator Washington)<span class="tag us-dem"></span>
+@chrismurphyct.bsky.social | Chris Murphy | US Senate (Connecticut)<span class="tag us-dem"></span>
+@robertgarcia.bsky.social | Robert Garcia | House of Representatives (California)<span class="tag us-dem"></span>
+@ilhanmn.bsky.social | Ilhan Omar | House of Representatives (Minnesota)<span class="tag us-dem"></span>
+@sanders.senate.gov | Bernie Sanders | Senator (Vermont)<span class="tag us-independent"></span>
+
+### Canadian federal politicians (members of Parliament)
+
+||table
+@yfblanchet.bsky.social | Yves-François Blanchet | Beloeil---Chambly, Quebec<span class="tag ca-bloc"> Leader</span>
+@jagmeetsingh.ca | Jagmeet Singh | Burnaby South, British Columbia<span class="tag ca-ndp"> Leader</span>
+@elizabethemay.bsky.social | Elizabeth May | Saanich---Gulf Islands, British Columbia<span class="tag ca-green"> Leader</span>
+@turnbullwhitby.bsky.social | Ryan Turnbull | Liberal Party MP (Ontario)<span class="tag ca-liberal"></span>
+@avankoeverden.bsky.social | Adam van Koeverden | Whitby, Ontario<span class="tag ca-liberal"></span>
+@chrisbittle.bsky.social | Chris Bittle | St. Catharines, Ontario<span class="tag ca-liberal"></span>
+@vivianelapointe.bsky.social | Viviane Lapointe | Sudbury, Ontario<span class="tag ca-liberal"></span>
+@pattyhajdu.bsky.social | Patty Hajdu | Liberal Party MP (Ontario)<span class="tag ca-liberal"></span>
+@terryBeech.bsky.social | Terry Beech | Burnaby North---Seymour, British Columbia<span class="tag ca-liberal"></span>
+@jyduclos.bsky.social | Jean-Yves Duclos | [Québec](https://en.wikipedia.org/wiki/Qu%C3%A9bec_(electoral_district\)), Quebec<span class="tag ca-liberal"></span>
+@alexandramendes.bsky.social | Alexandra Mendès | Brossard—Saint-Lambert, Quebec<span class="tag ca-liberal"></span>
+@seanfraser.bsky.social | Sean Fraser | Central Nova, Nova Scotia<span class="tag ca-liberal"></span>
+@charlieangus104.bsky.social | Charlie Angus | Timmins---James Bay, New Democratic Party<span class="tag ca-ndp"></span>
+@taylorbachrach.bsky.social | Taylor Bachrach | Skeena---Bulkley Valley, British Columbia<span class="tag ca-ndp"></span>
+@mp-bonitazarrillo.bsky.social | Bonita Zarrillo | Port Moody---Coquitlam, British Columbia<span class="tag ca-ndp"></span>
+@blakedesjarlais.bsky.social | Blake Desjarlais | Edmonton Griesbach, Alberta<span class="tag ca-ndp"></span>
+
+### Public figures
+
+||table
 @thevivllainous.bsky.social | Vivian Jenna Wilson | Trans woman (Elon Musk's child)
 @richardbranson.bsky.social | Richard Branson | American billionare, businessman
 @marawilson.bsky.social | Mara Wilson | American actor (Matilda)
@@ -220,61 +134,41 @@ let tableData = [
 @captaindisillusion | Captain Disillusion | YouTuber
 @vivziepop.bsky.social | Vivienne Medrano (VivziePop) | American animator, creator of <i>Hazbin Hotel</i>, <i>Helluva Boss</i>
 @mcuban.bsky.social | Mark Cuban | American billionare, businessman
-@pattonoswalt.bsky.social | Patton Oswalt | American actor, comedian`
-,
-/* International */
-`@lemonde.fr | Le Monde | French-language newspaper
+@pattonoswalt.bsky.social | Patton Oswalt | American actor, comedian
+
+### Organizations
+
+||table
+@nba.com | National Basketball Association
+@barnesandnoble.com | Barnes & Noble
+
+### International
+
+||table
+@lemonde.fr | Le Monde | French-language newspaper
 @ouest-france.fr | Ouest-France | French-language newspaper
 @de-standaard.bsky.social | De Standaard | Dutch-language Belgian newspaper
 @nouvelobs.com | Le Nouvel Obs | French news magazine
 @wyborcza.pl | Gazeta Wyborcza | Polish newspaper
-`
-];
+
+</main></div>
+<script src="assets/interpreter.js"></script>
+<script src="assets/layout.js"></script>
+<script>
+
+
 
 window.addEventListener("load", function() {
-    let tables = document.getElementsByClassName("noq-table");
-    for (let i = 0; i < tables.length && i < tableData.length; i += 1) {
-        tables[i].innerHTML = tableFormatter(tableData[i], "|");
+    const cells = Array.from(document.getElementsByTagName("tr")).map(c => c.firstChild);
+    console.log(cells);
+    for (let i = 0; i < cells.length; i += 1) {
+        if (cells[i].innerHTML.startsWith("@")) {
+            cells[i].innerHTML = `<a class="handle" target="_blank" href="https://bsky.app/profile/${cells[i].innerHTML.substring(1)}">${cells[i].innerHTML}</a>`;
+        }
+        else { console.error(cells[i].innerHTML); }
     }
 });
-
 
 </script>
 </script>
 </body></html>
-<!--
-
-@yfblanchet.bsky.social | Yves-François Blanchet | Bloc Québécois leader, MP (Beloeil—Chambly, QC)
-@jagmeetsingh.ca | Jagmeet Singh | New Democratic Party leader, MP (Burnaby South, BC)
-@elizabethemay.bsky.social | Elizabeth May | Green Party leader, MP (Saanich—Gulf Islands, BC)
-@turnbullwhitby.bsky.social | Ryan Turnbull | Liberal Party MP (Whitby, ON)
-@avankoeverden.bsky.social | Adam van Koeverden | Liberal Party MP (Milton, ON)
-@chrisbittle.bsky.social | Chris Bittle | Liberal Party MP (St. Catharines, ON)
-@vivianelapointe.bsky.social | Viviane Lapointe | Liberal Party MP (Sudbury, ON)
-@terryBeech.bsky.social | Terry Beech | Liberal Party MP (Burnaby North—Seymour, BC)
-@jyduclos.bsky.social | Jean-Yves Duclos | Liberal Party MP (Québec, QC)
-@pattyhajdu.bsky.social | Patty Hajdu | Liberal Party MP (Thunder Bay—Superior North, ON)
-@alexandramendes.bsky.social | Alexandra Mendès | Liberal Party MP (Brossard—Saint-Lambert, QC)
-@seanfraser.bsky.social | Sean Fraser | Liberal Party MP (Central Nova, NS)
-@charlieangus104.bsky.social | Charlie Angus | New Democratic Party MP (Timmins—James Bay, ON)
-@taylorbachrach.bsky.social | Taylor Bachrach | New Democratic Party MP (Skeena—Bulkley Valley, BC)
-@mp-bonitazarrillo.bsky.social | Bonita Zarrillo | New Democratic Party MP (Port Moody—Coquitlam, BC)
-@blakedesjarlais.bsky.social | Blake Desjarlais | New Democratic Party MP (Edmonton Griesbach, AL)
-
-
-
-
-### Canadian politicians provincial/local
-
-||table
-
-,
-/* Canadian provincial or local politicians */
-`party names
-@waterloompp.bsky.social | Catherine Fife | New Democratic Party MPP (Ontario, Waterloo)
-@maritstilesndp.bsky.social | Marit Stiles | New Democratic Party MPP (Ontario, Davenport)
-@jamiewestndp.bsky.social | Jamie West | New Democratic Party MPP (Ontario, Sudbury)
-@chrisgloverndp.bsky.social | Chris Glover | New Democratic Party MPP (Ontario, Spadina—Fort York)
-`
-
--->
