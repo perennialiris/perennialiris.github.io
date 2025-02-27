@@ -226,7 +226,7 @@ function pageLoad() {
                 <hr>
                 <div class="label">Recently added:</div>
                 ${sidebarNavContent.recent.join("")}
-                <div class="nav-row"><a style="float:right" href="index.html">Full page list →</a></div>
+                <div class="nav-row index-link"><a href="index.html">Full page list</a></div>
             </nav>`;
 
         if (tableOfContentsLinks.length < 6) {
@@ -235,7 +235,7 @@ function pageLoad() {
             document.getElementById("sidebar").innerHTML = `${sidebarContent}
             <span class="is-sticky">
             <nav id="toc">
-                <div class="toc-title">Contents</div>
+                <div class="toc-title">Content</div>
                     <a class="toc-row h1" href="#top">(Top of page)</a>
                 <div class="scroller">
                     ${tableOfContentsLinks.slice(1).join("")}
