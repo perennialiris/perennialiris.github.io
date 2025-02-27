@@ -159,7 +159,9 @@ function pageLoad() {
     while (getFileName[getFileName.length - 1] === "") { getFileName.pop(); }
     getFileName = getFileName.pop();
     if (getFileName.indexOf("#") != -1) getFileName = getFileName.substring(0, getFileName.indexOf("#"));
-    const fileName = getFileName.replace(/\.html$/, "");
+    getFileName = getFileName.replace(/\.html$/, "");
+    const fileName = (getFileName != "") ? getFileName : "index";
+    console.log(fileName);
 
     alignTable(data,"|");
 
