@@ -160,8 +160,8 @@ function pageLoad() {
     getFileName = getFileName.pop();
     if (getFileName.indexOf("#") != -1) getFileName = getFileName.substring(0, getFileName.indexOf("#"));
     getFileName = getFileName.replace(/\.html$/, "");
-    const fileName = (getFileName != "") ? getFileName : "index";
-    console.log(fileName);
+    const fileName = (getFileName != "northofqueen.github.io") ? getFileName : "index";
+    // console.log(fileName);
 
     alignTable(data,"|");
 
