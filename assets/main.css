@@ -204,7 +204,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
 
     #footer { padding: 24px; background-color: #111; display: flex; justify-content: center; }
         .f1 { max-width: calc(var(--main) + var(--side) + calc(2 * var(--pad))); width: 100%; text-align: justify; }
-            .f2 { padding: 0 var(--pad) calc(0.5 * var(--pad)); max-width: var(--main); color: #404040; text-align: justify; }
+            .f2 { padding: 0 var(--pad) 1.5em; max-width: var(--main); color: #404040; text-align: justify; }
             .f2 a { max-width: var(--main); color: #404040; }
 
     #lightbox-container { z-index: 1; width: 100%; height: 100vh; background-color: #000c; position: fixed; left: 0; top: 0; display: none; align-items: center; justify-content: center; }
