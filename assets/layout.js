@@ -15,48 +15,48 @@ var lightboxContainer, lightboxImg;
 window.sessionStorage.setItem("pageMode", "normal");
 if (window.sessionStorage.getItem("sidebarHidden") === null) { window.sessionStorage.setItem("sidebarHidden", "false"); }
 
-let data =
-`
-33     |                                                        |             | 2025-02-27 | narrow |      
-23        | Passing                                                | transgender | 2025-02-24 |  |  
-20        | Israel–Palestine notes                                 | politics    | 2025-02-24 |  |       
-19        | Ilhan Omar's comments about Somalia                    | politics    | 2025-02-12 |  |       
-17        | Why get bottom surgery?                                | transgender | 2025-02-09 |  |       
-35        | Show and tell (Lex Fridman)                            | politics    | 2025-02-05 |  |       
-26        | News 2025                                              | politics    |            |  | pinned
-16        | Milo Yiannopoulos's cancellation                       | politics    | 2025-02-03 |  |       
-34        | The Nazi salute                                        | politics    | 2025-01-24 |  |       
-30        | The appearance of intelligence                         | other       | 2025-01-18 |  |       
-29        | Date formats                                           | other       | 2025-01-11 | narrow |       
-28        | Therapy theory                                         | personal    | 2025-01-09 |  |       
-31        | Reflections on Justin Trudeau                          | politics    | 2025-01-08 |  |       
-32        | Conservatism                                           | politics    | 2025-01-05 |  |       
-27        | Sex, gender, & transsexuals                            | transgender | 2024-12-29 |  |       
-25        | A beauty holding a bird                                | other       | 2024-12-23 | narrow |       
-24        | Enduring falsehoods about Warren, Clinton              | politics    | 2024-12-19 |  |       
-22        | Dehumanization                                         | politics    | 2024-12-15 |  |       
-21        | Relationships                                          | personal    | 2024-12-14 |  |       
-14        | Reasons I'm glad to be Canadian                        | politics    | 2024-12-08 |  |       
-13        | The military–industrial complex                        | politics    | 2024-12-04 |  |       
-12        | The order of information                               | politics    | 2024-12-03 |  |       
-11        | The Trump appeal                                       | politics    | 2024-12-03 |  |       
-10        | Touchscreens and smartphones                           | culture     | 2024-12-02 |  |       
-9         | The default politician                                 | politics    | 2024-11-26 |  |       
-7         | Fetishism & politics                                   | transgender | 2024-11-14 |  |       
-8         | 10 Dollar                                              | culture     | 2024-11-25 |  |       
-15        | Mark Robinson transcript                               |             | 2024-11-13 |  | unlisted
-6         | Mark Robinson                                          | politics    | 2024-11-13 |  |       
-5         | Types of masculinity                                   | culture     | 2024-11-08 |  |       
-4         | Anime reviews                                          | culture     | 2024-11-02 |  |       
-3         | Poor things (2023 film)                                | culture     | 2024-10-31 |  |       
-1         | Language                                               | personal    | 2024-10-29 |  |       
-2         | The trans prison stats argument                        | transgender | 2024-10-19 |  |       
-36        | People don't really have world views                   |             |            |  | unlisted
-37        | Bluesky accounts listing                               | other       |            |  | unlisted
-18        | Transcripts: context for inflammatory Trump statements | politics    |            |  |       
-39        | Movies                                                 |             |            | narrow | unlisted
-index     |                                                        |             |            |  | unlisted`;
-/*    36    38    39    40    */
+let data = `
+39    | Movies                                                 |             |            | narrow | unlisted
+37    | Bluesky accounts listing                               | other       |            |        | unlisted
+36    | People don't really have world views                   |             |            |        | unlisted
+35    | Show and tell (Lex Fridman)                            | politics    | 2025-02-05 |        |         
+34    | The Nazi salute                                        | politics    | 2025-01-24 |        |         
+33    | The Lorax sux                                          | culture     | 2025-02-27 | narrow |         
+32    | Conservatism                                           | politics    | 2025-01-05 |        |         
+31    | Reflections on Justin Trudeau                          | politics    | 2025-01-08 |        |         
+30    | The appearance of intelligence                         | other       | 2025-01-18 |        |         
+29    | Date formats                                           | other       | 2025-01-11 | narrow |         
+28    | Therapy theory                                         | personal    | 2025-01-09 |        |         
+27    | Sex, gender, & transsexuals                            | transgender | 2024-12-29 |        |         
+26    | News 2025                                              | politics    |            |        | pinned  
+25    | A beauty holding a bird                                | other       | 2024-12-23 | narrow |         
+24    | Enduring falsehoods about Warren, Clinton              | politics    | 2024-12-19 |        |         
+23    | Passing                                                | transgender | 2025-02-24 |        |         
+22    | Dehumanization                                         | politics    | 2024-12-15 |        |         
+21    | Relationships                                          | personal    | 2024-12-14 |        |         
+20    | Israel–Palestine notes                                 | politics    | 2025-02-24 |        |         
+19    | Ilhan Omar's comments about Somalia                    | politics    | 2025-02-12 |        |         
+18    | Transcripts: context for inflammatory Trump statements | politics    |            |        |         
+17    | Why get bottom surgery?                                | transgender | 2025-02-09 |        |         
+16    | Milo Yiannopoulos's cancellation                       | politics    | 2025-02-03 |        |         
+15    | Mark Robinson transcript                               |             | 2024-11-13 |        | unlisted
+14    | Reasons I'm glad to be Canadian                        | politics    | 2024-12-08 |        |         
+13    | The military–industrial complex                        | politics    | 2024-12-04 |        |         
+12    | The order of information                               | politics    | 2024-12-03 |        |         
+11    | The Trump appeal                                       | politics    | 2024-12-03 |        |         
+10    | Touchscreens and smartphones                           | culture     | 2024-12-02 |        |         
+9     | The default politician                                 | politics    | 2024-11-26 |        |         
+8     | 10 Dollar                                              | culture     | 2024-11-25 |        |         
+7     | Fetishism & politics                                   | transgender | 2024-11-14 |        |         
+6     | Mark Robinson                                          | politics    | 2024-11-13 |        |         
+5     | Types of masculinity                                   | culture     | 2024-11-08 |        |         
+4     | Anime reviews                                          | culture     | 2024-11-02 |        |         
+3     | Poor things (2023 film)                                | culture     | 2024-10-31 |        |         
+2     | The trans prison stats argument                        | transgender | 2024-10-19 |        |         
+1     | Language                                               | personal    | 2024-10-29 |        |         
+index |                                                        |             |            |        | unlisted
+`;
+/*    36    38    40    */
 
 /* This just helps keep the table above orderly. */
 function alignTable(dataString, splitChar) {
