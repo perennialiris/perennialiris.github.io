@@ -2,7 +2,6 @@
 "use strict";
 
 var tableOfContentsLinks = [];
-var isKeyResponsive = false;
 var canResizePageWidth = true;
 var page;
 var article;
@@ -11,47 +10,50 @@ var headersInArticle;
 var currentHeading = "";
 var sidebarOnTop = false;
 var tocUpdateFlag = true;
+var lbKeyResponsive = false;
+var lightboxContainer, lightboxImg;
+window.sessionStorage.setItem("pageMode", "normal");
 if (window.sessionStorage.getItem("sidebarHidden") === null) { window.sessionStorage.setItem("sidebarHidden", "false"); }
 
 let data = `
-23        | Passing                                                | transgender | 2025-02-24 | document |       
-20        | Israel–Palestine notes                                 | politics    | 2025-02-24 | document |       
-19        | Ilhan Omar's comments about Somalia                    | politics    | 2025-02-12 | document |       
-17        | Why get bottom surgery?                                | transgender | 2025-02-09 | document |       
-35        | Show and tell (Lex Fridman)                            | politics    | 2025-02-05 | document |       
-16        | Milo Yiannopoulos's cancellation                       | politics    | 2025-02-03 | document |       
-34        | The Nazi salute                                        | politics    | 2025-01-24 | document |       
-30        | The appearance of intelligence                         | other       | 2025-01-18 | document |       
-29        | Date formats                                           | other       | 2025-01-11 | document |       
-28        | Therapy theory                                         | personal    | 2025-01-09 | document |       
-31        | Reflections on Justin Trudeau                          | politics    | 2025-01-08 | document |       
-32        | Conservatism                                           | politics    | 2025-01-05 | document |       
-27        | Sex, gender, & transsexuals                            | transgender | 2024-12-29 | document |       
-25        | A beauty holding a bird                                | other       | 2024-12-23 | document |       
-24        | Enduring falsehoods about Warren, Clinton              | politics    | 2024-12-19 | document |       
-22        | Dehumanization                                         | politics    | 2024-12-15 | document |       
-21        | Relationships                                          | personal    | 2024-12-14 | document |       
-14        | Reasons I'm glad to be Canadian                        | politics    | 2024-12-08 | document |       
-13        | The military–industrial complex                        | politics    | 2024-12-04 | document |       
-12        | The order of information                               | politics    | 2024-12-03 | document |       
-11        | The Trump appeal                                       | politics    | 2024-12-03 | document |       
-10        | Touchscreens and smartphones                           | culture     | 2024-12-02 | document |       
-9         | The default politician                                 | politics    | 2024-11-26 | document |       
-8         | 10 Dollar                                              | culture     | 2024-11-25 | document |       
-7         | Fetishism & politics                                   | transgender | 2024-11-14 | document |       
-15        | Mark Robinson transcript                               |             | 2024-11-13 | document | hidden
-6         | Mark Robinson                                          | politics    | 2024-11-13 | document |       
-5         | Types of masculinity                                   | culture     | 2024-11-08 | document |       
-4         | Anime reviews                                          | culture     | 2024-11-02 | document |       
-3         | Poor things (2023 film)                                | culture     | 2024-10-31 | document |       
-1         | Language                                               | personal    | 2024-10-29 | document |       
-2         | The trans prison stats argument                        | transgender | 2024-10-19 | document |       
-news-2025 | News 2025                                              | politics    |            | document | pinned
-36        | People don't really have world views                   |             |            | document | hidden
-37        | Bluesky accounts listing                               | other       |            | document | hidden
-18        | Transcripts: context for inflammatory Trump statements | politics    |            | document |       
-index     |                                                        |             |            | document | hidden
-39        |                                                        |             |            | document | hidden
+23        | Passing                                                | transgender | 2025-02-24 |  |       
+20        | Israel–Palestine notes                                 | politics    | 2025-02-24 |  |       
+19        | Ilhan Omar's comments about Somalia                    | politics    | 2025-02-12 |  |       
+17        | Why get bottom surgery?                                | transgender | 2025-02-09 |  |       
+35        | Show and tell (Lex Fridman)                            | politics    | 2025-02-05 |  |       
+16        | Milo Yiannopoulos's cancellation                       | politics    | 2025-02-03 |  |       
+34        | The Nazi salute                                        | politics    | 2025-01-24 |  |       
+30        | The appearance of intelligence                         | other       | 2025-01-18 |  |       
+29        | Date formats                                           | other       | 2025-01-11 | narrow |       
+28        | Therapy theory                                         | personal    | 2025-01-09 |  |       
+31        | Reflections on Justin Trudeau                          | politics    | 2025-01-08 |  |       
+32        | Conservatism                                           | politics    | 2025-01-05 |  |       
+27        | Sex, gender, & transsexuals                            | transgender | 2024-12-29 |  |       
+25        | A beauty holding a bird                                | other       | 2024-12-23 | narrow |       
+24        | Enduring falsehoods about Warren, Clinton              | politics    | 2024-12-19 |  |       
+22        | Dehumanization                                         | politics    | 2024-12-15 |  |       
+21        | Relationships                                          | personal    | 2024-12-14 |  |       
+14        | Reasons I'm glad to be Canadian                        | politics    | 2024-12-08 |  |       
+13        | The military–industrial complex                        | politics    | 2024-12-04 |  |       
+12        | The order of information                               | politics    | 2024-12-03 |  |       
+11        | The Trump appeal                                       | politics    | 2024-12-03 |  |       
+10        | Touchscreens and smartphones                           | culture     | 2024-12-02 |  |       
+9         | The default politician                                 | politics    | 2024-11-26 |  |       
+8         | 10 Dollar                                              | culture     | 2024-11-25 |  |       
+7         | Fetishism & politics                                   | transgender | 2024-11-14 |  |       
+15        | Mark Robinson transcript                               |             | 2024-11-13 |  | hidden
+6         | Mark Robinson                                          | politics    | 2024-11-13 |  |       
+5         | Types of masculinity                                   | culture     | 2024-11-08 |  |       
+4         | Anime reviews                                          | culture     | 2024-11-02 |  |       
+3         | Poor things (2023 film)                                | culture     | 2024-10-31 |  |       
+1         | Language                                               | personal    | 2024-10-29 |  |       
+2         | The trans prison stats argument                        | transgender | 2024-10-19 |  |       
+news-2025 | News 2025                                              | politics    |            |  | pinned
+36        | People don't really have world views                   |             |            |  | hidden
+37        | Bluesky accounts listing                               | other       |            |  | hidden
+18        | Transcripts: context for inflammatory Trump statements | politics    |            |  |       
+index     |                                                        |             |            |  | hidden
+39        |                                                        |             |            |  | hidden
 `;
 /*    23    26    33    36        38    39    40    */
 
@@ -110,7 +112,7 @@ function tocHighlighter() {
 
 function pageLoad() {
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
-    
+
     const header = document.createElement("header");
     header.id = "header";
     header.innerHTML = `<a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a>`;
@@ -126,8 +128,10 @@ function pageLoad() {
         <div class="c1">
             <div class="c2">
                 <div class="c3">
-                    <div id="article">${document.getElementById("main").innerHTML}</div>
-                    <footer id="article-footer"><div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div></footer>
+                    <div class="c4">
+                        <div id="article">${document.getElementById("main").innerHTML}</div>
+                        <footer id="article-footer"><div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div></footer>
+                    </div>
                 </div>
                 <div id="sidebar"></div>
             </div>
@@ -139,11 +143,15 @@ function pageLoad() {
     
     const footer = document.body.appendChild(document.createElement("footer"));
     footer.id = "footer";
-    footer.innerHTML = `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>`;
+    footer.innerHTML = `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>
+    <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>`;
+
+    lightboxContainer = document.getElementById("lightbox-container");
+    lightboxImg = document.getElementById("lightbox");
 
     window.addEventListener("keydown", function(event) {
-        if (isKeyResponsive && event.key === 'Escape') {
-            closeImageViewer(); }
+        if (lbKeyResponsive && event.key === 'Escape') {
+            closeLightbox(); }
     })
 
     /* get file name */
@@ -168,10 +176,14 @@ function pageLoad() {
                 rowType     = cells[4],
                 rowFlag     = cells[5];
 
-            const isCurrent = rowFile == fileName;
-            const isPinned = rowFlag == "pinned";
+            const isCurrent = (rowFile == fileName);
+            const isPinned = (rowFlag == "pinned");
 
             if (isCurrent) {
+                if (rowType == "narrow") {
+                    page.classList.add("narrow");
+                    window.sessionStorage.pageMode = "narrow";
+                }
                 document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css">`; }
             if (rowFlag == "hidden") {
                 continue; }
@@ -179,7 +191,7 @@ function pageLoad() {
             let icon = "";
             let entryClass = "nav-row";
 
-            if (rowFile == fileName) {
+            if (isCurrent) {
                 entryClass += " current-page"; }
             if (isPinned) {
                 entryClass += " pinned"; icon = `<img class="icon" src="assets/pin2.png" height="17" width="17">`; }
@@ -277,7 +289,7 @@ function toggleSidebarVisibility() {
 function pageWidthCheck() {
     if (canResizePageWidth) {
         let limit = sidebarOnTop ? 884 : 881;
-        // if (window.sessionStorage.sidebarHidden === "true") { limit = 0; }
+        if (window.sessionStorage.pageMode === "narrow") { limit -= 160; }
         if (window.innerWidth < limit) {
             page.classList.add("vertical-sidebar");
             canResizePageWidth = false;

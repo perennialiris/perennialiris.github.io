@@ -185,24 +185,18 @@ function quoteParse(inputString) {
         <div><img alt="nice" title="nice" src="path/to/other_image.png"></div>
     </div>                                                                     */
 
-function imageViewer(img) {
-    let container = document.getElementById("image-viewer-wrapper");
-    let image_viewer = document.getElementById("image-viewer");
-    if (container && image_viewer) {
-        isKeyResponsive = false;
-        setTimeout(() => {
-            isKeyResponsive = true;
-            }, 150);
-        container.style.display = "flex";
-        image_viewer.src = img.src;
-        image_viewer.alt = img.alt; } }
-function closeImageViewer() {
-    let container = document.getElementById("image-viewer-wrapper");
-    let image_viewer = document.getElementById("image-viewer");
-    if (container && image_viewer) {
-        container.style.display = "none";
-        image_viewer.src = "";
-        image_viewer.alt = ""; } }
+function lightbox(img) {
+    lbKeyResponsive = false;
+    setTimeout(() => {
+        lbKeyResponsive = true;
+        }, 150);
+    lightboxContainer.style.display = "flex";
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt; }
+function closeLightbox() {
+    lightboxContainer.style.display = "none";
+    lightboxImg.src = "";
+    lightboxImg.alt = ""; }
 
 /* The main interpreter loop. Pass the main element to start. */
 function interpreter(targetElement) {
@@ -254,7 +248,7 @@ function interpreter(targetElement) {
                         maxHeight = filePath.substring(j + 1);
                         filePath = filePath.substring(0, j);
                     }
-                    let imgAttributes = `onclick="imageViewer(this)" style="max-height:${maxHeight}px" src="${filePath}"`;
+                    let imgAttributes = `onclick="lightbox(this)" style="max-height:${maxHeight}px" src="${filePath}"`;
                     if (altText != "") imgAttributes += ` title="${altText}" alt="${altText}"`;
                     let temp = `<div><img ${imgAttributes}></div>`;
                     return temp
@@ -265,7 +259,7 @@ function interpreter(targetElement) {
         if (input[i].startsWith("||image-right")) {
             input[i] = input[i].split("\n")[1].replace(/\[([^\]]*)[^\\]?\]\[(.*)\]\((.+)\)/g, (match, caption, altText, filePath) => {
             // input[i] = input[i].split("\n")[1].replace(/\[(.*)\]\[(.*)\]\((.+)\)/g, (match, caption, altText, filePath) => {
-                let temp = `<div class="image-float right"><img onclick="imageViewer(this)" src="${filePath}"`;
+                let temp = `<div class="image-float right"><img onclick="lightbox(this)" src="${filePath}"`;
                 if (altText.replace(/\s/g, "").length > 0) {
                     temp += ` title="${altText}" alt="${altText}">`;
                 } else {
@@ -279,7 +273,7 @@ function interpreter(targetElement) {
 
         if (input[i].startsWith("||image-left")) {
             input[i] = input[i].split("\n")[1].replace(/\[(.+)\]\[(.+)\]\((.+)\)/g, (match, caption, altText, filePath) => {
-                let temp = `<div class="image-float left"><img onclick="imageViewer(this)" src="${filePath}"`;
+                let temp = `<div class="image-float left"><img onclick="lightbox(this)" src="${filePath}"`;
                 if (altText.replace(/\s/g, "").length > 0) {
                     temp += ` title="${altText}" alt="${altText}">`;
                 } else {
