@@ -56,7 +56,7 @@ let data =
 18        | Transcripts: context for inflammatory Trump statements | politics    |            |  |       
 39        | Movies                                                 |             |            | narrow | unlisted
 index     |                                                        |             |            |  | unlisted`;
-/*    33    36    38    39    40    */
+/*    36    38    39    40    */
 
 /* This just helps keep the table above orderly. */
 function alignTable(dataString, splitChar) {
