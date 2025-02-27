@@ -155,10 +155,8 @@ function pageLoad() {
     })
 
     /* get file name */
-    let getFileName = location.href.split("/");
-    while (getFileName[getFileName.length - 1] === "") { getFileName.pop(); }
-    getFileName = getFileName.pop();
-    if (getFileName.indexOf("#") != -1) getFileName = getFileName.substring(0, getFileName.indexOf("#"));
+    let getFileName = location.href.split("/").filter(item => item.length != 0).pop();
+    if (getFileName.indexOf("#") != -1) { getFileName = getFileName.substring(0, getFileName.indexOf("#")); }
     getFileName = getFileName.replace(/\.html$/, "");
     const fileName = (getFileName != "northofqueen.github.io") ? getFileName : "index";
     // console.log(fileName);
