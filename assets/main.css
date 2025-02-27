@@ -89,6 +89,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                 .vertical-sidebar #sidebar { padding: 10px 20px; margin: 0; border-bottom: 1px solid var(--grey-d0); width: 90%; max-width: 90%; min-width: 90%; }
                 .vertical-sidebar #sidebar .label { padding: 4px 5px; }
                 .vertical-sidebar #sidebar .nav-row { display: inline-block; margin-inline: 5px; }
+                .vertical-sidebar #sidebar .nav-row.pinned { display: inline-flex; margin-inline: 5px; }
                 .vertical-sidebar #sidebar #toc { display: none; }
                 .vertical-sidebar .c3 { box-sizing: border-box; }
                 .vertical-sidebar #toggle-container { position: absolute; right: 0; }
