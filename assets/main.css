@@ -62,14 +62,14 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                             .nav-row.pinned { display: flex; align-items: center; justify-content: flex-start; gap: 4px; }
                             .nav-row.current-page { color: var(--grey-40); padding: 3px 6px; background-color: var(--grey-f0); font-weight: 700; }
                             .nav-row img.icon { opacity: 0.5; }
-                        #toc { max-height: calc(100vh - 50px); }
-                        #toc .scroller { padding: 11px 0; display: flex; flex-direction: column; gap: 11px; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: var(--grey-90) var(--grey-e0) !important; scrollbar-gutter: stable; }
+                        #toc { max-height: 100%; }
+                        #toc .scroller { max-height: 90vh; overflow-y: hidden; padding-bottom: 25px; scrollbar-width: thin; scrollbar-color: var(--grey-90) var(--grey-e0) !important; scrollbar-gutter: stable; }
                         #toc .scroller:hover { overflow-y: auto; }
                             .toc-title { font-size: 16px; margin: 0; color: var(--grey-60); font-weight: 700; }
-                            .toc-row { display: block; padding: 0; color: var(--grey-90); }
-                                .toc-row.h1 { padding-left: 0px; }
-                                .toc-row.h2 { padding-left: 0px; }
-                                .toc-row.h3 { padding-left: 15px; }
+                            .toc-row { margin-top: 11px; display: block; padding: 0; color: var(--grey-90); }
+                                .toc-row.h1 { margin-left: 0px; }
+                                .toc-row.h2 { margin-left: 0px; }
+                                .toc-row.h3 { margin-left: 15px; }
                                 .active-heading { color: var(--grey-30); }
 
                 .toggle-button-1 { z-index: 1; margin: 7px; position: sticky; top: 10px; float: right; padding: 4px; border: none; background-color: var(--grey-f0); }

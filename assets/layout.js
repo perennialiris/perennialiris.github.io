@@ -21,6 +21,7 @@ let data = `
 19        | Ilhan Omar's comments about Somalia                    | politics    | 2025-02-12 |  |       
 17        | Why get bottom surgery?                                | transgender | 2025-02-09 |  |       
 35        | Show and tell (Lex Fridman)                            | politics    | 2025-02-05 |  |       
+26        | News 2025                                              | politics    |            |  | pinned
 16        | Milo Yiannopoulos's cancellation                       | politics    | 2025-02-03 |  |       
 34        | The Nazi salute                                        | politics    | 2025-01-24 |  |       
 30        | The appearance of intelligence                         | other       | 2025-01-18 |  |       
@@ -48,14 +49,13 @@ let data = `
 3         | Poor things (2023 film)                                | culture     | 2024-10-31 |  |       
 1         | Language                                               | personal    | 2024-10-29 |  |       
 2         | The trans prison stats argument                        | transgender | 2024-10-19 |  |       
-news-2025 | News 2025                                              | politics    |            |  | pinned
 36        | People don't really have world views                   |             |            |  | hidden
 37        | Bluesky accounts listing                               | other       |            |  | hidden
 18        | Transcripts: context for inflammatory Trump statements | politics    |            |  |       
 index     |                                                        |             |            |  | hidden
-39        |                                                        |             |            |  | hidden
+39        | Movies                                                 |             |            | narrow | hidden
 `;
-/*    23    26    33    36        38    39    40    */
+/*    33    36    38    39    40    */
 
 /* This just helps keep the table above orderly. */
 function alignTable(dataString, splitChar) {
@@ -158,7 +158,8 @@ function pageLoad() {
     let getFileName = location.href.split("/").filter(item => item.length != 0).pop();
     if (getFileName.indexOf("#") != -1) { getFileName = getFileName.substring(0, getFileName.indexOf("#")); }
     getFileName = getFileName.replace(/\.html$/, "");
-    const fileName = (getFileName != "northofqueen.github.io") ? getFileName : "index";
+    // const fileName = (getFileName != "northofqueen.github.io") ? getFileName : "index";
+    const fileName = getFileName;
     // console.log(fileName);
 
     alignTable(data,"|");
@@ -215,7 +216,8 @@ function pageLoad() {
 
     const frontPageList = document.getElementById("front-page-list");
     if (frontPageList) {
-        frontPageList.innerHTML = `<tr><th>Post title</th><th>Topic</th><th>Date posted</th></tr>${sidebarNavContent.full.join("")}`; }
+        frontPageList.innerHTML = `<tr><th>Post title</th><th>Topic</th><th>Date posted</th></tr>${sidebarNavContent.full.join("")}`;
+    }
     else {
 
         let sidebarContent = 
@@ -234,10 +236,10 @@ function pageLoad() {
             <span class="is-sticky">
             <nav id="toc">
                 <div class="toc-title">Contents</div>
-                <span class="scroller">
                     <a class="toc-row h1" href="#top">(Top of page)</a>
+                <div class="scroller">
                     ${tableOfContentsLinks.slice(1).join("")}
-                </span>
+                </div>
             </nav>
             </span>`;
             if (rowsInTableOfContents === undefined) { rowsInTableOfContents = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
