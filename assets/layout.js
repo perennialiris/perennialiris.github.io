@@ -16,7 +16,9 @@ window.sessionStorage.setItem("pageMode", "normal");
 if (window.sessionStorage.getItem("sidebarHidden") === null) { window.sessionStorage.setItem("sidebarHidden", "false"); }
 
 let data =
-`23        | Passing                                                | transgender | 2025-02-24 |  |       
+`
+33     |                                                        |             | 2025-02-27 | narrow |      
+23        | Passing                                                | transgender | 2025-02-24 |  |  
 20        | Israel–Palestine notes                                 | politics    | 2025-02-24 |  |       
 19        | Ilhan Omar's comments about Somalia                    | politics    | 2025-02-12 |  |       
 17        | Why get bottom surgery?                                | transgender | 2025-02-09 |  |       
@@ -42,19 +44,18 @@ let data =
 9         | The default politician                                 | politics    | 2024-11-26 |  |       
 7         | Fetishism & politics                                   | transgender | 2024-11-14 |  |       
 8         | 10 Dollar                                              | culture     | 2024-11-25 |  |       
-15        | Mark Robinson transcript                               |             | 2024-11-13 |  | hidden
+15        | Mark Robinson transcript                               |             | 2024-11-13 |  | unlisted
 6         | Mark Robinson                                          | politics    | 2024-11-13 |  |       
 5         | Types of masculinity                                   | culture     | 2024-11-08 |  |       
 4         | Anime reviews                                          | culture     | 2024-11-02 |  |       
 3         | Poor things (2023 film)                                | culture     | 2024-10-31 |  |       
 1         | Language                                               | personal    | 2024-10-29 |  |       
 2         | The trans prison stats argument                        | transgender | 2024-10-19 |  |       
-36        | People don't really have world views                   |             |            |  | hidden
-37        | Bluesky accounts listing                               | other       |            |  | hidden
+36        | People don't really have world views                   |             |            |  | unlisted
+37        | Bluesky accounts listing                               | other       |            |  | unlisted
 18        | Transcripts: context for inflammatory Trump statements | politics    |            |  |       
-39        | Movies                                                 |             |            | narrow | hidden
-33     |                                                        |             |            |  | hidden
-index     |                                                        |             |            |  | hidden`;
+39        | Movies                                                 |             |            | narrow | unlisted
+index     |                                                        |             |            |  | unlisted`;
 /*    33    36    38    39    40    */
 
 /* This just helps keep the table above orderly. */
@@ -186,7 +187,7 @@ function pageLoad() {
                     window.sessionStorage.pageMode = "narrow";
                 }
                 document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css">`; }
-            if (rowFlag == "hidden") {
+            if (rowFlag == "unlisted") {
                 continue; }
 
             let icon = "";
