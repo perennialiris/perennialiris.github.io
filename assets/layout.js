@@ -52,8 +52,8 @@ let data = `
 36        | People don't really have world views                   |             |            |  | hidden
 37        | Bluesky accounts listing                               | other       |            |  | hidden
 18        | Transcripts: context for inflammatory Trump statements | politics    |            |  |       
-index     |                                                        |             |            |  | hidden
 39        | Movies                                                 |             |            | narrow | hidden
+index     |                                                        |             |            |  | hidden
 `;
 /*    33    36    38    39    40    */
 
@@ -160,7 +160,7 @@ function pageLoad() {
     getFileName = getFileName.replace(/\.html$/, "");
     // const fileName = (getFileName != "northofqueen.github.io") ? getFileName : "index";
     const fileName = getFileName;
-    // console.log(fileName);
+    console.log(fileName);
 
     alignTable(data,"|");
 
