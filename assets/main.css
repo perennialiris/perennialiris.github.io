@@ -36,7 +36,7 @@ html { scroll-padding-top: 60px; scrollbar-color: #777 #ddd !important }
 html ::selection { background-color: var(--selection); }
     #sidebar ::selection { color: #444; }
 
-body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: grid; grid-template-rows: auto 1fr auto; line-height: 1.5; min-height: 100vh; }
+body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: grid; grid-template-rows: 0 auto auto 1fr auto; line-height: 1.5; min-height: 100vh; }
     #top { }
     #header { height: 101px; background-color: #111; }
         #header a { margin: auto; display: block; width: 286px; padding-right: calc(0.04 * calc(100% - 286px)); }
@@ -128,7 +128,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                         #article code { font-size: 13px; }
                         #article .codeblock { font-size: 14px; }
                         #article .fine { font-size: 14px; }
-                        #article .citeref { font-size: 12px; }
+                        #article .citeref { font-size: 13px; }
                         #article .image-float div { font-size: 14px; }
                         /* ----------------------- font family ----------------------- */
                         #article h1,
@@ -145,7 +145,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                         #article .fine,
                         #article .fine *,
                         #article .fine ::marker { font-family: system-ui !important; }
-                        #article .citeref { font-family: monospace; }
+                        #article .citeref { font-family: Verdana,monospace; }
                         #article .citeref .rendered_digit { font-family: inherit; }
                         /* ----------------------------------------------------------- */
                         #article .title-box h1 { }
@@ -176,7 +176,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                         #article a { text-decoration: none; color: var(--accent); }
                         #article a:hover { text-decoration: underline; }
                         #article .citeref { text-decoration: none; margin-left: 1px; vertical-align: top; }
-                        #article .noq-table { border-collapse: collapse; }
+                        #article .noq-table { border-collapse: collapse; font-family: Roboto,system-ui; }
                         #article .noq-table td { border: 1px solid var(--grey-90); padding: 5px 7px 4px; }
                         #article .transcript { background-color: var(--grey-f0); border-collapse: collapse; }
                         #article .transcript tr td { border: none; vertical-align: baseline; }

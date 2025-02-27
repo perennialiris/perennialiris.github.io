@@ -15,8 +15,8 @@ var lightboxContainer, lightboxImg;
 window.sessionStorage.setItem("pageMode", "normal");
 if (window.sessionStorage.getItem("sidebarHidden") === null) { window.sessionStorage.setItem("sidebarHidden", "false"); }
 
-let data = `
-23        | Passing                                                | transgender | 2025-02-24 |  |       
+let data =
+`23        | Passing                                                | transgender | 2025-02-24 |  |       
 20        | Israel–Palestine notes                                 | politics    | 2025-02-24 |  |       
 19        | Ilhan Omar's comments about Somalia                    | politics    | 2025-02-12 |  |       
 17        | Why get bottom surgery?                                | transgender | 2025-02-09 |  |       
@@ -40,8 +40,8 @@ let data = `
 11        | The Trump appeal                                       | politics    | 2024-12-03 |  |       
 10        | Touchscreens and smartphones                           | culture     | 2024-12-02 |  |       
 9         | The default politician                                 | politics    | 2024-11-26 |  |       
-8         | 10 Dollar                                              | culture     | 2024-11-25 |  |       
 7         | Fetishism & politics                                   | transgender | 2024-11-14 |  |       
+8         | 10 Dollar                                              | culture     | 2024-11-25 |  |       
 15        | Mark Robinson transcript                               |             | 2024-11-13 |  | hidden
 6         | Mark Robinson                                          | politics    | 2024-11-13 |  |       
 5         | Types of masculinity                                   | culture     | 2024-11-08 |  |       
@@ -53,8 +53,8 @@ let data = `
 37        | Bluesky accounts listing                               | other       |            |  | hidden
 18        | Transcripts: context for inflammatory Trump statements | politics    |            |  |       
 39        | Movies                                                 |             |            | narrow | hidden
-index     |                                                        |             |            |  | hidden
-`;
+33     |                                                        |             |            |  | hidden
+index     |                                                        |             |            |  | hidden`;
 /*    33    36    38    39    40    */
 
 /* This just helps keep the table above orderly. */
