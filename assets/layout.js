@@ -17,7 +17,7 @@ if (window.sessionStorage.getItem("sidebarHidden") === null) { window.sessionSto
 
 let data = `
 39    | Movies                                                 |             |            | narrow | unlisted
-37    | Bluesky accounts listing                               | other       |            |        | unlisted
+37    | Bluesky accounts listing                               | other       |            |        |         
 36    | People don't really have world views                   |             |            |        | unlisted
 35    | Show and tell (Lex Fridman)                            | politics    | 2025-02-05 |        |         
 34    | The Nazi salute                                        | politics    | 2025-01-24 |        |         
@@ -56,7 +56,7 @@ let data = `
 1     | Language                                               | personal    | 2024-10-29 |        |         
 index |                                                        |             |            |        | unlisted
 `;
-/*    36    38    40    */
+/*     38    40    */
 
 /* This just helps keep the table above orderly. */
 function alignTable(dataString, splitChar) {

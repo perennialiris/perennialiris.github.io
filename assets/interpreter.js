@@ -209,16 +209,18 @@ function interpreter(targetElement) {
     let linksInArticle = [];
     let tableNum = 1;
     for (let i = 0; i < input.length; i += 1) {
-        
+
         if (input[i].startsWith("\\")) {
             input[i] = input[i].substring(1);
             continue; }
 
-        let fine = false;
-        if (input[i].charAt(0) == "^") {
-            fine = true;
-            input[i] = input[i].substring(1);
-        }
+        let fine = input[i].charAt(0) == "^";
+        if (fine) {
+            input[i] = input[i].substring(1); }
+
+        let dropCap = input[i].charAt(0) == "$";
+        if (dropCap) {
+            input[i] = input[i].substring(1); }
 
         if (input[i] == "***" || input[i] == "---") {
             input[i] = "<hr>";
@@ -410,8 +412,10 @@ function interpreter(targetElement) {
         
         if (fine) {
             input[i] = `<p class="fine">${input[i]}</p>`
-            continue;
-        }
+            continue; }
+        if (dropCap) {
+            input[i] = `<p class="drop-cap">${input[i]}</p>`
+            continue; }
         input[i] = `<p>${input[i]}</p>`;
     }
     targetElement.innerHTML = input.join("");
@@ -421,3 +425,5 @@ function interpreter(targetElement) {
     Array.from(targetElement.getElementsByTagName("blockquote")).forEach(x => wrapDigits(x));
     // function wrapElements(x) { let temp = targetElement.getElementsByTagName(x); for (let i = 0; i < temp.length; i += 1) { wrapDigits(temp[i]); } } wrapElements("p"); wrapElements("li"); wrapElements("blockquote");
 }
+
+
