@@ -24,6 +24,7 @@
     --top-height: 125px;
     --main: 750px;
     --pad: 35px;
+    --wide: 950px;
     --narrow: 520px;
     --side: 250px;
 }
@@ -79,13 +80,13 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                 /* when sidebar is hidden: */
                 #right-edge { width: 0; }
                 .hide-sidebar #right-edge { min-width: 10%; }
-                .hide-sidebar #sidebar { display: none; margin-bottom: 0; }
+                .hide-sidebar #sidebar { display: none; }
                 .hide-sidebar .toggle-button-1 { transform: rotate(180deg); margin-left: 30px; }
                 .hide-sidebar ~ #footer .f1 { max-width: calc(10% + var(--main) + var(--pad) + var(--pad)); }
 
                 /* when page is too narrow (put sidebar on top) */
                 .vertical-sidebar .c2 { flex-direction: column-reverse; align-items: center; justify-content: flex-end; }
-                .vertical-sidebar #sidebar { padding: 10px 20px; margin: 0; border-bottom: 1px solid var(--grey-d0); width: 90%; max-width: 90%; min-width: 90%; }
+                .vertical-sidebar #sidebar { padding: 10px 20px; margin: 0; width: 90%; max-width: 90%; min-width: 90%; }
                 .vertical-sidebar #sidebar .label { padding: 4px 5px; }
                 .vertical-sidebar #sidebar .nav-row { display: inline-block; margin-inline: 5px; }
                 .vertical-sidebar #sidebar .nav-row.pinned { display: inline-flex; margin-inline: 5px; }
@@ -96,6 +97,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
 
             .c2 { display: flex; width: 100%; justify-content: center; }
                 .c3 { max-width: var(--main); padding: var(--pad); width: 100%; }
+                .wide .c3 { max-width: var(--wide); display: flex; justify-content: center; }
 
                     #article { font-size: 15px; line-height: 1.7; }
                     #article > :nth-child(1) { margin-top: 0; }
@@ -114,7 +116,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                         #article h2,
                         #article h3,
                         #article h4 { margin-top: 1.15em; }
-                        #article ul, ol { padding: 0 36px; }
+                        #article ul, ol { padding: 0 40px; }
                         #article ol + li,
                         #article ul + li,
                         #article li + li { margin-top: 0.5em; }
@@ -145,7 +147,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                         #article .fine *,
                         #article .fine ::marker { font-family: system-ui !important; }
                         #article .citeref { font-family: Verdana,monospace; }
-                        #article .citeref .rendered_digit { font-family: inherit; }
+                        #article .citeref * { font-family: inherit; }
                         /* ----------------------------------------------------------- */
                         #article p,
                         #article li,
@@ -178,7 +180,7 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                         #article a { text-underline-offset: 2px; }
                         #article a { text-decoration: none; color: var(--accent); }
                         #article a:hover { text-decoration: underline; }
-                        #article .citeref { text-decoration: none; margin-left: 1px; vertical-align: top; }
+                        #article .citeref { text-decoration: none; margin-left: 1px; vertical-align: top; line-height: 1.3; }
                         #article .noq-table { border-collapse: collapse; font-family: Roboto,system-ui; }
                         #article .noq-table td { border: 1px solid var(--grey-90); padding: 5px 7px 4px; }
                         #article .transcript { background-color: var(--grey-f0); border-collapse: collapse; }

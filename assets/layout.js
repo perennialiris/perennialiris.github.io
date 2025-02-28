@@ -17,18 +17,18 @@ if (window.sessionStorage.getItem("sidebarHidden") === null) { window.sessionSto
 
 let data = `
 39    | Movies                                                 |             |            | narrow | unlisted
-37    | Bluesky accounts listing                               | other       |            |        |         
+37    | Bluesky accounts listing                               | other       |            | wide   |         
 36    | People don't really have world views                   |             |            |        | unlisted
 35    | Show and tell (Lex Fridman)                            | politics    | 2025-02-05 |        |         
 34    | The Nazi salute                                        | politics    | 2025-01-24 |        |         
 33    | The Lorax sux                                          | culture     | 2025-02-27 | narrow |         
-32    | Conservatism                                           | politics    | 2025-01-05 |        |         
+32    | Conservatism                                           | politics    | 2025-01-05 | wide   |         
 31    | Reflections on Justin Trudeau                          | politics    | 2025-01-08 |        |         
 30    | The appearance of intelligence                         | other       | 2025-01-18 |        |         
 29    | Date formats                                           | other       | 2025-01-11 | narrow |         
 28    | Therapy theory                                         | personal    | 2025-01-09 |        |         
 27    | Sex, gender, & transsexuals                            | transgender | 2024-12-29 |        |         
-26    | News 2025                                              | politics    |            |        | pinned  
+26    | News 2025                                              | politics    |            | wide   | pinned  
 25    | A beauty holding a bird                                | other       | 2024-12-23 | narrow |         
 24    | Enduring falsehoods about Warren, Clinton              | politics    | 2024-12-19 |        |         
 23    | Passing                                                | transgender | 2025-02-24 |        |         
@@ -56,6 +56,7 @@ let data = `
 1     | Language                                               | personal    | 2024-10-29 |        |         
 index |                                                        |             |            |        | unlisted
 `;
+
 /*     38    40    */
 
 /* This just helps keep the table above orderly. */
@@ -131,7 +132,7 @@ function pageLoad() {
                 <div class="c3">
                     <div class="c4">
                         <div id="article">${document.getElementById("main").innerHTML}</div>
-                        <footer id="article-footer"><div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div></footer>
+                        <footer id="article-footer"><div>Salut, I&rsquo;m Iris. You can find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div></footer>
                     </div>
                 </div>
                 <div id="sidebar"></div>
@@ -182,9 +183,9 @@ function pageLoad() {
             const isPinned = (rowFlag == "pinned");
 
             if (isCurrent) {
-                if (rowType == "narrow") {
-                    page.classList.add("narrow");
-                    window.sessionStorage.pageMode = "narrow";
+                if (rowType == "narrow" || rowType == "wide") {
+                    page.classList.add(rowType);
+                    window.sessionStorage.pageMode = rowType;
                 }
                 document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css">`; }
             if (rowFlag == "unlisted") {
@@ -291,8 +292,9 @@ function toggleSidebarVisibility() {
 
 function pageWidthCheck() {
     if (canResizePageWidth) {
-        let limit = sidebarOnTop ? 884 : 881;
+        let limit = sidebarOnTop ? 884 : 880;
         if (window.sessionStorage.pageMode === "narrow") { limit -= 160; }
+        if (window.sessionStorage.pageMode === "wide") { limit += 190; }
         if (window.innerWidth < limit) {
             page.classList.add("vertical-sidebar");
             canResizePageWidth = false;
