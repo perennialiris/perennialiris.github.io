@@ -161,7 +161,7 @@ function pageLoad() {
             <div class="c2">
                 <div class="c1">
                     <div id="article">${document.getElementById("main").innerHTML}</div>
-                    <footer id="article-footer"><div>I&rsquo;m Iris. You can find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div></footer>
+                        <footer id="article-footer"><div>I&rsquo;m Iris. You can find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div></footer>
                 </div>
             </div>
             <div id="sidebar">
@@ -193,10 +193,12 @@ function pageLoad() {
             </nav>`;
             rowsInToc = Array.from(document.getElementById("toc").getElementsByClassName("toc-row"));
             headersInArticle = Array.from(document.getElementsByClassName("noq-header"));
+            document.getElementById("sidebar-button").style.position = "sticky";
             window.addEventListener("scroll", tocHighlighter);
             setTimeout(() => { tocHighlighter(); }, 100);
         } else {
-            document.getElementById("sidebar").classList.add("sticky");
+            // document.getElementById("sidebar").firstElementChild.style.position = "sticky";
+            // document.getElementById("sidebar").firstElementChild.style.top = "0";
         }
     }
     updateSidebar();
@@ -245,11 +247,7 @@ function pageWidthCheck() {
     }
 }
 
-
-
 window.addEventListener("load", pageLoad);
-
-
 
 
 
