@@ -5,7 +5,7 @@ var tableOfContentsLinks = [];
 var canResizePageWidth = true;
 var page;
 var article;
-var rowsInTableOfContents;
+var rowsInToc;
 var headersInArticle;
 var currentHeading = "";
 var sidebarOnTop = false;
@@ -105,168 +105,103 @@ function tocHighlighter() {
         else {
             break; } }
     if (headingId != currentHeading) {
-    for (let i = 0; i < rowsInTableOfContents.length; i += 1) {
-        rowsInTableOfContents[i].classList.remove("active-heading");
-        if (rowsInTableOfContents[i].getAttribute("href") == "#" + headingId) {
-            rowsInTableOfContents[i].classList.add("active-heading"); } } }
+    for (let i = 0; i < rowsInToc.length; i += 1) {
+        rowsInToc[i].classList.remove("active-heading");
+        if (rowsInToc[i].getAttribute("href") == "#" + headingId) {
+            rowsInToc[i].classList.add("active-heading"); } } }
     currentHeading = headingId;
 }
 
 function pageLoad() {
-    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
-
-    const header = document.createElement("header");
+    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico"><link rel="stylesheet" href="assets/main.css">`;
+    page = document.getElementById("page"); if (page == null) { console.error("{can't find #page}"); return; }
+    const header = document.body.insertBefore(document.createElement("header"), page);
     header.id = "header";
     header.innerHTML = `<a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a>`;
-    const nav = document.createElement("nav");
+    const nav = document.body.insertBefore(document.createElement("nav"), page);
     nav.id = "nav";
     nav.innerHTML = "";
 
-    page = document.getElementById("page");
-    document.body.insertBefore(header, page);
-    document.body.insertBefore(nav, page);
-
-    page.innerHTML = `
-        <div class="c1">
-            <div class="c2">
-                <div class="c3">
-                    <div class="c4">
-                        <div id="article">${document.getElementById("main").innerHTML}</div>
-                        <footer id="article-footer"><div>Salut, I&rsquo;m Iris. You can find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div></footer>
-                    </div>
-                </div>
-                <div id="sidebar"></div>
-            </div>
-            <div id="right-edge"><button id="sidebar-button" class="toggle-button-1" type="button" onclick="toggleSidebarVisibility()"><img src="assets/chevron-right.png"></button></div>
-        </div>`;
-    
-    article = document.getElementById("article");
-    interpreter(article);
-    
-    const footer = document.body.appendChild(document.createElement("footer"));
-    footer.id = "footer";
-    footer.innerHTML = `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>
-    <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>`;
-
-    lightboxContainer = document.getElementById("lightbox-container");
-    lightboxImg = document.getElementById("lightbox");
-
-    window.addEventListener("keydown", function(event) {
-        if (lbKeyResponsive && event.key === 'Escape') {
-            closeLightbox(); }
-    })
-
-    /* get file name */
-    let getFileName = location.href.split("/").filter(item => item.length != 0).pop();
-    if (getFileName.indexOf("#") != -1) { getFileName = getFileName.substring(0, getFileName.indexOf("#")); }
-    getFileName = getFileName.replace(/\.html$/, "");
-    // const fileName = (getFileName != "northofqueen.github.io") ? getFileName : "index";
-    const fileName = getFileName;
-    console.log(fileName);
+    let temp = location.href.split("/").filter(item => item.length != 0).pop();
+    if (temp.indexOf("#") != -1) { temp = q.substring(0,temp.indexOf("#")); }
+    temp = temp.replace(/\.html$/, "");
+    const fileName = temp;
 
     alignTable(data,"|");
-
-    /* processing data from variable at the top of this file */
     const sidebarNavContent = { pins: [], recent: [], full: [] };
     const dataRows = data.split("\n");
     for (let i = 0; i < dataRows.length; i += 1) {
         let cells = dataRows[i].split("|").map(cell => cell.trim());
         if (cells.length >= 6) {
-            let rowFile     = cells[0],
-                rowTitle    = cells[1],
-                rowCategory = cells[2],
-                rowDate     = cells[3],
-                rowType     = cells[4],
-                rowFlag     = cells[5];
-
-            const isCurrent = (rowFile == fileName);
-            const isPinned = (rowFlag == "pinned");
-
-            if (isCurrent) {
+            let rowFile = cells[0], rowTitle = cells[1], rowCategory = cells[2], rowDate = cells[3], rowType = cells[4], rowFlag = cells[5];
+            let entryClass = "nav-row";
+            if (rowFile == fileName) {
+                entryClass += " current-page";
                 if (rowType == "narrow" || rowType == "wide") {
                     page.classList.add(rowType);
-                    window.sessionStorage.pageMode = rowType;
-                }
-                document.head.innerHTML += `<link rel="stylesheet" href="assets/main.css">`; }
-            if (rowFlag == "unlisted") {
-                continue; }
-
+                    window.sessionStorage.pageMode = rowType; }}
+            if (rowFlag == "unlisted") { continue; }
             let icon = "";
-            let entryClass = "nav-row";
-
-            if (isCurrent) {
-                entryClass += " current-page"; }
+            const isPinned = (rowFlag == "pinned");
             if (isPinned) {
-                entryClass += " pinned"; icon = `<img class="icon" src="assets/pin2.png" height="17" width="17">`; }
-
+                entryClass += " pinned";
+                icon = `<img class="icon" src="assets/pin2.png" height="17" width="17">`; }
             let entryElement = `<a href="${rowFile}.html" class="${entryClass}">${rowTitle}${icon}</a>`;
-            if (isPinned) {
-                sidebarNavContent.pins.push(entryElement); }
-            else {
-                if (sidebarNavContent.recent.length < 10) {
-                    sidebarNavContent.recent.push(entryElement); } }
-            if (rowDate == "") {
-                rowDate = "---"; }
-
+            if (isPinned) { sidebarNavContent.pins.push(entryElement); }
+            else if (sidebarNavContent.recent.length < 10) { sidebarNavContent.recent.push(entryElement); }
+            if (rowDate == "") { rowDate = "---"; }
             let fullEntry = `<tr><td><a href="${rowFile}.html">${rowTitle}${icon}</a></td> <td>${rowCategory}</td><td>${rowDate}</td></tr>`;
-            if (isPinned) {
-                sidebarNavContent.full.unshift(fullEntry); }
-            else {
-                sidebarNavContent.full.push(fullEntry); }
+            if (isPinned) { sidebarNavContent.full.unshift(fullEntry); }
+            else { sidebarNavContent.full.push(fullEntry); }
         }
     }
+
+    page.innerHTML = `
+        <div class="c3">
+            <div class="c2">
+                <div class="c1">
+                    <div id="article">${document.getElementById("main").innerHTML}</div>
+                    <footer id="article-footer"><div>I&rsquo;m Iris. You can find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div></footer>
+                </div>
+            </div>
+            <div id="sidebar">
+                <nav class="page-links">${sidebarNavContent.pins.join("")}<hr><div class="label">Recently added:</div>${sidebarNavContent.recent.join("")}<div class="nav-row index-link"><a href="index.html">Full page list</a></div></nav>
+            </div>
+        </div>
+        <div id="page-edge"><button id="sidebar-button" class="toggle-button-1" type="button" onclick="toggleSidebarVisibility()"><img src="assets/chevron-right.png"></button></div>`
+    const footer = document.body.appendChild(document.createElement("footer"));
+    footer.id = "footer";
+    footer.innerHTML = `<div class="f1"><div class="f2"><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></div>
+    <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>`;
+    lightboxContainer = document.getElementById("lightbox-container");
+    lightboxImg = document.getElementById("lightbox");
+    window.addEventListener("keydown", function(event) {if (lbKeyResponsive && event.key === 'Escape') {closeLightbox(); } })
+    article = document.getElementById("article");
+    interpreter(article);
 
     const frontPageList = document.getElementById("front-page-list");
     if (frontPageList) {
         frontPageList.innerHTML = `<tr><th>Post title</th><th>Topic</th><th>Date posted</th></tr>${sidebarNavContent.full.join("")}`;
     }
     else {
-
-        let sidebarContent = 
-           `<nav class="page-links">
-                ${sidebarNavContent.pins.join("")}
-                <hr>
-                <div class="label">Recently added:</div>
-                ${sidebarNavContent.recent.join("")}
-                <div class="nav-row index-link"><a href="index.html">Full page list</a></div>
+        window.addEventListener("resize", pageWidthCheck); setTimeout(() => { pageWidthCheck(); }, 100);
+        if (tableOfContentsLinks.length > 5) {
+            document.getElementById("sidebar").innerHTML +=
+            `<nav id="toc">
+                <div class="toc-title">Content</div><a class="toc-row h1" href="#top">(Top of page)</a>
+                <div class="scroller">${tableOfContentsLinks.slice(1).join("")}</div>
             </nav>`;
-
-        if (tableOfContentsLinks.length < 6) {
-            document.getElementById("sidebar").innerHTML = `<span class="is-sticky">${sidebarContent}</span>`;
-        } else {
-            document.getElementById("sidebar").innerHTML = `${sidebarContent}
-            <span class="is-sticky">
-            <nav id="toc">
-                <div class="toc-title">Content</div>
-                    <a class="toc-row h1" href="#top">(Top of page)</a>
-                <div class="scroller">
-                    ${tableOfContentsLinks.slice(1).join("")}
-                </div>
-            </nav>
-            </span>`;
-            if (rowsInTableOfContents === undefined) { rowsInTableOfContents = Array.from(document.getElementById("toc").getElementsByClassName("toc-row")); }
-            if (headersInArticle === undefined) { headersInArticle = Array.from(document.getElementsByClassName("noq-header")); }
+            rowsInToc = Array.from(document.getElementById("toc").getElementsByClassName("toc-row"));
+            headersInArticle = Array.from(document.getElementsByClassName("noq-header"));
             window.addEventListener("scroll", tocHighlighter);
             setTimeout(() => { tocHighlighter(); }, 100);
+        } else {
+            document.getElementById("sidebar").classList.add("sticky");
         }
-
-        window.addEventListener("resize", pageWidthCheck);
-        window.addEventListener("load", pageWidthCheck);
-        setTimeout(() => { pageWidthCheck(); }, 50);
     }
-
     updateSidebar();
-
-    const cover = document.getElementById("cover");
-    if (!cover) { console.error("layout.js: 250 (lost #cover)"); }
-    else {
-        cover.classList.add("fade-out");
-        cover.addEventListener("animationend", () => { cover.remove(); }); }
-
-    if (document.title === "") { document.title = "North of Queen"; }
-    else { document.title += " – North of Queen"; }
-
-    // const cover = document.getElementById("cover"); if (!cover) { console.error("layout.js: 250 (lost #cover)"); } else { cover.classList.add("fade-out"); cover.addEventListener("animationend", () => { cover.remove(); }); }
+    document.title = (document.title === "") ? "North of Queen" : document.title + " – North of Queen";
+    const cover = document.getElementById("cover"); if (cover) { cover.classList.add("fade-out"); cover.addEventListener("animationend", () => { cover.remove(); }); }
 }
 
 function updateSidebar() {

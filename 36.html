@@ -22,7 +22,22 @@ In the 20th century, there was great interest by Indians in socialism, especiall
 
 
 
-
+        <div id="left-edge"><button id="sidebar-button" class="toggle-button-1" type="button" onclick="toggleSidebarVisibility()"><img src="assets/chevron-right.png"></button></div>
+        <div class="c1">
+            <div class="c2">
+                <div id="article">${document.getElementById("main").innerHTML}</div>
+                <footer id="article-footer"><div>I&rsquo;m Iris. You can find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div></footer>
+            </div>
+            <div id="sidebar">
+                <nav class="page-links">
+                    ${sidebarNavContent.pins.join("")}
+                    <hr>
+                    <div class="label">Recently added:</div>
+                    ${sidebarNavContent.recent.join("")}
+                    <div class="nav-row index-link"><a href="index.html">Full page list</a></div>
+                </nav>
+            </div>
+        </div>
 
 
 

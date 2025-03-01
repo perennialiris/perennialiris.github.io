@@ -1,5 +1,4 @@
 
-
 /*  These are the replacements run over all inputs, separated into its
     own function because I needed to call it multiple times. */
 function stdReplacements(inputString) {
