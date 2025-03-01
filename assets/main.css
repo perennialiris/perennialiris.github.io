@@ -24,8 +24,8 @@
     --top-height: 125px;
     --main: 750px;
     --pad: 35px;
-    --wide: 950px;
-    --narrow: 520px;
+    --wide: calc(var(--main) + 200px);
+    --narrow: calc(var(--main) - 230px);
     --side: 250px;
 }
 
@@ -79,10 +79,10 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
 
                 /* when sidebar is hidden: */
                 #right-edge { width: 0; }
-                .hide-sidebar #right-edge { min-width: 10%; }
+                .hide-sidebar #right-edge { }
                 .hide-sidebar #sidebar { display: none; }
                 .hide-sidebar .toggle-button-1 { transform: rotate(180deg); margin-left: 30px; }
-                .hide-sidebar ~ #footer .f1 { max-width: calc(10% + var(--main) + var(--pad) + var(--pad)); }
+                .hide-sidebar ~ #footer .f1 { max-width: var(--main); }
 
                 /* when page is too narrow (put sidebar on top) */
                 .vertical-sidebar .c2 { flex-direction: column-reverse; align-items: center; justify-content: flex-end; }
@@ -90,14 +90,16 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                 .vertical-sidebar #sidebar .label { padding: 4px 5px; }
                 .vertical-sidebar #sidebar .nav-row { display: inline-block; margin-inline: 5px; }
                 .vertical-sidebar #sidebar .nav-row.pinned { display: inline-flex; margin-inline: 5px; }
+                .vertical-sidebar #sidebar .nav-row.index-link { display: flex; }
                 .vertical-sidebar #sidebar #toc { display: none; }
-                .vertical-sidebar .c3 { box-sizing: border-box; }
+                .vertical-sidebar .c3 { box-sizing: border-box; padding-top: 1em; }
                 .vertical-sidebar #toggle-container { position: absolute; right: 0; }
                 .vertical-sidebar #right-edge { position: absolute; top: var(--top-height); right: 0; }
 
             .c2 { display: flex; width: 100%; justify-content: center; }
-                .c3 { max-width: var(--main); padding: var(--pad); width: 100%; }
-                .wide .c3 { max-width: var(--wide); display: flex; justify-content: center; }
+                .c3 { max-width: var(--main); padding: var(--pad); width: 100%; box-sizing: border-box; }
+          .wide .c3 { max-width: var(--wide); display: flex; justify-content: center; }
+                    .narrow .c4 { max-width: var(--narrow); margin: auto; }
 
                     #article { font-size: 15px; line-height: 1.7; }
                     #article > :nth-child(1) { margin-top: 0; }
@@ -122,15 +124,15 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                         #article li + li { margin-top: 0.5em; }
                         #article .list-br { margin-bottom: 0.5em; }
                         /* ----------------------- font sizes ----------------------- */
-                        #article h1 { font-size: 26px; }
-                        #article h2 { font-size: 22px; }
-                        #article h3 { font-size: 18px; }
-                        #article h4 { font-size: 15px; }
-                        #article code { font-size: 13px; }
-                        #article .codeblock { font-size: 14px; }
-                        #article .fine { font-size: 14px; }
+                        #article h1 { font-size: calc(100% + 15px); }
+                        #article h2 { font-size: calc(100% + 10px); }
+                        #article h3 { font-size: calc(100% + 4px); }
+                        #article h4 { font-size: calc(100% + 0px); }
+                        #article .codeblock,
+                        #article .fine,
+                        #article .image-float div { font-size: calc(100% - 1px); }
+                        #article code,
                         #article .citeref { font-size: 13px; }
-                        #article .image-float div { font-size: 14px; }
                         /* ----------------------- font family ----------------------- */
                         #article h1,
                         #article h2,
@@ -207,8 +209,8 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-20); display: 
                             #article-footer a:hover { color: var(--grey-40); }
 
     #footer { padding: 24px; background-color: #111; display: flex; justify-content: center; }
-        .f1 { max-width: calc(var(--main) + var(--side) + calc(2 * var(--pad))); width: 100%; text-align: justify; }
-            .f2 { padding: 0 var(--pad) 1.5em; max-width: var(--main); color: #404040; text-align: justify; }
+        .f1 { max-width: calc(var(--main) + var(--side)); width: 100%; text-align: justify; }
+            .f2 { padding: 0 var(--pad) 1.5em; max-width: var(--main); box-sizing: border-box; color: #404040; text-align: justify; }
             .f2 a { max-width: var(--main); color: #404040; }
 
     #lightbox-container { z-index: 1; width: 100%; height: 100vh; background-color: #000c; position: fixed; left: 0; top: 0; display: none; align-items: center; justify-content: center; }
