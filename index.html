@@ -2,33 +2,28 @@
 <html lang="en">
 <head>
     <style>
-    table { color: var(--grey-90); width: 100vw; max-width: 100%; }
-    table th { font-weight: 400; text-decoration: underline; padding-bottom: 8px; text-underline-offset: 6px; text-align: left; }
-    table td { border: none !important; padding: 5px 0 !important; }
-    table :nth-child(2) { padding-inline: 10px !important; }
-    table .icon { opacity: 0.5; }
-    table a { color: var(--grey-20) !important; display: flex; align-items: center; gap: 3px; }
-    table a:hover { color: var(--accent)!important; }
-
-    .image-float { margin-top: 0 !important; }
-
-    #sidebar,
-    #sidebar-button { display: none !important; }
-    .f1 { max-width: var(--main) !important; }
+    #page-list { margin-top: 1em; }
+    #page-list ::selection { color: #555; }
+    li { font-family: system-ui !important }
+    li { color: #a0a0a0 !important; }
+    li::marker { color: var(--grey-40) !important; }
+    li a { color: var(--grey-40) !important; display: inline-flex; align-items: center; gap: 3px; }
+    li a:hover { color: var(--accent) !important; }
+    li + li { margin-top: 10px !important; }
+    .icon { opacity: 0.6; }
     </style>
 </head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
 <div id="top"></div>
 <div id="page">
-<main id="main">
-\<table id="front-page-list" class="noq-table"></table>
-</main></div>
+<main id="main">## page list
+
+\<div id="page-list"></div></main></div>
 <script>
 if (window.location.href == "https://northofqueen.github.io/") { window.location.replace("index.html") }
 </script>
 <script src="assets/interpreter.js"></script>
 <script src="assets/layout.js"></script>
-<script> { let d = new Date(); if (document.getElementById("age") != null) document.getElementById("age").innerHTML = d.getFullYear() - ((d.getMonth() > 3) ? 1994 : 1995); } </script>
 </body></html>
 
 
@@ -40,13 +35,7 @@ Francesca Fiorentini
 Kara Swisher
 Catherine Rampell
 
-
-||table
-[Bluesky](https://bsky.app/profile/irispol.bsky.social) | quick political shitposting
-[Substack](https://northofqueen.substack.com) | longer articles from this repo
-[Tumblr](https://irisembury.tumblr.com) | also put more personal silly things here
-[Discord](https://discord.com/invite/puJEP8HKk3) | server I own and hang out in
-
 -->
+
 
 

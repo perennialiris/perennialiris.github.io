@@ -1,7 +1,7 @@
 
 /*  These are the replacements run over all inputs, separated into its
     own function because I needed to call it multiple times. */
-function stdReplacements(inputString) {
+function mainReplacements(inputString) {
     if (inputString == "") { return ""; }
     let output = inputString
         .replaceAll("\\*", "&ast;")
@@ -14,7 +14,6 @@ function stdReplacements(inputString) {
         .replaceAll("\\", "&#92;")
         /*  It took many versions, but I think I finally got to a point
             where this always works the way I want it to. */
-
         /* curly " replacement */
         .replace(/(\S\*{1,3})" /g, "$1&rdquo; ")
         .replace(/^" /g, "&rdquo; ")
@@ -23,7 +22,7 @@ function stdReplacements(inputString) {
         .replace(/"$/g, "&rdquo;")
         .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
         .replace(/"/g, "&rdquo;")
-        
+
         .replace(/&rdquo;(,|\.)/g, `<span class="rdquo-right-margin">&rdquo;</span>$1`)
 
         /* curly ' replacement */
@@ -113,10 +112,10 @@ function safeConvert(inputString) {
     while (true) {
         let openTag = input.indexOf("<"), closeTag = input.indexOf(">");
         if (openTag == -1 || closeTag == -1) break;
-        output += stdReplacements(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
+        output += mainReplacements(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
         input = input.substring(closeTag + 1);
     }
-    output += stdReplacements(input);
+    output += mainReplacements(input);
     return output;
 }
 function wrapDigits(targetElement) {
@@ -131,9 +130,8 @@ function wrapDigits(targetElement) {
     output += input.replace(/(\d+)/g, "<span class='rendered_digit'>$1</span>");
     targetElement.innerHTML = output;
 }
-
-/*  This one is for <code> and <div class="codeblock"> elements, where you
-    don't want any formatting to apply. Run this before safeConvert */
+/*  This one is for <code> or like elements, where you don't want any
+    formatting to apply. Run this *before* safeConvert */
 function sanitizeForCode(inputString) {
     return inputString
         .replaceAll("=\"\"", "")
@@ -149,17 +147,19 @@ function sanitizeForCode(inputString) {
         .replaceAll("*", "&ast;")
         .replaceAll("\n", "<br>");
 }
+/*  .replaceAll is preferred over .replace when you don't need regex
+    functionality because it simply is more readable code */
 function titleFilter(inputString) {
     return inputString.replace(/<.+?>/g, "")
-        .replace(/"/g, "&quot;")
-        .replace(/&rsquo;/g, "'")
-        .replace(/&ndash;/g, "–")
-        .replace(/&mdash;/g, "—")
-        .replace(/&amp;/g, "&");
+        .replaceAll('"', "&quot;")
+        .replaceAll("&rsquo;", "'")
+        .replaceAll("&ndash;", "–")
+        .replaceAll("&mdash;", "—")
+        .replaceAll("&amp;", "&");
 }
 
 function quoteParse(inputString) {
-    lines = inputString.split("\n").slice(1);
+    const lines = inputString.split("\n").slice(1);
     for (let j = 0; j < lines.length; j += 1) {
         if (lines[j].startsWith("---")) {
             lines[j] = `<div class="attribution">${lines[j]}</div>`; }
@@ -173,8 +173,6 @@ function quoteParse(inputString) {
                     lines[j] += "<br>"; } } } }
     return "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
 }
-/*  .replaceAll is preferred over .replace when you don't need to regex
-    functionality because it simply results in more readable code */
 
 /*  ![description](path/to/image.png)
     ![nice](path/to/other_image.png)
@@ -183,19 +181,6 @@ function quoteParse(inputString) {
         <div><img alt="description" title="description" src="path/to/image.png"></div>
         <div><img alt="nice" title="nice" src="path/to/other_image.png"></div>
     </div>                                                                     */
-
-function lightbox(img) {
-    lbKeyResponsive = false;
-    setTimeout(() => {
-        lbKeyResponsive = true;
-        }, 150);
-    lightboxContainer.style.display = "flex";
-    lightboxImg.src = img.src;
-    lightboxImg.alt = img.alt; }
-function closeLightbox() {
-    lightboxContainer.style.display = "none";
-    lightboxImg.src = "";
-    lightboxImg.alt = ""; }
 
 /* The main interpreter loop. Pass the main element to start. */
 function interpreter(targetElement) {
@@ -242,14 +227,14 @@ function interpreter(targetElement) {
             let lines = input[i].split("\n").slice(1);
             for (let j = 0; j < lines.length; j += 1) {
                 lines[j] = lines[j].replace(/\[(.*)\]\((.+)\)/g, (match, altText, filePath) => {
-                    let maxHeight = 320;
+                    let maxHeight = 300;
                     altText = altText.replace(/"/, "&quot;");
                     let j = filePath.indexOf("|");
                     if (j != -1) {
                         maxHeight = filePath.substring(j + 1);
                         filePath = filePath.substring(0, j);
                     }
-                    let imgAttributes = `onclick="lightbox(this)" style="max-height:${maxHeight}px" src="${filePath}"`;
+                    let imgAttributes = `onclick="setLightbox(this)" style="max-height:${maxHeight}px" src="${filePath}"`;
                     if (altText != "") imgAttributes += ` title="${altText}" alt="${altText}"`;
                     let temp = `<div><img ${imgAttributes}></div>`;
                     return temp
@@ -260,7 +245,7 @@ function interpreter(targetElement) {
         if (input[i].startsWith("||image-right")) {
             input[i] = input[i].split("\n")[1].replace(/\[([^\]]*)[^\\]?\]\[(.*)\]\((.+)\)/g, (match, caption, altText, filePath) => {
             // input[i] = input[i].split("\n")[1].replace(/\[(.*)\]\[(.*)\]\((.+)\)/g, (match, caption, altText, filePath) => {
-                let temp = `<div class="image-float right"><img onclick="lightbox(this)" src="${filePath}"`;
+                let temp = `<div class="image-float right"><img onclick="setLightbox(this)" src="${filePath}"`;
                 if (altText.replace(/\s/g, "").length > 0) {
                     temp += ` title="${altText}" alt="${altText}">`;
                 } else {
@@ -274,7 +259,7 @@ function interpreter(targetElement) {
 
         if (input[i].startsWith("||image-left")) {
             input[i] = input[i].split("\n")[1].replace(/\[(.+)\]\[(.+)\]\((.+)\)/g, (match, caption, altText, filePath) => {
-                let temp = `<div class="image-float left"><img onclick="lightbox(this)" src="${filePath}"`;
+                let temp = `<div class="image-float left"><img onclick="setLightbox(this)" src="${filePath}"`;
                 if (altText.replace(/\s/g, "").length > 0) {
                     temp += ` title="${altText}" alt="${altText}">`;
                 } else {
@@ -343,7 +328,7 @@ function interpreter(targetElement) {
 
         /* ------------- "This was also posted here:" ------------- */
         if (input[i].startsWith("||see-also")) {
-            document.getElementById("article-footer").innerHTML += `<div>This was also posted here:<br>${input[i].split("\n").splice(1).map(c => `<a href="${c}" target="_blank">${c}</a>`).join("<br>")}</div>`;
+            document.getElementById("body-after").innerHTML += `<div>This was also posted here:<br>${input[i].split("\n").splice(1).map(c => `<a href="${c}" target="_blank">${c}</a>`).join("<br>")}</div>`;
             input[i] = "";
             continue; }
         
@@ -352,7 +337,7 @@ function interpreter(targetElement) {
             input[i] = quoteParse(input[i]);
             continue; }
         if (input[i].startsWith("&gt;")) {
-            input[i] = quoteParse(input[i].substring(4));
+            input[i] = quoteParse("\n"+input[i].substring(4));
             continue; }
 
         /* -------------------------------------------------------- */
@@ -363,29 +348,29 @@ function interpreter(targetElement) {
         if (input[i].startsWith("# ")) {
             const temp = input[i].substring(2).split("|");
             const title = temp[0].trim();
-            const titleId = titleFilter(title);
+            if (document.title == "") { document.title = titleFilter(title); }
+            const headerId = titleFilter(title).replace(/ /g, "_");
             if (temp.length == 2) {
                 const date = temp[1].trim();
-                input[i] = `<div class="title-box"><h1 class="noq-header" id="${titleId}">${title}</h1><div class="date-box">${date}</div></div>`; }
+                input[i] = `<div class="title-box"><h1 class="noq-header" id="${headerId}">${title}</h1><div class="date-box">${date}</div></div>`; }
             else {
-                input[i] = `<h1 class="title-box" id="${titleId}">${title}</h1>`;
+                input[i] = `<h1 class="title-box" id="${headerId}">${title}</h1>`;
             }
-            if (document.title == "") { document.title = titleId; }
-            tableOfContentsLinks.push(`<a class="toc-row h1" href="#${titleId}">${titleId}</a>`);
+            tocLinks.push(`<a class="toc-row h1" href="#${headerId}">${title.replace(/<\/?i>/g,'')}</a>`);
             continue; }
         /* ------ h2 ------ */
         if (input[i].startsWith("## ")) {
             let title = input[i].slice(3);
-            const titleId = titleFilter(title);
-            input[i] = `<h2 class="noq-header" id="${titleId}">${title}</h2>`;
-            tableOfContentsLinks.push(`<a class="toc-row h2" href="#${titleId}">${titleId}</a>`);
+            const headerId = titleFilter(title).replace(/ /g, "_");
+            input[i] = `<h2 class="noq-header" id="${headerId}">${title}</h2>`;
+            tocLinks.push(`<a class="toc-row h2" href="#${headerId}">${title.replace(/<\/?i>/g,'')}</a>`);
             continue; }
         /* ------ h3 ------ */
         if (input[i].startsWith("### ")) {
             let title = input[i].slice(4);
-            const titleId = titleFilter(title);
-            input[i] = `<h3 class="noq-header" id="${titleId}">${title}</h2>`;
-            tableOfContentsLinks.push(`<a class="toc-row h3" href="#${titleId}">${titleId}</a>`);
+            const headerId = titleFilter(title).replace(/ /g, "_");
+            input[i] = `<h3 class="noq-header" id="${headerId}">${title}</h2>`;
+            tocLinks.push(`<a class="toc-row h3" href="#${headerId}">${title.replace(/<\/?i>/g,'')}</a>`);
             continue; }
         /* toc-row class is useful for selecting the elements later */
         /* ------ h4 ------ */
