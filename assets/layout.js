@@ -134,7 +134,7 @@ function pageLoad() {
                     <div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>
                 </section>
                 <footer id="footer">
-                    <div><img src="${randomImg[0]}" alt="${randomImg[1]}"></div>
+                    <div><img style="max-width:100%" src="${randomImg[0]}" alt="${randomImg[1]}"></div>
                     <div><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div>
                 </footer>
             </div>
@@ -174,7 +174,6 @@ function pageLoad() {
             let entryClass = "nav-row";
             if (isPinned) { entryClass += " pinned"; }
             if (pageList.recent.length < 8) { pageList.recent.push(`<a href="${rowFile}.html">${rowTitle}</a>`); }
-            // let indexEntry = `<tr><td><a href="${rowFile}.html">${rowTitle}${isPinned?`<img class="icon" src="assets/pin2.png" height="17" width="17">`:''}</a></td> <td>${rowCategory}</td><td>${rowDate}</td></tr>`;
             let indexEntry = `<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img class="icon" src="assets/pin2.png" height="17" width="17">` : ''}</a> <b>·</b> <span>${rowCategory}</span>${rowDate != '' ? ' <b>·</b> <span>'+rowDate+'</span>' : ''}</li>`;
             if (isPinned) { pageList.full.unshift(indexEntry); }
             else { pageList.full.push(indexEntry); }
