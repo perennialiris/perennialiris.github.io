@@ -7,6 +7,8 @@
 @font-face { font-family: "Roboto"; src: url(roboto-italic.woff2);  font-weight: 400 700; font-style: italic; }
 @font-face { font-family: "Open Sans"; src: url(open-sans-regular.woff2); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Open Sans"; src: url(open-sans-italic.woff2);  font-weight: 400 700; font-style: italic; }
+@font-face { font-family: "Inter"; src: url(inter-regular.woff2); font-weight: 400 700; font-style: normal; }
+@font-face { font-family: "Inter"; src: url(inter-italic.woff2);  font-weight: 400 700; font-style: italic; }
 
 :root {
     --selection: #ccc;
@@ -127,12 +129,11 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); line-heig
             #article .image-float.right { float: right; margin-right: 0; }
 
         #body-after { margin-top: var(--padding); border-top: 1px solid var(--grey-90); }
-        #body-after > div { margin-top: 15px; }
+        #body-after > div { margin-top: 1em; }
         #body-after a { color: var(--grey-60); text-decoration: none; padding-left: 1px; }
         #body-after a:hover { color: var(--grey-40); }
         #body-after .link-box-container { overflow: hidden; }
-        #body-after .link-box-container .link-box { line-height: 1.25; margin-left: -8px; display: flex; flex-wrap: wrap; align-items: baseline; }
-        #body-after .link-box-container .link-box .label { font-weight: 700; padding-inline: 8px; }
+        #body-after .link-box-container .link-box { line-height: 1; margin-left: -8px; display: flex; flex-wrap: wrap; align-items: baseline; }
         #body-after .link-box-container .link-box a { white-space: nowrap; padding-right: 8px; margin-block: 6px; display: inline-block; font-family: Georgia Pro,Georgia,serif; font-size: 15px; color: var(--accent); }
         #body-after .link-box-container .link-box a:hover { text-decoration: underline; }
         #body-after .link-box-container .link-box a + a { border-left: 1px solid var(--grey-90); padding-left: 8px; }

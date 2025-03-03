@@ -8,7 +8,7 @@ let data = `
 23 | Passing | transgender culture | 2025-02-24 |
 20 | Israel–Palestine notes | politics | 2025-02-24 | toc
 19 | Ilhan Omar’s comments about Somalia | politics | 2025-02-12 |
-17 | Why get bottom surgery? | transgender culture | 2025-02-09 |
+17 | Why get bottom surgery? | transgender, culture | 2025-02-09 |
 35 | Show and tell (Lex Fridman) | politics | 2025-02-05 |
 16 | Milo Yiannopoulos’s cancellation | politics | 2025-02-03 |
 34 | The Nazi salute | politics | 2025-01-24 |
@@ -17,7 +17,7 @@ let data = `
 28 | Therapy theory | personal | 2025-01-09 |
 31 | Reflections on Justin Trudeau | politics | 2025-01-08 |
 32 | Conservatism | politics | 2025-01-05 | wide toc
-27 | Sex, gender, & transsexuals | transgender politics analysis | 2024-12-29 | toc
+27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | toc
 25 | A beauty holding a bird | other | 2024-12-23 | narrow
 24 | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19 |
 22 | Dehumanization | politics | 2024-12-15 |
@@ -36,7 +36,7 @@ let data = `
 4 | Anime reviews | culture | 2024-11-02 |
 3 | Poor things (2023 film) | culture | 2024-10-31 |
 1 | Language | personal | 2024-10-29 |
-2 | The trans prison stats argument | transgender politics | 2024-10-19 |
+2 | The trans prison stats argument | transgender, politics | 2024-10-19 |
 39 | Movies | | | narrow unlisted
 37 | Bluesky accounts listing | other | | wide toc
 36 | People don’t really have world views | | | unlisted
@@ -188,8 +188,9 @@ function pageLoad() {
         get("body-after").innerHTML +=
            `<div class="link-box-container">
                 <div class="link-box">
-                    <div class="label">Other pages recently added:</div>
+                    <div style="font-weight:700;padding-inline:8px;">Other pages recently added:</div>
                     ${pageList.recent.join("")}
+                    <a style="font-size:14px;margin-left:auto;border-left:0;color:var(--grey-90);font-family:system-ui;" href="index.html">Full page list (front) &rarr;</a>
                 </div>
             </div>`;
         
