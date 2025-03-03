@@ -11,7 +11,7 @@ let data = `
 17 | Why get bottom surgery? | transgender, culture | 2025-02-09 |
 35 | Show and tell (Lex Fridman) | politics | 2025-02-05 |
 16 | Milo Yiannopoulos’s cancellation | politics | 2025-02-03 |
-34 | The Nazi salute | politics | 2025-01-24 |
+34 | The Nazi salute | politics | 2025-01-24 | narrow
 30 | The appearance of intelligence | other | 2025-01-18 |
 29 | Date formats | other | 2025-01-11 | narrow
 28 | Therapy theory | personal | 2025-01-09 |
