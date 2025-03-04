@@ -16,7 +16,7 @@
     --grey-f0: #f0f0f0;
     --grey-e0: #e0e0e0;
     --grey-d0: #d0d0d0;
-    --accent: #a33;
+    --accent: #b22;
     --grey-90: #909090;
     --grey-60: #606060;
     --grey-50: #505050;
@@ -36,9 +36,9 @@ html { scroll-padding-top: 60px; scrollbar-color: #777 #ddd !important }
 html ::selection { background-color: var(--selection); }
 body { font-family: system-ui; font-size: 14px; color: var(--grey-30); line-height: 1.5; text-underline-offset: 2px; }
 
-    #header,
-    .c1 {  padding-right: clamp(0px, calc(0.13 * calc(100vw - var(--main) - var(--padding) - var(--padding))), 400px); }
+    #header, .c1 {  padding-right: clamp(0px, calc(0.13 * calc(100vw - var(--main) - var(--padding) - var(--padding))), 400px); }
     .c1 { display: flex; justify-content: center; }
+    .c1.toc-page { padding-right: 0; }
     .c2 { max-width: var(--main); padding: var(--padding); }
 
         #header { display: flex; justify-content: center; height: 97px; background-color: #111; }
@@ -48,13 +48,13 @@ body { font-family: system-ui; font-size: 14px; color: var(--grey-30); line-heig
 
         #nav { height: 24px; background-color: var(--accent); background-image: linear-gradient(#3339, #3339); }
 
-            #toc { padding: var(--padding); position: sticky; top: 0; height: calc(100vh - var(--padding) - var(--padding)); max-width: 252px; min-width: 252px; }
+            #toc { padding: var(--padding); position: sticky; top: 0; height: calc(100vh - var(--padding) - var(--padding)); max-width: 242px; min-width: 242px; }
             #toc .toc-title { font-size: 15px; font-weight: 700; color: var(--grey-50); }
             #toc .scroller { padding: 5px 0; margin-top: 5px; max-height: 80%; overflow: hidden; scrollbar-width: thin; scrollbar-color: var(--grey-90) var(--grey-e0) !important; }
             #toc .scroller:hover { overflow: auto; }
             #toc .toc-row { color: var(--grey-90); text-decoration: none; display: block; margin-top: 8px; }
             #toc .toc-row:hover { text-decoration: underline; }
-            #toc .scroller .toc-row { max-width: 210px; }
+            #toc .scroller .toc-row { max-width: 200px; }
             #toc .toc-row.active-heading { color: var(--grey-30); }
             #toc .toc-row.h3 { margin-left: 15px; }
 
