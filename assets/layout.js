@@ -5,7 +5,7 @@ function get(x) { let temp = document.getElementById(x); if (temp == null) { con
 
 let data = `
 39 | Movies | | | narrow unlisted
-38
+38 | Spinning object
 37 | Bluesky accounts listing | other | | wide toc
 36 | India | | | unlisted
 35 | Show and tell (Lex Fridman) | politics | 2025-02-05 |
@@ -169,20 +169,21 @@ function pageLoad() {
     for (let i = 0; i < dataRows.length; i += 1) {
         const cells = dataRows[i].split("|").map(cell => cell.trim());
         const rowFile = cells[0],
-        rowTitle    = cells[1],
-        rowCategory = cells[2],
-        rowDate     = cells[3],
-        rowFlags    = cells[4].split(" ");
-        if (rowFile == fileName) {
+        rowTitle      = cells[1],
+        rowCategory   = cells[2],
+        rowDate       = cells[3],
+        rowFlags      = cells[4].split(" ");
+        const isCurrent = rowFile == fileName;
+        const isPinned = (rowFlags.includes("pinned"));
+        let entryClass = "nav-row";
+        if (isCurrent) {
             if (rowFlags.includes("toc")) { includeToc = true; }
             if (rowFlags.includes("wide")) { get("page").classList.add("wide"); }
             else if (rowFlags.includes("narrow")) { get("page").classList.add("narrow"); }
             }
         if (rowFlags.includes("unlisted")) { continue; }
-        const isPinned = (rowFlags.includes("pinned"));
-        let entryClass = "nav-row";
         if (isPinned) { entryClass += " pinned"; }
-        if (pageList.recent.length < 8) { pageList.recent.push(`<a href="${rowFile}.html">${rowTitle}</a>`); }
+        if (!isCurrent && pageList.recent.length < 8) { pageList.recent.push(`<a href="${rowFile}.html">${rowTitle}</a>`); }
         let indexEntry = `<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img class="icon" src="assets/pin2.png" height="17" width="17">` : ''}</a> <b>·</b> <span>${rowCategory}</span>${rowDate != '' ? ' <b>·</b> <span>'+rowDate+'</span>' : ''}</li>`;
         if (isPinned) { pageList.full.unshift(indexEntry); }
         else { pageList.full.push(indexEntry); }
