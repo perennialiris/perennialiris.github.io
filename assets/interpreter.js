@@ -242,24 +242,30 @@ function interpreter(targetElement) {
             input[i] = `<div class="image-box">${lines.join("")}</div>`;
             continue; }
 
-        if (input[i].startsWith("||image-right")) {
-            input[i] = input[i].split("\n")[1].replace(/\[([^\]]*)[^\\]?\]\[(.*)\]\((.+)\)/g, (match, caption, altText, filePath) => {
-            // input[i] = input[i].split("\n")[1].replace(/\[(.*)\]\[(.*)\]\((.+)\)/g, (match, caption, altText, filePath) => {
-                let temp = `<div class="image-float right"><img onclick="setLightbox(this)" src="${filePath}"`;
-                if (altText.replace(/\s/g, "").length > 0) {
-                    temp += ` title="${altText}" alt="${altText}">`;
-                } else {
-                    temp += `>`; }
-                if (caption.replace(/\s/g, "").length > 0) {
-                    temp += `<div>${caption}</div>`;
+        if (input[i].startsWith("||image-right") || input[i].startsWith("||image-left")) {
+            let lines = input[i].split("\n");
+            let direction = (lines[0].startsWith("||image-right")) ? "right" : "left";
+            input[i] = lines[1].replace(/\[([^\]]*)[^\\]?\]\[(.*)\]\((.+)\)/g, (match, description, altText, filePath) => {
+                if (description.replace(/\s/g, "").length == 0) { description = ""; }
+                let imgClass = "image-float " + direction;
+                if (description != "") {
+                    imgClass += " captioned";
+                    description = `<div>${description}</div>`
                 }
-                return temp + "</div>"; });
+
+                let attr = `src="${filePath}"`;
+                if (altText.replace(/\s/g, "").length > 0) { attr += ` title="${altText}" alt="${altText}"`; }
+                
+                return `<div class="${imgClass}"><img onclick="setLightbox(this)" ${attr}>${description}</div>`;
+            });
             continue;
         }
 
         if (input[i].startsWith("||image-left")) {
-            input[i] = input[i].split("\n")[1].replace(/\[(.+)\]\[(.+)\]\((.+)\)/g, (match, caption, altText, filePath) => {
-                let temp = `<div class="image-float left"><img onclick="setLightbox(this)" src="${filePath}"`;
+            input[i] = input[i].split("\n")[1].replace(/\[([^\]]*)[^\\]?\]\[(.*)\]\((.+)\)/g, (match, caption, altText, filePath) => {
+                let c = "image-float left";
+                if (caption == "") c += " caption"
+                let temp = `<div class="${c}"><img onclick="setLightbox(this)" src="${filePath}"`;
                 if (altText.replace(/\s/g, "").length > 0) {
                     temp += ` title="${altText}" alt="${altText}">`;
                 } else {

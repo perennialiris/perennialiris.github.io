@@ -148,7 +148,7 @@ function pageLoad() {
                     <div><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div>
                 </footer>
             </div>
-            <!-- TABLE OF CONTENTS -->
+            <!-- table of contents -->
         </div>
         <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>`;
 
