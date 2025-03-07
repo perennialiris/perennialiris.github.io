@@ -7,7 +7,8 @@ let data = `
 39 | Movies | | | narrow unlisted
 38 | Spinning object
 37 | Bluesky accounts listing | other | | wide toc
-36 | India | | | unlisted
+36 | Trump and Russia | politics | 2025-03-05 | 
+36 | India | history, politics | 2025-03-05 | 
 35 | Show and tell (Lex Fridman) | politics | 2025-02-05 |
 34 | The Nazi salute | politics | 2025-01-24 | narrow
 33 | The Lorax sux | culture | 2025-02-27 | narrow
