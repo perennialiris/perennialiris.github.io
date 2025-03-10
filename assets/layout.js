@@ -9,16 +9,16 @@ let data = `
 37 | Bluesky accounts listing | other | | wide toc
 40 | Trump and Russia | politics | 2025-03-05 | 
 36 | India | history, politics | 2025-03-05 | 
-35 | Show and tell (Lex Fridman) | politics | 2025-02-05 |
-34 | The Nazi salute | politics | 2025-01-24 | narrow
-33 | The Lorax sux | culture | 2025-02-27 | narrow
+35 | Show and tell (Lex Fridman) | culture, politics | 2025-02-05 |
+34 | The Nazi salute | news, politics | 2025-01-24 | narrow
+33 | The Lorax sux | culture, politics | 2025-02-27 | narrow
 32 | Conservatism | politics | 2025-01-05 | wide toc
-31 | Reflections on Justin Trudeau | politics | 2025-01-08 |
+31 | Reflections on Justin Trudeau | news, politics | 2025-01-08 |
 30 | The appearance of intelligence | other | 2025-01-18 |
 29 | Date formats | other | 2025-01-11 | narrow
 28 | Therapy theory | personal | 2025-01-09 |
 27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | toc
-26 | News 2025 | politics | | wide pinned
+26 | News 2025 | news, politics | | wide pinned
 25 | A beauty holding a bird | other | 2024-12-23 | narrow
 24 | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19 |
 23 | Passing | transgender, culture | 2025-02-24 |
@@ -38,7 +38,7 @@ let data = `
 9 | The default politician | politics | 2024-11-26 |
 8 | 10 Dollar | culture | 2024-11-25 |
 7 | Fetishism & politics | transgender, culture | 2024-11-14 |
-6 | Mark Robinson | politics | 2024-11-13 |
+6 | Mark Robinson | news, politics | 2024-11-13 |
 5 | Types of masculinity | culture | 2024-11-08 |
 4 | Anime reviews | culture | 2024-11-02 |
 3 | Poor things (2023 film) | culture | 2024-10-31 |
@@ -184,8 +184,8 @@ function pageLoad() {
             }
         if (rowFlags.includes("unlisted")) { continue; }
         if (isPinned) { entryClass += " pinned"; }
-        if (!isCurrent && pageList.recent.length < 8) { pageList.recent.push(`<a href="${rowFile}.html">${rowTitle}</a>`); }
-        let indexEntry = `<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img class="icon" src="assets/pin2.png" height="17" width="17">` : ''}</a> <b>·</b> <span>${rowCategory}</span>${rowDate != '' ? ' <b>·</b> <span>'+rowDate+'</span>' : ''}</li>`;
+        if (!isCurrent && pageList.recent.length < 8) { pageList.recent.push(`<a class="accent-link" href="${rowFile}.html">${rowTitle}</a>`); }
+        let indexEntry = `<li><a class="accent-link" href="${rowFile}.html">${rowTitle}${isPinned?`<img class="icon" src="assets/pin2.png" height="17" width="17">` : ''}</a> <b>·</b> <span>${rowCategory}</span>${rowDate != '' ? ' <b>·</b> <span>'+rowDate+'</span>' : ''}</li>`;
         if (isPinned) { pageList.full.unshift(indexEntry); }
         else { pageList.full.push(indexEntry); }
     }

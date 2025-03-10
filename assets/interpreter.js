@@ -296,8 +296,8 @@ function interpreter(targetElement) {
             
             if (index == -1) index = linksInArticle.push(address);
             let result = (displayText === "")
-                ? `<a class="citeref" target="_blank" href="${address}">[${index}]</a>`
-                : `<a target="_blank" href="${address}">${displayText}</a>`;
+                ? `<a class="citeref accent-link" target="_blank" href="${address}">[${index}]</a>`
+                : `<a class="accent-link" target="_blank" href="${address}">${displayText}</a>`;
             return result; });
 
         /* ------------------------ table ------------------------- */
