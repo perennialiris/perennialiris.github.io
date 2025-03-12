@@ -5,11 +5,11 @@ function get(x) { let temp = document.getElementById(x); if (temp == null) { con
 
 let data = `
 39 | Movies | | | narrow unlisted
-38 | Spinning object
+38
 37 | Bluesky accounts listing | other | | wide toc
 40 | Trump and Russia | politics | 2025-03-05 | 
 36 | India | history, politics | 2025-03-05 | 
-35 | Show and tell (Lex Fridman) | culture, politics | 2025-02-05 |
+35 | Show and tell (Lex Fridman) | culture, politics | 2025-02-05 | unlisted
 34 | The Nazi salute | news, politics | 2025-01-24 | narrow
 33 | The Lorax sux | culture, politics | 2025-02-27 | narrow
 32 | Conservatism | politics | 2025-01-05 | wide toc
