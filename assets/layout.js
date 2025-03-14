@@ -24,7 +24,7 @@ let data = `
 23 | Passing | transgender, culture | 2025-02-24 |
 22 | Dehumanization | politics | 2024-12-15 |
 21 | Relationships | personal | 2024-12-14 |
-20 | Israel–Palestine notes | politics | 2025-02-24 | toc
+20 | Israel–Palestine notes | politics | 2025-02-24 | toc wide
 19 | Ilhan Omar’s comments about Somalia | politics | 2025-02-12 |
 18 | Transcripts: context for inflammatory Trump statements | politics | |
 17 | Why get bottom surgery? | transgender, culture | 2025-02-09 |

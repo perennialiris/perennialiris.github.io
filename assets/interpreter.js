@@ -410,10 +410,7 @@ function interpreter(targetElement) {
     }
     targetElement.innerHTML = input.join("");
 
-    Array.from(targetElement.getElementsByTagName("li")).forEach(x => wrapDigits(x));
-    Array.from(targetElement.getElementsByTagName("p")).forEach(x => wrapDigits(x));
-    Array.from(targetElement.getElementsByTagName("blockquote")).forEach(x => wrapDigits(x));
-    // function wrapElements(x) { let temp = targetElement.getElementsByTagName(x); for (let i = 0; i < temp.length; i += 1) { wrapDigits(temp[i]); } } wrapElements("p"); wrapElements("li"); wrapElements("blockquote");
+    Array.from(targetElement.getElementsByTagName("li")).forEach(x => wrapDigits(x)); Array.from(targetElement.getElementsByTagName("p")).forEach(x => wrapDigits(x)); Array.from(targetElement.getElementsByTagName("blockquote")).forEach(x => wrapDigits(x));
 }
 
 
