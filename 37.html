@@ -23,6 +23,11 @@
 ### US politicians
 
 ||table
+@@baldwin.senate.gov | Tammy Baldwin | Senator (Wisconsin)<span class="tag us-dem"></span>
+@duckworth.senate.gov | Tammy Duckworth | Senator (Illinois)<span class="tag us-dem"></span>
+@klobuchar.senate.gov | Amy Klobuchar | Senator (Minnesota)<span class="tag us-dem"></span>
+@slotkin.senate.gov | Elissa Slotkin | Senator (Michigan)<span class="tag us-dem"></span>
+@schumer.senate.gov | Chuck Schumer | **Senate Leader** (New York)<span class="tag us-dem"></span>
 @fetterman.senate.gov | John Fetterman | Senator (Pennsylvania)<span class="tag us-dem"></span>
 @durbin.senate.gov‬ | Richard Durbin | Senator (Illinois)<span class="tag us-dem"></span>
 @judiciarydems.senate.gov | US Senate Judiciary Committee | Senate Judiciary Democrats<span class="tag us-dem"></span>
@@ -32,7 +37,7 @@
 @petebuttigieg.bsky.social | Pete Buttigieg | Fmr. Transportation Secretary<span class="tag us-dem"></span>
 @warren.senate.gov | Elizabeth Warren | Senator (Massachusetts)<span class="tag us-dem"></span>
 @murray.senate.gov | Patty Murray | Senator Washington)<span class="tag us-dem"></span>
-@chrismurphyct.bsky.social | Chris Murphy | US Senate (Connecticut)<span class="tag us-dem"></span>
+@chrismurphyct.bsky.social | Chris Murphy | Senator (Connecticut)<span class="tag us-dem"></span>
 @robertgarcia.bsky.social | Robert Garcia | House of Representatives (California)<span class="tag us-dem"></span>
 @ilhanmn.bsky.social | Ilhan Omar | House of Representatives (Minnesota)<span class="tag us-dem"></span>
 @sanders.senate.gov | Bernie Sanders | Senator (Vermont)<span class="tag us-independent"></span>
@@ -40,19 +45,22 @@
 ### Canadian politicians
 
 ||table
-@mark-carney.bsky.social | Mark Carney | Liberal Party leader (gov. of Bank of Canada, Bank of England)<span class="tag ca-liberal"></span>
-@yfblanchet.bsky.social | Yves-François Blanchet | Beloeil---Chambly, Quebec<span class="tag ca-bloc"> Leader</span>
-@jagmeetsingh.ca | Jagmeet Singh | Burnaby South, British Columbia<span class="tag ca-ndp"> Leader</span>
-@elizabethemay.bsky.social | Elizabeth May | Saanich---Gulf Islands, British Columbia<span class="tag ca-green"> Leader</span>
+@mark-carney.bsky.social | Mark Carney | **Liberal leader** (gov. of Bank of Canada, Bank of England)<span class="tag ca-liberal"></span>
+@yfblanchet.bsky.social | Yves-François Blanchet | **Bloc Québécois leader**, Beloeil---Chambly, Quebec<span class="tag ca-bloc"></span>
+@elizabethemay.bsky.social | Elizabeth May | **Green leader**, Saanich---Gulf Islands, British Columbia<span class="tag ca-green"></span>
+@jagmeetsingh.ca | Jagmeet Singh | **New Democratic leader**, Burnaby South, British Columbia<span class="tag ca-ndp"></span>
+@chrystia-freeland.bsky.social | Chrystia Freeland | University---Rosedale, Ontario<span class="tag ca-liberal"></span>
 @turnbullwhitby.bsky.social | Ryan Turnbull | Whitby, Ontario<span class="tag ca-liberal"></span>
 @avankoeverden.bsky.social | Adam van Koeverden | Milton, Ontario<span class="tag ca-liberal"></span>
 @chrisbittle.bsky.social | Chris Bittle | St. Catharines, Ontario<span class="tag ca-liberal"></span>
 @vivianelapointe.bsky.social | Viviane Lapointe | Sudbury, Ontario<span class="tag ca-liberal"></span>
 @pattyhajdu.bsky.social | Patty Hajdu | Thunder Bay---Superior North, Ontario<span class="tag ca-liberal"></span>
 @terryBeech.bsky.social | Terry Beech | Burnaby North---Seymour, British Columbia<span class="tag ca-liberal"></span>
+@pascalestonge.bsky.social | Pascale St-Onge | Brome---Missisquoi, Quebec<span class="tag ca-liberal"></span>
 @jyduclos.bsky.social | Jean-Yves Duclos | [Québec](https://en.wikipedia.org/wiki/Qu%C3%A9bec_(electoral_district\)), Quebec<span class="tag ca-liberal"></span>
 @alexandramendes.bsky.social | Alexandra Mendès | Brossard—Saint-Lambert, Quebec<span class="tag ca-liberal"></span>
 @seanfraser.bsky.social | Sean Fraser | Central Nova, Nova Scotia<span class="tag ca-liberal"></span>
+@liberalca.bsky.social | Liberal Party | The official party account ([https://liberal.ca/links](https://liberal.ca/links))<span class="tag ca-liberal"></span>
 @charlieangus104.bsky.social | Charlie Angus | Timmins---James Bay, New Democratic Party<span class="tag ca-ndp"></span>
 @taylorbachrach.bsky.social | Taylor Bachrach | Skeena---Bulkley Valley, British Columbia<span class="tag ca-ndp"></span>
 @mp-bonitazarrillo.bsky.social | Bonita Zarrillo | Port Moody---Coquitlam, British Columbia<span class="tag ca-ndp"></span>
@@ -157,17 +165,22 @@
 <script src="assets/layout.js"></script>
 <script>
 
-
-
 window.addEventListener("load", function() {
     const cells = Array.from(document.getElementsByTagName("tr")).map(c => c.firstChild);
-    console.log(cells);
     for (let i = 0; i < cells.length; i += 1) {
         if (cells[i].innerHTML.startsWith("@")) {
             cells[i].innerHTML = `<a class="handle" target="_blank" href="https://bsky.app/profile/${cells[i].innerHTML.substring(1)}">${cells[i].innerHTML}</a>`;
         }
         else { console.error(cells[i].innerHTML); }
     }
+    
+    Array.from(document.getElementsByClassName("ca-liberal")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#f2dcdc"; });
+    Array.from(document.getElementsByClassName("ca-bloc")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#dcecf2"; });
+    Array.from(document.getElementsByClassName("ca-green")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#daecd6"; });
+    Array.from(document.getElementsByClassName("ca-ndp")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#ffeacf"; });
+    
+    Array.from(document.getElementsByClassName("us-dem")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#dae2ff"; });
+    Array.from(document.getElementsByClassName("us-independent")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#ecf0e5"; });
 });
 
 </script>

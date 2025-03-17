@@ -14,9 +14,9 @@
 
 # News 2025
 
-No commentary, just a list of things that are happening---and only the more noteworthy things, not every single stupid statement Trump makes.
+No commentary---just a list of things that are happening.
 
-Stay informed---but please, remember to also spend time doing things you actually enjoy. Don't just sit around obsessing about this.
+This will be more useful the more time that goes by.
 
 <div style="text-align:right"><button onclick="reverseOrder()" id="reverseButton" style="padding:1px 8px 3px">reverse order <span style="vertical-align:2px">↑↓</span></button></div>
 
@@ -75,6 +75,8 @@ Stay informed---but please, remember to also spend time doing things you actuall
 2025-03-11 | The White House press secretary just told the AP that "tariffs are a tax cut for the American people".[](https://thehill.com/homenews/administration/5188744-ap-reporter-white-house-tariffs/)[](https://www.huffpost.com/entry/white-house-spokesperson-tariffs-tax-cuts_n_67d0851ce4b0b01db080068f) They are not.[](https://financialpost.com/personal-finance/tariffs-are-a-tax-impact-broader-than-higher-prices)
 2025-03-11 | Department of Education lays off ~50% of its workforce (1'315 people).[](https://abcnews.go.com/US/department-education-faces-50-layoffs-after-closure-notice/story?id=119690524)[](https://www.cnn.com/2025/03/11/politics/department-of-education-cuts/index.html)
 2025-03-12 | Trump imposes sweeping 25% tariff on all steel and aluminium imports.[](https://apnews.com/article/trump-tariffs-aluminum-steel-e5a6295577275045db3484b71c979bfb)[](https://www.cnn.com/2025/03/12/economy/trump-steel-aluminum-tariffs-hnk-intl/index.html) Trump had previously[](https://www.theguardian.com/australia-news/2025/feb/11/australian-tariffs-exemption-under-consideration-after-positive-call-between-pm-and-trump) said he may exempt Australia from this, but now rescinded that.[](https://apnews.com/article/australia-tariffs-steel-aluminum-exemption-fe8ad2239a20c65d42c9249c05ae9303) Australian PM (Anthony Albanese) says Australian won't impose retaliatory tariffs.[](https://www.reuters.com/markets/commodities/trump-rules-out-exempting-australia-steel-aluminium-tariffs-2025-03-11/)
+2025-03-14 | Trump: "I believe CNN and [MSNBC]...are political arms of the Democratic Party, and in my opinion, they are really corrupt and they are illegal. What they do is illegal."[](https://youtu.be/6i41Av4eYO8?t=2217) ... "These networks and these newspapers are really no different than a highly paid political operative. And it has to stop. It has to be illegal."[](https://youtu.be/6i41Av4eYO8?t=2270) His reasoning is that these networks criticize judges, which constitutes "playing the ref" and "must be illegal" somehow.
+2025-03-17 | Trump is trying to annul Biden's [presidential pardons,](https://www.justice.gov/pardon/pardons-granted-president-joseph-biden-2021-present) arguing they're open to challenge because he used [a device called an autopen](https://en.wikipedia.org/wiki/Autopen) to sign them.[](https://www.unilad.com/news/politics/donald-trump-voids-joe-biden-pardons-mistake-claim-115457-20250317) Numerous other presidents have used autopens (going back to at least Harry Truman), because presidents sign a lot of things.[](https://nypost.com/2025/03/09/us-news/biden-used-autopen-signature-on-many-official-wh-docs-raising-concerns-over-his-awareness/) In 2005 the Bush admin. commissioned a study that concluded using autopens is legal,[](https://abcnews.go.com/blogs/politics/2013/01/vacationing-obamas-options-to-sign-fiscal-cliff-deal-include-air-force-jet-autopen/) but "acknowledged the possibility that its use could be challenged".
 
 
 </main></div>
@@ -86,6 +88,12 @@ function reverseOrder() {
     table.innerHTML = Array.from(table.rows).reverse().map(c => `<tr>${c.innerHTML}</tr>`).join('');
 }
 let btn = document.getElementById("reverseButton");
-window.addEventListener("load", reverseOrder);
+window.addEventListener("load", () => {
+    reverseOrder();
+    //const months = { "01": "Jan", "02": "Feb", "03": "March", "04": "April", "05": "May", "06": "June", "07": "July", "08": "August", "09": "Sept", "10": "Oct", "11": "Nov", "12": "Dec" }; Array.from(document.getElementsByTagName("tr")).forEach(tr => { tr.firstChild.innerHTML = tr.firstChild.innerHTML.replace(/\-(\d{2})\-/, (m, p1) => { return "-" + months[p1] + "-" }) })
+})
 </script>
 </body></html>
+
+
+

@@ -12,7 +12,7 @@ let data = `
 35 | Show and tell (Lex Fridman) | culture, politics | 2025-02-05 | unlisted
 34 | The Nazi salute | news, politics | 2025-01-24 | narrow
 33 | The Lorax sux | culture, politics | 2025-02-27 | narrow
-32 | Conservatism | politics | 2025-01-05 | wide toc
+32 | Conservatism | politics | 2025-01-05 | wide toc unlisted
 31 | Reflections on Justin Trudeau | news, politics | 2025-01-08 |
 30 | The appearance of intelligence | other | 2025-01-18 |
 29 | Date formats | other | 2025-01-11 | narrow
@@ -23,8 +23,8 @@ let data = `
 24 | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19 |
 23 | Passing | transgender, culture | 2025-02-24 |
 22 | Dehumanization | politics | 2024-12-15 |
-21 | Relationships | personal | 2024-12-14 |
-20 | Israel–Palestine notes | politics | 2025-02-24 | toc wide
+21 | Relationships | personal | 2024-12-14 | unlisted
+20 | Israel–Palestine notes | politics | 2025-02-24 | toc wide unlisted
 19 | Ilhan Omar’s comments about Somalia | politics | 2025-02-12 |
 18 | Transcripts: context for inflammatory Trump statements | politics | |
 17 | Why get bottom surgery? | transgender, culture | 2025-02-09 |
@@ -149,7 +149,6 @@ function pageLoad() {
                     <div><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div>
                 </footer>
             </div>
-            <!-- table of contents -->
         </div>
         <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>`;
 
@@ -203,12 +202,12 @@ function pageLoad() {
                     <a style="font-size:14px;margin-left:auto;border-left:0;color:var(--grey-90);font-family:system-ui;" href="index.html">Full page list (front) &rarr;</a>
                 </div>
             </div>`;
-        
+
         if (includeToc) {
-            const container = get("article").parentNode.parentNode;
-            const toc = container.appendChild(document.createElement("div"));
+            const c1 = get("article").parentNode.parentNode;
+            const toc = c1.insertBefore(document.createElement("div"), c1.firstChild);
             toc.id = "toc";
-            container.classList.add("toc-page");
+            c1.classList.add("toc-page");
             toc.innerHTML = `<div class="toc-title">Content</div><a class="toc-row h1" href="#top">(Top of page)</a><div class="scroller">${tocLinks.slice(1).join("")}</div>`;
             rowsInToc = Array.from(get("toc").getElementsByClassName("toc-row"));
             headersInArticle = Array.from(document.getElementsByClassName("noq-header"));
@@ -216,14 +215,14 @@ function pageLoad() {
             setTimeout(() => { tocHighlighter(); }, 100);
         }
     }
-    
+
     if (document.title == "") document.title = "North of Queen";
-    else if (document.title.slice(-14) != "North of Queen") document.title += " - North of Queen";
+    else if (document.title.slice(0 - "North of Queen".length) != "North of Queen") document.title += " - North of Queen";
 }
 
 
-
 window.addEventListener("load", pageLoad);
+
 
 
 

@@ -16,6 +16,7 @@
     --grey-e0: #e0e0e0;
     --grey-d0: #d0d0d0;
     --accent: #b12;
+    --accent-hover: #a90a1a;
     --grey-90: #909090;
     --grey-60: #606060;
     --grey-50: #505050;
@@ -25,7 +26,7 @@
     --padding: 30px;
     --main: 760px;
 }
-.wide { --main: 920px; }
+.wide { --main: 900px; }
 .narrow { --main: 600px; }
 
 #cover { pointer-events: none; }
@@ -34,7 +35,8 @@ html * { margin: 0; padding: 0; }
 html { scroll-padding-top: 60px; scrollbar-color: #777 #ddd !important }
 body { font-family: system-ui; font-size: 14px; color: var(--grey-30); line-height: 1.5; text-underline-offset: 2px; }
 body a.accent-link { color: var(--accent); }
-body ::selection { background-color: #d0dfff; }
+body a.accent-link:hover { color: var(--accent-hover); }
+body ::selection { background-color: #8888; }
 body :not(.accent-link)::selection { color: var(--grey-20); }
 
     #header, .c1 {  padding-right: clamp(0px, calc(0.1 * calc(100vw - var(--main) - var(--padding) - var(--padding))), 400px); }
@@ -42,7 +44,7 @@ body :not(.accent-link)::selection { color: var(--grey-20); }
     .c1.toc-page { padding-right: 0; }
     .c2 { max-width: var(--main); padding: var(--padding); }
 
-        #header { display: flex; justify-content: center; height: 105px; background-color: #111; background-image: linear-gradient(#333, #000); }
+        #header { display: flex; justify-content: center; height: 107px; background-color: #111; background-image: linear-gradient(#333, #000); }
         #header a { display: block; width: var(--main); }
         #header a:hover { opacity: 0.8; }
         #header a img { margin: auto; display: block; padding: 20px; width: 252px; height: 67px; filter: invert(1); }
@@ -52,7 +54,7 @@ body :not(.accent-link)::selection { color: var(--grey-20); }
 
             #toc { padding: var(--padding); position: sticky; top: 0; height: calc(100vh - var(--padding) - var(--padding)); max-width: 242px; min-width: 242px; }
             #toc .toc-title { font-size: 15px; font-weight: 700; color: var(--grey-50); }
-            #toc .scroller { padding: 5px 0; margin-top: 5px; max-height: 80%; overflow: hidden; scrollbar-width: thin; scrollbar-color: var(--grey-90) var(--grey-e0) !important; }
+            #toc .scroller { padding: 0 0 20px; margin-top: 5px; max-height: calc(80% - 20px); overflow: hidden; scrollbar-width: thin; scrollbar-color: var(--grey-90) var(--grey-e0) !important; }
             #toc .scroller:hover { overflow: auto; }
             #toc .toc-row { color: var(--grey-90); text-decoration: none; display: block; margin-top: 8px; }
             #toc .toc-row:hover { text-decoration: underline; }
@@ -85,7 +87,7 @@ body :not(.accent-link)::selection { color: var(--grey-20); }
             #article .fine ::marker { font-size: 14px; color: var(--grey-60); font-family: system-ui !important; }
 
             #article u,
-            #article a { text-underline-offset: 2px; text-decoration: none; }
+            #article a { text-decoration: none; text-underline-offset: 2px; }
             #article a:hover { text-decoration: underline; }
 
             ul, ol { padding: 0 40px; }
@@ -140,8 +142,8 @@ body :not(.accent-link)::selection { color: var(--grey-20); }
         #body-after a:hover { color: var(--grey-40); }
         #body-after .link-box-container { overflow: hidden; }
         #body-after .link-box-container .link-box { line-height: 1; margin-left: -8px; display: flex; flex-wrap: wrap; align-items: baseline; }
-        #body-after .link-box-container .link-box a { white-space: nowrap; padding-right: 8px; margin-block: 6px; display: inline-block; font-family: Georgia Pro,Georgia,serif; font-size: 15px; color: var(--accent); }
-        #body-after .link-box-container .link-box a:hover { text-decoration: underline; }
+        #body-after .link-box-container .link-box a { color: var(--accent); white-space: nowrap; padding-right: 8px; margin-block: 6px; display: inline-block; font-family: Georgia Pro,Georgia,serif; font-size: 15px; }
+        #body-after .link-box-container .link-box a:hover { text-decoration: underline; color: var(--accent-hover); }
         #body-after .link-box-container .link-box a + a { border-left: 1px solid var(--grey-90); padding-left: 8px; }
 
     #footer { color: var(--grey-90); text-align: justify; padding: 20px 0; }
