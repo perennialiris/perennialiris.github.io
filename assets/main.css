@@ -106,7 +106,7 @@ body :not(.accent-link)::selection { color: var(--grey-20); }
             #article h3 { font-size: 19px; }
             #article h4 { font-size: 16px; }
 
-            #article h1, #article h2, #article h3, #article h4 { font-family: Open Sans,sans-serif; line-height: 1.3; font-weight: 700; color: var(--grey-20); clear: both; margin: 1.3em 0 1em; }
+            #article h1, #article h2, #article h3, #article h4 { font-family: Inter,sans-serif; line-height: 1.3; font-weight: 700; color: var(--grey-20); clear: both; margin: 1.3em 0 1em; }
 
             #article .transcript { line-height: 1.6; font-size: 15px; margin-block: 14px; border-collapse: collapse; background-color: var(--grey-f0); font-family: Roboto,sans-serif; }
             #article .transcript tr td { border: none; vertical-align: baseline; }

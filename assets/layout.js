@@ -6,7 +6,7 @@ function get(x) { let temp = document.getElementById(x); if (temp == null) { con
 let data = `
 39 | Movies | | | narrow unlisted
 38
-37 | Bluesky accounts listing | other | | wide toc
+37 | Bluesky accounts listing | other | | wide toc toc-right
 40 | Trump and Russia | politics | 2025-03-05 | 
 36 | India | history, politics | 2025-03-05 | 
 35 | Show and tell (Lex Fridman) | culture, politics | 2025-02-05 | unlisted
@@ -136,7 +136,7 @@ function pageLoad() {
     const fileName = getFileName();
 
     get("page").innerHTML =
-       `<header id="header"><a href="index.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a></header>
+       `<header id="header"><a href="list.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a></header>
         <nav id="nav"></nav>
         <div class="c1">
             <div class="c2">
@@ -164,7 +164,7 @@ function pageLoad() {
 
     alignTable(data,"|");
     const pageList = { recent: [], pins: [], full: [] };
-    let includeToc = false;
+    let includeToc = false, tocRight = false;
     const dataRows = data.split("\n");
     for (let i = 0; i < dataRows.length; i += 1) {
         const cells = dataRows[i].split("|").map(cell => cell.trim());
@@ -178,6 +178,7 @@ function pageLoad() {
         let entryClass = "nav-row";
         if (isCurrent) {
             if (rowFlags.includes("toc")) { includeToc = true; }
+            if (rowFlags.includes("toc-right")) { tocRight = true; }
             if (rowFlags.includes("wide")) { get("page").classList.add("wide"); }
             else if (rowFlags.includes("narrow")) { get("page").classList.add("narrow"); }
             }
@@ -205,7 +206,8 @@ function pageLoad() {
 
         if (includeToc) {
             const c1 = get("article").parentNode.parentNode;
-            const toc = c1.insertBefore(document.createElement("div"), c1.firstChild);
+            const toc = (tocRight) ? c1.appendChild(document.createElement("div"))
+            : c1.insertBefore(document.createElement("div"), c1.firstChild);
             toc.id = "toc";
             c1.classList.add("toc-page");
             toc.innerHTML = `<div class="toc-title">Content</div><a class="toc-row h1" href="#top">(Top of page)</a><div class="scroller">${tocLinks.slice(1).join("")}</div>`;
