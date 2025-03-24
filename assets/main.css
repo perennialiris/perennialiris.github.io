@@ -23,7 +23,7 @@
     --grey-40: #404040;
     --grey-30: #303030;
     --grey-20: #22201f;
-    --padding: 30px;
+    --padding: 35px;
     --main: 760px;
 }
 .wide { --main: 900px; }
@@ -137,7 +137,7 @@ body :not(.accent-link)::selection { color: var(--grey-20); }
             #article .image-float.left { float: left; margin-left: 0; }
             #article .image-float.right { float: right; margin-right: 0; }
 
-        #body-after { font-family: sans-serif; margin-top: var(--padding); border-top: 1px solid var(--grey-90); }
+        #body-after { font-family: sans-serif; margin-top: var(--padding); }
         #body-after > div { margin-top: 1em; }
         #body-after a { color: var(--grey-60); text-decoration: none; padding-left: 1px; }
         #body-after a:hover { color: var(--grey-40); }
