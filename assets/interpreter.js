@@ -228,7 +228,7 @@ function interpreter(targetElement) {
             for (let j = 0; j < lines.length; j += 1) {
                 lines[j] = lines[j].replace(/\[(.*)\]\((.+)\)/g, (match, altText, filePath) => {
                     let maxHeight = 300;
-                    altText = altText.replace(/"/, "&quot;");
+                    altText = altText.replace(/"/, "&quot;").replaceAll("---", "<span class=\"mdash\">&mdash;</span>").replaceAll("--", "&ndash;")
                     let j = filePath.indexOf("|");
                     if (j != -1) {
                         maxHeight = filePath.substring(j + 1);
@@ -296,8 +296,8 @@ function interpreter(targetElement) {
             
             if (index == -1) index = linksInArticle.push(address);
             let result = (displayText === "")
-                ? `<a class="citeref accent-link" target="_blank" href="${address}">[${index}]</a>`
-                : `<a class="accent-link" target="_blank" href="${address}">${displayText}</a>`;
+                ? `<a class="citeref" target="_blank" href="${address}">[${index}]</a>`
+                : `<a target="_blank" href="${address}">${displayText}</a>`;
             return result; });
 
         /* ------------------------ table ------------------------- */

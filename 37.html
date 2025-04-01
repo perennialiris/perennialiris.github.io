@@ -5,13 +5,21 @@
     .noq-table td:nth-child(1), td:nth-child(2) { white-space: nowrap; }
     .noq-table td:nth-child(2) { font-weight: 700; }
     .handle { color: var(--grey-40) !important; }
-    .tag { white-space: nowrap; color: #eee; padding: 0 4px 1px 3px; border-radius: 3px; font-size: 12px; vertical-align: 1px; background-image: linear-gradient(transparent, #0003); font-family: system-ui; margin-left: 3px; }
-    .ca-liberal { background-color: #ac4d57; } .ca-liberal::before { content: 'Liberal Party'; }
-    .ca-ndp { background-color: #c17c4a; } .ca-ndp::before { content: 'NDP'; }
-    .ca-green { background-color: #6b9d5d; } .ca-green::before { content: 'Green Party'; }
-    .ca-bloc { background-color: #649aae; } .ca-bloc::before { content: 'Bloc Québécois'; }
-    .us-dem { background-color: #6d71a6; } .us-dem::before { content: 'Democratic Party'; }
-    .us-independent { background-color: #6d8877; } .us-independent::before { content: 'Independent'; }
+    .tag { border: 1px solid #999; white-space: nowrap; padding: 0 4px 1px 3px; border-radius: 3px; font-size: 12px; vertical-align: 1px; font-family: system-ui; margin-left: 3px; }
+    
+    .ca-liberal { background-color: #ffd3d3; }
+    .tag.ca-liberal::before { content: 'Liberal Party'; }
+    .ca-ndp { background-color: #ffd8a5; }
+    .tag.ca-ndp::before { content: 'NDP'; }
+    .ca-green { background-color: #d8f3d7; }
+    .tag.ca-green::before { content: 'Green Party'; }
+    .ca-bloc { background-color: #cce7f1; }
+    .tag.ca-bloc::before { content: 'Bloc Québécois'; }
+    .us-dem { background-color: #cedaff; }
+    .tag.us-dem::before { content: 'Democratic Party'; }
+    .us-independent { background-color: #daecd6; }
+    .tag.us-independent::before { content: 'Independent'; }
+    
 </style></head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
 <div id="top"></div>
@@ -38,12 +46,13 @@
 @chrismurphyct.bsky.social | Chris Murphy | Senator (Connecticut)<span class="tag us-dem"></span>
 @judiciarydems.senate.gov | US Senate Judiciary Committee | Senate Judiciary Democrats<span class="tag us-dem"></span>
 @petebuttigieg.bsky.social | Pete Buttigieg | Fmr. Transportation Secretary<span class="tag us-dem"></span>
-@algreen.house.gov | Alexander "Al" Green | House of Representatives (Texas)<span class="tag us-dem"></span>
-@aoc.bsky.social | Alexandria Ocasio-Cortez | House of Representatives (New York)<span class="tag us-dem"></span>
-@repjasmine.bsky.social | Jasmine Crockett | House of Representatives (Texas)<span class="tag us-dem"></span>
-@robertgarcia.bsky.social | Robert Garcia | House of Representatives (California)<span class="tag us-dem"></span>
-@ilhanmn.bsky.social | Ilhan Omar | House of Representatives (Minnesota)<span class="tag us-dem"></span>
-@barackobama.bsky.social | Barack Obama | It's Barack Obama.<span class="tag us-dem"></span>
+@algreen.house.gov | Al Green | Congressman (Texas)<span class="tag us-dem"></span>
+@aoc.bsky.social | Alexandria Ocasio-Cortez | Congresswoman (New York)<span class="tag us-dem"></span>
+@repjasmine.bsky.social | Jasmine Crockett | Congresswoman (Texas)<span class="tag us-dem"></span>
+@robertgarcia.bsky.social | Robert Garcia | Congressman (California)<span class="tag us-dem"></span>
+@ilhanmn.bsky.social | Ilhan Omar | Congresswoman (Minnesota)<span class="tag us-dem"></span>
+@barackobama.bsky.social | Barack Obama | Fmr. Pres. Obama<span class="tag us-dem"></span>
+@hillaryclinton.bsky.social | Hillary Clinton | Fmr. State Sec., Fmr. Senator (New York)<span class="tag us-dem"></span>
 @sanders.senate.gov | Bernie Sanders | Senator (Vermont)<span class="tag us-independent"></span>
 
 ### Canadian politicians
@@ -153,6 +162,7 @@
 ### Organizations
 
 ||table
+@wikipedia.org | Wikipedia
 @nba.com | National Basketball Association
 @barnesandnoble.com | Barnes & Noble
 @github.com | Github
@@ -180,15 +190,9 @@ window.addEventListener("load", function() {
         else { console.error(cells[i].innerHTML); }
     }
     
-    Array.from(document.getElementsByClassName("ca-liberal")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#f9e6e6"; });
-    Array.from(document.getElementsByClassName("ca-bloc")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#dcecf2"; });
-    Array.from(document.getElementsByClassName("ca-green")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#daecd6"; });
-    Array.from(document.getElementsByClassName("ca-ndp")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#ffeacf"; });
-    
-    Array.from(document.getElementsByClassName("us-dem")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#e7ecff"; });
-    Array.from(document.getElementsByClassName("us-independent")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#ecf0e5"; });
 });
 
 </script>
 </script>
 </body></html>
+

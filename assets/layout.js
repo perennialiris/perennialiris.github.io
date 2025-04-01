@@ -45,6 +45,7 @@ let data = `
 2 | The trans prison stats argument | transgender, politics | 2024-10-19 |
 1 | Language | personal | 2024-10-29 |
 index | | | | unlisted narrow
+list | | | | unlisted narrow
 `;
 
 let imgGallery = [
@@ -142,7 +143,7 @@ function pageLoad() {
             <div class="c2">
                 <div id="article">${get("main").innerHTML}</div>
                 <section id="body-after">
-                    <div>Find me on: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>
+                    <div>Places you can find me: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>
                 </section>
                 <footer id="footer">
                     <div><img style="max-width:100%" ${imgGallery[Math.floor(Math.random() * imgGallery.length)]}></div>
@@ -184,8 +185,8 @@ function pageLoad() {
             }
         if (rowFlags.includes("unlisted")) { continue; }
         if (isPinned) { entryClass += " pinned"; }
-        if (!isCurrent && pageList.recent.length < 8) { pageList.recent.push(`<a class="accent-link" href="${rowFile}.html">${rowTitle}</a>`); }
-        let indexEntry = `<li><a class="accent-link" href="${rowFile}.html">${rowTitle}${isPinned?`<img class="icon" src="assets/pin2.png" height="17" width="17">` : ''}</a> <b>·</b> <span>${rowCategory}</span>${rowDate != '' ? ' <b>·</b> <span>'+rowDate+'</span>' : ''}</li>`;
+        if (!isCurrent && pageList.recent.length < 8) { pageList.recent.push(`<a href="${rowFile}.html">${rowTitle}</a>`); }
+        let indexEntry = `<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img class="icon" src="assets/pin2.png" height="17" width="17">` : ''}</a> <b>·</b> <span>${rowCategory}</span>${rowDate != '' ? ' <b>·</b> <span>'+rowDate+'</span>' : ''}</li>`;
         if (isPinned) { pageList.full.unshift(indexEntry); }
         else { pageList.full.push(indexEntry); }
     }
@@ -198,9 +199,9 @@ function pageLoad() {
         get("body-after").innerHTML +=
            `<div class="link-box-container">
                 <div class="link-box">
-                    <div style="font-weight:700;padding-inline:8px;">Other pages recently added:</div>
+                    <div style="font-weight:700;padding-inline:8px;">More pages recently added:</div>
                     ${pageList.recent.join("")}
-                    <a style="font-size:14px;margin-left:auto;border-left:0;color:var(--grey-90);font-family:system-ui;" href="index.html">Full page list (front) &rarr;</a>
+                    <a style="font-size:14px;margin-left:auto;border-left:0;color:var(--grey-90);font-family:system-ui;" href="index.html">Full page list (front)</a>
                 </div>
             </div>`;
 
