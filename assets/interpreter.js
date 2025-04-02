@@ -410,7 +410,12 @@ function interpreter(targetElement) {
     }
     targetElement.innerHTML = input.join("");
 
-    Array.from(targetElement.getElementsByTagName("li")).forEach(x => wrapDigits(x)); Array.from(targetElement.getElementsByTagName("p")).forEach(x => wrapDigits(x)); Array.from(targetElement.getElementsByTagName("blockquote")).forEach(x => wrapDigits(x));
+    function wrapEach() {
+        Array.from(arguments).forEach(p => Array.from(targetElement.getElementsByTagName(p)).forEach(e => wrapDigits(e)));
+    }
+    wrapEach("li","p","blockquote","h1","h2","h3","h4");
+    
+    
 }
 
 

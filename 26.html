@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en"><head><style>
     table tr td:nth-child(1) { white-space: nowrap; background-color: var(--grey-e0); }
-    .tag { border: 1px solid #999; white-space: nowrap; padding: 0 4px 1px 3px; border-radius: 3px; font-size: 12px; vertical-align: 1px; font-family: system-ui; margin-left: 3px; }
-    .climate { background-color: #c6e1c8; } .climate::before { content: 'Climate'; }
-    .lgbt { background-color: #f5cbd7; } .lgbt::before { content: 'LGBT'; }
-    .russia-ukraine { background-color: #c4d0ff; } .russia-ukraine::before { content: 'Russia-Ukraine'; }
-    .israel-palestine { background-color: #ffc8a8; } .israel-palestine::before { content: 'Israel-Palestine'; }
-    .trade-war { background-color: #bbcfd7; } .trade-war::before { content: 'Trade war'; }
+    .tag { border: 1px solid #3333; white-space: nowrap; padding: 0 4px 1px 3px; border-radius: 3px; font-size: 12px; vertical-align: 1px; font-family: system-ui; margin-left: 3px; }
+    .climate { background-color: #c6e1c8aa; } .climate::before { content: 'Climate'; }
+    .lgbt { background-color: #f5cbd7aa; } .lgbt::before { content: 'LGBT'; }
+    .russia-ukraine { background-color: #c1cbffaa; } .russia-ukraine::before { content: 'Russia-Ukraine'; }
+    .israel-palestine { background-color: #ffc8a8aa; } .israel-palestine::before { content: 'Israel-Palestine'; }
+    .trade-war { background-color: #bbcfd7aa; } .trade-war::before { content: 'Trade war'; }
 </style></head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
 <div id="top"></div>
@@ -97,7 +97,8 @@ function reverseOrder() {
     let table = document.getElementsByTagName("tbody")[0];
     table.innerHTML = Array.from(table.rows).reverse().map(c => `<tr>${c.innerHTML}</tr>`).join('');
 }
-window.addEventListener("load", () => {
+
+window.addEventListener("load", function() {
     reverseOrder();
     //const months = {"01":"Jan","02":"Feb","03":"Mar","04":"Apr","05":"May","06":"Jun","07":"Jul","08":"Aug","09":"Sep","10":"Oct","11":"Nov","12":"Dec"}; Array.from(document.getElementsByTagName("tr")).forEach(tr => { tr.firstChild.innerHTML = tr.firstChild.innerHTML.replace(/\-(\d{2})\-/, (m, p1) => { return "-" + months[p1] + "-" }) })
     Array.from(document.getElementsByClassName("trade-war")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#f2f9fb"; });
@@ -105,8 +106,7 @@ window.addEventListener("load", () => {
     Array.from(document.getElementsByClassName("climate")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#eff9ef"; });
     Array.from(document.getElementsByClassName("israel-palestine")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#fff4ee"; });
     Array.from(document.getElementsByClassName("lgbt")).forEach((tag) => { tag.parentNode.style.backgroundColor = "#feeff1"; });
-    
-})
+});
 </script>
 </body></html>
 
