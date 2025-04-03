@@ -123,11 +123,11 @@ function wrapDigits(targetElement) {
     while (true) {
         const openTag = input.indexOf("<"), closeTag = input.indexOf(">");
         if (openTag == -1 || closeTag == -1) { break; }
-        output += input.substring(0, openTag).replace(/(\d+)/g, "<span class='rendered_digit'>$1</span>");
+        output += input.substring(0, openTag).replace(/(\d+)/g, "<span class='digit'>$1</span>");
         output += input.substring(openTag, closeTag + 1);
         input = input.substring(closeTag + 1);
     }
-    output += input.replace(/(\d+)/g, "<span class='rendered_digit'>$1</span>");
+    output += input.replace(/(\d+)/g, "<span class='digit'>$1</span>");
     targetElement.innerHTML = output;
 }
 /*  This one is for <code> or like elements, where you don't want any
@@ -413,7 +413,7 @@ function interpreter(targetElement) {
     function wrapEach() {
         Array.from(arguments).forEach(p => Array.from(targetElement.getElementsByTagName(p)).forEach(e => wrapDigits(e)));
     }
-    wrapEach("li","p","blockquote","h1","h2","h3","h4");
+    wrapEach("li","p","blockquote");
     
     
 }

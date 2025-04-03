@@ -9,7 +9,6 @@ let data = `
 37 | Bluesky accounts listing | other | | wide toc toc-right
 40 | Trump and Russia | politics | 2025-03-05 | 
 36 | India | history, politics | 2025-03-05 | 
-35 | Show and tell (Lex Fridman) | culture, politics | 2025-02-05 | unlisted
 34 | The Nazi salute | news, politics | 2025-01-24 | narrow
 33 | The Lorax sux | culture, politics | 2025-02-27 | narrow
 32 | Conservatism | politics | 2025-01-05 | wide toc unlisted
@@ -216,16 +215,21 @@ function pageLoad() {
             headersInArticle = Array.from(document.getElementsByClassName("noq-header"));
             window.addEventListener("scroll", tocHighlighter);
             setTimeout(() => { tocHighlighter(); }, 100);
+            const scroller = document.getElementsByClassName("scroller")[0];
+            scroller.addEventListener("scroll", () => {
+                if (scroller.scrollHeight - scroller.scrollTop <= scroller.clientHeight + 20) {
+                    scroller.classList.add("hide-mask");
+                } else {
+                    scroller.classList.remove("hide-mask");
+                }
+            })
         }
     }
-
     if (document.title == "") document.title = "North of Queen";
     else if (document.title.slice(0 - "North of Queen".length) != "North of Queen") document.title += " - North of Queen";
 }
 
 
 window.addEventListener("load", pageLoad);
-
-
 
 
