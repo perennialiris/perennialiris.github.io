@@ -39,12 +39,12 @@ b { font-weight: 700; }
 
 #cover { pointer-events: none; }
 
-::selection { background-color: #fea; color: #333; }
+::selection { background-color: #ccc; color: var(--grey-20); }
 * { margin: 0; padding: 0; }
 html { scroll-padding-top: 60px; scrollbar-color: #777 #ddd; }
 body { font-family: Arial,sans-serif; font-size: 14.2px; color: var(--grey-20); line-height: 1.5; text-underline-offset: 2px; }
 
-    #header, .c1 {  padding-right: clamp(0px, calc(0.1 * calc(100vw - var(--main) - var(--padding) - var(--padding))), 400px); }
+    #header, .c1 {  padding-right: clamp(0px, calc(0.05 * calc(100vw - var(--main) - var(--padding) - var(--padding))), 400px); }
     .c1 { display: flex; justify-content: center; background-color: var(--white); }
     .c1.toc-page { padding-right: 0; }
     .c1.toc-page .c2 { min-width: 620px; }
