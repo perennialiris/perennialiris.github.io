@@ -16,7 +16,7 @@ let data = `
 30 | The appearance of intelligence | other | 2025-01-18 |
 29 | Date formats | other | 2025-01-11 | narrow
 28 | Therapy theory | personal | 2025-01-09 |
-27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | toc
+27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | toc wide
 26 | News 2025 | news, politics | | wide pinned
 25 | A beauty holding a bird | other | 2024-12-23 | narrow
 24 | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19 |
