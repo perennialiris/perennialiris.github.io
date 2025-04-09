@@ -98,7 +98,7 @@ function listParser(inputString) {
                     if (items[k].indexOf("<") < indent) {
                         k += 1; break; } }
                 items[k] = items[k].slice(0, -5);
-                items[j] = "<br class=\"list-br\">" + li; } }
+                items[j] = "<br class='br-10'>" + li; } }
         items[j] = " ".repeat(indent) + items[j]; }
     while (end_tags.length > 0) {
         items[items.length - 1] += end_tags.pop(); }
@@ -168,7 +168,7 @@ function quoteParse(inputString) {
                 lines[j] = `<div class="fine">${lines[j].substring(1)}</div>`; }
             else {
                 if (lines[j] === " ") {
-                    lines[j] = "<div class=\"bq-br\"></div>"; }
+                    lines[j] = "<div class='br-7'></div>"; }
                 else {
                     lines[j] += "<br>"; } } } }
     return "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
@@ -274,6 +274,12 @@ function interpreter(targetElement) {
                     temp += `<div>${caption}</div>`;
                 }
                 return temp + "</div>"; });
+            continue;
+        }
+
+        if (input[i].startsWith("||meta")) {
+            let lines = input[i].split("\n").slice(1);
+            input[i] = `<p class="meta">${lines.join("").replace(/\n/g, "<br class='br-7'>")}</p>`;
             continue;
         }
 

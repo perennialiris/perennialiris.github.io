@@ -8,8 +8,6 @@
 @font-face { font-family: "Roboto"; src: url(roboto-italic.woff2);  font-weight: 400 700; font-style: italic; }
 @font-face { font-family: "Open Sans"; src: url(open-sans-regular.woff2); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Open Sans"; src: url(open-sans-italic.woff2);  font-weight: 400 700; font-style: italic; }
-@font-face { font-family: "Inter"; src: url(inter-regular.woff2); font-weight: 400 700; font-style: normal; }
-@font-face { font-family: "Inter"; src: url(inter-italic.woff2);  font-weight: 400 700; font-style: italic; }
 
 :root {
     --white: #fff;
@@ -30,7 +28,7 @@
     --nav-height: 24px;
     --top-height: calc(var(--header-height) + var(--nav-height));
 }
-.wide { --main: 900px; }
+.wide { --main: 880px; }
 
 .narrow { --main: 600px; }
 a { color: var(--accent); }
@@ -83,6 +81,11 @@ body { font-family: Arial,sans-serif; font-size: 14.2px; color: var(--grey-20); 
 
             #article > :nth-child(1) { margin-top: 0 !important; }
             #article hr { margin-block: 20px !important; border: none; height: 1px; width: 100%; background-color: var(--grey-90); }
+            #article br.br-7 { margin-bottom: 7px;}
+            #article br.br-10 { margin-bottom: 10px;}
+
+            #article p.meta { border: 1px solid #71ceb4; padding: 0 9px; background-color: #4addb422; }
+            #article p.meta,#article p.meta * { font-family: sans-serif !important }
 
             #article p,
             #article li,
@@ -93,7 +96,6 @@ body { font-family: Arial,sans-serif; font-size: 14.2px; color: var(--grey-20); 
             #article p { margin-block: 13px; }
             #article li {  }
             #article blockquote { margin-block: 13px; background-color: var(--grey-f0); padding: 10px 17px 13px; margin-left: 1px; border-left: 3px solid var(--grey-40); }
-            #article blockquote .bq-br { margin-bottom: 10px; }
             #article blockquote .fine { color: var(--grey-90); }
             #article blockquote .attribution { text-align: right; }
 
@@ -113,7 +115,6 @@ body { font-family: Arial,sans-serif; font-size: 14.2px; color: var(--grey-20); 
             ol + li, ul + li, li + li { margin-block: 7px; }
             ol > li { margin-left: -2px; padding-left: 2px; }
             ul { list-style-type: disc; } ul ul { list-style-type: inherit; }
-            .list-br { margin-bottom: 7px; }
 
             #article .citeref { font-family: Verdana,sans-serif; text-decoration: none; margin-left: 1px; vertical-align: top; line-height: 1.3; font-size: 12px; }
             #article .citeref * { font-family: inherit; }
