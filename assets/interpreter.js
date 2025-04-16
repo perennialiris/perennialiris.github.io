@@ -1,8 +1,11 @@
 
+"use strict"
+
 /*  These are the replacements run over all inputs, separated into its
     own function because I needed to call it multiple times. */
 function mainReplacements(inputString) {
     if (inputString == "") { return ""; }
+    // console.log(inputString)
     let output = inputString
         .replaceAll("\\*", "&ast;")
         .replaceAll("\\^", "&Hat;")
@@ -12,29 +15,33 @@ function mainReplacements(inputString) {
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
         .replaceAll("\\", "&#92;")
-        /*  It took many versions, but I think I finally got to a point
-            where this always works the way I want it to. */
+        /* It took many versions, but I think I finally got to a point where this always works the way I want it to */
         /* curly " replacement */
         .replace(/(\S\*{1,3})" /g, "$1&rdquo; ")
+        .replace(/^"(\w)/g, "&ldquo;$1")
         .replace(/^" /g, "&rdquo; ")
+        .replace(/", /g, "&rdquo;, ")
+        .replace(/\*"\-/g, "*&rdquo;-")
         .replace(/^"(\.|,)/g, "&rdquo;$1")
         .replace(/ "$/g, " &ldquo;")
         .replace(/"$/g, "&rdquo;")
         .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
         .replace(/"/g, "&rdquo;")
-
-        .replace(/&rdquo;(,|\.)/g, `<span class="rdquo-right-margin">&rdquo;</span>$1`)
-
+        // .replace(/&rdquo;(,|\.)/g, `<span class="right-quote-margin">&rdquo;</span>$1`)
+        // .replace(/&rsquo;(,|\.)/g, `<span class="right-quote-margin">&rdquo;</span>$1`)
         /* curly ' replacement */
         .replace(/'(\d{2}) /, "&rsquo;$1 ") // for saying '95 or '27 etc.
         .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
+        .replace(/^'(\w)/g, "&lsquo;$1")
+        .replace(/^',/g, "&rsquo; ")
         .replace(/^' /g, "&rsquo; ")
-        .replace(/^'(\.|,)/g, "&rsquo;$1")
+        .replace(/', /g, "&rsquo;, ")
+        .replace(/\*'\-/g, "*&rsquo;-")
+        .replace(/^'(\.|)/g, "&rsquo;$1")
         .replace(/ '$/g, " &lsquo;")
         .replace(/'$/g, "&rsquo;")
         .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
         .replace(/'/g, "&rsquo;")
-
         .replace(/__(.+?)__/g, "<u>$1</u>")
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
@@ -105,8 +112,7 @@ function listParser(inputString) {
     return items.join('\n');
 }
 
-/* This is a general parser I run all input through. It safely ignores
-   anything <inside> of tags, with the same logic as wrapDigits */
+/* general parser to run all input through, safely ignores anything <inside> of tags, same logic as wrapDigits */
 function safeConvert(inputString) {
     let input = inputString, output = "";
     while (true) {
@@ -118,6 +124,7 @@ function safeConvert(inputString) {
     output += mainReplacements(input);
     return output;
 }
+/* if you want to apply specific styling to numbers only */
 function wrapDigits(targetElement) {
     let input = targetElement.innerHTML, output = "";
     while (true) {
@@ -130,8 +137,7 @@ function wrapDigits(targetElement) {
     output += input.replace(/(\d+)/g, "<span class='digit'>$1</span>");
     targetElement.innerHTML = output;
 }
-/*  This one is for <code> or like elements, where you don't want any
-    formatting to apply. Run this *before* safeConvert */
+/* for <code> or like elements, where you don't want normal formatting -- run *before* safeConvert */
 function sanitizeForCode(inputString) {
     return inputString
         .replaceAll("=\"\"", "")
@@ -147,8 +153,7 @@ function sanitizeForCode(inputString) {
         .replaceAll("*", "&ast;")
         .replaceAll("\n", "<br>");
 }
-/*  .replaceAll is preferred over .replace when you don't need regex
-    functionality because it simply is more readable code */
+/* prefer .replaceAll over .replace when you don't need regex, more readable */
 function titleFilter(inputString) {
     return inputString.replace(/<.+?>/g, "")
         .replaceAll('"', "&quot;")
@@ -180,9 +185,9 @@ function quoteParse(inputString) {
     <div class="image-box">
         <div><img alt="description" title="description" src="path/to/image.png"></div>
         <div><img alt="nice" title="nice" src="path/to/other_image.png"></div>
-    </div>                                                                     */
+    </div>
 
-/* The main interpreter loop. Pass the main element to start. */
+/* Main interpreter loop. Pass the main element to start. */
 function interpreter(targetElement) {
     let input = targetElement.innerHTML
         .replace(/\n\n+/g, "\n\n")
@@ -198,21 +203,17 @@ function interpreter(targetElement) {
             input[i] = input[i].substring(1);
             continue; }
 
-        let fine = input[i].charAt(0) == "^";
-        if (fine) {
-            input[i] = input[i].substring(1); }
+        const fine = input[i].charAt(0) == "^";
+        if (fine) { input[i] = input[i].substring(1); }
 
-        let dropCap = input[i].charAt(0) == "$";
-        if (dropCap) {
-            input[i] = input[i].substring(1); }
+        const dropCap = input[i].charAt(0) == "$";
+        if (dropCap) { input[i] = input[i].substring(1); }
 
         if (input[i] == "***" || input[i] == "---") {
-            input[i] = "<hr>";
-            continue; }
+            input[i] = "<hr>"; continue; }
 
         if (input[i] == "**" || input[i] == "--") {
-            input[i] = "<p></p>";
-            continue; }
+            input[i] = "<p></p>"; continue; }
 
         if (input[i].startsWith("||video-right-mp4")) {
             console.log("catch: a")
@@ -340,7 +341,14 @@ function interpreter(targetElement) {
 
         /* ------------- "This was also posted here:" ------------- */
         if (input[i].startsWith("||see-also")) {
-            document.getElementById("body-after").innerHTML += `<div>This was also posted here:<br>${input[i].split("\n").splice(1).map(c => `<a href="${c}" target="_blank">${c}</a>`).join("<br>")}</div>`;
+        
+        const lines = input[i].split("\n").slice(-1)
+            .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1"))
+            .map(c => c.replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
+            .map(c => `<a href="${c}" target="_blank">${c}</a>`);
+            
+            toFooter("Other posts based on the content on this specific page:<br>" + lines.join("<br>"));
+            
             input[i] = "";
             continue; }
         
@@ -389,20 +397,21 @@ function interpreter(targetElement) {
         if (input[i].startsWith("#### ")) {
             let title = input[i].slice(5);
             input[i] = `<h4>${title}</h4>`;
-            /* don't put these in toc */
+            /* don't put h4 in toc */
             continue; }
 
         /* ------------------------ lists ------------------------- */
         if (input[i].startsWith("* ") || input[i].startsWith("- ") || /^\d+\./.test(input[i])) {
             input[i] = listParser(input[i]);
             if (fine) {
-                if (input[i].substring(0, 3) != "<ol" && input[i].substring(0, 3) != "<ul") console.error("{interpreter.js: 390 (confused list)}")
+                if (input[i].substring(0, 3) != "<ol" && input[i].substring(0, 3) != "<ul") console.error("{interpreter.js: confused list}")
                 input[i] = input[i].substring(0, 3) + " class=\"fine\"" + input[i].substring(3); }
             continue; }
         input[i] = input[i].replace(/\n/g, "<br>");
 
         if (input[i] == "") {
-            // console.error("{interpreter.js: (blank result)}");
+            console.error("{interpreter.js: (blank result?)}");
+            /* should be impossible, indicates problem with code */
             continue;
         }
         
@@ -416,12 +425,8 @@ function interpreter(targetElement) {
     }
     targetElement.innerHTML = input.join("");
 
-    function wrapEach() {
-        Array.from(arguments).forEach(p => Array.from(targetElement.getElementsByTagName(p)).forEach(e => wrapDigits(e)));
-    }
+    function wrapEach() { Array.from(arguments).forEach(p => Array.from(targetElement.getElementsByTagName(p)).forEach(e => wrapDigits(e))); }
     wrapEach("li","p","blockquote");
-    
-    
 }
 
 

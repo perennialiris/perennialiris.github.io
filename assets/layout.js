@@ -29,7 +29,7 @@ let data = `
 17 | Why get bottom surgery? | transgender, culture | 2025-02-09 |
 16 | Milo Yiannopoulos’s cancellation | politics | 2025-02-03 |
 15 | Mark Robinson transcript | | 2024-11-13 | unlisted
-14 | Reasons I’m glad to be Canadian | politics | 2024-12-08 |
+14 | Reasons I’m glad to be Canadian | politics | 2024-12-08 | toc-right
 13 | The military–industrial complex | politics | 2024-12-04 |
 12 | The order of information | politics | 2024-12-03 |
 11 | The Trump appeal | politics | 2024-12-03 |
@@ -46,6 +46,7 @@ let data = `
 index | | | | unlisted narrow
 list | | | | unlisted narrow
 `;
+/*     38    40    */
 
 let imgGallery = [
 `src="assets/gallery/j-c-dahl-frogner-manor-1842.jpg" alt="Frogner Manor (1842) by J. C. Dahl"`,
@@ -56,7 +57,12 @@ let imgGallery = [
 `src="assets/gallery/yosemite-national-park.jpg" alt="Yosemite National Park (unknown).jpg"`,
 `src="assets/gallery/karl-friedrich-schinkel-landschaft-mit-pilger-1813.jpg" alt="Landschaft mit Pilger (1813) by Karl Friedrich Schinkel"`
 ];
-/*     38    40    */
+/* <div><img style="max-width:100%" ${imgGallery[Math.floor(Math.random() * imgGallery.length)]}></div> */
+
+function toFooter(inputString) {
+    const ele = get("footer").appendChild(document.createElement("p"));
+    ele.innerHTML = inputString;
+}
 
 var lbKeyResponsive = false;
 var lightboxContainer, lightboxImg;
@@ -132,27 +138,25 @@ function getFileName() {
 
 function pageLoad() {
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico"><link rel="stylesheet" href="assets/main.css">`;
-
     const fileName = getFileName();
 
     get("page").innerHTML =
-       `<header id="header"><a href="list.html"><img height="67" width="252" alt="North of Queen logo" src="assets/header-image.png"></a></header>
-        <nav id="nav"></nav>
+       `<nav id="nav"><div><div id="page-display"></div></div></nav>
         <div class="c1">
             <div class="c2">
                 <div id="article">${get("main").innerHTML}</div>
-                <section id="body-after">
-                    <div>Places you can find me: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://forthoseinterested.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a></div>
-                </section>
-                <footer id="footer">
-                    <div><img style="max-width:100%" ${imgGallery[Math.floor(Math.random() * imgGallery.length)]}></div>
-                    <div><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is my personal repo. I have no association with any other person or organization. Code uploaded to this repo (northofqueen) can be interpreted as fully public domain (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>). I also give broad permission for my writing to be used, reposted, etc. for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div>
-                </footer>
+                <footer id="footer"><hr></footer>
             </div>
         </div>
         <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>`;
 
+    toFooter(`I’m Iris, a writer from Canada. <a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is just my personal repo. I have no association with any other person or organization.`);
+    toFooter(`Some other places you can find me: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a>`);
+    toFooter(`I give broad permission for stuff here to be used, copied, or shared for non-commercial purposes, provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).`);
+
     interpreter(get("article"));
+    if (fileName != "list") toFooter(`<div style="text-align:right"><a href="list.html">Link back to full page list (front) &rarr;</a></div>`);
+
     document.title = (document.title === "") ? "North of Queen" : document.title + " – North of Queen";
 
     get("cover").classList.add("fade-out");
@@ -160,11 +164,11 @@ function pageLoad() {
 
     lightboxContainer = get("lightbox-container");
     lightboxImg = get("lightbox");
-    window.addEventListener("keydown", function(event) {if (lbKeyResponsive && event.key === 'Escape') { closeLightbox(); } })
+    window.addEventListener("keydown", function(event) { if (lbKeyResponsive && event.key === 'Escape') { closeLightbox(); } })
 
     alignTable(data,"|");
     const pageList = { recent: [], pins: [], full: [] };
-    let includeToc = false, tocRight = false;
+    let includeToc = false, tocRight = false, currentPageTitle = "";
     const dataRows = data.split("\n");
     for (let i = 0; i < dataRows.length; i += 1) {
         const cells = dataRows[i].split("|").map(cell => cell.trim());
@@ -177,8 +181,9 @@ function pageLoad() {
         const isPinned = (rowFlags.includes("pinned"));
         let entryClass = "nav-row";
         if (isCurrent) {
+            currentPageTitle = rowTitle;
             if (rowFlags.includes("toc")) { includeToc = true; }
-            if (rowFlags.includes("toc-right")) { tocRight = true; }
+            if (rowFlags.includes("toc-right")) { includeToc = true; tocRight = true; }
             if (rowFlags.includes("wide")) { get("page").classList.add("wide"); }
             else if (rowFlags.includes("narrow")) { get("page").classList.add("narrow"); }
             }
@@ -189,25 +194,17 @@ function pageLoad() {
         if (isPinned) { pageList.full.unshift(indexEntry); }
         else { pageList.full.push(indexEntry); }
     }
-
+    
     const indexTable = document.getElementById("page-list");
     if (indexTable) {
         indexTable.innerHTML = `<ul>${pageList.full.join("")}</ul>`;
     }
     else {
-        get("body-after").innerHTML +=
-           `<div class="link-box-container">
-                <div class="link-box">
-                    <div style="font-weight:700;padding-inline:8px;">More pages recently added:</div>
-                    ${pageList.recent.join("")}
-                    <a style="font-size:14px;margin-left:auto;border-left:0;color:var(--grey-90);font-family:system-ui;" href="index.html">Full page list (front)</a>
-                </div>
-            </div>`;
-
+        get("page-display").innerHTML = `<a href="list.html">list.html</a> &rarr; ${currentPageTitle}`;
         if (includeToc) {
+            console.log("creating table of contents...");
             const c1 = get("article").parentNode.parentNode;
-            const toc = (tocRight) ? c1.appendChild(document.createElement("div"))
-            : c1.insertBefore(document.createElement("div"), c1.firstChild);
+            const toc = (tocRight) ? c1.appendChild(document.createElement("div")) : c1.insertBefore(document.createElement("div"), c1.firstChild);
             toc.id = "toc";
             c1.classList.add("toc-page");
             toc.innerHTML = `<div class="toc-title">Content</div><a class="toc-row h1" href="#top">(Top of page)</a><div class="scroller">${tocLinks.slice(1).join("")}</div>`;
@@ -225,6 +222,7 @@ function pageLoad() {
             })
         }
     }
+    
     if (document.title == "") document.title = "North of Queen";
     else if (document.title.slice(0 - "North of Queen".length) != "North of Queen") document.title += " - North of Queen";
 }
