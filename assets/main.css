@@ -4,10 +4,14 @@
 /* @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-italic.ttf);  font-weight: 400; font-style: italic; } */
 /* @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold.ttf);    font-weight: 700; font-style: normal; } */
 /* @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold-italic.ttf); font-weight: 700; font-style: italic; } */
-/* @font-face { font-family: "Roboto"; src: url(roboto-regular.woff2); font-weight: 400 700; font-style: normal; } */
-/* @font-face { font-family: "Roboto"; src: url(roboto-italic.woff2); font-weight: 400 700; font-style: italic; } */
 /* @font-face { font-family: "Open Sans"; src: url(open-sans-regular.woff2); font-weight: 400 700; font-style: normal; } */
 /* @font-face { font-family: "Open Sans"; src: url(open-sans-italic.woff2); font-weight: 400 700; font-style: italic; } */
+/* #article p, #article li, #article blockquote { text-align: justify; font-family: Georgia,sans-serif; } */
+/* #article .digit, #article ol ::marker { font-family: Georgia Pro,Georgia,sans-serif; } */
+/* #article h1, #article h2, #article h3, #article h4 { font-family: Noto Sans JP,sans-serif; } */
+
+@font-face { font-family: "Roboto"; src: url(roboto-regular.woff2); font-weight: 400 700; font-style: normal; }
+@font-face { font-family: "Roboto"; src: url(roboto-italic.woff2); font-weight: 400 700; font-style: italic; }
 
 :root {
     --white: #fff;
@@ -22,7 +26,7 @@
     --grey-40: #404040;
     --grey-30: #303030;
     --grey-20: #22201f;
-    --padding: 50px;
+    --padding: 40px;
     --main: 760px;
     --nav-height: 46px;
 }
@@ -33,10 +37,17 @@
 #cover { pointer-events: none; }
 
 ::selection { background-color: #edf; color: var(--grey-20); }
-html { scroll-padding-top: 60px; scrollbar-color: #777 #ddd; font-size: 14px; color: var(--grey-20); line-height: 1.5; text-underline-offset: 2px; font-family: sans-serif; }
-a { color: var(--accent); }
-a:hover { color: var(--accent-hover); }
-b { font-weight: 700; }
+html { scroll-padding-top: 60px; scrollbar-color: #777 #ddd; }
+body { font-family: Roboto,sans-serif; font-size: 14px; color: var(--grey-20); line-height: 1.5; text-underline-offset: 2px; }
+
+            a { color: var(--accent); }
+            a:hover { color: var(--accent-hover); }
+            b { font-weight: 700; }
+            ul, ol { padding: 0 40px; }
+            li, ul, ol { margin-top: 0.5em; }
+            ol + li, ul + li, li + li { margin-block: 7px; }
+            ol > li { margin-left: -2px; padding-left: 2px; }
+            ul { list-style-type: disc; } ul ul { list-style-type: inherit; }
 
     #nav > div, .c1 {  padding-right: clamp(0px, calc(0.05 * calc(100vw - var(--main) - var(--padding) - var(--padding))), 400px); }
     .c1 { display: flex; justify-content: center; background-color: var(--white); }
@@ -51,7 +62,7 @@ b { font-weight: 700; }
         #nav a { text-decoration: none; }
         #nav a:hover { color: var(--grey-90); }
 
-            #toc { padding: var(--padding); padding-right: 0; position: sticky; top: 0; height: calc(100vh - var(--padding) - var(--padding) - var(--nav-height)); max-width: 242px; min-width: 242px; }
+            #toc { font-family: system-ui; padding: var(--padding); padding-right: 0; position: sticky; top: 0; height: calc(100vh - var(--padding) - var(--padding) - var(--nav-height)); max-width: 242px; min-width: 242px; }
             #toc .toc-title { font-size: 15px; font-weight: 700; color: var(--grey-50); }
             #toc .scroller { padding: 0 0 20px; margin-top: 5px; max-height: calc(100% - 100px); overflow: hidden; scrollbar-width: thin; scrollbar-color: var(--grey-90) var(--grey-e0); }
             #toc .scroller {
@@ -73,49 +84,34 @@ b { font-weight: 700; }
             #toc .toc-row.h3 { margin-left: 15px; }
 
         #article { }
-            /* #article p, #article li, #article blockquote { text-align: justify; font-family: Georgia,sans-serif; } */
-            /* #article .digit, #article ol ::marker { font-family: Georgia Pro,Georgia,sans-serif; } */
-            /* #article h1, #article h2, #article h3, #article h4 { font-family: Noto Sans JP,sans-serif; } */
 
             #article > :nth-child(1) { margin-top: 0 !important; }
             #article hr { margin-block: 20px !important; border: none; height: 1px; width: 100%; background-color: var(--grey-90); }
-            #article br.br-7 { margin-bottom: 7px;}
-            #article br.br-10 { margin-bottom: 10px;}
+            #article br.br-5 { margin-bottom: 5px;}
 
             #article p { margin: 13px 0; }
-
             #article p,
             #article li,
-            #article blockquote {
-                line-height: 1.666; font-size: 15px;
-            }
-            #article p.meta { border: 1px solid #2b2; padding: 4px 9px; background-color: #0f41; line-height: 1.3; font-size: 14px; }
-            #article p.meta, #article p.meta * { font-family: system-ui; }
-            
-            #article li {  }
+            #article blockquote { line-height: 1.666; font-size: 15px; }
+            #article .meta { font-family: system-ui; border: 1px solid #9e9; padding: 4px 9px; background-color: #0f41; line-height: 1.3; font-size: 14px; }
+            #article .fine { font-size: 14px; color: var(--grey-60); font-family: system-ui; }
+            #article .citeref { font-family: Verdana,sans-serif; text-decoration: none; margin-left: 1px; vertical-align: top; line-height: 1.3; font-size: 11px; }
+            #article .meta *,
+            #article .citeref *,
+            #article .fine * { font-family: inherit; font-size: inherit; }
+
             #article blockquote { margin-block: 13px; background-color: var(--grey-f0); padding: 10px 17px 13px; margin-left: 1px; border-left: 3px solid var(--grey-40); }
             #article blockquote .fine { color: var(--grey-90); }
             #article blockquote .attribution { text-align: right; }
 
-            #article .mdash { margin-inline: 1px; }
+            #article .mdash { margin-inline: 1px; font-family: system-ui; line-height: 0; }
             #article .right-quote-margin { margin-right: -2px; }
-            #article .drop-cap::first-letter { font-size: 54px; float: left; padding: 8px 6px 3px 2px; font-family: Georgia,Georgia Pro,serif; }
-            #article .fine,
-            #article .fine *,
-            #article .fine ::marker { font-size: 14px; color: var(--grey-60); font-family: system-ui; }
+            #article .drop-cap::first-letter { font-size: 54px; float: left; padding: 8px 6px 3px 2px; font-family: Georgia Pro,Georgia,serif; }
 
             #article u,
             #article a { text-decoration: none; text-underline-offset: 2px; }
             #article a:hover { text-decoration: underline; }
 
-            ul, ol { padding: 0 40px; }
-            li, ul, ol { margin-top: 0.5em; }
-            ol + li, ul + li, li + li { margin-block: 7px; }
-            ol > li { margin-left: -2px; padding-left: 2px; }
-            ul { list-style-type: disc; } ul ul { list-style-type: inherit; }
-
-            #article .citeref { font-family: Verdana,sans-serif; text-decoration: none; margin-left: 1px; vertical-align: top; line-height: 1.3; font-size: 11px; }
-            #article .citeref * { font-family: inherit; }
 
             #article h1 { font-size: 28px; }
             #article h2 { font-size: 23px; }
@@ -148,11 +144,11 @@ b { font-weight: 700; }
             #article .noq-table { color: inherit; border-collapse: collapse; margin-block: 13px; line-height: 1.6; }
             #article .noq-table td { border: 1px solid var(--grey-90); padding: 5px 7px 4px; }
 
+            #article .noq-video { display: block; width: 100%; max-height: 300px; background-color: var(--grey-20); }
+
             #article .image-box { display: flex; justify-content: space-around; max-width: 100%; gap: 8px; overflow: hidden; align-items: center; margin-block: 1.5em; }
             #article .image-box div { display: inline-block; border: 1px solid var(--grey-90); height: 100%; }
             #article .image-box div img { width: inherit; max-width: 100%; display: block; object-fit: contain; }
-
-            #article .noq-video { display: block; width: 100%; max-height: 300px; background-color: var(--grey-20); }
 
             #article .image-float { margin: 0 16px 16px; padding: 7px; background-color: var(--white); border: 1px solid var(--grey-d0); }
             #article .image-float img { margin: auto; display: block; border: 1px solid var(--grey-d0); object-fit: contain; max-width: 200px; max-height: 250px; }

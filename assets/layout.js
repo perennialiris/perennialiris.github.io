@@ -11,7 +11,7 @@ let data = `
 36 | India | history, politics | 2025-03-05 | 
 34 | The Nazi salute | news, politics | 2025-01-24 | narrow
 33 | The Lorax sux | culture, politics | 2025-02-27 | narrow
-32 | Conservatism | politics | 2025-01-05 | wide toc unlisted
+32 | Conservatism | politics | 2025-01-05 | wide toc
 31 | Reflections on Justin Trudeau | news, politics | 2025-01-08 |
 30 | The appearance of intelligence | other | 2025-01-18 |
 29 | Date formats | other | 2025-01-11 | narrow
@@ -155,7 +155,7 @@ function pageLoad() {
     toFooter(`I give broad permission for stuff here to be used, copied, or shared for non-commercial purposes, provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).`);
 
     interpreter(get("article"));
-    if (fileName != "list") toFooter(`<div style="text-align:right"><a href="list.html">Link back to full page list (front) &rarr;</a></div>`);
+    if (fileName != "list") toFooter(`<div style="text-align:right"><a href="list.html">To full page list &rarr;</a></div>`);
 
     document.title = (document.title === "") ? "North of Queen" : document.title + " – North of Queen";
 
@@ -200,7 +200,7 @@ function pageLoad() {
         indexTable.innerHTML = `<ul>${pageList.full.join("")}</ul>`;
     }
     else {
-        get("page-display").innerHTML = `<a href="list.html">list.html</a> &rarr; ${currentPageTitle}`;
+        get("page-display").innerHTML = `<a href="list.html">list.html</a> > ${currentPageTitle}`;
         if (includeToc) {
             console.log("creating table of contents...");
             const c1 = get("article").parentNode.parentNode;
