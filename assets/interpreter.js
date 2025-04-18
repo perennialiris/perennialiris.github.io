@@ -179,14 +179,6 @@ function quoteParse(inputString) {
     return "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
 }
 
-/*  ![description](path/to/image.png)
-    ![nice](path/to/other_image.png)
-
-    <div class="image-box">
-        <div><img alt="description" title="description" src="path/to/image.png"></div>
-        <div><img alt="nice" title="nice" src="path/to/other_image.png"></div>
-    </div>
-
 /* Main interpreter loop. Pass the main element to start. */
 function interpreter(targetElement) {
     let input = targetElement.innerHTML

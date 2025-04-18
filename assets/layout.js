@@ -4,19 +4,19 @@
 function get(x) { let temp = document.getElementById(x); if (temp == null) { console.error(`document.getElementById("${x}") returned null`); } return temp; }
 
 let data = `
+40 | Trump and Russia | politics | 2025-03-05 | 
 39 | Movies | | | narrow unlisted
 38
-37 | Bluesky accounts listing | other | | wide toc toc-right
-40 | Trump and Russia | politics | 2025-03-05 | 
+37 | Bluesky accounts listing | other | | wide toc-left
 36 | India | history, politics | 2025-03-05 | 
 34 | The Nazi salute | news, politics | 2025-01-24 | narrow
 33 | The Lorax sux | culture, politics | 2025-02-27 | narrow
-32 | Conservatism | politics | 2025-01-05 | wide toc
+32 | Politics fundamentals | politics | 2025-01-05 | wide toc-left
 31 | Reflections on Justin Trudeau | news, politics | 2025-01-08 |
 30 | The appearance of intelligence | other | 2025-01-18 |
 29 | Date formats | other | 2025-01-11 | narrow
 28 | Therapy theory | personal | 2025-01-09 |
-27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | toc wide
+27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | wide toc-left
 26 | News 2025 | news, politics | | wide pinned
 25 | A beauty holding a bird | other | 2024-12-23 | narrow
 24 | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19 |
@@ -29,7 +29,7 @@ let data = `
 17 | Why get bottom surgery? | transgender, culture | 2025-02-09 |
 16 | Milo Yiannopoulos’s cancellation | politics | 2025-02-03 |
 15 | Mark Robinson transcript | | 2024-11-13 | unlisted
-14 | Reasons I’m glad to be Canadian | politics | 2024-12-08 | toc-right
+14 | Reasons I’m glad to be Canadian | politics | 2024-12-08 |
 13 | The military–industrial complex | politics | 2024-12-04 |
 12 | The order of information | politics | 2024-12-03 |
 11 | The Trump appeal | politics | 2024-12-03 |
@@ -152,10 +152,10 @@ function pageLoad() {
 
     toFooter(`I’m Iris, a writer from Canada. <a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is just my personal repo. I have no association with any other person or organization.`);
     toFooter(`Some other places you can find me: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a>`);
-    toFooter(`I give broad permission for stuff here to be used, copied, or shared for non-commercial purposes, provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).`);
+    toFooter(`I give broad permission for content I put here to be used, copied, or shared for non-commercial purposes, provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).`);
 
     interpreter(get("article"));
-    if (fileName != "list") toFooter(`<div style="text-align:right"><a href="list.html">To full page list &rarr;</a></div>`);
+    if (fileName != "list") toFooter(`<div style="text-align:right"><a href="list.html">Full page list &rarr;</a></div>`);
 
     document.title = (document.title === "") ? "North of Queen" : document.title + " – North of Queen";
 
@@ -168,7 +168,7 @@ function pageLoad() {
 
     alignTable(data,"|");
     const pageList = { recent: [], pins: [], full: [] };
-    let includeToc = false, tocRight = false, currentPageTitle = "";
+    let includeToc = false, tocLeft = false, currentPageTitle = "";
     const dataRows = data.split("\n");
     for (let i = 0; i < dataRows.length; i += 1) {
         const cells = dataRows[i].split("|").map(cell => cell.trim());
@@ -183,7 +183,7 @@ function pageLoad() {
         if (isCurrent) {
             currentPageTitle = rowTitle;
             if (rowFlags.includes("toc")) { includeToc = true; }
-            if (rowFlags.includes("toc-right")) { includeToc = true; tocRight = true; }
+            if (rowFlags.includes("toc-left")) { includeToc = true; tocLeft = true; }
             if (rowFlags.includes("wide")) { get("page").classList.add("wide"); }
             else if (rowFlags.includes("narrow")) { get("page").classList.add("narrow"); }
             }
@@ -204,9 +204,10 @@ function pageLoad() {
         if (includeToc) {
             console.log("creating table of contents...");
             const c1 = get("article").parentNode.parentNode;
-            const toc = (tocRight) ? c1.appendChild(document.createElement("div")) : c1.insertBefore(document.createElement("div"), c1.firstChild);
-            toc.id = "toc";
             c1.classList.add("toc-page");
+            const toc = tocLeft ? c1.insertBefore(document.createElement("div"), c1.firstChild) : c1.appendChild(document.createElement("div"));
+            if (!tocLeft) { c1.style.paddingRight = "0"; }
+            toc.id = "toc";
             toc.innerHTML = `<div class="toc-title">Content</div><a class="toc-row h1" href="#top">(Top of page)</a><div class="scroller">${tocLinks.slice(1).join("")}</div>`;
             rowsInToc = Array.from(get("toc").getElementsByClassName("toc-row"));
             headersInArticle = Array.from(document.getElementsByClassName("noq-header"));
