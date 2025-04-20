@@ -28,7 +28,7 @@
     --grey-20: #202020;
     --padding: 40px;
     --main: 760px;
-    --nav-height: 50px;
+    --nav-height: 66px;
 }
 .wide { --main: 880px; }
 .narrow { --main: 600px; }
