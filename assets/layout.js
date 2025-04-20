@@ -4,6 +4,7 @@
 function get(id) { let temp = document.getElementById(id); if (temp == null) { console.error(`document.getElementById("${id}") returned null`); } return temp; }
 
 let data = `
+41 | Normalization and status quo bias | politics, culture | 2025-04-20 |
 40 | Trump and Russia | politics | 2025-03-05 | 
 39 | Movies | | | narrow unlisted
 38
