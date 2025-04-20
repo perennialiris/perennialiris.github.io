@@ -334,12 +334,12 @@ function interpreter(targetElement) {
         /* ------------- "This was also posted here:" ------------- */
         if (input[i].startsWith("||see-also")) {
         
-        const lines = input[i].split("\n").slice(-1)
-            .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1"))
-            .map(c => c.replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
-            .map(c => `<a href="${c}" target="_blank">${c}</a>`);
+        const lines = input[i].split("\n").slice(1)
+            .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1").replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
+            .map(c => `<li><a href="${c}" target="_blank">${c}</a></li>`);
             
-            toFooter("Other posts based on the content on this specific page:<br>" + lines.join("<br>"));
+            console.log(lines)
+            toFooter("Other posts based on the content on this specific page:<ul>" + lines.join("") + "</ul>");
             
             input[i] = "";
             continue; }
@@ -417,7 +417,7 @@ function interpreter(targetElement) {
     }
     targetElement.innerHTML = input.join("");
 
-    // ["li","p","blockquote"].forEach(x => Array.from(targetElement.getElementsByTagName(x)).forEach(e => wrapDigits(e)));
+    ["li","p","blockquote"].forEach(x => Array.from(targetElement.getElementsByTagName(x)).forEach(e => wrapDigits(e)));
 }
 
 

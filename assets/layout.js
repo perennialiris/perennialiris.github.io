@@ -1,7 +1,7 @@
 
 "use strict";
 
-function get(x) { let temp = document.getElementById(x); if (temp == null) { console.error(`document.getElementById("${x}") returned null`); } return temp; }
+function get(id) { let temp = document.getElementById(id); if (temp == null) { console.error(`document.getElementById("${id}") returned null`); } return temp; }
 
 let data = `
 40 | Trump and Russia | politics | 2025-03-05 | 
@@ -46,7 +46,6 @@ let data = `
 index | | | | unlisted narrow
 list | | | | unlisted narrow
 `;
-/*     38    40    */
 
 let imgGallery = [
 `src="assets/gallery/j-c-dahl-frogner-manor-1842.jpg" alt="Frogner Manor (1842) by J. C. Dahl"`,
@@ -150,11 +149,11 @@ function pageLoad() {
         </div>
         <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>`;
 
+    interpreter(get("article"));
+
     toFooter(`I’m Iris, a writer from Canada. <a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is just my personal repo. I have no association with any other person or organization.`);
     toFooter(`Some other places you can find me: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a>`);
     toFooter(`I give broad permission for content I put here to be used, copied, or shared for non-commercial purposes, provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).`);
-
-    interpreter(get("article"));
     if (fileName != "list") toFooter(`<div style="text-align:right"><a href="list.html">Full page list &rarr;</a></div>`);
 
     document.title = (document.title === "") ? "North of Queen" : document.title + " – North of Queen";
