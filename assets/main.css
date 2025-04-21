@@ -36,7 +36,7 @@
 * { margin: 0; padding: 0; }
 #cover { pointer-events: none; }
 
-::selection { background-color: #fea; color: var(--grey-20); }
+::selection { background-color: #feb; color: var(--grey-20); }
 
 html { scroll-padding-top: 60px; scrollbar-color: #777 #ddd; }
 body { font-family: sans-serif; font-size: 14px; color: var(--grey-30); line-height: 1.5; text-underline-offset: 2px; }
@@ -92,8 +92,8 @@ body { font-family: sans-serif; font-size: 14px; color: var(--grey-30); line-hei
             #article p { margin: 13px 0; }
             #article p,
             #article li,
-            #article blockquote { line-height: 1.7; font-size: 15.4px; font-family: Georgia,sans-serif; }
-            #article .digit, #article ol ::marker { font-family: Georgia Pro,Georgia,sans-serif; }
+            #article blockquote { line-height: 1.7; font-size: 15px; font-family: Roboto,sans-serif; }
+            /* #article .digit, #article ol ::marker { font-family: Georgia Pro,Georgia,sans-serif; } */
             #article .meta { font-family: system-ui; border: 1px solid #9e9; padding: 4px 9px; background-color: #0f41; line-height: 1.3; font-size: 14px; }
             #article .fine { font-size: 14px; color: var(--grey-60); font-family: system-ui; }
             #article .citeref { font-family: Verdana,sans-serif; text-decoration: none; margin-left: 1px; vertical-align: top; line-height: 1.3; font-size: 11px; }
@@ -103,7 +103,7 @@ body { font-family: sans-serif; font-size: 14px; color: var(--grey-30); line-hei
             #article blockquote .fine { color: var(--grey-90); }
             #article blockquote .attribution { text-align: right; }
 
-            #article .mdash { }
+            #article .mdash { font-family: system-ui; line-height: 0; }
             #article .right-quote-margin { margin-right: -2px; }
             #article .drop-cap::first-letter { font-size: 54px; float: left; padding: 8px 6px 3px 2px; font-family: Georgia Pro,Georgia,serif; }
 
