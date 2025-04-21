@@ -36,14 +36,8 @@
 * { margin: 0; padding: 0; }
 #cover { pointer-events: none; }
 
-::selection { background-color: #0003; color: var(--grey-20); }
-#article p::selection,
-#article p ::selection,
-#article blockquote::selection,
-#article blockquote ::selection,
-#article li::selection,
-#article li ::selection
-{ background-color: #fea; }
+::selection { background-color: #fea; color: var(--grey-20); }
+
 html { scroll-padding-top: 60px; scrollbar-color: #777 #ddd; }
 body { font-family: sans-serif; font-size: 14px; color: var(--grey-30); line-height: 1.5; text-underline-offset: 2px; }
 
@@ -162,7 +156,7 @@ body { font-family: sans-serif; font-size: 14px; color: var(--grey-30); line-hei
             #article .image-float.left { float: left; margin-left: 0; }
             #article .image-float.right { float: right; margin-right: 0; }
 
-    #footer { font-family: Verdana; font-size: 13px; text-align: left; padding: 24px 0; }
+    #footer { font-family: Verdana,system-ui; font-size: 13px; text-align: left; padding: 24px 0; }
     #footer hr { width: 150px; border: none; height: 1px; background-color: var(--grey-90); margin: 0 auto 28px; }
     #footer p { color: var(--grey-30); }
     #footer p + p { margin-top: 0.5em; }
