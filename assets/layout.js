@@ -182,7 +182,7 @@ function pageLoad() {
     toFooter(`I’m Iris, a writer from Canada. <a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is just my personal repo. I have no association with any other person or organization.`);
     toFooter(`Some other places you can find me: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a>`);
     toFooter(`I give broad permission for content I put here to be used, copied, or shared for non-commercial purposes, provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).`);
-    if (fileName != "list") toFooter(`<div style="text-align:right"><a href="list.html">Full page list &rarr;</a></div>`);
+    if (fileName != "list") toFooter(`<div style="text-align:right"><a style="font-style:normal" href="list.html">Full page list &rarr;</a></div>`);
 
     document.title = (document.title === "") ? "North of Queen" : document.title + " – North of Queen";
 
