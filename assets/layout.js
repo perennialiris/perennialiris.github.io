@@ -24,7 +24,7 @@ let data = `
 23 | Passing | transgender, culture | 2025-02-24 |
 22 | Dehumanization | politics | 2024-12-15 |
 21 | Relationships | personal | 2024-12-14 | unlisted
-20 | Israel–Palestine notes | politics | 2025-02-24 | toc unlisted
+20 | Israel–Palestine notes | politics | 2025-02-24 | toc-left unlisted
 19 | Ilhan Omar’s comments about Somalia | politics | 2025-02-12 |
 18 | Transcripts: context for inflammatory Trump statements | politics | |
 17 | Why get bottom surgery? | transgender, culture | 2025-02-09 |
@@ -136,12 +136,38 @@ function getFileName() {
     return r.replace(/\.html$/, "");
 }
 
+let canSwitchDarkmode = true;
+function darkmodeSwitch() {
+    if (localStorage.getItem("darkmode") == null) { localStorage.setItem("darkmode", "off"); }
+    if (!canSwitchDarkmode) { return; } canSwitchDarkmode = false; setTimeout(() => { canSwitchDarkmode = true; }, 130);
+    
+    if (localStorage.getItem("darkmode") == "off") {
+        localStorage.setItem("darkmode", "on");
+        get("page").classList.add("darkmode");
+        get("darkmode-switch").value = "light";
+    } else {
+        localStorage.setItem("darkmode", "off");
+        get("page").classList.remove("darkmode");
+        get("darkmode-switch").value = "dark";
+    }
+}
+
 function pageLoad() {
+    if (localStorage.getItem("darkmode") == null) { localStorage.setItem("darkmode", "off"); }
+    if (localStorage.getItem("darkmode") == "on") { get("page").classList.add("darkmode"); }
+    
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico"><link rel="stylesheet" href="assets/main.css">`;
     const fileName = getFileName();
 
     get("page").innerHTML =
-       `<nav id="nav"><div><div id="page-display"></div></div></nav>
+       `<nav id="nav">
+            <div class="nav-inner">
+                <div id="page-display"></div>
+                <div class="nav-options">
+                    <input id="darkmode-switch" value="dark" type="button">
+                </div>
+            </div>
+        </nav>
         <div class="c1">
             <div class="c2">
                 <div id="article">${get("main").innerHTML}</div>
@@ -151,6 +177,7 @@ function pageLoad() {
         <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>`;
 
     interpreter(get("article"));
+    if (localStorage.getItem("darkmode") == "on") { get("darkmode-switch").value = "light"; }
 
     toFooter(`I’m Iris, a writer from Canada. <a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is just my personal repo. I have no association with any other person or organization.`);
     toFooter(`Some other places you can find me: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a>`);
@@ -226,6 +253,8 @@ function pageLoad() {
     
     if (document.title == "") document.title = "North of Queen";
     else if (document.title.slice(0 - "North of Queen".length) != "North of Queen") document.title += " - North of Queen";
+    
+    get("darkmode-switch").addEventListener("click", darkmodeSwitch);
 }
 
 

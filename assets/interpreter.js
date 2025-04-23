@@ -5,7 +5,7 @@
     own function because I needed to call it multiple times. */
 function mainReplacements(inputString) {
     if (inputString == "") { return ""; }
-    // console.log(inputString)
+    
     let output = inputString
         .replaceAll("\\*", "&ast;")
         .replaceAll("\\^", "&Hat;")
@@ -208,11 +208,11 @@ function interpreter(targetElement) {
             input[i] = "<p></p>"; continue; }
 
         if (input[i].startsWith("||video-right-mp4")) {
-            console.log("catch: a")
+            
             input[i] = `<video class="noq-video right" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
             continue; }
         if (input[i].startsWith("||video-mp4")) {
-            console.log("catch: b")
+            
             input[i] = `<video class="noq-video" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
             continue; }
 
@@ -338,7 +338,6 @@ function interpreter(targetElement) {
             .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1").replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
             .map(c => `<li><a href="${c}" target="_blank">${c}</a></li>`);
             
-            console.log(lines)
             toFooter("Other posts based on the content on this specific page:<ul>" + lines.join("") + "</ul>");
             
             input[i] = "";
