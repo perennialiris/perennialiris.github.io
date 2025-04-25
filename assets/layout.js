@@ -16,7 +16,7 @@ let data = `
 31 | Reflections on Justin Trudeau | news, politics | 2025-01-08 |
 30 | The appearance of intelligence | other | 2025-01-18 |
 29 | Date formats | other | 2025-01-11 | narrow
-28 | Therapy theory | personal | 2025-01-09 |
+28 | Therapy theory | personal | 2025-01-09 | unlisted
 27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | wide toc-left
 26 | News 2025 | news, politics | | wide pinned
 25 | A beauty holding a bird | other | 2024-12-23 | narrow
@@ -138,23 +138,23 @@ function getFileName() {
 
 let canSwitchDarkmode = true;
 function darkmodeSwitch() {
-    if (localStorage.getItem("darkmode") == null) { localStorage.setItem("darkmode", "off"); }
+    if (localStorage.getItem("noqDarkmode") == null) { localStorage.setItem("noqDarkmode", "off"); }
     if (!canSwitchDarkmode) { return; } canSwitchDarkmode = false; setTimeout(() => { canSwitchDarkmode = true; }, 130);
     
-    if (localStorage.getItem("darkmode") == "off") {
-        localStorage.setItem("darkmode", "on");
-        get("page").classList.add("darkmode");
+    if (localStorage.getItem("noqDarkmode") == "off") {
+        localStorage.setItem("noqDarkmode", "on");
+        document.body.classList.add("darkmode");
         get("darkmode-switch").value = "light";
     } else {
-        localStorage.setItem("darkmode", "off");
-        get("page").classList.remove("darkmode");
+        localStorage.setItem("noqDarkmode", "off");
+        document.body.classList.remove("darkmode");
         get("darkmode-switch").value = "dark";
     }
 }
 
 function pageLoad() {
-    if (localStorage.getItem("darkmode") == null) { localStorage.setItem("darkmode", "off"); }
-    if (localStorage.getItem("darkmode") == "on") { get("page").classList.add("darkmode"); }
+    if (localStorage.getItem("noqDarkmode") == null) { localStorage.setItem("darkmode", "off"); }
+    if (localStorage.getItem("noqDarkmode") == "on") { document.body.classList.add("darkmode"); }
     
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico"><link rel="stylesheet" href="assets/main.css">`;
     const fileName = getFileName();

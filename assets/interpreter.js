@@ -75,7 +75,7 @@ function listParser(inputString) {
                     end_tags.push("</ol>");
                     items[j] = `<ol start="${li.substring(0, li.indexOf("."))}"><li>${li.slice(li.indexOf(".") + 1).trimStart()}`; }
                 else {
-                    items[j] = "<br>" + " ".repeat(indent - prev_indent) + li;
+                    items[j] = "<br class='br-5'>" + " ".repeat(indent - prev_indent) + li;
                     items[j - 1] = items[j - 1].slice(0, -5);
                     indent = prev_indent; }
             indent_diff.push(indent - prev_indent); } }
