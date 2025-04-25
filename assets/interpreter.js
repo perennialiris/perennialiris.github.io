@@ -52,6 +52,7 @@ function mainReplacements(inputString) {
 }
 
 /* nested list parser */
+/* usage note: you can do a nested */
 function listParser(inputString) {
     const items = inputString.split("\n");
     const end_tags = [];
@@ -65,7 +66,7 @@ function listParser(inputString) {
         let indent = items[j].indexOf("<");
         const prev_indent = (j > 0) ? items[j - 1].indexOf("<") : -1;
         const li = items[j].slice(indent + 4);
-        
+        /* Is this line more indented than previous line? */
         if (indent > prev_indent) {
             if (li.startsWith("- ")) {
                 end_tags.push("</ul>");
@@ -75,7 +76,7 @@ function listParser(inputString) {
                     end_tags.push("</ol>");
                     items[j] = `<ol start="${li.substring(0, li.indexOf("."))}"><li>${li.slice(li.indexOf(".") + 1).trimStart()}`; }
                 else {
-                    items[j] = "<br class='br-5'>" + " ".repeat(indent - prev_indent) + li;
+                    items[j] = "<br class='br-sp'>" + " ".repeat(indent - prev_indent) + li;
                     items[j - 1] = items[j - 1].slice(0, -5);
                     indent = prev_indent; }
             indent_diff.push(indent - prev_indent); } }
@@ -88,6 +89,7 @@ function listParser(inputString) {
                     items[j] = "<li>" + li.slice(li.indexOf(".") + 1).trimStart(); }
                 else {
                     br = true; } }
+            /* If this line is less indented than previous line: */
             if (indent < prev_indent) {
                 let diff = prev_indent - indent;
                 while (diff > 0) {
@@ -105,7 +107,7 @@ function listParser(inputString) {
                     if (items[k].indexOf("<") < indent) {
                         k += 1; break; } }
                 items[k] = items[k].slice(0, -5);
-                items[j] = "<br class='br-5'>" + li; } }
+                items[j] = "<br class='br-sp'>" + li; } }
         items[j] = " ".repeat(indent) + items[j]; }
     while (end_tags.length > 0) {
         items[items.length - 1] += end_tags.pop(); }
@@ -173,7 +175,7 @@ function quoteParse(inputString) {
                 lines[j] = `<div class="fine">${lines[j].substring(1)}</div>`; }
             else {
                 if (lines[j] === " ") {
-                    lines[j] = "<div class='br-5'></div>"; }
+                    lines[j] = "<div class='br-sp'></div>"; }
                 else {
                     lines[j] += "<br>"; } } } }
     return "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
@@ -272,7 +274,7 @@ function interpreter(targetElement) {
 
         if (input[i].startsWith("||meta")) {
             let lines = input[i].split("\n").slice(1);
-            input[i] = `<p class="meta">${lines.join("").replace(/\n/g, "<br class='br-5'>")}</p>`;
+            input[i] = `<p class="meta">${lines.join("").replace(/\n/g, "<br class='br-sp'>")}</p>`;
             continue;
         }
 
