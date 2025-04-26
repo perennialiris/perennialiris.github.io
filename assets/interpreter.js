@@ -238,8 +238,8 @@ function interpreter(targetElement) {
             continue; }
 
         if (input[i].startsWith("||image-right") || input[i].startsWith("||image-left")) {
-            let lines = input[i].split("\n");
-            let direction = (lines[0].startsWith("||image-right")) ? "right" : "left";
+            const lines = input[i].split("\n");
+            const direction = (lines[0].startsWith("||image-right")) ? "right" : "left";
             input[i] = lines[1].replace(/\[([^\]]*)[^\\]?\]\[(.*)\]\((.+)\)/g, (match, description, altText, filePath) => {
                 if (description.replace(/\s/g, "").length == 0) { description = ""; }
                 let imgClass = "image-float " + direction;
@@ -335,13 +335,13 @@ function interpreter(targetElement) {
 
         /* ------------- "This was also posted here:" ------------- */
         if (input[i].startsWith("||see-also")) {
-        
-        const lines = input[i].split("\n").slice(1)
-            .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1").replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
-            .map(c => `<li><a href="${c}" target="_blank">${c}</a></li>`);
-            
-            toFooter("Other posts based on the content on this specific page:<ul>" + lines.join("") + "</ul>");
-            
+
+            const lines = input[i].split("\n").slice(1)
+                .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1").replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
+                .map(c => `<a href="${c}" target="_blank">${c}</a>`);
+
+            get("article").nextElementSibling.firstElementChild.innerHTML = `<p>Other posts based on the content on this specific page:<br>${lines.join("<br>")}</p>`;
+
             input[i] = "";
             continue; }
         

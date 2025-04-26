@@ -45,24 +45,7 @@ let data = `
 2 | The trans prison stats argument | transgender, politics | 2024-10-19 |
 1 | Language | personal | 2024-10-29 |
 index | | | | unlisted narrow
-list | | | | unlisted narrow
 `;
-
-let imgGallery = [
-`src="assets/gallery/j-c-dahl-frogner-manor-1842.jpg" alt="Frogner Manor (1842) by J. C. Dahl"`,
-`src="assets/gallery/j-c-dahl-copenhagen-harbor-by-moonlight-1839.jpg" alt="Copenhagen Harbor by Moonlight (1846) by J. C. Dahl"`,
-`src="assets/gallery/frederic-edwin-church-niagara-1857.jpg" alt="Niagara (1857) by Frederic Edwin Church.jpg"`,
-`src="assets/gallery/frederic-edwin-church-mt-ktaadn-1853.jpg" alt="Mt. Ktaadn (1853) by Frederic Edwin Church"`,
-`src="assets/gallery/cole-thomas-the-consummation-1836.jpg" alt="The Consummation (1836) by Cole Thomas"`,
-`src="assets/gallery/yosemite-national-park.jpg" alt="Yosemite National Park (unknown).jpg"`,
-`src="assets/gallery/karl-friedrich-schinkel-landschaft-mit-pilger-1813.jpg" alt="Landschaft mit Pilger (1813) by Karl Friedrich Schinkel"`
-];
-/* <div><img style="max-width:100%" ${imgGallery[Math.floor(Math.random() * imgGallery.length)]}></div> */
-
-function toFooter(inputString) {
-    const ele = get("footer").appendChild(document.createElement("p"));
-    ele.innerHTML = inputString;
-}
 
 var lbKeyResponsive = false;
 var lightboxContainer, lightboxImg;
@@ -158,6 +141,7 @@ function pageLoad() {
     
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico"><link rel="stylesheet" href="assets/main.css">`;
     const fileName = getFileName();
+    console.log(fileName);
 
     get("page").innerHTML =
        `<nav id="nav">
@@ -171,17 +155,13 @@ function pageLoad() {
         <div class="c1">
             <div class="c2">
                 <div id="article">${get("main").innerHTML}</div>
-                <footer id="footer"><hr></footer>
+                <div id="article-end"><div></div><div><a style="font-family:sans-serif;font-size:14px;" href="index.html">Full page list &rarr;</a></div></div>
             </div>
         </div>
-        <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>`;
+        <footer class="bottom-spacing"><div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div></footer>`;
 
-    interpreter(get("article"));
     if (localStorage.getItem("darkmode") == "on") { get("darkmode-switch").value = "light"; }
-
-    toFooter(`I’m Iris, a writer from Canada. <a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is just my personal repo. I have no association with any other person or organization.`);
-    toFooter(`Some other places you can find me: <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a> | <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a>`);
-    toFooter(`I give broad permission for content I put here to be used, copied, or shared for non-commercial purposes, provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).`);
+    interpreter(get("article"));
 
     document.title = (document.title === "") ? "North of Queen" : document.title + " – North of Queen";
 
@@ -221,13 +201,12 @@ function pageLoad() {
         else { pageList.full.push(indexEntry); }
     }
     
-    const indexTable = document.getElementById("page-list");
-    if (indexTable) {
-        indexTable.innerHTML = `<ul>${pageList.full.join("")}</ul>`;
+    const index = document.getElementById("index");
+    if (index) {
+        index.innerHTML = `<ul>${pageList.full.join("")}</ul>`;
     }
     else {
         get("page-display").innerHTML = `<a href="index.html">index.html</a> > ${currentPageTitle}`;
-        toFooter(`<div style="text-align:right"><a style="font-style:normal" href="index.html">Full page list <span style="font-family:Arial,sans-serif">&rarr;</span></a></div>`);
         if (includeToc) {
             console.log("creating table of contents...");
             const c1 = get("article").parentNode.parentNode;
@@ -243,10 +222,9 @@ function pageLoad() {
             const scroller = document.getElementsByClassName("scroller")[0];
             scroller.addEventListener("scroll", () => {
                 if (scroller.scrollHeight - scroller.scrollTop <= scroller.clientHeight + 20) {
-                    scroller.classList.add("hide-mask");
-                } else {
-                    scroller.classList.remove("hide-mask");
-                }
+                    scroller.classList.add("hide-mask"); }
+                else {
+                    scroller.classList.remove("hide-mask"); }
             })
         }
     }
