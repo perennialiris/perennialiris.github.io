@@ -27,8 +27,7 @@ function mainReplacements(inputString) {
         .replace(/"$/g, "&rdquo;")
         .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
         .replace(/"/g, "&rdquo;")
-        // .replace(/&rdquo;(,|\.)/g, `<span class="right-quote-margin">&rdquo;</span>$1`)
-        // .replace(/&rsquo;(,|\.)/g, `<span class="right-quote-margin">&rdquo;</span>$1`)
+        .replace(/&rdquo;(,|\.)/g, `<span class="right-quote-margin">&rdquo;</span>$1`)
         /* curly ' replacement */
         .replace(/'(\d{2}) /, "&rsquo;$1 ") // for saying '95 or '27 etc.
         .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
@@ -42,10 +41,11 @@ function mainReplacements(inputString) {
         .replace(/'$/g, "&rsquo;")
         .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
         .replace(/'/g, "&rsquo;")
+        .replace(/&rsquo;(,|\.)/g, `<span class="right-quote-margin">&rdquo;</span>$1`)
         .replace(/__(.+?)__/g, "<u>$1</u>")
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
-        .replaceAll("---", "<span class=\"mdash\">&mdash;</span>")
+        .replaceAll("---", "&mdash;")
         .replaceAll("--", "&ndash;")
         .replaceAll("...", "&hellip;")
     return output;
@@ -174,10 +174,7 @@ function quoteParse(inputString) {
             if (lines[j].startsWith("^")) {
                 lines[j] = `<div class="fine">${lines[j].substring(1)}</div>`; }
             else {
-                if (lines[j] === " ") {
-                    lines[j] = "<div class='br-sp'></div>"; }
-                else {
-                    lines[j] += "<br>"; } } } }
+                lines[j] += "<br>"; } } }
     return "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
 }
 
@@ -223,7 +220,7 @@ function interpreter(targetElement) {
             for (let j = 0; j < lines.length; j += 1) {
                 lines[j] = lines[j].replace(/\[(.*)\]\((.+)\)/g, (match, altText, filePath) => {
                     let maxHeight = 300;
-                    altText = altText.replace(/"/, "&quot;").replaceAll("---", "<span class=\"mdash\">&mdash;</span>").replaceAll("--", "&ndash;")
+                    altText = altText.replace(/"/, "&quot;").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;")
                     let j = filePath.indexOf("|");
                     if (j != -1) {
                         maxHeight = filePath.substring(j + 1);
@@ -274,7 +271,7 @@ function interpreter(targetElement) {
 
         if (input[i].startsWith("||meta")) {
             let lines = input[i].split("\n").slice(1);
-            input[i] = `<p class="meta">${lines.join("").replace(/\n/g, "<br class='br-sp'>")}</p>`;
+            input[i] = `<p class="meta">${lines.join("").replace(/\n/g, "<br>")}</p>`;
             continue;
         }
 
@@ -297,7 +294,7 @@ function interpreter(targetElement) {
             
             if (index == -1) index = linksInArticle.push(address);
             let result = (displayText === "")
-                ? `<a class="citeref" target="_blank" href="${address}">[${index}]</a>`
+                ? `<a class="citeref" target="_blank" href="${address}">&lbrack;${index}&rbrack;</a>`
                 : `<a target="_blank" href="${address}">${displayText}</a>`;
             return result; });
 

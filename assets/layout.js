@@ -4,19 +4,20 @@
 function get(id) { let temp = document.getElementById(id); if (temp == null) { console.error(`document.getElementById("${id}") returned null`); } return temp; }
 
 let data = `
-41 | Normalization and status quo bias | politics, culture | 2025-04-20 |
+41 | Normalization and status quo bias | politics, culture | 2025-04-20 | 
 40 | Trump and Russia | politics | 2025-03-05 | 
 39 | Movies | | | narrow unlisted
-38
+38 | 
 37 | Bluesky accounts listing | other | | wide toc-left
 36 | India | history, politics | 2025-03-05 | 
+35 | 
 34 | The Nazi salute | news, politics | 2025-01-24 | narrow
 33 | The Lorax sux | culture, politics | 2025-02-27 | narrow
 32 | Politics fundamentals | politics | 2025-01-05 | wide toc-left
 31 | Reflections on Justin Trudeau | news, politics | 2025-01-08 |
 30 | The appearance of intelligence | other | 2025-01-18 |
 29 | Date formats | other | 2025-01-11 | narrow
-28 | Therapy theory | personal | 2025-01-09 | unlisted
+28 | The problem with Pierre | politics | 2025-03-15 | unlisted
 27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | wide toc-left
 26 | News 2025 | news, politics | | wide pinned
 25 | A beauty holding a bird | other | 2024-12-23 | narrow
@@ -144,21 +145,27 @@ function pageLoad() {
     console.log(fileName);
 
     get("page").innerHTML =
-       `<nav id="nav">
+       `<header id="page-top"><div><a href="index.html"><img src="assets/header-image.png" height="75" width="272"></a></div></header>
+        <nav id="nav">
             <div class="nav-inner">
-                <div id="page-display"></div>
-                <div class="nav-options">
-                    <input id="darkmode-switch" value="dark" type="button">
+                <div>
+                    <div id="page-display">index.html &gt; </div>
+                </div>
+                <div>
+                    <input id="darkmode-switch" value="${(localStorage.getItem("noqDarkmode") == "on")?"light":"dark"}" type="button">
                 </div>
             </div>
         </nav>
         <div class="c1">
             <div class="c2">
                 <div id="article">${get("main").innerHTML}</div>
-                <div id="article-end"><div></div><div><a style="font-family:sans-serif;font-size:14px;" href="index.html">Full page list &rarr;</a></div></div>
+                <div id="article-end"><div></div><div><a style="font-family:sans-serif;font-size:14px;" href="index.html">Link to full page index</a></div></div>
             </div>
         </div>
-        <footer class="bottom-spacing"><div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div></footer>`;
+        <footer class="page-bottom"><div>This repo, <a target="_blank" href="https://github.com/northofqueen">North of Queen</a>, is mine alone and I have no association with any other person or organization. I give broad permission for any of my written work uploaded here to be used, copied, or shared for non-commercial purposes, provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></footer>
+        
+        <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>
+        `;
 
     if (localStorage.getItem("darkmode") == "on") { get("darkmode-switch").value = "light"; }
     interpreter(get("article"));
@@ -196,7 +203,7 @@ function pageLoad() {
         if (rowFlags.includes("unlisted")) { continue; }
         if (isPinned) { entryClass += " pinned"; }
         if (!isCurrent && pageList.recent.length < 8) { pageList.recent.push(`<a href="${rowFile}.html">${rowTitle}</a>`); }
-        let indexEntry = `<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img class="icon" src="assets/pin2.png" height="17" width="17">` : ''}</a> <b>·</b> <span>${rowCategory}</span>${rowDate != '' ? ' <b>·</b> <span>'+rowDate+'</span>' : ''}</li>`;
+        let indexEntry = `<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img src="assets/pin-icon.png" height="17" width="17">` : ''}</a> <b>·</b> <span>${rowCategory}</span>${rowDate != '' ? ' <b>·</b> <span>'+rowDate+'</span>' : ''}</li>`;
         if (isPinned) { pageList.full.unshift(indexEntry); }
         else { pageList.full.push(indexEntry); }
     }
@@ -206,7 +213,7 @@ function pageLoad() {
         index.innerHTML = `<ul>${pageList.full.join("")}</ul>`;
     }
     else {
-        get("page-display").innerHTML = `<a href="index.html">index.html</a> > ${currentPageTitle}`;
+        get("page-display").innerHTML += currentPageTitle;
         if (includeToc) {
             console.log("creating table of contents...");
             const c1 = get("article").parentNode.parentNode;
