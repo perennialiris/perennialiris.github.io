@@ -269,12 +269,6 @@ function interpreter(targetElement) {
             continue;
         }
 
-        if (input[i].startsWith("||meta")) {
-            let lines = input[i].split("\n").slice(1);
-            input[i] = `<p class="meta">${lines.join("").replace(/\n/g, "<br>")}</p>`;
-            continue;
-        }
-
         /* before looking for code, fix any \` instances: */
         input[i] = input[i].replace(/\\`/g, "&#96;");
         /* div.codeblock: */

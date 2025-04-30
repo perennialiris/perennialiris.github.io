@@ -145,11 +145,11 @@ function pageLoad() {
     console.log(fileName);
 
     get("page").innerHTML =
-       `<header id="page-top"><div><a href="index.html"><img src="assets/header-image.png" height="75" width="272"></a></div></header>
+       `<header id="header-top"><div><a href="index.html"><img src="assets/header-image.png" height="75" width="272"></a></div></header>
         <nav id="nav">
             <div class="nav-inner">
                 <div>
-                    <div id="page-display">index.html &gt; </div>
+                    <div id="page-display"><a href="index.html">index.html</a> &gt; </div>
                 </div>
                 <div>
                     <input id="darkmode-switch" value="${(localStorage.getItem("noqDarkmode") == "on")?"light":"dark"}" type="button">
@@ -159,10 +159,13 @@ function pageLoad() {
         <div class="c1">
             <div class="c2">
                 <div id="article">${get("main").innerHTML}</div>
-                <div id="article-end"><div></div><div><a style="font-family:sans-serif;font-size:14px;" href="index.html">Link to full page index</a></div></div>
+                <div id="article-end">
+                    <div class="see-also"></div>
+                    <div style="margin-left:10px"><a href="index.html">Link to full page index</a></div>
+                </div>
             </div>
         </div>
-        <footer class="page-bottom"><div>This repo, <a target="_blank" href="https://github.com/northofqueen">North of Queen</a>, is mine alone and I have no association with any other person or organization. I give broad permission for any of my written work uploaded here to be used, copied, or shared for non-commercial purposes, provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></footer>
+        <footer class="page-bottom"><div><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is  my personal repo. I have no association with any other person or organization. I give broad permission for any of my written work to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></footer>
         
         <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>
         `;
