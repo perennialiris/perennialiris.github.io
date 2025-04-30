@@ -165,7 +165,7 @@ function pageLoad() {
                 </div>
             </div>
         </div>
-        <footer class="page-bottom"><div><a target="_blank" href="https://github.com/northofqueen">North of Queen</a> is  my personal repo. I have no association with any other person or organization. I give broad permission for any of my written work to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></footer>
+        <footer class="page-bottom"><div>I have no association with any other person or organization. I give broad permission for any of my written work to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></footer>
         
         <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>
         `;
