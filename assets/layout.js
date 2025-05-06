@@ -105,12 +105,14 @@ function tocHighlighter() {
             headingId = headersInArticle[i].id; }
         else {
             break; } }
+    console.log(headingId)
     if (headingId != currentHeading) {
     for (let i = 0; i < rowsInToc.length; i += 1) {
         rowsInToc[i].classList.remove("active-heading");
         if (rowsInToc[i].getAttribute("href") == "#" + headingId) {
             rowsInToc[i].classList.add("active-heading"); } } }
     currentHeading = headingId;
+    console.log(currentHeading)
 }
 
 function getFileName() {
@@ -145,28 +147,29 @@ function pageLoad() {
     console.log(fileName);
 
     get("page").innerHTML =
-       `<header id="header-top"><div><a href="index.html"><img src="assets/header-image.png" height="75" width="272"></a></div></header>
+       `<header id="header"><div><a href="index.html"><img src="assets/header-image.png" height="75" width="272"></a></div></header>
         <nav id="nav">
             <div class="nav-inner">
                 <div>
                     <div id="page-display"><a href="index.html">index.html</a> &gt; </div>
                 </div>
                 <div>
-                    <input id="darkmode-switch" value="${(localStorage.getItem("noqDarkmode") == "on")?"light":"dark"}" type="button">
+                    <input id="darkmode-switch" onclick="darkmodeSwitch()" value="${(localStorage.getItem("noqDarkmode") == "on") ? "light" : "dark"}" type="button">
                 </div>
             </div>
         </nav>
         <div class="c1">
             <div class="c2">
-                <div id="article">${get("main").innerHTML}</div>
-                <div id="article-end">
-                    <div class="see-also"></div>
-                    <div style="margin-left:10px"><a href="index.html">Link to full page index</a></div>
+                <div class="c3">
+                    <div id="article">${get("main").innerHTML}</div>
+                    <footer style="border-top: 1px solid var(--grey-90); color: var(--grey-50); padding-top: 1.5em; margin-top: var(--pad); display: flex; justify-content: space-between;">
+                        <div class="see-also"></div>
+                        <div style="margin-left:10px"><a href="index.html">Full page index</a></div>
+                    </footer>
+                    <footer id="page-bottom">I have no association with any other person or organization. I give broad permission for any of my written work to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</footer>
                 </div>
             </div>
         </div>
-        <footer class="page-bottom"><div>I have no association with any other person or organization. I give broad permission for any of my written work to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</div></footer>
-        
         <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>
         `;
 
@@ -182,7 +185,7 @@ function pageLoad() {
     lightboxImg = get("lightbox");
     window.addEventListener("keydown", function(event) { if (lbKeyResponsive && event.key === 'Escape') { closeLightbox(); } })
 
-    alignTable(data,"|");
+    alignTable(data, "|");
     const pageList = { recent: [], pins: [], full: [] };
     let includeToc = false, tocLeft = false, currentPageTitle = "";
     const dataRows = data.split("\n");
@@ -205,8 +208,8 @@ function pageLoad() {
             }
         if (rowFlags.includes("unlisted")) { continue; }
         if (isPinned) { entryClass += " pinned"; }
-        if (!isCurrent && pageList.recent.length < 8) { pageList.recent.push(`<a href="${rowFile}.html">${rowTitle}</a>`); }
-        let indexEntry = `<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img src="assets/pin-icon.png" height="17" width="17">` : ''}</a> <b>·</b> <span>${rowCategory}</span>${rowDate != '' ? ' <b>·</b> <span>'+rowDate+'</span>' : ''}</li>`;
+        if (!isCurrent && pageList.recent.length < 8) { pageList.recent.push(wrapDigits(`<a href="${rowFile}.html">${rowTitle}</a>`)); }
+        let indexEntry = wrapDigits(`<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img src="assets/pin-icon.png" height="17" width="17">` : ''}</a> <b>·</b> <span>${rowCategory}</span>${rowDate != '' ? ' <b>·</b> <span>'+rowDate+'</span>' : ''}</li>`);
         if (isPinned) { pageList.full.unshift(indexEntry); }
         else { pageList.full.push(indexEntry); }
     }
@@ -219,33 +222,48 @@ function pageLoad() {
         get("page-display").innerHTML += currentPageTitle;
         if (includeToc) {
             console.log("creating table of contents...");
+            get("page").classList.add("toc-page");
             const c1 = get("article").parentNode.parentNode;
-            c1.classList.add("toc-page");
+            c1.style.display = "flex";
             const toc = tocLeft ? c1.insertBefore(document.createElement("div"), c1.firstChild) : c1.appendChild(document.createElement("div"));
             if (!tocLeft) { c1.style.paddingRight = "0"; }
             toc.id = "toc";
             toc.innerHTML = `<div class="toc-title">Content</div><a class="toc-row h1" href="#top">(Top of page)</a><div class="scroller">${tocLinks.slice(1).join("")}</div>`;
             rowsInToc = Array.from(get("toc").getElementsByClassName("toc-row"));
             headersInArticle = Array.from(document.getElementsByClassName("noq-header"));
+            window.addEventListener("resize", tocWidthCheck);
             window.addEventListener("scroll", tocHighlighter);
-            setTimeout(() => { tocHighlighter(); }, 100);
+            setTimeout(() => { tocWidthCheck(); tocHighlighter(); }, 100);
             const scroller = document.getElementsByClassName("scroller")[0];
             scroller.addEventListener("scroll", () => {
                 if (scroller.scrollHeight - scroller.scrollTop <= scroller.clientHeight + 20) {
                     scroller.classList.add("hide-mask"); }
                 else {
                     scroller.classList.remove("hide-mask"); }
-            })
+            });
         }
     }
     
     if (document.title == "") document.title = "North of Queen";
     else if (document.title.slice(0 - "North of Queen".length) != "North of Queen") document.title += " - North of Queen";
     
-    get("darkmode-switch").addEventListener("click", darkmodeSwitch);
+}
+
+window.addEventListener("load", pageLoad);
+
+function tocWidthCheck() {
+    const i = window.innerWidth;
+    if (i < 940) {
+        get("toc").classList.add("condensed");
+        get("toc").parentNode.style.flexDirection = "column";
+    } else {
+        get("toc").classList.remove("condensed");
+        get("toc").parentNode.style.flexDirection = "row";
+    }
 }
 
 
-window.addEventListener("load", pageLoad);
+
+
 
 

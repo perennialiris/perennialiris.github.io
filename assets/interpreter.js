@@ -41,11 +41,12 @@ function mainReplacements(inputString) {
         .replace(/'$/g, "&rsquo;")
         .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
         .replace(/'/g, "&rsquo;")
-        .replace(/&rsquo;(,|\.)/g, `<span class="right-quote-margin">&rdquo;</span>$1`)
+        .replace(/&rsquo;(,|\.)/g, `<span class="right-quote-margin">&rsquo;</span>$1`)
         .replace(/__(.+?)__/g, "<u>$1</u>")
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
-        .replaceAll("---", "&mdash;")
+        // .replaceAll("---", "&mdash;")
+        .replaceAll("---", "<span class='mdash'>&mdash;</span>")
         .replaceAll("--", "&ndash;")
         .replaceAll("...", "&hellip;")
     return output;
@@ -127,7 +128,19 @@ function safeConvert(inputString) {
     return output;
 }
 /* if you want to apply specific styling to numbers only */
-function wrapDigits(targetElement) {
+function wrapDigits(inputString) {
+    let output = "";
+    while (true) {
+        const openTag = inputString.indexOf("<"), closeTag = inputString.indexOf(">");
+        if (openTag == -1 || closeTag == -1) { break; }
+        output += inputString.substring(0, openTag).replace(/(\d+)/g, "<span class='digit'>$1</span>");
+        output += inputString.substring(openTag, closeTag + 1);
+        inputString = inputString.substring(closeTag + 1);
+    }
+    output += inputString.replace(/(\d+)/g, "<span class='digit'>$1</span>");
+    return output;
+}
+function wrapElement(targetElement) {
     let input = targetElement.innerHTML, output = "";
     while (true) {
         const openTag = input.indexOf("<"), closeTag = input.indexOf(">");
@@ -139,6 +152,7 @@ function wrapDigits(targetElement) {
     output += input.replace(/(\d+)/g, "<span class='digit'>$1</span>");
     targetElement.innerHTML = output;
 }
+
 /* for <code> or like elements, where you don't want normal formatting -- run *before* safeConvert */
 function sanitizeForCode(inputString) {
     return inputString
@@ -358,7 +372,7 @@ function interpreter(targetElement) {
                 const date = temp[1].trim();
                 input[i] = `<div class="title-box"><h1 class="noq-header" id="${headerId}">${title}</h1><div class="date-box">${date}</div></div>`; }
             else {
-                input[i] = `<h1 class="title-box" id="${headerId}">${title}</h1>`;
+                input[i] = `<h1 class="noq-header" id="${headerId}">${title}</h1>`;
             }
             tocLinks.push(`<a class="toc-row h1" href="#${headerId}">${title.replace(/<\/?i>/g,'')}</a>`);
             continue; }
@@ -409,7 +423,7 @@ function interpreter(targetElement) {
     }
     targetElement.innerHTML = input.join("");
 
-    ["li","p","blockquote"].forEach(x => Array.from(targetElement.getElementsByTagName(x)).forEach(e => wrapDigits(e)));
+    ["li","p","blockquote"].forEach(x => Array.from(targetElement.getElementsByTagName(x)).forEach(e => wrapElement(e)));
 }
 
 
