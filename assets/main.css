@@ -12,8 +12,8 @@
 body ::selection { background-color: #fff1ba; color: var(--grey-30); }
 
 :root {
-    --white: #fbfaf9;
-    --grey-f0: #f2f0ef;
+    --white: #fcfaf8;
+    --grey-f0: #f0eeec;
     --grey-e0: #e0e0e0;
     --grey-d0: #d0d0d0;
     --accent: #b11;
@@ -169,7 +169,7 @@ body ::selection { background-color: #fff1ba; color: var(--grey-30); }
     --grey-f0: #393939;
     --grey-e0: #505050;
     --grey-d0: #555;
-    --accent: #9aa2cc;
+    --accent: #9aabcc;
     --grey-90: #666;
     --grey-60: #888;
     --grey-50: #aaa;
