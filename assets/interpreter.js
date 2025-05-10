@@ -345,7 +345,7 @@ function interpreter(targetElement) {
                 .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1").replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
                 .map(c => `<a href="${c}" target="_blank">${c}</a>`);
 
-            get("article").nextElementSibling.firstElementChild.innerHTML = `<p>Other posts based on the content on this specific page:<br>${lines.join("<br>")}</p>`;
+            get("article").nextElementSibling.firstElementChild.innerHTML += `<p>Other posts based on the content on this page:<br>${lines.join("<br>")}</p>`;
 
             input[i] = "";
             continue; }

@@ -4,18 +4,17 @@
     <style>
     #article-end { display: none !important; }
     #page-display { display: none !important; }
-    li,li b { color: var(--grey-90) !important; }
-    li * { font-family: Arial,sans-serif !important; }
-    li a { color: var(--grey-30) !important; display: inline-flex; align-items: center; gap: 3px; }
-    li::marker { color: var(--grey-40) !important; }
+    .inner-footer { display: none !important; }
+    #index li,li * { font-family: Arial,sans-serif !important; color: var(--grey-90) !important; }
+    #index li a, li a * { color: var(--grey-30) !important; display: inline-flex; align-items: center; gap: 3px; }
+    #index li::marker { color: var(--grey-30) !important; }
     
     #social-buttons {
         display: flex;
-        justify-content: space-evenly;
         gap: 10px;
     }
     #social-buttons a {
-        padding: 5px;
+        padding: 4px 0;
         text-align: center;
         border: 1px solid var(--grey-d0);
         width: 100%;
@@ -39,7 +38,7 @@ I'm Iris, a writer from Canada. I use this repo to host .. well, anything I want
 <a target="_blank" href="https://northofqueen.substack.com">Substack</a>
 </div>
 
-## page list
+### page listing
 
 \<div id="index"></div>
 
@@ -47,8 +46,3 @@ I'm Iris, a writer from Canada. I use this repo to host .. well, anything I want
 <script src="assets/interpreter.js"></script>
 <script src="assets/layout.js"></script>
 </body></html>
-
-<!--
-[Tumblr](https://perennialiris.tumblr.com) | [YouTube](https://youtube.com/@perennialiris) | [Bluesky](https://bsky.app/profile/irispol.bsky.social) | [Discord server](https://discord.com/invite/puJEP8HKk3) | [Substack](https://northofqueen.substack.com)
--->
-

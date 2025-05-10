@@ -12,7 +12,7 @@ let data = `
 36 | India | history, politics | 2025-03-05 | 
 35 | 
 34 | The Nazi salute | news, politics | 2025-01-24 | narrow
-33 | The Lorax sux | culture, politics | 2025-02-27 | narrow
+33 | 
 32 | Politics fundamentals | politics | 2025-01-05 | wide toc-left
 31 | Reflections on Justin Trudeau | news, politics | 2025-01-08 |
 30 | The appearance of intelligence | other | 2025-01-18 |
@@ -162,11 +162,11 @@ function pageLoad() {
             <div class="c2">
                 <div class="c3">
                     <div id="article">${get("main").innerHTML}</div>
-                    <footer style="border-top: 1px solid var(--grey-90); color: var(--grey-50); padding-top: 1.5em; margin-top: var(--pad); display: flex; justify-content: space-between;">
-                        <div class="see-also"></div>
-                        <div style="margin-left:10px"><a href="index.html">Full page index</a></div>
+                    <footer class="inner-footer">
+                        <div class="see-also"><p>I&rsquo;m Iris, a Canadian woman. I often write about politics, culture, and related topics. I have no particular credentials or experience. I’m literally just some person.</p></div>
+                        <div style="white-space: nowrap; margin-left: 10px"><a href="index.html">Full page index</a></div>
                     </footer>
-                    <footer id="page-bottom">I have no association with any other person or organization. I give broad permission for any of my written work to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</footer>
+                    <footer id="page-bottom">I have no association with any other person or organization. I give broad permission for the stuff I write to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</footer>
                 </div>
             </div>
         </div>
