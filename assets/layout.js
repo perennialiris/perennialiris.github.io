@@ -122,26 +122,34 @@ function getFileName() {
     return r.replace(/\.html$/, "");
 }
 
-let canSwitchDarkmode = true;
-function darkmodeSwitch() {
-    if (localStorage.getItem("noqDarkmode") == null) { localStorage.setItem("noqDarkmode", "off"); }
-    if (!canSwitchDarkmode) { return; } canSwitchDarkmode = false; setTimeout(() => { canSwitchDarkmode = true; }, 130);
+function initLightness() {
+    if (localStorage.getItem("lightness") == null) { localStorage.setItem("lightness", "light"); }
+    if (localStorage.getItem("lightness") == "dark") { document.body.classList.add("dark"); }
+}
+
+let canSwitch = true;
+function lightswitch() {
+    if (!canSwitch) return;
+    setTimeout( () => { canSwitch = true; }, 222);
+    canSwitch = false;
     
-    if (localStorage.getItem("noqDarkmode") == "off") {
-        localStorage.setItem("noqDarkmode", "on");
-        document.body.classList.add("darkmode");
-        get("darkmode-switch").value = "light";
-    } else {
-        localStorage.setItem("noqDarkmode", "off");
-        document.body.classList.remove("darkmode");
-        get("darkmode-switch").value = "dark";
+    if (localStorage.getItem("lightness") == "dark") { localStorage.setItem("lightness", "light"); }
+    else if (localStorage.getItem("lightness") == "light") { localStorage.setItem("lightness", "dark"); }
+    setLightness();
+}
+function setLightness() {
+    const mode = localStorage.getItem("lightness");
+    if (mode == "light") {
+        document.body.classList.remove("dark");
+        get("lightswitch").value = "dark";
+    } else if (mode == "dark") {
+        document.body.classList.add("dark");
+        get("lightswitch").value = "light";
     }
 }
 
 function pageLoad() {
-    if (localStorage.getItem("noqDarkmode") == null) { localStorage.setItem("darkmode", "off"); }
-    if (localStorage.getItem("noqDarkmode") == "on") { document.body.classList.add("darkmode"); }
-    
+    initLightness();
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico"><link rel="stylesheet" href="assets/main.css">`;
     const fileName = getFileName();
     console.log(fileName);
@@ -151,10 +159,11 @@ function pageLoad() {
         <nav id="nav">
             <div class="nav-inner">
                 <div>
-                    <div id="page-display"><a href="index.html">index.html</a> &gt; </div>
+                    <div id="page-display"></div>
                 </div>
-                <div>
-                    <input id="darkmode-switch" onclick="darkmodeSwitch()" value="${(localStorage.getItem("noqDarkmode") == "on") ? "light" : "dark"}" type="button">
+                <div class="buttons">
+                    <input id="lightswitch" onclick="lightswitch()" value="${(localStorage.getItem("lightness") == "dark") ? "light" : "dark"}" type="button">
+                    <input id="to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="top" type="button">
                 </div>
             </div>
         </nav>
@@ -173,7 +182,7 @@ function pageLoad() {
         <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>
         `;
 
-    if (localStorage.getItem("darkmode") == "on") { get("darkmode-switch").value = "light"; }
+    if (localStorage.getItem("darkmode") == "on") { get("lightswitch").value = "light"; }
     interpreter(get("article"));
 
     document.title = (document.title === "") ? "North of Queen" : document.title + " – North of Queen";
@@ -228,7 +237,7 @@ function pageLoad() {
             const toc = tocLeft ? c1.insertBefore(document.createElement("div"), c1.firstChild) : c1.appendChild(document.createElement("div"));
             if (!tocLeft) { c1.style.paddingRight = "0"; }
             toc.id = "toc";
-            toc.innerHTML = `<div class="toc-title">Content</div><a class="toc-row h1" href="#top">(Top of page)</a><div class="scroller">${tocLinks.slice(1).join("")}</div>`;
+            toc.innerHTML = `<div class="toc-title">Content</div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${tocLinks.slice(1).join("")}</div>`;
             rowsInToc = Array.from(get("toc").getElementsByClassName("toc-row"));
             headersInArticle = Array.from(document.getElementsByClassName("noq-header"));
             window.addEventListener("resize", tocWidthCheck);
