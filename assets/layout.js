@@ -122,11 +122,6 @@ function getFileName() {
     return r.replace(/\.html$/, "");
 }
 
-function initLightness() {
-    if (localStorage.getItem("lightness") == null) { localStorage.setItem("lightness", "light"); }
-    if (localStorage.getItem("lightness") == "dark") { document.body.classList.add("dark"); }
-}
-
 let canSwitch = true;
 function lightswitch() {
     if (!canSwitch) return;
@@ -149,7 +144,7 @@ function setLightness() {
 }
 
 function pageLoad() {
-    initLightness();
+    if (localStorage.getItem("lightness") == null) { localStorage.setItem("lightness", "light"); }
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico"><link rel="stylesheet" href="assets/main.css">`;
     const fileName = getFileName();
     console.log(fileName);
@@ -162,8 +157,8 @@ function pageLoad() {
                     <div id="page-display"></div>
                 </div>
                 <div class="buttons">
-                    <input id="lightswitch" onclick="lightswitch()" value="${(localStorage.getItem("lightness") == "dark") ? "light" : "dark"}" type="button">
                     <input id="to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="top" type="button">
+                    <input id="lightswitch" onclick="lightswitch()" value="${(localStorage.getItem("lightness") == "dark") ? "light" : "dark"}" type="button">
                 </div>
             </div>
         </nav>
@@ -181,6 +176,7 @@ function pageLoad() {
         </div>
         <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>
         `;
+    setLightness();
 
     if (localStorage.getItem("darkmode") == "on") { get("lightswitch").value = "light"; }
     interpreter(get("article"));

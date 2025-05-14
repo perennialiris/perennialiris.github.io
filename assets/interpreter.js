@@ -318,26 +318,6 @@ function interpreter(targetElement) {
             input[i] = `<table id="${"table" + tableNum++}" class="noq-table">${rows.join("")}</table>`;
             continue; }
 
-        /* ---------------------- transcript ---------------------- */
-        if (input[i].startsWith("||transcript")) {
-            let rows = input[i].split("\n");
-            rows.shift();
-            for (let j = 0; j < rows.length; j += 1) {
-                let cells = rows[j].split("|");
-                if (cells.length > 2) { console.error("{interpreter.js: 309 (transcript width)}"); }
-                if (cells[0].charAt(0) == "^") {
-                    cells[0] = `<span class="fine">${cells[0].substring(1)}</span>`; }
-                cells[0] = safeConvert(cells[0].trim());
-                cells[1] = safeConvert(cells[1].trim());
-                cells[1] = cells[1].replace(/(\[.+?\])/g, `<span class="transcript-note">$1</span>`);
-                if (cells[1].charAt(0) == "^") {
-                    cells[1] = `<span class="fine">${cells[1].substring(1)}</span>`; }
-                
-                rows[j] = "<tr><td>"+cells[0]+"</td><td>"+cells[1]+"</td></tr>";
-                }
-            input[i] = `<table id="${"table" + tableNum++}" class="transcript">${rows.join("")}</table>`;
-            continue; }
-
         /* ------------- "This was also posted here:" ------------- */
         if (input[i].startsWith("||see-also")) {
 
