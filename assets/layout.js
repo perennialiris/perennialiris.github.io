@@ -6,20 +6,20 @@ function get(id) { let temp = document.getElementById(id); if (temp == null) { c
 let data = `
 41 | Normalization and status quo bias | politics, culture | 2025-04-20 | 
 40 | Trump and Russia | politics | 2025-03-05 | 
-39 | Movies | | | narrow unlisted
+39 | Movies | other | | narrow unlisted
 38 | 
-37 | Bluesky accounts listing | other | | wide toc-left
+37 | Bluesky accounts listing | other | | toc-left wide
 36 | India | history, politics | 2025-03-05 | 
-35 | 
 34 | The Nazi salute | news, politics | 2025-01-24 | narrow
 33 | 
-32 | Politics fundamentals | politics | 2025-01-05 | wide toc-left
+32 | Politics fundamentals | politics | 2025-01-05 | toc-left wide
 31 | Reflections on Justin Trudeau | news, politics | 2025-01-08 |
 30 | The appearance of intelligence | other | 2025-01-18 |
 29 | Date formats | other | 2025-01-11 | narrow
-28 | The problem with Pierre | politics | 2025-03-15 | unlisted
-27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | wide toc-left
-26 | News 2025 | news, politics | | wide pinned
+28 | The problem with Pierre | politics | 2025-03-15 | 
+27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | toc-left
+26 | Trump news list | news, politics | | pinned wide
+35 | News list | news, politics | | pinned wide
 25 | A beauty holding a bird | other | 2024-12-23 | narrow
 24 | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19 |
 23 | Passing | transgender, culture | 2025-02-24 |
@@ -143,6 +143,17 @@ function setLightness() {
     }
 }
 
+function tocWidthCheck() {
+    const i = window.innerWidth;
+    if (i < 940) {
+        get("toc").classList.add("condensed");
+        get("toc").parentNode.style.flexDirection = "column";
+    } else {
+        get("toc").classList.remove("condensed");
+        get("toc").parentNode.style.flexDirection = "row";
+    }
+}
+
 function pageLoad() {
     if (localStorage.getItem("lightness") == null) { localStorage.setItem("lightness", "light"); }
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico"><link rel="stylesheet" href="assets/main.css">`;
@@ -150,7 +161,7 @@ function pageLoad() {
     console.log(fileName);
 
     get("page").innerHTML =
-       `<header id="header"><div><a href="index.html"><img src="assets/header-image.png" height="75" width="272"></a></div></header>
+       `<header id="header"><a href="index.html"><img src="assets/header-image.png" height="75" width="272"></a></header>
         <nav id="nav">
             <div class="nav-inner">
                 <div>
@@ -167,8 +178,8 @@ function pageLoad() {
                 <div class="c3">
                     <div id="article">${get("main").innerHTML}</div>
                     <footer class="inner-footer">
-                        <div class="see-also"><p>I&rsquo;m Iris, a Canadian woman. I often write about politics, culture, and related topics. I have no particular credentials or experience. I’m literally just some person.</p></div>
-                        <div style="white-space: nowrap; margin-left: 10px"><a href="index.html">Full page index</a></div>
+                        <div class="see-also"><p>I&rsquo;m Iris, a Canadian woman. I often write about politics, culture, and related topics. I have no particular credentials or experience. I’m literally just some person.</p><p>I can also be found at: <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a> | <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord (my server)</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a></p></div>
+                        <div style="white-space: nowrap;"><a href="index.html">Full page index</a></div>
                     </footer>
                     <footer id="page-bottom">I have no association with any other person or organization. I give broad permission for the stuff I write to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</footer>
                 </div>
@@ -180,8 +191,6 @@ function pageLoad() {
 
     if (localStorage.getItem("darkmode") == "on") { get("lightswitch").value = "light"; }
     interpreter(get("article"));
-
-    document.title = (document.title === "") ? "North of Queen" : document.title + " – North of Queen";
 
     get("cover").classList.add("fade-out");
     get("cover").addEventListener("animationend", () => { get("cover").remove(); });
@@ -209,12 +218,11 @@ function pageLoad() {
             if (rowFlags.includes("toc")) { includeToc = true; }
             if (rowFlags.includes("toc-left")) { includeToc = true; tocLeft = true; }
             if (rowFlags.includes("wide")) { get("page").classList.add("wide"); }
-            else if (rowFlags.includes("narrow")) { get("page").classList.add("narrow"); }
             }
         if (rowFlags.includes("unlisted")) { continue; }
         if (isPinned) { entryClass += " pinned"; }
         if (!isCurrent && pageList.recent.length < 8) { pageList.recent.push(wrapDigits(`<a href="${rowFile}.html">${rowTitle}</a>`)); }
-        let indexEntry = wrapDigits(`<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img src="assets/pin-icon.png" height="17" width="17">` : ''}</a> <b>·</b> <span>${rowCategory}</span>${rowDate != '' ? ' <b>·</b> <span>'+rowDate+'</span>' : ''}</li>`);
+        let indexEntry = wrapDigits(`<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img src="assets/pin-icon.png" height="17" width="17">` : ''}</a> – <span>${rowCategory}</span>${rowDate != '' ? ' <span>('+rowDate+')</span>' : ''}</li>`);
         if (isPinned) { pageList.full.unshift(indexEntry); }
         else { pageList.full.push(indexEntry); }
     }
@@ -224,7 +232,7 @@ function pageLoad() {
         index.innerHTML = `<ul>${pageList.full.join("")}</ul>`;
     }
     else {
-        get("page-display").innerHTML += currentPageTitle;
+        get("page-display").innerHTML = `<a href="index.html">North of Queen</a>: ${currentPageTitle}`;
         if (includeToc) {
             console.log("creating table of contents...");
             get("page").classList.add("toc-page");
@@ -256,16 +264,6 @@ function pageLoad() {
 
 window.addEventListener("load", pageLoad);
 
-function tocWidthCheck() {
-    const i = window.innerWidth;
-    if (i < 940) {
-        get("toc").classList.add("condensed");
-        get("toc").parentNode.style.flexDirection = "column";
-    } else {
-        get("toc").classList.remove("condensed");
-        get("toc").parentNode.style.flexDirection = "row";
-    }
-}
 
 
 

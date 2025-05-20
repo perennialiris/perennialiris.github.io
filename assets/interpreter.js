@@ -29,7 +29,7 @@ function mainReplacements(inputString) {
         .replace(/"/g, "&rdquo;")
         .replace(/&rdquo;(,|\.)/g, `<span class="right-quote-margin">&rdquo;</span>$1`)
         /* curly ' replacement */
-        .replace(/'(\d{2}) /, "&rsquo;$1 ") // for saying '95 or '27 etc.
+        .replace(/'(\d{2})(\D{1})/g, "&rsquo;$1$2") // for saying '95 or '27 etc.
         .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
         .replace(/^'(\w)/g, "&lsquo;$1")
         .replace(/^',/g, "&rsquo; ")
@@ -325,7 +325,7 @@ function interpreter(targetElement) {
                 .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1").replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
                 .map(c => `<a href="${c}" target="_blank">${c}</a>`);
 
-            get("article").nextElementSibling.firstElementChild.innerHTML += `<p>Other posts based on the content on this page:<br>${lines.join("<br>")}</p>`;
+            get("article").nextElementSibling.firstElementChild.innerHTML += `<p>Other places this content was posted:<br>${lines.join("<br>")}</p>`;
 
             input[i] = "";
             continue; }

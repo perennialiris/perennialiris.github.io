@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"><head><style>#article-footer { display: none; } </style></head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
-<div id="top"></div>
-<div id="page">
-<main id="main"># Movies</main></div>
+<div id="top"></div><div id="page">
+<main id="main">### Every movie I've ever seen</main></div>
 <script src="assets/interpreter.js"></script>
 <script src="assets/layout.js"></script>
 <script>
@@ -13,7 +12,7 @@ window.onload = function() {
     movies = movies.replace(/\) (\w)/g, ")\n$1").split("\n")
             .filter(c => c != "");
     let total = movies.length;
-    list.innerHTML = `<div style="margin:1em 0">I believe this is a list of every movie I’ve ever seen. So far it’s ${total} movies. Here, I’ll sort them by year of release.</div>` +
+    list.innerHTML = `<div style="margin:1em 0">This is a silly page. I believe this is a list of every movie I’ve ever seen. So far it’s ${total} movies. Here, I’ll sort them by year of release.</div>` +
         movies.sort((a, b) => { return parseInt(a.match(/\d{4}/)) - parseInt(b.match(/\d{4}/)) })
             .map(c => `<div style="padding:2px 0">${c}</div>`)
             .join('');

@@ -3,24 +3,10 @@
 <head>
     <style>
     #article-end { display: none !important; }
-    #page-display { display: none !important; }
     .inner-footer { display: none !important; }
-    #index li,li * { font-family: Arial,sans-serif !important; color: var(--grey-90) !important; }
-    #index li a, li a * { color: var(--grey-30) !important; display: inline-flex; align-items: center; gap: 3px; }
-    #index li::marker { color: var(--grey-30) !important; }
-    
-    #social-buttons {
-        display: flex;
-        gap: 10px;
-    }
-    #social-buttons a {
-        padding: 3px 0;
-        text-align: center;
-        border: 1px solid var(--grey-d0);
-        width: 100%;
-    }
-    #social-buttons a:hover { color: var(--accent) !important; background-color: var(--grey-f0); }
-    .darkmode #social-buttons a:hover { background-color: #ffffff0a; }
+    #index li, #index li * { font-family: "Arial", sans-serif !important; }
+    #index li a { color: #303030; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; text-decoration-thickness: 1px; }
+    .dark #index li a { color: #eee; }
     </style>
 </head><body>
 <div id="cover" style="position:fixed;width:100vw;height:100vh;background-color:#222;z-index:2;top:0;left:0;"></div>
@@ -28,17 +14,7 @@
 <div id="page">
 <main id="main">
 
-I'm Iris, a writer from Canada. I use this repo to host .. well, anything I want hosted.
-
-\<div id="social-buttons">
-<a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a>
-<a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a>
-<a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a>
-<a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord server</a>
-<a target="_blank" href="https://northofqueen.substack.com">Substack</a>
-</div>
-
-### page listing
+## page listing
 
 \<div id="index"></div>
 
@@ -46,3 +22,4 @@ I'm Iris, a writer from Canada. I use this repo to host .. well, anything I want
 <script src="assets/interpreter.js"></script>
 <script src="assets/layout.js"></script>
 </body></html>
+
