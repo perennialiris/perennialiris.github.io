@@ -13,7 +13,7 @@
     --pad: 47px;
     --main: 740px;
     --toc-width: 242px;
-    --nav-height: 40px;
+    --nav-height: 34px;
     --right-space: clamp(0px, calc(0.2 * calc(100vw - var(--main) - calc(3 * var(--pad)))), 500px);
 }
 
@@ -37,14 +37,14 @@
     ul { list-style-type: disc; } ul ul { list-style-type: inherit; }
 
     #page { min-height: 100vh; color: #303030; font-family: "Segoe UI","Nirmala UI",system-ui; font-size: 14px; line-height: 1.5; display: flex; flex-direction: column; background-color: var(--white); }
-    .dark #page { background-color: #404040; color: #ccc; }
+    .dark #page { background-color: #303030; color: #ccc; }
 
         #header { background-color: #111; padding-right: var(--right-space); }
-        #header a { display: block; width: 272px; height: 75px; margin: 11px auto; padding: 3px 50px; }
+        #header a { display: block; width: 272px; height: 75px; margin: 11px auto 5px; padding: 3px 50px; }
         #header a:hover { opacity: 0.7; }
         #header a img { filter: invert(1); display: block; }
 
-        #nav { height: var(--nav-height); position: sticky; top: 0; padding-right: var(--right-space); color: #666; background-color: #222; display: flex; justify-content: center; align-items: center; }
+        #nav { height: var(--nav-height); position: sticky; top: 0; padding-right: var(--right-space); color: #666; background-color: #111; display: flex; justify-content: center; align-items: center; }
             .nav-inner { margin: 0 1em; width: 100%; max-width: var(--main); display: flex; justify-content: space-between; align-items: stretch; }
                 #page-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--main) - 60px); } /* prevents long title overflow in wide mode */
                     #page-display a { color: #666; }
