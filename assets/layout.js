@@ -178,7 +178,10 @@ function pageLoad() {
                 <div class="c3">
                     <div id="article">${get("main").innerHTML}</div>
                     <footer class="inner-footer">
-                        <div class="see-also"><p>I&rsquo;m Iris, a Canadian woman. I often write about politics, culture, and related topics. I have no particular credentials or experience. I’m literally just some person.</p><p>I can also be found at: <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a> | <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord (my server)</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a></p></div>
+                        <div class="see-also">
+                            <p><i>I&rsquo;m Iris, a Canadian woman. I often write about politics, culture, and related topics. I have no particular credentials or experience. I’m literally just some person.</i></p>
+                            <p>I can also be found at: <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a> | <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord (my server)</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a></p>
+                        </div>
                         <div style="white-space: nowrap;"><a href="index.html">Full page index</a></div>
                     </footer>
                     <footer id="page-bottom">I have no association with any other person or organization. I give broad permission for the stuff I write to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</footer>
