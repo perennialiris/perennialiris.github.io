@@ -125,7 +125,7 @@ function getFileName() {
 let canSwitch = true;
 function lightswitch() {
     if (!canSwitch) return;
-    setTimeout( () => { canSwitch = true; }, 222);
+    setTimeout( () => { canSwitch = true; }, 111);
     canSwitch = false;
     
     if (localStorage.getItem("lightness") == "dark") { localStorage.setItem("lightness", "light"); }
@@ -136,10 +136,8 @@ function setLightness() {
     const mode = localStorage.getItem("lightness");
     if (mode == "light") {
         document.body.classList.remove("dark");
-        get("lightswitch").value = "dark";
     } else if (mode == "dark") {
         document.body.classList.add("dark");
-        get("lightswitch").value = "light";
     }
 }
 
@@ -151,6 +149,15 @@ function tocWidthCheck() {
     } else {
         get("toc").classList.remove("condensed");
         get("toc").parentNode.style.flexDirection = "row";
+    }
+}
+
+function navCheck() {
+    if (pageYOffset > 150) {
+        get("nav").firstElementChild.classList.add("sticky-active");
+    }
+    else {
+        get("nav").firstElementChild.classList.remove("sticky-active");
     }
 }
 
@@ -168,8 +175,8 @@ function pageLoad() {
                     <div id="page-display"></div>
                 </div>
                 <div class="buttons">
-                    <input id="to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="top" type="button">
-                    <input id="lightswitch" onclick="lightswitch()" value="${(localStorage.getItem("lightness") == "dark") ? "light" : "dark"}" type="button">
+                    <input id="to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="to top" type="button">
+                    <input id="lightswitch" onclick="lightswitch()" type="button">
                 </div>
             </div>
         </nav>
@@ -179,7 +186,7 @@ function pageLoad() {
                     <div id="article">${get("main").innerHTML}</div>
                     <footer class="inner-footer">
                         <div class="see-also">
-                            <p><i>I&rsquo;m Iris, a Canadian woman. I often write about politics, culture, and related topics. I have no particular credentials or experience. I’m literally just some person.</i></p>
+                            <p>I&rsquo;m Iris, a Canadian woman. I often write about politics, culture, and related topics. I have no particular credentials or experience. I’m literally just some person.</p>
                             <p>I can also be found at: <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a> | <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord (my server)</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a></p>
                         </div>
                         <div style="white-space: nowrap;"><a href="index.html">Full page index</a></div>
@@ -192,7 +199,6 @@ function pageLoad() {
         `;
     setLightness();
 
-    if (localStorage.getItem("darkmode") == "on") { get("lightswitch").value = "light"; }
     interpreter(get("article"));
 
     get("cover").classList.add("fade-out");
@@ -235,7 +241,7 @@ function pageLoad() {
         index.innerHTML = `<ul>${pageList.full.join("")}</ul>`;
     }
     else {
-        get("page-display").innerHTML = `<a href="index.html">North of Queen</a>: ${currentPageTitle}`;
+        get("page-display").innerHTML = currentPageTitle;
         if (includeToc) {
             console.log("creating table of contents...");
             get("page").classList.add("toc-page");
@@ -259,7 +265,10 @@ function pageLoad() {
             });
         }
     }
-    
+
+    navCheck();
+    window.addEventListener("scroll", navCheck);
+
     if (document.title == "") document.title = "North of Queen";
     else if (document.title.slice(0 - "North of Queen".length) != "North of Queen") document.title += " - North of Queen";
     

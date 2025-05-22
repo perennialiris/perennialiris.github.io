@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap');
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-regular.ttf); font-weight: 400; font-style: normal; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-italic.ttf);  font-weight: 400; font-style: italic; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold.ttf);    font-weight: 700; font-style: normal; }
@@ -13,21 +13,24 @@
     --pad: 47px;
     --main: 740px;
     --toc-width: 242px;
-    --nav-height: 38px;
-    --right-space: clamp(0px, calc(0.2 * calc(100vw - var(--main) - calc(3 * var(--pad)))), 500px);
+    --nav-height: 42px;
+    --right-space: clamp(0px, calc(0.2 * calc(100vw - var(--main) - calc(2 * var(--pad)))), 600px);
+    --accent: #a22;
 }
+.wide { --main: 920px; }
 
 * { margin: 0; padding: 0; }
 ::selection { background-color: #fff1ba; color: #303030; }
-.dark ::selection { background-color: #556088; color: #aaa; }
+.dark ::selection { background-color: #556088; color: #ddd; }
 
 #cover { pointer-events: none; }
 
     html { scroll-padding-top: 60px; scrollbar-color: #777 #ddd; }
-
-    a { --accent: #922; color: var(--accent); text-decoration: none; text-underline-offset: 2px; }
+    
+    a { color: var(--accent); text-decoration: none; text-underline-offset: 2px; }
+    .dark a { --accent: #ea7; }
     a:hover { color: color-mix(in srgb, var(--accent) 90%, white); text-decoration: underline; }
-    .dark a { --accent: #7e8fb7; }
+
     b { font-weight: 700; }
     ul, ol { padding: 0 40px; }
     li, ul, ol { margin-top: 0.5em; }
@@ -35,29 +38,34 @@
     ol > li { margin-left: -2px; padding-left: 2px; }
     ul { list-style-type: disc; } ul ul { list-style-type: inherit; }
 
-    #page { min-height: 100vh; color: #303030; font-family: "Segoe UI","Nirmala UI",system-ui; font-size: 14px; line-height: 1.5; display: flex; flex-direction: column; }
+    #page { min-height: 100vh; color: #303030; font-family: "Segoe UI","Nirmala UI",system-ui; font-size: 14px; line-height: 1.5; display: flex; flex-direction: column; background-color: #fcfcfc; }
     .dark #page { background-color: #303030; color: #ccc; }
 
         #header { background-color: #111; padding-right: var(--right-space); }
-        #header a { display: block; width: 272px; height: 75px; margin: 10px auto; padding: 3px 50px; z-index: 1; position: relative; }
+        #header a { display: block; width: 272px; height: 75px; margin: 16px auto; padding: 3px 50px; z-index: 1; position: relative; }
         #header a:hover { opacity: 0.7; }
         #header a img { filter: invert(1); display: block; }
 
-        #nav { height: var(--nav-height); position: sticky; top: 0; padding-right: var(--right-space); color: #666; background-color: #202020; display: flex; justify-content: center; align-items: center; }
+        #nav { height: var(--nav-height); margin-top: calc(0px - var(--nav-height)); position: sticky; top: 0; padding-right: var(--right-space); color: #666; background-color: #111; display: flex; justify-content: center; align-items: center; }
             .nav-inner { margin: 0 1em; width: 100%; max-width: var(--main); display: flex; justify-content: space-between; align-items: stretch; }
-                #page-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--main) - 60px); } /* prevents long title overflow in wide mode */
+                #page-display { color: #111; visibility: hidden; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--main) - 60px); transition: color 0.4s ease-in-out; }
+                .sticky-active #page-display { visibility: visible; color: #666; }
                     #page-display a { color: #666; }
                     #page-display a:hover { color: #888; text-decoration: none; }
-                    .buttons input { font-family: monospace; cursor: pointer; margin-left: 5px; border: 1px solid #fff2; padding: 2px 6px; background-color: transparent; color: #666; }
-                    .buttons input:hover { background-color: #444; color: #999; }
-                    .buttons input:active { background-color: #555; color: #ccc; }
+                    .buttons { display: flex; }
+                        .buttons input { cursor: pointer; margin-left: 5px; border: 1px solid #303030; padding: 0 10px; background-color: transparent; color: #666; }
+                        .buttons input:hover { background-color: #444; color: #999; }
+                        .buttons input:active { background-color: #555; color: #ccc; }
+
+                        #lightswitch { background-image: url("light-1.png"); background-size: contain; height: 25px; width: 35px; background-position: center; background-repeat: no-repeat; }
+                        #lightswitch:hover { background-image: url("light-2.png"); }
+                        .dark #lightswitch { background-image: url("light-3.png"); }
 
         .c1 { padding-right: var(--right-space); display: flex; }
             .c2 { margin: auto; padding: var(--pad); }
             .toc-page .c2 { gap: var(--pad); }
                 .c3 { }
                 .c3 > * { max-width: var(--main); margin-inline: auto; }
-                .wide #article { max-width: calc(var(--main) + 180px); }
                 .narrow #article { max-width: calc(var(--main) - 150px); }
 
             #toc { max-height: calc(100vh - calc(2 * var(--pad)) - var(--nav-height)); position: sticky; top: calc(var(--pad) + var(--nav-height)); max-width: var(--toc-width); min-width: var(--toc-width); }
@@ -89,7 +97,7 @@
 
                 #article .fine, #article small { font-size: 14px; color: #606060; }
                 .dark #article .fine, .dark #article small { color: #888; }
-                #article .citeref { font-family: "Verdana",sans-serif; margin-left: 1px; vertical-align: top; line-height: 1.3; font-size: 12px; }
+                #article .citeref { margin-left: 1px; vertical-align: top; line-height: 1.3; font-size: 11px; }
                 #article .citeref * { font-family: inherit !important; font-size: inherit !important; }
 
                 #article p { margin: 13px 0; }
@@ -99,11 +107,11 @@
                 #article p,
                 #article li { line-height: 1.7; }
                 #article p b, #article li b, #article blockquote b { letter-spacing: -0.08px; color: #202020; }
-                .dark #article p b, .dark #article li b, .dark #article blockquote b { color: #ccc; }
+                .dark #article p b, .dark #article li b, .dark #article blockquote b { color: #eee; }
                 #article .digit, #article ol > li::marker { font-family: "Georgia Pro",Georgia,serif; }
 
-                #article blockquote { line-height: 1.6; font-size: 15px; margin-block: 1.3em; background-color: #f0f0f0; padding: 1em 1.3em 0.8em; margin-left: 1px; border-left: 3px solid #404040; }
-                .dark #article blockquote { background-color: #393939; border-left: 3px solid #777; }
+                #article blockquote { line-height: 1.6; font-size: 15px; margin-block: 1.3em; background-color: #f0f0f0; padding: 1em 1.5em 0.8em; margin-left: 1px; border-left: 3px solid #505050; }
+                .dark #article blockquote { background-color: #383838; border-color: #777; }
                 #article blockquote br { margin-bottom: 0.8em; }
                 #article blockquote .fine { color: #909090; }
                 .dark #article blockquote .fine { color: #666; }
@@ -131,8 +139,7 @@
                 #article .title-box .date-box { color: #909090; margin: 0.5em 0; font-family: Arial,sans-serif; }
                 .dark #article .title-box .date-box { color: #666; }
 
-                #article .noq-table { border-collapse: collapse; margin-block: 13px; line-height: 1.6; font-size: 14.4px; color: #303030; }
-                .dark #article .noq-table { color: #aaa; }
+                #article .noq-table { border-collapse: collapse; margin-block: 13px; line-height: 1.6; font-size: 14.4px; }
                 #article .noq-table td { border: 1px solid #909090; padding: 5px 7px 4px; }
                 .dark #article .noq-table td { border: 1px solid #666; }
 
