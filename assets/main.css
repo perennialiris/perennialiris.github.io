@@ -3,11 +3,11 @@
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-italic.ttf);  font-weight: 400; font-style: italic; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold.ttf);    font-weight: 700; font-style: normal; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold-italic.ttf); font-weight: 700; font-style: italic; }
-@font-face { font-family: "Noto Sans JP"; src: url(noto-sans-jp.woff2); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Roboto"; src: url(roboto-regular.woff2); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Roboto"; src: url(roboto-italic.woff2); font-weight: 400 700; font-style: italic; }
-@font-face { font-family: "Open Sans"; src: url(open-sans-regular.woff2); font-weight: 400 700; font-style: normal; }
-@font-face { font-family: "Open Sans"; src: url(open-sans-italic.woff2); font-weight: 400 700; font-style: italic; }
+/* @font-face { font-family: "Open Sans"; src: url(open-sans-regular.woff2); font-weight: 400 700; font-style: normal; } */
+/* @font-face { font-family: "Open Sans"; src: url(open-sans-italic.woff2); font-weight: 400 700; font-style: italic; } */
+/* @font-face { font-family: "Noto Sans JP"; src: url(noto-sans-jp.woff2); font-weight: 400 700; font-style: normal; } */
 
 :root {
     --pad: 47px;
@@ -125,7 +125,7 @@
                 #article h2 { font-size: 24px; }
                 #article h3 { font-size: 20px; }
                 #article h4 { font-size: 17px; }
-                #article h1, #article h2, #article h3 { color: black; font-family: "Open Sans","Roboto","Arial",sans-serif; }
+                #article h1, #article h2, #article h3 { color: black; font-family: "Roboto","Arial",sans-serif; }
                 .dark #article h1, .dark #article h2, .dark #article h3 { color: #fff; }
                 #article h1, #article h2, #article h3, #article h4 { line-height: 1.3; font-weight: 700; clear: both; margin: 1em 0 1rem; }
 
