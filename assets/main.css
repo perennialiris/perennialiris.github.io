@@ -1,20 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap');
+
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-regular.ttf); font-weight: 400; font-style: normal; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-italic.ttf);  font-weight: 400; font-style: italic; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold.ttf);    font-weight: 700; font-style: normal; }
 @font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold-italic.ttf); font-weight: 700; font-style: italic; }
 @font-face { font-family: "Roboto"; src: url(roboto-regular.woff2); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Roboto"; src: url(roboto-italic.woff2); font-weight: 400 700; font-style: italic; }
-/* @font-face { font-family: "Open Sans"; src: url(open-sans-regular.woff2); font-weight: 400 700; font-style: normal; } */
-/* @font-face { font-family: "Open Sans"; src: url(open-sans-italic.woff2); font-weight: 400 700; font-style: italic; } */
-/* @font-face { font-family: "Noto Sans JP"; src: url(noto-sans-jp.woff2); font-weight: 400 700; font-style: normal; } */
+@font-face { font-family: "Inter"; src: url(inter-regular.woff2); font-weight: 400 700; font-style: normal; }
+@font-face { font-family: "Inter"; src: url(inter-italic.woff2); font-weight: 400 700; font-style: italic; }
 
 :root {
     --pad: 47px;
     --main: 740px;
     --toc-width: 242px;
     --nav-height: 42px;
-    --right-space: clamp(0px, calc(0.2 * calc(100vw - var(--main) - calc(2 * var(--pad)))), 600px);
+    --right-space: max(0px, calc(0.11 * calc(100vw - var(--main) - calc(2 * var(--pad)))));
     --accent: #a22;
 }
 .wide { --main: 920px; }
@@ -28,7 +27,7 @@
     html { scroll-padding-top: 60px; scrollbar-color: #777 #ddd; }
     
     a { color: var(--accent); text-decoration: none; text-underline-offset: 2px; }
-    .dark a { --accent: #ea7; }
+    .dark a { --accent: #b97; }
     a:hover { color: color-mix(in srgb, var(--accent) 90%, white); text-decoration: underline; }
 
     b { font-weight: 700; }
@@ -37,6 +36,8 @@
     ol + li, ul + li, li + li { margin-block: 7px; }
     ol > li { margin-left: -2px; padding-left: 2px; }
     ul { list-style-type: disc; } ul ul { list-style-type: inherit; }
+    .flex { display: flex; }
+    .align-center { display: flex; align-items: center; }
 
     #page { min-height: 100vh; color: #303030; font-family: "Segoe UI","Nirmala UI",system-ui; font-size: 14px; line-height: 1.5; display: flex; flex-direction: column; background-color: #fcfcfc; }
     .dark #page { background-color: #303030; color: #ccc; }
@@ -48,18 +49,20 @@
 
         #nav { height: var(--nav-height); margin-top: calc(0px - var(--nav-height)); position: sticky; top: 0; padding-right: var(--right-space); color: #666; background-color: #111; display: flex; justify-content: center; align-items: center; }
             .nav-inner { margin: 0 1em; width: 100%; max-width: var(--main); display: flex; justify-content: space-between; align-items: stretch; }
-                #page-display { color: #111; visibility: hidden; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--main) - 60px); transition: color 0.4s ease-in-out; }
-                .sticky-active #page-display { visibility: visible; color: #666; }
+                #page-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--main) - 60px); }
                     #page-display a { color: #666; }
                     #page-display a:hover { color: #888; text-decoration: none; }
-                    .buttons { display: flex; }
-                        .buttons input { cursor: pointer; margin-left: 5px; border: 1px solid #303030; padding: 0 10px; background-color: transparent; color: #666; }
-                        .buttons input:hover { background-color: #444; color: #999; }
-                        .buttons input:active { background-color: #555; color: #ccc; }
-
-                        #lightswitch { background-image: url("light-1.png"); background-size: contain; height: 25px; width: 35px; background-position: center; background-repeat: no-repeat; }
+                    .nav-buttons { padding: 0 3px; height: var(--nav-height); }
+                        #nav:hover .nav-buttons input { border-color: #303030; }
+                        .nav-buttons input { height: 25px; cursor: pointer; margin-left: 5px; border: 1px solid transparent; padding: 0 10px; background-color: transparent; color: #666; }
+                        .nav-buttons input:hover { background-color: #fff1; color: #999; }
+                        .nav-buttons input:active { background-color: #fff2; color: #ccc; }
+                        #lightswitch { background-image: url("light-1.png"); background-size: contain; width: 35px; background-position: center; background-repeat: no-repeat; }
                         #lightswitch:hover { background-image: url("light-2.png"); }
                         .dark #lightswitch { background-image: url("light-3.png"); }
+
+                    #page-display, #to-top { opacity: 0; visibility: hidden; transition: opacity 0.5s ease-in-out; }
+                    .sticky-active #page-display, .sticky-active #to-top { visibility: visible; opacity: 1; }
 
         .c1 { padding-right: var(--right-space); display: flex; }
             .c2 { margin: auto; padding: var(--pad); }
@@ -106,9 +109,7 @@
                 #article blockquote { font-family: "Georgia",serif; }
                 #article p,
                 #article li { line-height: 1.7; }
-                #article p b, #article li b, #article blockquote b { letter-spacing: -0.08px; color: #202020; }
-                .dark #article p b, .dark #article li b, .dark #article blockquote b { color: #eee; }
-                #article .digit, #article ol > li::marker { font-family: "Georgia Pro",Georgia,serif; }
+                #article .digit, #article ol > li::marker { font-family: "Georgia Pro","Georgia",serif; }
 
                 #article blockquote { line-height: 1.6; font-size: 15px; margin-block: 1.3em; background-color: #f0f0f0; padding: 1em 1.5em 0.8em; margin-left: 1px; border-left: 3px solid #505050; }
                 .dark #article blockquote { background-color: #383838; border-color: #777; }
@@ -118,14 +119,14 @@
                 #article blockquote .attribution { text-align: right; margin-top: 0.35em; opacity: 0.8; }
 
                 #article .right-quote-margin { margin-right: -1px; }
-                #article .mdash { margin-inline: 1px; font-family: var(--sans); line-height: 1; }
+                #article .mdash { margin-inline: 1px; line-height: 1; }
                 #article .drop-cap::first-letter { font-size: 3em; float: left; padding: 8px 7px 3px 2px; font-family: "Georgia",serif; }
 
                 #article h1 { font-size: 28px; }
                 #article h2 { font-size: 24px; }
                 #article h3 { font-size: 20px; }
                 #article h4 { font-size: 17px; }
-                #article h1, #article h2, #article h3 { color: black; font-family: "Roboto","Arial",sans-serif; }
+                #article h1, #article h2, #article h3 { color: black; font-family: "Inter","Arial",sans-serif; }
                 .dark #article h1, .dark #article h2, .dark #article h3 { color: #fff; }
                 #article h1, #article h2, #article h3, #article h4 { line-height: 1.3; font-weight: 700; clear: both; margin: 1em 0 1rem; }
 
@@ -154,7 +155,7 @@
                 .dark #article .image-float { border: 1px solid #555; }
                 #article .image-float img { margin: auto; display: block; border: 1px solid #d0d0d0; object-fit: contain; max-width: 200px; max-height: 250px; }
                 .dark #article .image-float img { border: 1px solid #555; }
-                #article .image-float div { text-align: center; padding-top: 5px; line-height: 1.3; max-width: 200px; font-family: var(--sans); }
+                #article .image-float div { text-align: center; padding-top: 5px; line-height: 1.3; max-width: 200px; }
                 #article .image-float.left { float: left; margin-left: 0; }
                 #article .image-float.right { float: right; margin-right: 0; }
 
@@ -172,9 +173,6 @@
 
         #lightbox-container { z-index: 1; width: 100%; height: 100vh; background-color: #000a; position: fixed; left: 0; top: 0; display: none; align-items: center; justify-content: center; }
         #lightbox { object-fit: contain; max-width: 90%; max-height: 90%; }
-
-        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-        .fade-out { animation: fadeOut 1.2s forwards; }
 
 
 

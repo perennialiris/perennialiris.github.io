@@ -163,7 +163,7 @@ function navCheck() {
 
 function pageLoad() {
     if (localStorage.getItem("lightness") == null) { localStorage.setItem("lightness", "light"); }
-    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico"><link rel="stylesheet" href="assets/main.css">`;
+    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
     const fileName = getFileName();
     console.log(fileName);
 
@@ -171,10 +171,10 @@ function pageLoad() {
        `<header id="header"><a href="index.html"><img src="assets/header-image.png" height="75" width="272"></a></header>
         <nav id="nav">
             <div class="nav-inner">
-                <div>
+                <div class="align-center">
                     <div id="page-display"></div>
                 </div>
-                <div class="buttons">
+                <div class="nav-buttons align-center">
                     <input id="to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="to top" type="button">
                     <input id="lightswitch" onclick="lightswitch()" type="button">
                 </div>
@@ -200,9 +200,6 @@ function pageLoad() {
     setLightness();
 
     interpreter(get("article"));
-
-    get("cover").classList.add("fade-out");
-    get("cover").addEventListener("animationend", () => { get("cover").remove(); });
 
     lightboxContainer = get("lightbox-container");
     lightboxImg = get("lightbox");
