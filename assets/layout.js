@@ -19,7 +19,7 @@ let data = `
 28 | The problem with Pierre | politics | 2025-03-15 | 
 27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | toc-left
 26 | Trump news list | news, politics | | pinned wide
-35 | News list | news, politics | | pinned wide
+35 | News list | news, politics | | wide
 25 | A beauty holding a bird | other | 2024-12-23 | narrow
 24 | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19 |
 23 | Passing | transgender, culture | 2025-02-24 |
@@ -48,20 +48,20 @@ let data = `
 index | | | | unlisted narrow
 `;
 
-var lbKeyResponsive = false;
-var lightboxContainer, lightboxImg;
+let canLightbox = true;
 function setLightbox(img) {
-    lbKeyResponsive = false;
-    setTimeout(() => {
-        lbKeyResponsive = true;
-        }, 150);
-    lightboxContainer.style.display = "flex";
-    lightboxImg.src = img.src;
-    lightboxImg.alt = img.alt; }
+    if (!canLightbox) { return; }
+    setTimeout( () => { canLightbox = true; }, 150);
+    canLightbox = false;
+    get("lightbox").src = img.src;
+    get("lightbox").alt = img.alt;
+    get("lightbox").parentNode.style.display = "flex";
+}
 function closeLightbox() {
-    lightboxContainer.style.display = "none";
-    lightboxImg.src = "";
-    lightboxImg.alt = ""; }
+    get("lightbox").parentNode.style.display = "none";
+    get("lightbox").src = "";
+    get("lightbox").alt = "";
+}
 
 function alignTable(dataString, splitChar) {
     const table = dataString.split("\n").filter(c => c.split(splitChar).length == 5).map(row => row.split(splitChar).map(cell => cell.trim()));
@@ -99,6 +99,7 @@ function tocHighlighter() {
     if (!tocUpdateFlag) { return; }
     tocUpdateFlag = false;
     setTimeout(() => { tocUpdateFlag = true; }, 50);
+
     let headingId;
     for (let i = 0; i < headersInArticle.length; i += 1) {
         if (pageYOffset > headersInArticle[i].offsetTop - window.innerHeight * 0.5) {
@@ -122,12 +123,11 @@ function getFileName() {
     return r.replace(/\.html$/, "");
 }
 
-let canSwitch = true;
+let canLightswitch = true;
 function lightswitch() {
-    if (!canSwitch) return;
-    setTimeout( () => { canSwitch = true; }, 111);
-    canSwitch = false;
-    
+    if (!canLightswitch) return;
+    setTimeout( () => { canLightswitch = true; }, 150);
+    canLightswitch = false;
     if (localStorage.getItem("lightness") == "dark") { localStorage.setItem("lightness", "light"); }
     else if (localStorage.getItem("lightness") == "light") { localStorage.setItem("lightness", "dark"); }
     setLightness();
@@ -142,8 +142,7 @@ function setLightness() {
 }
 
 function tocWidthCheck() {
-    const i = window.innerWidth;
-    if (i < 940) {
+    if (window.innerWidth < 820) {
         get("toc").classList.add("condensed");
         get("toc").parentNode.style.flexDirection = "column";
     } else {
@@ -152,10 +151,9 @@ function tocWidthCheck() {
     }
 }
 
-function navCheck() {
+function navStickyCheck() {
     if (pageYOffset > 150) {
-        get("nav").firstElementChild.classList.add("sticky-active");
-    }
+        get("nav").firstElementChild.classList.add("sticky-active"); }
     else {
         get("nav").firstElementChild.classList.remove("sticky-active");
     }
@@ -195,19 +193,15 @@ function pageLoad() {
                 </div>
             </div>
         </div>
-        <div id="lightbox-container" onclick="closeLightbox()"><img id="lightbox"></div>
-        `;
+        <div class="lightbox-wrapper" onclick="closeLightbox()"><img id="lightbox"></div>`;
+    interpreter(get("article"));
     setLightness();
 
-    interpreter(get("article"));
-
-    lightboxContainer = get("lightbox-container");
-    lightboxImg = get("lightbox");
-    window.addEventListener("keydown", function(event) { if (lbKeyResponsive && event.key === 'Escape') { closeLightbox(); } })
+    window.addEventListener("keydown", function(event) { if (event.key === 'Escape') { closeLightbox(); } })
 
     alignTable(data, "|");
     const pageList = { recent: [], pins: [], full: [] };
-    let includeToc = false, tocLeft = false, currentPageTitle = "";
+    let includeToc = false, tocLeft = false, pageTitle = "";
     const dataRows = data.split("\n");
     for (let i = 0; i < dataRows.length; i += 1) {
         const cells = dataRows[i].split("|").map(cell => cell.trim());
@@ -216,18 +210,18 @@ function pageLoad() {
         rowCategory   = cells[2],
         rowDate       = cells[3],
         rowFlags      = cells[4].split(" ");
-        const isCurrent = rowFile == fileName;
+        const isCurrentPage = rowFile == fileName;
         const isPinned = (rowFlags.includes("pinned"));
         let entryClass = "nav-row";
-        if (isCurrent) {
-            currentPageTitle = rowTitle;
+        if (isCurrentPage) {
+            pageTitle = rowTitle;
             if (rowFlags.includes("toc")) { includeToc = true; }
             if (rowFlags.includes("toc-left")) { includeToc = true; tocLeft = true; }
             if (rowFlags.includes("wide")) { get("page").classList.add("wide"); }
             }
         if (rowFlags.includes("unlisted")) { continue; }
         if (isPinned) { entryClass += " pinned"; }
-        if (!isCurrent && pageList.recent.length < 8) { pageList.recent.push(wrapDigits(`<a href="${rowFile}.html">${rowTitle}</a>`)); }
+        if (!isCurrentPage && pageList.recent.length < 8) { pageList.recent.push(wrapDigits(`<a href="${rowFile}.html">${rowTitle}</a>`)); }
         let indexEntry = wrapDigits(`<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img src="assets/pin-icon.png" height="17" width="17">` : ''}</a> – <span>${rowCategory}</span>${rowDate != '' ? ' <span>('+rowDate+')</span>' : ''}</li>`);
         if (isPinned) { pageList.full.unshift(indexEntry); }
         else { pageList.full.push(indexEntry); }
@@ -238,7 +232,7 @@ function pageLoad() {
         index.innerHTML = `<ul>${pageList.full.join("")}</ul>`;
     }
     else {
-        get("page-display").innerHTML = currentPageTitle;
+        get("page-display").innerHTML = pageTitle;
         if (includeToc) {
             console.log("creating table of contents...");
             get("page").classList.add("toc-page");
@@ -263,8 +257,8 @@ function pageLoad() {
         }
     }
 
-    navCheck();
-    window.addEventListener("scroll", navCheck);
+    navStickyCheck();
+    window.addEventListener("scroll", navStickyCheck);
 
     if (document.title == "") document.title = "North of Queen";
     else if (document.title.slice(0 - "North of Queen".length) != "North of Queen") document.title += " - North of Queen";
