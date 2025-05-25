@@ -221,8 +221,8 @@ function pageLoad() {
             }
         if (rowFlags.includes("unlisted")) { continue; }
         if (isPinned) { entryClass += " pinned"; }
-        if (!isCurrentPage && pageList.recent.length < 8) { pageList.recent.push(wrapDigits(`<a href="${rowFile}.html">${rowTitle}</a>`)); }
-        let indexEntry = wrapDigits(`<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img src="assets/pin-icon.png" height="17" width="17">` : ''}</a> – <span>${rowCategory}</span>${rowDate != '' ? ' <span>('+rowDate+')</span>' : ''}</li>`);
+        if (!isCurrentPage && pageList.recent.length < 8) { pageList.recent.push(`<a href="${rowFile}.html">${rowTitle}</a>`); }
+        let indexEntry = `<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img src="assets/pin-icon.png" height="17" width="17">` : ''}</a> – <span>${rowCategory}</span>${rowDate != '' ? ' <span>('+rowDate+')</span>' : ''}</li>`;
         if (isPinned) { pageList.full.unshift(indexEntry); }
         else { pageList.full.push(indexEntry); }
     }

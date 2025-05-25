@@ -127,34 +127,8 @@ function safeConvert(inputString) {
     output += mainReplacements(input);
     return output;
 }
-/* if you want to apply specific styling to numbers only */
-function wrapDigits(inputString) {
-    let output = "";
-    while (true) {
-        const openTag = inputString.indexOf("<"), closeTag = inputString.indexOf(">");
-        if (openTag == -1 || closeTag == -1) { break; }
-        output += inputString.substring(0, openTag).replace(/(\d+)/g, "<span class='digit'>$1</span>");
-        output += inputString.substring(openTag, closeTag + 1);
-        inputString = inputString.substring(closeTag + 1);
-    }
-    output += inputString.replace(/(\d+)/g, "<span class='digit'>$1</span>");
-    return output;
-}
-function wrapElement(targetElement) {
-    let input = targetElement.innerHTML, output = "";
-    while (true) {
-        const openTag = input.indexOf("<"), closeTag = input.indexOf(">");
-        if (openTag == -1 || closeTag == -1) { break; }
-        output += input.substring(0, openTag).replace(/(\d+)/g, "<span class='digit'>$1</span>");
-        output += input.substring(openTag, closeTag + 1);
-        input = input.substring(closeTag + 1);
-    }
-    output += input.replace(/(\d+)/g, "<span class='digit'>$1</span>");
-    targetElement.innerHTML = output;
-}
-
 /* for <code> or like elements, where you don't want normal formatting -- run *before* safeConvert */
-function sanitizeForCode(inputString) {
+function codeSanitize(inputString) {
     return inputString
         .replaceAll("=\"\"", "")
         .replaceAll("\"", "&quot;")
@@ -288,11 +262,11 @@ function interpreter(targetElement) {
         /* div.codeblock: */
         if (input[i].startsWith("```")) {
             input[i] = input[i].replace(/\s*```\n*/g, "");
-            input[i] = "<div class=\"codeblock\">" + sanitizeForCode(input[i]) + "</div>";
+            input[i] = "<div class=\"codeblock\">" + codeSanitize(input[i]) + "</div>";
             continue; }
         /* <code></code>: */
         input[i] = input[i].replace(/`(.+?)`/g, (match, captureGroup) => {
-            return "<code>" + sanitizeForCode(captureGroup) + "</code>"; });
+            return "<code>" + codeSanitize(captureGroup) + "</code>"; });
 
         /* ------------------------ links ------------------------- */
         /* \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\) */
@@ -402,8 +376,6 @@ function interpreter(targetElement) {
         input[i] = `<p>${input[i]}</p>`;
     }
     targetElement.innerHTML = input.join("");
-
-    ["li","p","blockquote"].forEach(x => Array.from(targetElement.getElementsByTagName(x)).forEach(e => wrapElement(e)));
 }
 
 

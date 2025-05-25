@@ -1,10 +1,4 @@
 
-@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-regular.ttf); font-weight: 400; font-style: normal; }
-@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-italic.ttf);  font-weight: 400; font-style: italic; }
-@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold.ttf);    font-weight: 700; font-style: normal; }
-@font-face { font-family: "Georgia Pro"; src: url(georgia-pro-bold-italic.ttf); font-weight: 700; font-style: italic; }
-@font-face { font-family: "Roboto"; src: url(roboto-regular.woff2); font-weight: 400 700; font-style: normal; }
-@font-face { font-family: "Roboto"; src: url(roboto-italic.woff2); font-weight: 400 700; font-style: italic; }
 @font-face { font-family: "Inter"; src: url(inter-regular.woff2); font-weight: 400 700; font-style: normal; }
 @font-face { font-family: "Inter"; src: url(inter-italic.woff2); font-weight: 400 700; font-style: italic; }
 
@@ -42,9 +36,11 @@
     .dark #page { background-color: #303030; color: #ccc; }
 
         #header { background-color: #111; }
-        #header a { display: block; width: 272px; height: 75px; margin: 16px auto; padding: 3px 50px; z-index: 1; position: relative; }
+        #header a { display: block; width: 272px; height: 75px; margin: 16px auto; padding: 3px 50px; z-index: 1; position: relative; } /* 0+3+3+16+16+75 = 113 */
         #header a:hover { opacity: 0.7; }
         #header a img { filter: invert(1); display: block; }
+        #header::before { content: ""; top: 0; left: 0; width: 100%; height: 113px; position: absolute; display: block; z-index: 1; background-image: linear-gradient(#333, #0000); pointer-events: none; }
+        .dark #header::before { background-image: none; }
 
         #nav { height: var(--nav-height); margin-top: calc(0px - var(--nav-height)); position: sticky; top: 0; color: #666; background-color: #111; display: flex; justify-content: center; align-items: center; }
             .nav-inner { margin: 0 1em; width: 100%; max-width: var(--main-width); display: flex; justify-content: space-between; align-items: stretch; }
@@ -89,7 +85,7 @@
                 .dark #toc .toc-row.active-heading { color: #aaa; }
             #toc .toc-row.h3 { margin-left: 15px; }
 
-            #article { font-size: 15.4px; }
+            #article { font-size: 14.4px; }
 
                 #article > :nth-child(1) { margin-top: 0 !important; }
                 #article hr { margin-block: 20px !important; border: none; height: 1px; width: 100%; background-color: #909090; }
@@ -98,13 +94,13 @@
 
                 #article .fine, #article small { font-size: 14px; color: #606060; }
                 .dark #article .fine, .dark #article small { color: #888; }
-                #article .citeref { margin-left: 1px; vertical-align: top; line-height: 1.3; font-size: 11px; }
+                #article .citeref { margin-left: 1px; vertical-align: top; line-height: 1.3; font-size: 11px; font-family: "Verdana",monospace; }
                 #article .citeref * { font-family: inherit !important; font-size: inherit !important; }
 
                 #article p { margin: 13px 0; }
                 #article p,
                 #article li,
-                #article blockquote { font-family: "Georgia",serif; }
+                #article blockquote { font-family: "Georgia","Times",serif; font-size: 15.4px; }
                 #article p,
                 #article li { line-height: 1.7; }
                 #article .digit, #article ol > li::marker { font-family: "Georgia Pro","Georgia",serif; }
@@ -117,25 +113,25 @@
                 #article blockquote .attribution { text-align: right; margin-top: 0.35em; opacity: 0.8; }
 
                 #article .right-quote-margin { margin-right: -1px; }
-                #article .mdash { margin-inline: 1px; line-height: 1; }
-                #article .drop-cap::first-letter { font-size: 3em; float: left; padding: 8px 7px 3px 2px; font-family: "Georgia",serif; }
+                #article .mdash { margin-inline: 1px; line-height: 1; font-family: "Segoe UI","Nirmala UI",system-ui; }
+                #article .drop-cap::first-letter { font-size: 3em; float: left; padding: 8px 7px 3px 2px; font-family: "Georgia","Times",serif; }
 
                 #article h1 { font-size: 28px; }
                 #article h2 { font-size: 24px; }
                 #article h3 { font-size: 20px; }
                 #article h4 { font-size: 17px; }
                 #article h1, #article h2, #article h3 { color: black; font-family: "Inter","Arial",sans-serif; }
-                .dark #article h1, .dark #article h2, .dark #article h3 { color: #fff; }
+                .dark #article h1, .dark #article h2, .dark #article h3 { color: white; }
                 #article h1, #article h2, #article h3, #article h4 { line-height: 1.3; font-weight: 700; clear: both; margin: 1em 0 1rem; }
 
                 #article code, #article .codeblock { white-space: pre-wrap; font-family: monospace; }
-                #article code { margin-inline: 1px; padding: 3px; background-color: #e0e0e0; font-size: calc(var(--font-size-larger) - 2px); }
+                #article code { margin-inline: 1px; padding: 3px; background-color: #e0e0e0; font-size: 13px; }
                 .dark #article code { background-color: #505050; }
                 #article .codeblock { padding: 10px 17px 13px; background-color: #f0f0f0; border-left: 3px solid #404040; }
                 .dark #article .codeblock { background-color: #393939; border-left: 3px solid #777; }
 
                 #article .title-box h1 { margin: 0; }
-                #article .title-box .date-box { color: #909090; margin: 0.5em 0; font-family: Arial,sans-serif; }
+                #article .title-box .date-box { color: #909090; margin: 0.5em 0; font-family: "Arial",sans-serif; }
                 .dark #article .title-box .date-box { color: #666; }
 
                 #article .noq-table { border-collapse: collapse; margin-block: 13px; line-height: 1.6; font-size: 14.4px; }
