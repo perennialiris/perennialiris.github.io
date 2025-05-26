@@ -87,18 +87,17 @@ function alignTable(dataString, splitChar) {
         return 0;
     });
     data = table.map(c => c.join(` ${splitChar} `)).join("\n");
-    // console.log(data);
 }
 
 var headersInArticle;
 var tocLinks = [];
 var rowsInToc;
 var currentHeading = "";
-var tocUpdateFlag = true;
+var canUpdateToc = true;
 function tocHighlighter() {
-    if (!tocUpdateFlag) { return; }
-    tocUpdateFlag = false;
-    setTimeout(() => { tocUpdateFlag = true; }, 50);
+    if (!canUpdateToc) { return; }
+    canUpdateToc = false;
+    setTimeout(() => { canUpdateToc = true; }, 50);
 
     let headingId;
     for (let i = 0; i < headersInArticle.length; i += 1) {
@@ -106,14 +105,12 @@ function tocHighlighter() {
             headingId = headersInArticle[i].id; }
         else {
             break; } }
-    console.log(headingId)
     if (headingId != currentHeading) {
     for (let i = 0; i < rowsInToc.length; i += 1) {
         rowsInToc[i].classList.remove("active-heading");
         if (rowsInToc[i].getAttribute("href") == "#" + headingId) {
             rowsInToc[i].classList.add("active-heading"); } } }
     currentHeading = headingId;
-    console.log(currentHeading)
 }
 
 function getFileName() {
@@ -142,28 +139,36 @@ function setLightness() {
 }
 
 function tocWidthCheck() {
-    if (window.innerWidth < 820) {
-        get("toc").classList.add("condensed");
-        get("toc").parentNode.style.flexDirection = "column";
+    if (window.innerWidth < 940) {
+        get("page").classList.add("toc-top");
     } else {
-        get("toc").classList.remove("condensed");
-        get("toc").parentNode.style.flexDirection = "row";
+        get("page").classList.remove("toc-top");
     }
 }
 
 function navStickyCheck() {
     if (pageYOffset > 150) {
-        get("nav").firstElementChild.classList.add("sticky-active"); }
+        get("nav").classList.add("sticky-active"); }
     else {
-        get("nav").firstElementChild.classList.remove("sticky-active");
+        get("nav").classList.remove("sticky-active");
     }
+}
+
+function hideToc() {
+    get("page").classList.remove("toc-page");
+    get("show-toc").style.display = "block";
+    localStorage.setItem("tocVisibility", "hidden");
+}
+function showToc() {
+    get("page").classList.add("toc-page");
+    get("show-toc").style.display = "none";
+    localStorage.setItem("tocVisibility", "visible");
 }
 
 function pageLoad() {
     if (localStorage.getItem("lightness") == null) { localStorage.setItem("lightness", "light"); }
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
     const fileName = getFileName();
-    console.log(fileName);
 
     get("page").innerHTML =
        `<header id="header"><a href="index.html"><img src="assets/header-image.png" height="75" width="272"></a></header>
@@ -171,26 +176,25 @@ function pageLoad() {
             <div class="nav-inner">
                 <div class="align-center">
                     <div id="page-display"></div>
+                    <input id="show-toc" class="toc-button" onclick="showToc()" type="button" value="show table of contents" style="display: none;">
                 </div>
-                <div class="nav-buttons align-center">
-                    <input id="to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="to top" type="button">
-                    <input id="lightswitch" onclick="lightswitch()" type="button">
+                <div class="align-center">
+                    <input id="to-top" class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="jump to top" type="button">
+                    <input id="lightswitch" class="nav-button" onclick="lightswitch()" type="button">
                 </div>
             </div>
         </nav>
-        <div class="c1">
-            <div class="c2">
-                <div class="c3">
-                    <div id="article">${get("main").innerHTML}</div>
-                    <footer class="inner-footer">
-                        <div class="see-also">
-                            <p>I&rsquo;m Iris, a Canadian woman. I often write about politics, culture, and related topics. I have no particular credentials or experience. I’m literally just some person.</p>
-                            <p>I can also be found at: <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a> | <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord (my server)</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a></p>
-                        </div>
-                        <div style="white-space: nowrap;"><a href="index.html">Full page index</a></div>
-                    </footer>
-                    <footer id="page-bottom">I have no association with any other person or organization. I give broad permission for the stuff I write to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</footer>
-                </div>
+        <div class="c2">
+            <div class="c3">
+                <div id="article">${get("main").innerHTML}</div>
+                <footer class="article-footer">
+                    <div class="see-also">
+                        <p>I&rsquo;m Iris, a Canadian woman. I often write about politics, culture, and related topics. I have no particular credentials or experience. I’m literally just some person.</p>
+                        <p>I can also be found at: <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a> | <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord (my server)</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a></p>
+                    </div>
+                    <div style="white-space: nowrap;"><a href="index.html">Full page index</a></div>
+                </footer>
+                <footer class="page-bottom">I have no association with any other person or organization. I give broad permission for the stuff I write to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</footer>
             </div>
         </div>
         <div class="lightbox-wrapper" onclick="closeLightbox()"><img id="lightbox"></div>`;
@@ -234,14 +238,15 @@ function pageLoad() {
     else {
         get("page-display").innerHTML = pageTitle;
         if (includeToc) {
+            if (localStorage.getItem("tocVisibility") == null) { localStorage.setItem("tocVisibility", "visible"); }
             console.log("creating table of contents...");
             get("page").classList.add("toc-page");
-            const c1 = get("article").parentNode.parentNode;
-            c1.style.display = "flex";
-            const toc = tocLeft ? c1.insertBefore(document.createElement("div"), c1.firstChild) : c1.appendChild(document.createElement("div"));
-            if (!tocLeft) { c1.style.paddingRight = "0"; }
+            const c2 = get("article").parentNode.parentNode;
+            const toc = tocLeft
+                ? c2.insertBefore(document.createElement("div"), c2.firstChild)
+                : c2.appendChild(document.createElement("div"));
             toc.id = "toc";
-            toc.innerHTML = `<div class="toc-title">Content</div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${tocLinks.slice(1).join("")}</div>`;
+            toc.innerHTML = `<div class="toc-header"><h2>Content</h2><input type="button" value="hide" onclick="hideToc()" class="toc-button"></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${tocLinks.slice(1).join("")}</div>`;
             rowsInToc = Array.from(get("toc").getElementsByClassName("toc-row"));
             headersInArticle = Array.from(document.getElementsByClassName("noq-header"));
             window.addEventListener("resize", tocWidthCheck);
@@ -254,6 +259,7 @@ function pageLoad() {
                 else {
                     scroller.classList.remove("hide-mask"); }
             });
+            if (localStorage.getItem("tocVisibility") == "hidden") { hideToc(); }
         }
     }
 
