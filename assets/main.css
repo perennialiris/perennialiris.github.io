@@ -40,7 +40,7 @@
     body { margin: 0; }
 
     a { color: var(--accent-link); text-decoration: none; text-underline-offset: 2px; text-decoration: none; text-underline-offset: 2px; }
-    a:hover { text-decoration: underline; color: color-mix(in srgb, currentcolor 90%, white); }
+    a:hover { text-decoration: underline; color: color-mix(in srgb, var(--accent-link) 90%, white); }
     .dark a { color: var(--accent-link-dark); }
 
     input, p, h1, h2, h3, h4 { margin: 0; padding: 0; }
