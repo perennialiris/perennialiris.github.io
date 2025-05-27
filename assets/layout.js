@@ -1,23 +1,92 @@
 
-"use strict";
+"use strict"
 
-function get(id) { let temp = document.getElementById(id); if (temp == null) { console.error(`document.getElementById("${id}") returned null`); } return temp; }
+function get(id) {
+    let ref = document.getElementById(id);
+    if (ref == null) { console.error(`document.getElementById("${id}") returned null`); }
+    return ref;
+}
+
+function setMenu(action) {
+    switch (action) {
+        case "show":
+            get("menu").classList.remove("hidden");
+            localStorage.setItem("menuState", "visible");
+            break;
+        case "hide":
+            get("menu").classList.add("hidden");
+            localStorage.setItem("menuState", "hidden");
+            break;
+        default:
+            const mode = localStorage.getItem("menuState");
+            if (mode == null || mode == "hidden") {
+                setMenu("show");
+            } else {
+                setMenu("hide");
+            }
+            break;
+    }
+}
+function setBrightness(setValue) {
+    switch (setValue) {
+        case "light":
+            get("page").classList.remove("dark");
+            get("lightswitch").checked = false;
+            localStorage.setItem("brightness", "light");
+            break;
+        case "dark":
+            get("page").classList.add("dark");
+            get("lightswitch").checked = true;
+            localStorage.setItem("brightness", "dark");
+            break;
+        default:
+            const mode = localStorage.getitem("brightness");
+            if (mode == null || mode == "light") {
+                setBrightness("dark");
+            } else {
+                setBrightness("light");
+            }
+            break;
+    }
+}
+
+function setToc(action) {
+    switch (action) {
+        case "show":
+            get("table-of-contents").classList.remove("hidden");
+            get("tocToggle").checked = true;
+            localStorage.setItem("tocState", "visible");
+            break;
+        case "hide":
+            get("table-of-contents").classList.add("hidden");
+            get("tocToggle").checked = false;
+            localStorage.setItem("tocState", "hidden");
+            break;
+        default:
+            const mode = localStorage.getItem("tocState");
+            if (mode == "visible") {
+                setToc("hide");
+            } else if (mode == "hidden" || mode == null) {
+                setToc("show");
+            }
+    }
+}
 
 let data = `
 41 | Normalization and status quo bias | politics, culture | 2025-04-20 | 
 40 | Trump and Russia | politics | 2025-03-05 | 
 39 | Movies | other | | narrow unlisted
 38 | 
-37 | Bluesky accounts listing | other | | toc-left wide
+37 | Bluesky accounts listing | other | | toc wide
 36 | India | history, politics | 2025-03-05 | 
 34 | The Nazi salute | news, politics | 2025-01-24 | narrow
 33 | 
-32 | Politics fundamentals | politics | 2025-01-05 | toc-left wide
+32 | Politics fundamentals | politics | 2025-01-05 | toc wide
 31 | Reflections on Justin Trudeau | news, politics | 2025-01-08 |
 30 | The appearance of intelligence | other | 2025-01-18 |
 29 | Date formats | other | 2025-01-11 | narrow
 28 | The problem with Pierre | politics | 2025-03-15 | 
-27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | toc-left
+27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | toc
 26 | Trump news list | news, politics | | pinned wide
 35 | News list | news, politics | | wide
 25 | A beauty holding a bird | other | 2024-12-23 | narrow
@@ -25,7 +94,7 @@ let data = `
 23 | Passing | transgender, culture | 2025-02-24 |
 22 | Dehumanization | politics | 2024-12-15 |
 21 | Relationships | personal | 2024-12-14 | unlisted
-20 | Israel–Palestine notes | politics | 2025-02-24 | toc-left unlisted
+20 | Israel–Palestine notes | politics | 2025-02-24 | toc unlisted
 19 | Ilhan Omar’s comments about Somalia | politics | 2025-02-12 |
 18 | Transcripts: context for inflammatory Trump statements | politics | |
 17 | Why get bottom surgery? | transgender, culture | 2025-02-09 |
@@ -45,14 +114,10 @@ let data = `
 3 | Poor things (2023 film) | culture | 2024-10-31 |
 2 | The trans prison stats argument | transgender, politics | 2024-10-19 |
 1 | Language | personal | 2024-10-29 |
-index | | | | unlisted narrow
-`;
+index | | | | unlisted narrow`;
 
-let canLightbox = true;
+
 function setLightbox(img) {
-    if (!canLightbox) { return; }
-    setTimeout( () => { canLightbox = true; }, 150);
-    canLightbox = false;
     get("lightbox").src = img.src;
     get("lightbox").alt = img.alt;
     get("lightbox").parentNode.style.display = "flex";
@@ -89,123 +154,103 @@ function alignTable(dataString, splitChar) {
     data = table.map(c => c.join(` ${splitChar} `)).join("\n");
 }
 
-var headersInArticle;
-var tocLinks = [];
-var rowsInToc;
-var currentHeading = "";
-var canUpdateToc = true;
-function tocHighlighter() {
-    if (!canUpdateToc) { return; }
-    canUpdateToc = false;
-    setTimeout(() => { canUpdateToc = true; }, 50);
-
-    let headingId;
-    for (let i = 0; i < headersInArticle.length; i += 1) {
-        if (pageYOffset > headersInArticle[i].offsetTop - window.innerHeight * 0.5) {
-            headingId = headersInArticle[i].id; }
-        else {
-            break; } }
-    if (headingId != currentHeading) {
-    for (let i = 0; i < rowsInToc.length; i += 1) {
-        rowsInToc[i].classList.remove("active-heading");
-        if (rowsInToc[i].getAttribute("href") == "#" + headingId) {
-            rowsInToc[i].classList.add("active-heading"); } } }
-    currentHeading = headingId;
-}
-
 function getFileName() {
     const u = document.baseURI.split("/").slice(-1)[0];
     const i = u.indexOf("#");
     const r = i == -1 ? u : u.substring(0, i);
     return r.replace(/\.html$/, "");
 }
-
-let canLightswitch = true;
-function lightswitch() {
-    if (!canLightswitch) return;
-    setTimeout( () => { canLightswitch = true; }, 150);
-    canLightswitch = false;
-    if (localStorage.getItem("lightness") == "dark") { localStorage.setItem("lightness", "light"); }
-    else if (localStorage.getItem("lightness") == "light") { localStorage.setItem("lightness", "dark"); }
-    setLightness();
-}
-function setLightness() {
-    const mode = localStorage.getItem("lightness");
-    if (mode == "light") {
-        document.body.classList.remove("dark");
-    } else if (mode == "dark") {
-        document.body.classList.add("dark");
-    }
+function flashGear() {
+    const gear = document.querySelector(".gear");
+    gear.classList.add("yellow-flash");
 }
 
-function tocWidthCheck() {
-    if (window.innerWidth < 940) {
-        get("page").classList.add("toc-top");
-    } else {
-        get("page").classList.remove("toc-top");
-    }
-}
-
-function navStickyCheck() {
-    if (pageYOffset > 150) {
-        get("nav").classList.add("sticky-active"); }
-    else {
-        get("nav").classList.remove("sticky-active");
-    }
-}
-
-function hideToc() {
-    get("page").classList.remove("toc-page");
-    get("show-toc").style.display = "block";
-    localStorage.setItem("tocVisibility", "hidden");
-}
-function showToc() {
-    get("page").classList.add("toc-page");
-    get("show-toc").style.display = "none";
-    localStorage.setItem("tocVisibility", "visible");
-}
-
+var tocLinks = [];
 function pageLoad() {
-    if (localStorage.getItem("lightness") == null) { localStorage.setItem("lightness", "light"); }
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
     const fileName = getFileName();
 
+    if (localStorage.getItem("brightness") == null) { localStorage.setItem("brightness","light"); }
+    else if (localStorage.getItem("brightness") == "dark") { get("page").classList.add("dark"); }
+
+    if (localStorage.getItem("theme-color") == null) { localStorage.setItem("theme-color", "theme-red"); }
+
+    get("page").classList.add(localStorage.getItem("theme-color"));
     get("page").innerHTML =
-       `<header id="header"><a href="index.html"><img src="assets/header-image.png" height="75" width="272"></a></header>
-        <nav id="nav">
+       `<div class="pointless-black-bar" style="height: var(--nav-height); background-color: black;"></div>
+        <header class="main-header align-center"><a class="title-link" href="index.html">North of Queen</a></header>
+        <nav class="main-nav">
             <div class="nav-inner">
                 <div class="align-center">
-                    <div id="page-display"></div>
-                    <input id="show-toc" class="toc-button" onclick="showToc()" type="button" value="show table of contents" style="display: none;">
+                    <div class="page-display"></div>
                 </div>
                 <div class="align-center">
-                    <input id="to-top" class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="jump to top" type="button">
-                    <input id="lightswitch" class="nav-button" onclick="lightswitch()" type="button">
+                    <input class="to-top nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="Top" type="button">
+                    <div id="menu" class="hidden">
+                        <div>
+                            <span class="no-select">Dark mode:</span>
+                            <label class="menu-switch">
+                                <input type="checkbox" id="lightswitch">
+                                <span class="menu-slider"></span>
+                            </label>
+                        </div>
+                        <div>
+                            <span class="no-select">Theme color:</span>
+                            <select id="theme-color-select">
+                                <option value="theme-red">Red</option>
+                                <option value="theme-green">Green</option>
+                                <option value="theme-blue">Blue</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="no-select">Header font:</span>
+                            <select id="header-font-select">
+                                <option value="Inter">Inter</option>
+                                <option value="Lora">Lora</option>
+                                <option value="Trebuchet MS">Trebuchet MS</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="no-select">Body font:</span>
+                            <select id="body-font-select">
+                                <option value="Georgia">Georgia</option>
+                                <option value="Roboto">Roboto</option>
+                                <option value="Trebuchet MS">Trebuchet MS</option>
+                            </select>
+                        </div>
+                    </div><input class="gear" onclick="setMenu('toggle')" title="Options" type="button">
                 </div>
             </div>
         </nav>
         <div class="c2">
             <div class="c3">
-                <div id="article">${get("main").innerHTML}</div>
+                <style id="theme-style"></style>
+                <article id="main-content">${get("main").innerHTML}</article>
                 <footer class="article-footer">
-                    <div class="see-also">
-                        <p>I&rsquo;m Iris, a Canadian woman. I often write about politics, culture, and related topics. I have no particular credentials or experience. I’m literally just some person.</p>
-                        <p>I can also be found at: <a target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a> | <a target="_blank" href="https://youtube.com/@perennialiris">YouTube</a> | <a target="_blank" href="https://bsky.app/profile/irispol.bsky.social">Bluesky</a> | <a target="_blank" href="https://discord.com/invite/puJEP8HKk3">Discord (my server)</a> | <a target="_blank" href="https://northofqueen.substack.com">Substack</a></p>
-                    </div>
+                    <div class="see-also"></div>
                     <div style="white-space: nowrap;"><a href="index.html">Full page index</a></div>
                 </footer>
                 <footer class="page-bottom">I have no association with any other person or organization. I give broad permission for the stuff I write to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</footer>
             </div>
         </div>
         <div class="lightbox-wrapper" onclick="closeLightbox()"><img id="lightbox"></div>`;
-    interpreter(get("article"));
-    setLightness();
+    interpreter(get("main-content"));
 
-    window.addEventListener("keydown", function(event) { if (event.key === 'Escape') { closeLightbox(); } })
+    if (localStorage.getItem("brightness") == "dark") { get("lightswitch").checked = true; }
+    get("lightswitch").addEventListener("change", function() {
+        setBrightness(this.checked ? "dark" : "light");
+    });
+
+    window.addEventListener("keydown", function(e) {
+        if (e.key === 'Escape') {
+            closeLightbox();
+            setMenu("hide");
+        }
+    });
 
     alignTable(data, "|");
     const pageList = { recent: [], pins: [], full: [] };
-    let includeToc = false, tocLeft = false, pageTitle = "";
+    let includeToc = false, pageTitle = "";
     const dataRows = data.split("\n");
     for (let i = 0; i < dataRows.length; i += 1) {
         const cells = dataRows[i].split("|").map(cell => cell.trim());
@@ -220,9 +265,7 @@ function pageLoad() {
         if (isCurrentPage) {
             pageTitle = rowTitle;
             if (rowFlags.includes("toc")) { includeToc = true; }
-            if (rowFlags.includes("toc-left")) { includeToc = true; tocLeft = true; }
-            if (rowFlags.includes("wide")) { get("page").classList.add("wide"); }
-            }
+            if (rowFlags.includes("wide")) { get("page").classList.add("wide"); } }
         if (rowFlags.includes("unlisted")) { continue; }
         if (isPinned) { entryClass += " pinned"; }
         if (!isCurrentPage && pageList.recent.length < 8) { pageList.recent.push(`<a href="${rowFile}.html">${rowTitle}</a>`); }
@@ -233,47 +276,149 @@ function pageLoad() {
     
     const index = document.getElementById("index");
     if (index) {
-        index.innerHTML = `<ul>${pageList.full.join("")}</ul>`;
+        index.innerHTML = pageList.full.join("");
     }
     else {
-        get("page-display").innerHTML = pageTitle;
+        document.querySelector(".page-display").innerHTML = pageTitle;
         if (includeToc) {
-            if (localStorage.getItem("tocVisibility") == null) { localStorage.setItem("tocVisibility", "visible"); }
             console.log("creating table of contents...");
-            get("page").classList.add("toc-page");
-            const c2 = get("article").parentNode.parentNode;
-            const toc = tocLeft
-                ? c2.insertBefore(document.createElement("div"), c2.firstChild)
-                : c2.appendChild(document.createElement("div"));
-            toc.id = "toc";
-            toc.innerHTML = `<div class="toc-header"><h2>Content</h2><input type="button" value="hide" onclick="hideToc()" class="toc-button"></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${tocLinks.slice(1).join("")}</div>`;
-            rowsInToc = Array.from(get("toc").getElementsByClassName("toc-row"));
-            headersInArticle = Array.from(document.getElementsByClassName("noq-header"));
+            const tocToggleContainer = get("menu").insertBefore(document.createElement("div"), get("menu").firstElementChild);
+            tocToggleContainer.innerHTML = `<span class="no-select">Table of contents:</span><label class="menu-switch"><input type="checkbox" id="tocToggle"><span class="menu-slider"></span></label>`;
+            
+            get("tocToggle").addEventListener("change", function() {
+                setToc(this.checked ? "show" : "hide");
+            });
+
+            const c2 = get("main-content").parentNode.parentNode;
+            const toc = c2.insertBefore(document.createElement("nav"), c2.firstChild);
+            toc.id = "table-of-contents";
+            if (localStorage.getItem("tocState") == "hidden") { setToc("hide"); }
+            else { get("tocToggle").checked = true; }
+            toc.innerHTML = `<div class="toc-header"><h2>Content</h2><input type="button" value="hide" onclick="setToc('close'); flashGear()" class="toc-button"></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${tocLinks.slice(1).join("")}</div>`;
+            let rowsInToc = Array.from(get("table-of-contents").getElementsByClassName("toc-row"));
+            let headersInArticle = Array.from(document.getElementsByClassName("noq-header"));
+
+            let currentHeading = "", canUpdateToc = true;
+            function tocHighlighter() {
+                if (!canUpdateToc) { return; }
+                canUpdateToc = false;
+                setTimeout(() => { canUpdateToc = true; }, 100);
+                let headingId;
+                for (let i = 0; i < headersInArticle.length; i += 1) {
+                    if (pageYOffset > headersInArticle[i].offsetTop - window.innerHeight * 0.5) {
+                        headingId = headersInArticle[i].id; }
+                    else {
+                        break; } }
+                if (headingId != currentHeading) {
+                for (let i = 0; i < rowsInToc.length; i += 1) {
+                    rowsInToc[i].classList.remove("active-heading");
+                    if (rowsInToc[i].getAttribute("href") == "#" + headingId) {
+                        rowsInToc[i].classList.add("active-heading"); } } }
+                currentHeading = headingId;
+            }
+            function tocWidthCheck() {
+                if (window.innerWidth < 800) { get("page").classList.add("toc-vertical"); }
+                else { get("page").classList.remove("toc-vertical"); }
+            }
             window.addEventListener("resize", tocWidthCheck);
             window.addEventListener("scroll", tocHighlighter);
             setTimeout(() => { tocWidthCheck(); tocHighlighter(); }, 100);
-            const scroller = document.getElementsByClassName("scroller")[0];
-            scroller.addEventListener("scroll", () => {
-                if (scroller.scrollHeight - scroller.scrollTop <= scroller.clientHeight + 20) {
+
+            const scroller = get("table-of-contents").getElementsByClassName("scroller")[0];
+            function scrollerHandler() {
+                if (scroller.scrollHeight == scroller.offsetHeight || scroller.scrollHeight - scroller.scrollTop <= scroller.clientHeight + 20) {
                     scroller.classList.add("hide-mask"); }
                 else {
-                    scroller.classList.remove("hide-mask"); }
-            });
-            if (localStorage.getItem("tocVisibility") == "hidden") { hideToc(); }
+                    scroller.classList.remove("hide-mask"); } }
+            ["scroll", "resize"].forEach(e => { scroller.addEventListener(e, scrollerHandler); });
+            scrollerHandler();
         }
     }
 
+    document.addEventListener("click", function(e) {
+        if (!get("menu").contains(e.target) && !get("menu").nextElementSibling.contains(e.target)) {
+            setMenu("hide");
+        }
+    });
+
+    function navStickyCheck() {
+        if (pageYOffset > 150) {
+            document.getElementsByClassName("main-nav")[0].classList.add("sticky-active"); }
+        else {
+            document.getElementsByClassName("main-nav")[0].classList.remove("sticky-active"); }
+    }
     navStickyCheck();
     window.addEventListener("scroll", navStickyCheck);
 
+    // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+    let bodyFont = localStorage.getItem("body-font");
+    if (bodyFont == null) {
+        bodyFont = "Georgia"; // default value
+        localStorage.setItem("body-font", bodyFont);
+    }
+    get("body-font-select").value = bodyFont;
+    get("body-font-select").addEventListener("change", function() {
+        localStorage.setItem("body-font", this.value);
+        updateFonts();
+    })
+    // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+    let headerFont = localStorage.getItem("header-font");
+    if (headerFont == null) {
+        headerFont = "Inter"; // default value
+        localStorage.setItem("header-font", headerFont);
+    }
+    get("header-font-select").value = headerFont;
+    get("header-font-select").addEventListener("change", function() {
+        localStorage.setItem("header-font", this.value);
+        updateFonts();
+    })
+    // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+    updateFonts();
+    // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+    let themeColor = localStorage.getItem("theme-color");
+    if (themeColor == null) {
+        themeColor = "red"; // default value
+        localStorage.setItem("theme-color", themeColor);
+    }
+    get("theme-color-select").value = themeColor;
+    get("theme-color-select").addEventListener("change", function() {
+        localStorage.setItem("theme-color", this.value);
+        if (this.value == "theme-blue") { get("page").classList.add("theme-blue"); } else { get("page").classList.remove("theme-blue"); }
+        if (this.value == "theme-green") { get("page").classList.add("theme-green"); } else { get("page").classList.remove("theme-green"); }
+        if (this.value == "theme-red") { get("page").classList.add("theme-red"); } else { get("page").classList.remove("theme-red"); }
+    })
+
     if (document.title == "") document.title = "North of Queen";
     else if (document.title.slice(0 - "North of Queen".length) != "North of Queen") document.title += " - North of Queen";
-    
 }
 
 window.addEventListener("load", pageLoad);
 
+function updateFonts() {
+    let bodyFont = localStorage.getItem("body-font");
+    if (bodyFont == null) { bodyFont = "Georgia"; }
 
+    let headerFont = localStorage.getItem("header-font");
+    if (headerFont == null) { headerFont = "Inter"; }
+
+    function fallback(f) {
+        switch (f) {
+            case "Georgia":
+            case "Constantia":
+            case "Lora":
+                return f + ",serif";
+                break;
+            case "Segoe UI":
+                return f + ",system-ui";
+                break;
+            default:
+                return f + ",sans-serif";
+        }
+    }
+    get("theme-style").innerHTML = `#main-content { font-family: ${fallback(bodyFont)}; } #main-content h1, #main-content h2, #main-content h3, #main-content h4 { font-family: ${fallback(headerFont)}; }`;
+    localStorage.setItem("body-font", bodyFont);
+    localStorage.setItem("header-font", headerFont);
+}
 
 
 
