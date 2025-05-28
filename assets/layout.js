@@ -49,7 +49,28 @@ function setBrightness(setValue) {
             break;
     }
 }
-
+function setTextAlign(setValue) {
+    switch (setValue) {
+        case "left":
+            get("main-content").style.textAlign = "left";
+            get("text-align-switch").checked = false;
+            localStorage.setItem("text-align", "left");
+            break;
+        case "justify":
+            get("main-content").style.textAlign = "justify";
+            get("text-align-switch").checked = true;
+            localStorage.setItem("text-align", "justify");
+            break;
+        default:
+            const mode = localStorage.getitem("text-align");
+            if (mode == null || mode == "left") {
+                setBrightness("justify");
+            } else {
+                setBrightness("left");
+            }
+            break;
+    }
+}
 function setToc(action) {
     switch (action) {
         case "show":
@@ -218,6 +239,14 @@ function pageLoad() {
                                 <option value="Trebuchet MS">Trebuchet MS</option>
                             </select>
                         </div>
+                        <div>
+                            <span class="no-select">Justify text:</span>
+                            <label class="menu-switch">
+                                <input type="checkbox" id="text-align-switch">
+                                <span class="menu-slider"></span>
+                            </label>
+                        </div>
+                        <div><i style="opacity:0.7;font-size:90%">These settings are put in localStorage, not cookies, meaning they get cleared when you end your browser session.</i></div>
                     </div><input class="gear" onclick="setMenu('toggle')" title="Options" type="button">
                 </div>
             </div>
@@ -240,6 +269,10 @@ function pageLoad() {
     get("lightswitch").addEventListener("change", function() {
         setBrightness(this.checked ? "dark" : "light");
     });
+    get("text-align-switch").addEventListener("change", function() {
+        setTextAlign(this.checked ? "justify" : "left");
+    });
+    if (localStorage.getItem("text-align") == "justify") { setTextAlign("justify"); }
 
     window.addEventListener("keydown", function(e) {
         if (e.key === 'Escape') {
@@ -353,7 +386,7 @@ function pageLoad() {
     // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
     let bodyFont = localStorage.getItem("body-font");
     if (bodyFont == null) {
-        bodyFont = "Georgia"; // default value
+        bodyFont = "Roboto"; // default value
         localStorage.setItem("body-font", bodyFont);
     }
     get("body-font-select").value = bodyFont;
@@ -377,7 +410,7 @@ function pageLoad() {
     // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
     let themeColor = localStorage.getItem("theme-color");
     if (themeColor == null) {
-        themeColor = "red"; // default value
+        themeColor = "theme-red"; // default value
         localStorage.setItem("theme-color", themeColor);
     }
     get("theme-color-select").value = themeColor;
