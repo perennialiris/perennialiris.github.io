@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="assets/main.css"><style>#article-footer { display: none; } </style></head>
+<head><link rel="stylesheet" href="assets/main.css"></head>
 <body>
 <div id="page">
 <main id="main">### Every movie I've ever seen</main>
@@ -10,7 +10,7 @@
 <script>
 
 window.onload = function() {
-    let list = document.getElementById("article").appendChild(document.createElement("div"));
+    let list = document.getElementById("main-content").appendChild(document.createElement("div"));
     movies = movies.replace(/\) (\w)/g, ")\n$1").split("\n")
             .filter(c => c != "");
     let total = movies.length;

@@ -208,14 +208,7 @@ function pageLoad() {
                 <div class="align-center">
                     <input class="to-top nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="Top" type="button">
                     <div id="menu" class="hidden">
-                        <div>
-                            <span class="no-select">Dark mode:</span>
-                            <label class="menu-switch">
-                                <input type="checkbox" id="lightswitch">
-                                <span class="menu-slider"></span>
-                            </label>
-                        </div>
-                        <div>
+                        <div class="menu-row">
                             <span class="no-select">Theme color:</span>
                             <select id="theme-color-select">
                                 <option value="theme-red">Red</option>
@@ -223,30 +216,38 @@ function pageLoad() {
                                 <option value="theme-blue">Blue</option>
                             </select>
                         </div>
-                        <div>
+                        <div class="menu-row">
                             <span class="no-select">Header font:</span>
                             <select id="header-font-select">
                                 <option value="Inter">Inter</option>
                                 <option value="Lora">Lora</option>
-                                <option value="Trebuchet MS">Trebuchet MS</option>
+                                <option value="Segoe UI">System</option>
                             </select>
                         </div>
-                        <div>
+                        <div class="menu-row">
                             <span class="no-select">Body font:</span>
                             <select id="body-font-select">
                                 <option value="Georgia">Georgia</option>
                                 <option value="Roboto">Roboto</option>
                                 <option value="Trebuchet MS">Trebuchet MS</option>
+                                <option value="Segoe UI">System</option>
                             </select>
                         </div>
-                        <div>
+                        <div class="menu-row">
+                            <span class="no-select">Dark mode:</span>
+                            <label class="menu-switch">
+                                <input type="checkbox" id="lightswitch">
+                                <span class="menu-slider"></span>
+                            </label>
+                        </div>
+                        <div class="menu-row">
                             <span class="no-select">Justify text:</span>
                             <label class="menu-switch">
                                 <input type="checkbox" id="text-align-switch">
                                 <span class="menu-slider"></span>
                             </label>
                         </div>
-                        <div><i style="opacity:0.7;font-size:90%">These settings are put in localStorage, not cookies, meaning they get cleared when you end your browser session.</i></div>
+                        <div style="opacity: 0.8; font-size: 90%;">These settings are put in localStorage, not cookies, meaning they get cleared when you end your browser session.</div>
                     </div><input class="gear" onclick="setMenu('toggle')" title="Options" type="button">
                 </div>
             </div>
@@ -423,6 +424,7 @@ function pageLoad() {
 
     if (document.title == "") document.title = "North of Queen";
     else if (document.title.slice(0 - "North of Queen".length) != "North of Queen") document.title += " - North of Queen";
+    
 }
 
 window.addEventListener("load", pageLoad);
@@ -442,6 +444,7 @@ function updateFonts() {
                 return f + ",serif";
                 break;
             case "Segoe UI":
+            case "Nirmala UI":
                 return f + ",system-ui";
                 break;
             default:
