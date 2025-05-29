@@ -184,9 +184,9 @@ function pageLoad() {
     if (localStorage.getItem("brightness") == null) { localStorage.setItem("brightness","light"); }
     else if (localStorage.getItem("brightness") == "dark") { page.classList.add("dark"); }
 
-    if (localStorage.getItem("theme-color") == null) { localStorage.setItem("theme-color", "theme-red"); }
+    if (localStorage.getItem("accent-color") == null) { localStorage.setItem("accent-color", "accent-red"); }
 
-    page.classList.add(localStorage.getItem("theme-color"));
+    page.classList.add(localStorage.getItem("accent-color"));
     page.innerHTML =
        `<div class="pointless-black-bar" style="height: var(--nav-height); background-color: black;"></div>
         <header class="main-header align-center"><a class="title-link" href="index.html">North of Queen</a></header>
@@ -200,20 +200,20 @@ function pageLoad() {
                     <div id="menu" class="hidden">
                         <div class="menu-row">
                             <span class="no-select">Theme color:</span>
-                            <select id="theme-color-select">
-                                <option value="theme-red">Red</option>
-                                <option value="theme-green">Green</option>
-                                <option value="theme-blue">Blue</option>
+                            <select id="accent-color-select">
+                                <option value="accent-red">Red</option>
+                                <option value="accent-green">Green</option>
+                                <option value="accent-blue">Blue</option>
                             </select>
                         </div>
                         <div class="menu-row">
                             <span class="no-select">Header font:</span>
                             <select id="header-font-select">
                                 <option value="Inter">Inter</option>
+                                <option value="Roboto">Roboto</option>
                                 <option value="Lora">Lora</option>
                                 <option value="Faculty Glyphic">Faculty Glyphic</option>
                                 <option value="Georgia">Georgia</option>
-                                <option value="Roboto">Roboto</option>
                                 <option value="Trebuchet MS">Trebuchet MS</option>
                                 <option value="system-ui">system-ui</option>
                             </select>
@@ -229,7 +229,7 @@ function pageLoad() {
                             </select>
                         </div>
                         <div class="menu-row">
-                            <span class="no-select">Table of contents (only some pages):</span>
+                            <span class="no-select">Table of contents (if available):</span>
                             <label class="menu-switch">
                                 <input type="checkbox" id="tocToggle">
                                 <span class="menu-slider"></span>
@@ -250,7 +250,7 @@ function pageLoad() {
                             </label>
                         </div>
                         <div style="opacity: 0.8; font-size: 90%;">These settings are put in localStorage, not cookies, meaning they get cleared when you end your browser session.</div>
-                    </div><input class="gear icon nav-button" onclick="setMenu('toggle')" title="Options" type="button">
+                    </div><input id="gear" class="icon nav-button" onclick="setMenu('toggle')" title="Options" type="button">
                 </div>
             </div>
         </nav>
@@ -341,11 +341,11 @@ function pageLoad() {
             let rowsInToc = Array.from(document.getElementById("table-of-contents").getElementsByClassName("toc-row"));
             let headersInArticle = Array.from(document.getElementsByClassName("noq-header"));
 
-            let currentHeading = "", canUpdateToc = true;
+            let currentHeading = "", canTocHighlighter = true;
             function tocHighlighter() {
-                if (!canUpdateToc) { return; }
-                canUpdateToc = false;
-                setTimeout(() => { canUpdateToc = true; }, 100);
+                if (!canTocHighlighter) { return; }
+                canTocHighlighter = false;
+                setTimeout(() => { canTocHighlighter = true; }, 300);
                 let headingId;
                 for (let i = 0; i < headersInArticle.length; i += 1) {
                     if (pageYOffset > headersInArticle[i].offsetTop - window.innerHeight * 0.5) {
@@ -379,7 +379,7 @@ function pageLoad() {
     }
 
     document.addEventListener("click", function(e) {
-        if (!document.getElementById("menu").contains(e.target) && !document.getElementById("menu").nextElementSibling.contains(e.target)) {
+        if (!document.getElementById("menu").contains(e.target) && !document.getElementById("gear").contains(e.target)) {
             setMenu("hide");
         }
     });
@@ -422,17 +422,16 @@ function pageLoad() {
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     updateFonts();
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    let themeColor = localStorage.getItem("theme-color");
-    if (themeColor == null) {
-        themeColor = "theme-red"; // default value
-        localStorage.setItem("theme-color", themeColor);
+    let accentColor = localStorage.getItem("accent-color");
+    if (accentColor == null) {
+        accentColor = "accent-red"; // default value
+        localStorage.setItem("accent-color", accentColor);
     }
-    document.getElementById("theme-color-select").value = themeColor;
-    document.getElementById("theme-color-select").addEventListener("change", function() {
-        localStorage.setItem("theme-color", this.value);
-        if (this.value == "theme-red") { page.classList.add("theme-red"); } else { page.classList.remove("theme-red"); }
-        if (this.value == "theme-blue") { page.classList.add("theme-blue"); } else { page.classList.remove("theme-blue"); }
-        if (this.value == "theme-green") { page.classList.add("theme-green"); } else { page.classList.remove("theme-green"); }
+    document.getElementById("accent-color-select").value = accentColor;
+    document.getElementById("accent-color-select").addEventListener("change", function() {
+        ["accent-red", "accent-green", "accent-blue"].forEach(accent => page.classList.remove(accent));
+        page.classList.add(this.value);
+        localStorage.setItem("accent-color", this.value);
     })
 
     if (document.title == "") document.title = "North of Queen";
@@ -453,7 +452,7 @@ function updateFonts() {
     function fallback(font) {
         switch (font) {
             case "Faculty Glyphic":
-                return font + ",sans-serif; } .main-content p, .main-content li { line-height: 1.85; } .main-content .mdash { font-family: unset; ";
+                return font + ",sans-serif; } .main-content .mdash { font-family: unset; ";
             case "sans-serif":
             case "serif":
             case "system-ui":

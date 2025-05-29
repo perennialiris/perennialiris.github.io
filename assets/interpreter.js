@@ -363,8 +363,8 @@ function interpreter(targetElement) {
         input[i] = input[i].replace(/\n/g, "<br>");
 
         if (input[i] == "") {
-            console.error("{interpreter.js: (blank result?)}");
             /* should be impossible, indicates problem with code */
+            console.error("{interpreter.js: (blank result?)}");
             continue;
         }
         
@@ -386,6 +386,10 @@ function interpreter(targetElement) {
     }
     targetElement.innerHTML = input.join("");
 }
+
+
+
+
 
 
 
