@@ -174,6 +174,7 @@ function interpreter(targetElement) {
         .trim()
         .split("\n\n");
 
+    let firstParagraph = true;
     let linksInArticle = [];
     let tableNum = 1;
     for (let i = 0; i < input.length; i += 1) {
@@ -369,13 +370,23 @@ function interpreter(targetElement) {
         
         if (fine) {
             input[i] = `<p class="fine">${input[i]}</p>`
-            continue; }
+            continue;
+        }
         if (dropCap) {
             input[i] = `<p class="drop-cap">${input[i]}</p>`
-            continue; }
+            continue;
+        }
+        if (firstParagraph) {
+            firstParagraph = false;
+            input[i] = `<p class="first-paragraph">${input[i]}</p>`;
+            continue;
+        }
+        
         input[i] = `<p>${input[i]}</p>`;
     }
     targetElement.innerHTML = input.join("");
 }
+
+
 
 
