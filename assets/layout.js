@@ -197,23 +197,19 @@ function pageLoad() {
                     <input class="to-top nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="Jump to Top" type="button">
                     <div id="menu" class="hidden">
                         <div class="menu-row">
-                            <span class="no-select">Theme color:</span>
-                            <select id="accent-color-select">
-                                <option value="accent-red">Red</option>
-                                <option value="accent-green">Green</option>
-                                <option value="accent-blue">Blue</option>
-                            </select>
+                            <span class="no-select">Dark mode:</span>
+                            <label class="menu-switch">
+                                <input type="checkbox" id="lightswitch">
+                                <span class="menu-slider"></span>
+                            </label>
                         </div>
                         <div class="menu-row">
                             <span class="no-select">Header font:</span>
                             <select id="header-font-select">
                                 <option value="Inter">Inter</option>
-                                <option value="Roboto">Roboto</option>
                                 <option value="Lora">Lora</option>
                                 <option value="Faculty Glyphic">Faculty Glyphic</option>
-                                <option value="Georgia">Georgia</option>
                                 <option value="Trebuchet MS">Trebuchet MS</option>
-                                <option value="system-ui">system-ui</option>
                             </select>
                         </div>
                         <div class="menu-row">
@@ -223,20 +219,28 @@ function pageLoad() {
                                 <option value="Roboto">Roboto</option>
                                 <option value="Faculty Glyphic">Faculty Glyphic</option>
                                 <option value="Trebuchet MS">Trebuchet MS</option>
-                                <option value="system-ui">system-ui</option>
+                            </select>
+                        </div>
+                        <div class="menu-row">
+                            <span class="no-select">Secondary font:</span>
+                            <select id="secondary-font-select">
+                                <option value="Segoe UI">Segoe UI</option>
+                                <option value="Trebuchet MS">Trebuchet MS</option>
+                            </select>
+                        </div>
+                        <div class="menu-row">
+                            <span class="no-select">Theme color:</span>
+                            <select id="accent-color-select">
+                                <option value="accent-red">Red</option>
+                                <option value="accent-green">Green</option>
+                                <option value="accent-blue">Blue</option>
+                                <option value="accent-lilac">Lilac</option>
                             </select>
                         </div>
                         <div class="menu-row">
                             <span class="no-select">Table of contents (if available):</span>
                             <label class="menu-switch">
                                 <input type="checkbox" id="tocToggle">
-                                <span class="menu-slider"></span>
-                            </label>
-                        </div>
-                        <div class="menu-row">
-                            <span class="no-select">Dark mode:</span>
-                            <label class="menu-switch">
-                                <input type="checkbox" id="lightswitch">
                                 <span class="menu-slider"></span>
                             </label>
                         </div>
@@ -323,6 +327,7 @@ function pageLoad() {
     const index = document.getElementById("index");
     if (index) {
         index.innerHTML = pageList.full.join("");
+        document.querySelector(".page-display").innerHTML = "Front-page index";
     }
     else {
         document.querySelector(".page-display").innerHTML = pageTitle;
@@ -398,6 +403,17 @@ function pageLoad() {
     window.addEventListener("scroll", navStickyCheck);
 
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
+    let headerFont = localStorage.getItem("header-font");
+    if (headerFont == null) {
+        headerFont = "Inter"; // default value
+        localStorage.setItem("header-font", headerFont);
+    }
+    document.getElementById("header-font-select").value = headerFont;
+    document.getElementById("header-font-select").addEventListener("change", function() {
+        localStorage.setItem("header-font", this.value);
+        updateFonts();
+    })
+    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     let bodyFont = localStorage.getItem("body-font");
     if (bodyFont == null) {
         bodyFont = "Georgia"; // default value
@@ -409,14 +425,14 @@ function pageLoad() {
         updateFonts();
     })
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    let headerFont = localStorage.getItem("header-font");
-    if (headerFont == null) {
-        headerFont = "Inter"; // default value
-        localStorage.setItem("header-font", headerFont);
+    let secondaryFont = localStorage.getItem("secondary-font");
+    if (secondaryFont == null) {
+        secondaryFont = "Segoe UI"; // default value
+        localStorage.setItem("secondary-font", secondaryFont);
     }
-    document.getElementById("header-font-select").value = headerFont;
-    document.getElementById("header-font-select").addEventListener("change", function() {
-        localStorage.setItem("header-font", this.value);
+    document.getElementById("secondary-font-select").value = secondaryFont;
+    document.getElementById("secondary-font-select").addEventListener("change", function() {
+        localStorage.setItem("secondary-font", this.value);
         updateFonts();
     })
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
@@ -429,7 +445,7 @@ function pageLoad() {
     }
     document.getElementById("accent-color-select").value = accentColor;
     document.getElementById("accent-color-select").addEventListener("change", function() {
-        ["accent-red", "accent-green", "accent-blue"].forEach(accent => page.classList.remove(accent));
+        Array.from(document.getElementById("accent-color-select").getElementsByTagName("option")).forEach(o => page.classList.remove(o.value));
         page.classList.add(this.value);
         localStorage.setItem("accent-color", this.value);
     })
@@ -442,12 +458,14 @@ function pageLoad() {
 window.addEventListener("load", pageLoad);
 
 function updateFonts() {
-    let bodyFont = localStorage.getItem("body-font");
     let headerFont = localStorage.getItem("header-font");
+    let bodyFont = localStorage.getItem("body-font");
+    let secondaryFont = localStorage.getItem("secondary-font");
 
     // just in case, but logically this should never trigger:
-    if (bodyFont == null) { bodyFont = "Georgia"; }
     if (headerFont == null) { headerFont = "Inter"; }
+    if (bodyFont == null) { bodyFont = "Georgia"; }
+    if (secondaryFont == null) { headerFont = "Segoe UI"; }
 
     function fallback(font) {
         switch (font) {
@@ -470,9 +488,10 @@ function updateFonts() {
         }
     }
     document.querySelector(".theme-style").innerHTML =
-        `.main-content { font-family: ${fallback(bodyFont)} } .main-content h1, .main-content h2, .main-content h3, .main-content h4 { font-family: ${fallback(headerFont)} }`;
-    localStorage.setItem("body-font", bodyFont);
+        `.main-content { font-family: ${fallback(bodyFont)} } .main-content h1, .main-content h2, .main-content h3, .main-content h4 { font-family: ${fallback(headerFont)} } .image-float, .noq-table { font-family: ${fallback(secondaryFont)}`;
     localStorage.setItem("header-font", headerFont);
+    localStorage.setItem("body-font", bodyFont);
+    localStorage.setItem("secondary-font", secondaryFont);
 }
 
 
