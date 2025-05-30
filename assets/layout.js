@@ -175,7 +175,6 @@ function getFileName() {
     return r.replace(/\.html$/, "");
 }
 
-var tocLinks = [];
 function pageLoad() {
     const page = document.getElementById("page");
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
@@ -337,19 +336,21 @@ function pageLoad() {
             const c2 = document.querySelector(".main-content").parentNode.parentNode;
             const toc = c2.insertBefore(document.createElement("nav"), c2.firstChild);
             toc.id = "table-of-contents";
-            toc.innerHTML = `<div class="toc-header"><h2>Content</h2><input type="button" value="hide" onclick="setToc('close'); document.querySelector('.gear').classList.add('yellow-flash')" class="toc-button"></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${tocLinks.slice(1).join("")}</div>`;
-            let rowsInToc = Array.from(document.getElementById("table-of-contents").getElementsByClassName("toc-row"));
-            let headersInArticle = Array.from(document.getElementsByClassName("noq-header"));
-
-            let currentHeading = "", canTocHighlighter = true;
+            
+            const subheaders = Array.from(document.getElementsByClassName("noq-subheader"));
+            toc.innerHTML = `<div class="toc-header"><h2>Content</h2><input type="button" value="hide" onclick="setToc('close'); document.querySelector('.gear').classList.add('yellow-flash')" class="toc-button"></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${subheaders.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}</div>`;
+            
+            const rowsInToc = Array.from(document.getElementById("table-of-contents").getElementsByClassName("toc-row"));
+            let currentHeading = "";
+            let canTocHighlighter = true;
             function tocHighlighter() {
                 if (!canTocHighlighter) { return; }
                 canTocHighlighter = false;
                 setTimeout(() => { canTocHighlighter = true; }, 300);
                 let headingId;
-                for (let i = 0; i < headersInArticle.length; i += 1) {
-                    if (pageYOffset > headersInArticle[i].offsetTop - window.innerHeight * 0.5) {
-                        headingId = headersInArticle[i].id; }
+                for (let i = 0; i < subheaders.length; i += 1) {
+                    if (pageYOffset > subheaders[i].offsetTop - window.innerHeight * 0.5) {
+                        headingId = subheaders[i].id; }
                     else {
                         break; } }
                 if (headingId != currentHeading) {

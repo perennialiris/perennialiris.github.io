@@ -325,25 +325,22 @@ function interpreter(targetElement) {
             const headerId = titleFilter(title).replace(/ /g, "_");
             if (temp.length == 2) {
                 const date = temp[1].trim();
-                input[i] = `<div class="title-box"><h1 class="noq-header" id="${headerId}">${title}</h1><div class="date-box">${date}</div></div>`; }
+                input[i] = `<div class="title-box"><h1 id="${headerId}">${title}</h1><div class="date-box">${date}</div></div>`; }
             else {
-                input[i] = `<h1 class="noq-header" id="${headerId}">${title}</h1>`;
+                input[i] = `<h1 class="noq-subheader" id="${headerId}">${title}</h1>`;
             }
-            tocLinks.push(`<a class="toc-row h1" href="#${headerId}">${title.replace(/<\/?i>/g,'')}</a>`);
             continue; }
         /* ------ h2 ------ */
         if (input[i].startsWith("## ")) {
             let title = input[i].slice(3);
             const headerId = titleFilter(title).replace(/ /g, "_");
-            input[i] = `<h2 class="noq-header" id="${headerId}">${title}</h2>`;
-            tocLinks.push(`<a class="toc-row h2" href="#${headerId}">${title.replace(/<\/?i>/g,'')}</a>`);
+            input[i] = `<h2 class="noq-subheader" id="${headerId}">${title}</h2>`;
             continue; }
         /* ------ h3 ------ */
         if (input[i].startsWith("### ")) {
             let title = input[i].slice(4);
             const headerId = titleFilter(title).replace(/ /g, "_");
-            input[i] = `<h3 class="noq-header" id="${headerId}">${title}</h2>`;
-            tocLinks.push(`<a class="toc-row h3" href="#${headerId}">${title.replace(/<\/?i>/g,'')}</a>`);
+            input[i] = `<h3 class="noq-subheader" id="${headerId}">${title}</h2>`;
             continue; }
         /* toc-row class is useful for selecting the elements later */
         /* ------ h4 ------ */
