@@ -174,9 +174,8 @@ function getFileName() {
     const r = i == -1 ? u : u.substring(0, i);
     return r.replace(/\.html$/, "");
 }
-
+const page = document.getElementById("page");
 function pageLoad() {
-    const page = document.getElementById("page");
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
     const fileName = getFileName();
 
@@ -261,7 +260,7 @@ function pageLoad() {
                     <div class="see-also"></div>
                     <div style="white-space: nowrap;"><a href="index.html">Full page index</a></div>
                 </footer>
-                <footer class="page-bottom">I have no association with any other person or organization. I give broad permission for the stuff I write to be used, copied, or shared for non-commercial purposes provided no other person claims authorship (<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>).</footer>
+                <footer class="page-bottom">North of Queen is my personal repo. I have no association with any other person or organization.</footer>
             </div>
         </div>
         <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>`;
