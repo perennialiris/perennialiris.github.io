@@ -38,7 +38,6 @@
     body { margin: 0; }
 
     a { color: var(--links); text-decoration: none; text-underline-offset: 2px; }
-    .theme-black .main-content a { text-decoration: underline; }
     a:hover { text-decoration: underline; }
     .dark a { color: var(--links-dark); }
 
@@ -57,10 +56,10 @@
     .pinned::after { background-image: url(pin-icon.png); content: ""; height: 17px; width: 17px; background-size: contain; display: inline-block; background-position: center; background-repeat: no-repeat; }
 
     #page { min-height: 100vh; color: #303030; font-family: var(--site-font); font-size: 14px; line-height: 1.5; display: flex; flex-direction: column; background-color: white; }
-    #page.dark { background-color: #363636; color: #dfdfdf; }
+    #page.dark { background-color: #2d2e33; color: #dfdfdf; }
 
         .main-header { transition: background-color 1s; background-color: #4a4a4a; background-image: linear-gradient(20deg, transparent, black); height: var(--header-height); justify-content: center; }
-        .dark .main-header { background-color: #272727; }
+        .dark .main-header { background-color: #0003; }
 
             .main-header .title-link { position: relative; font-size: 38px; color: white; font-family: "Sylfaen","Constantia","Georgia","Times",serif; letter-spacing: -0.5px; }
             .main-header .title-link:hover { text-decoration: none; }
@@ -179,7 +178,7 @@
                 .main-content blockquote br { margin-bottom: 0.8em; }
                 .main-content blockquote .fine { color: #909090; }
                 .main-content blockquote .attribution { text-align: right; color: #808080; }
-                .dark .main-content blockquote { background-color: #404040; border-color: var(--qbb-dark); }
+                .dark .main-content blockquote { background-color: #fff1; border-color: var(--qbb-dark); }
                 .dark .main-content blockquote .fine { color: #666; }
 
                 .main-content .right-quote-margin { margin-right: -1px; }
@@ -202,7 +201,7 @@
                 .image-float div { text-align: center; padding-top: 5px; line-height: 1.3; max-width: 200px; }
                 .image-float.left { float: left; margin-left: 0; }
                 .image-float.right { float: right; margin-right: 0; }
-                .dark .image-float { border: 1px solid #505050; background-color: #404040; }
+                .dark .image-float { border: 1px solid #505050; background-color: #fff1; }
                 .dark .image-float img { border: 1px solid #555; }
 
             .article-footer { color: #505050; border-top: 1px solid #aaa; padding-top: 1.5em; margin-top: 32px; display: flex; justify-content: space-between; gap: 10px; }
