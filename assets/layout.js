@@ -87,7 +87,22 @@ function setToc(action) {
     }
 }
 
+function setLightbox(action) {
+    let lightbox = document.getElementById("lightbox");
+    if (lightbox) {
+        if (action == "close") {
+            lightbox.src = lightbox.alt = "";
+            lightbox.parentNode.style.display = "none";
+        } else if (typeof action == "object") {
+            lightbox.src = action.src;
+            lightbox.alt = action.alt;
+            lightbox.parentNode.style.display = "flex";
+        }
+    }
+}
+
 let data = `
+42 | Journalism and paywalls | media, culture | 2025-06-02 | narrow
 41 | Normalization and status quo bias | politics, culture | 2025-04-20 | 
 40 | Trump and Russia | politics | 2025-03-05 | 
 39 | Movies | other | | narrow unlisted
@@ -128,19 +143,7 @@ let data = `
 4 | Anime reviews | culture | 2024-11-02 |
 3 | Poor things (2023 film) | culture | 2024-10-31 |
 2 | The trans prison stats argument | transgender, politics | 2024-10-19 |
-1 | Language | personal | 2024-10-29 |
 index | | | | unlisted narrow`;
-
-function setLightbox(action) {
-    if (action == "close") {
-        lightbox.src = lightbox.alt = "";
-        lightbox.parentNode.style.display = "none";
-    } else if (typeof action == "object") {
-        lightbox.src = action.src;
-        lightbox.alt = action.alt;
-        lightbox.parentNode.style.display = "flex";
-    }
-}
 
 function alignTable(dataString, splitChar) {
     const table = dataString.split("\n").filter(c => c.split(splitChar).length == 5).map(row => row.split(splitChar).map(cell => cell.trim()));
@@ -182,9 +185,9 @@ function pageLoad() {
     if (localStorage.getItem("brightness") == null) { localStorage.setItem("brightness","light"); }
     else if (localStorage.getItem("brightness") == "dark") { page.classList.add("dark"); }
 
-    if (localStorage.getItem("accent-color") == null) { localStorage.setItem("accent-color", "accent-red"); }
+    if (localStorage.getItem("theme-color") == null) { localStorage.setItem("theme-color", "theme-red"); }
 
-    page.classList.add(localStorage.getItem("accent-color"));
+    page.classList.add(localStorage.getItem("theme-color"));
     page.innerHTML =
        `<div class="pointless-black-bar" style="height: var(--nav-height); background-color: black;"></div>
         <header class="main-header align-center"><a class="title-link" href="index.html">North of Queen</a></header>
@@ -210,6 +213,7 @@ function pageLoad() {
                                 <option value="Lora">Lora</option>
                                 <option value="Faculty Glyphic">Faculty Glyphic</option>
                                 <option value="Trebuchet MS">Trebuchet MS</option>
+                                <option value="Georgia">Georgia</option>
                             </select>
                         </div>
                         <div class="menu-row">
@@ -229,12 +233,11 @@ function pageLoad() {
                             </select>
                         </div>
                         <div class="menu-row">
-                            <span class="no-select">Theme color:</span>
-                            <select id="accent-color-select">
-                                <option value="accent-red">Red</option>
-                                <option value="accent-green">Green</option>
-                                <option value="accent-blue">Blue</option>
-                                <option value="accent-lilac">Lilac</option>
+                            <span class="no-select">Theme colour:</span>
+                            <select id="theme-color-select">
+                                <option value="theme-red">Red</option>
+                                <option value="theme-blue">Blue</option>
+                                <option value="theme-green">Green</option>
                             </select>
                         </div>
                         <div class="menu-row">
@@ -245,14 +248,14 @@ function pageLoad() {
                             </label>
                         </div>
                         <div class="menu-row">
-                            <span class="no-select">Justify and indent text:</span>
+                            <span class="no-select">Indent and justify text:</span>
                             <label class="menu-switch">
                                 <input type="checkbox" id="text-align-switch">
                                 <span class="menu-slider"></span>
                             </label>
                         </div>
                         <div style="opacity: 0.8; font-size: 90%;">These settings are put in localStorage, not cookies, meaning they get cleared when you end your browser session.</div>
-                    </div><input id="gear" class="icon nav-button" onclick="setMenu('toggle')" title="Options" type="button">
+                    </div><input class="gear nav-button" onclick="setMenu('toggle')" title="Options" type="button">
                 </div>
             </div>
         </nav>
@@ -264,12 +267,11 @@ function pageLoad() {
                     <div class="see-also"></div>
                     <div style="white-space: nowrap;"><a href="index.html">Full page index</a></div>
                 </footer>
-                <footer class="page-bottom">North of Queen is my personal repo. I have no association with any other person or organization.</footer>
+                <footer class="page-bottom"><a href="https://github.com/northofqueen" target="_blank">North of Queen</a> is my personal repo. I have no association with any other person or organization. This site is coded to run entirely on client-side JavaScript, meaning if saved locally it runs identically to how it does online. The code base and site design can be taken as entirely open source (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>), while I reserve the rights to the content of my writing. To contact me, for takedown requests or anything else, email perennialforces@gmail.com.</footer>
             </div>
         </div>
         <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>`;
     interpreter(document.querySelector(".main-content"));
-    var lightbox = document.getElementById("lightbox");
 
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     if (localStorage.getItem("tocState") == null) { localStorage.setItem("tocState", "visible"); }
@@ -309,21 +311,45 @@ function pageLoad() {
         rowCategory   = cells[2],
         rowDate       = cells[3],
         rowFlags      = cells[4].split(" ");
-        const isCurrentPage = rowFile == fileName;
+        const isCurrentPage = (rowFile == fileName);
         const isPinned = (rowFlags.includes("pinned"));
-        let entryClass = "nav-row";
         if (isCurrentPage) {
             pageTitle = rowTitle;
             if (rowFlags.includes("toc")) { includeToc = true; }
-            if (rowFlags.includes("wide")) { page.classList.add("wide"); } }
+            if (rowFlags.includes("wide")) { page.classList.add("wide"); }
+            if (rowFlags.includes("narrow")) { page.classList.add("narrow"); }
+            }
         if (rowFlags.includes("unlisted")) { continue; }
-        if (isPinned) { entryClass += " pinned"; }
-        if (!isCurrentPage && pageList.recent.length < 8) { pageList.recent.push(`<a href="${rowFile}.html">${rowTitle}</a>`); }
-        let indexEntry = `<li><a href="${rowFile}.html">${rowTitle}${isPinned?`<img src="assets/pin-icon.png" height="17" width="17">` : ''}</a> – <span>${rowCategory}</span>${rowDate != '' ? ' <span>('+rowDate+')</span>' : ''}</li>`;
-        if (isPinned) { pageList.full.unshift(indexEntry); }
-        else { pageList.full.push(indexEntry); }
+
+        /* ---- for recent/sidenav -- not used, but will probably use again someday ---- */
+        /* const navTitle = (isCurrentPage) ? rowTitle : "<b>" + rowTitle + "</b>";
+        if (isPinned) {
+            pageList.pins.push(`<a class="pinned" href="${rowFile}.html">${navTitle}</a>`);
+        } else if (pageList.recent.length < 8) {
+            pageList.pins.push(`<a href="${rowFile}.html">${navTitle}</a>`);
+        } */
+
+        /* ---- for index.html ---- */
+        let fullEntry = isPinned
+            ? `<a class="pinned" href="${rowFile}.html">${rowTitle}</a>`
+            : `<a href="${rowFile}.html">${rowTitle}</a>`;
+        
+        if (rowDate || rowCategory) {
+            fullEntry += " &ndash;";
+            if (rowCategory != "") {
+                fullEntry += ` <span>${rowCategory}</span>`;
+            }
+            if (rowDate != "") {
+                fullEntry += ` <span>(${rowDate})</span>`;
+            }
+        }
+        fullEntry = "<li>" + fullEntry + "</li>";
+        
+        if (isPinned) { pageList.full.unshift(fullEntry); }
+        else { pageList.full.push(fullEntry); }
     }
-    
+
+    /* don't put #index on any page but index.html and we're shoifin */
     const index = document.getElementById("index");
     if (index) {
         index.innerHTML = pageList.full.join("");
@@ -333,9 +359,6 @@ function pageLoad() {
         document.querySelector(".page-display").innerHTML = pageTitle;
         if (includeToc) {
             console.log("creating table of contents...");
-            document.getElementById("tocToggle").addEventListener("change", function() {
-                setToc(this.checked ? "show" : "hide");
-            });
 
             const c2 = document.querySelector(".main-content").parentNode.parentNode;
             const toc = c2.insertBefore(document.createElement("nav"), c2.firstChild);
@@ -383,12 +406,13 @@ function pageLoad() {
         }
     }
 
+    let gear = document.querySelector(".gear");
     document.addEventListener("click", function(e) {
-        if (!document.getElementById("menu").contains(e.target) && !document.getElementById("gear").contains(e.target)) {
+        if (!document.getElementById("menu").contains(e.target) && !gear.contains(e.target)) {
             setMenu("hide");
         }
     });
-    
+
     let canNavStickyCheck = true;
     function navStickyCheck() {
         if (!canNavStickyCheck) { return; }
@@ -405,7 +429,7 @@ function pageLoad() {
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     let headerFont = localStorage.getItem("header-font");
     if (headerFont == null) {
-        headerFont = "Inter"; // default value
+        headerFont = "Inter"; /* default value on first visit */
         localStorage.setItem("header-font", headerFont);
     }
     document.getElementById("header-font-select").value = headerFont;
@@ -416,7 +440,7 @@ function pageLoad() {
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     let bodyFont = localStorage.getItem("body-font");
     if (bodyFont == null) {
-        bodyFont = "Georgia"; // default value
+        bodyFont = "Georgia"; /* default value on first visit */
         localStorage.setItem("body-font", bodyFont);
     }
     document.getElementById("body-font-select").value = bodyFont;
@@ -427,7 +451,7 @@ function pageLoad() {
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     let secondaryFont = localStorage.getItem("secondary-font");
     if (secondaryFont == null) {
-        secondaryFont = "Segoe UI"; // default value
+        secondaryFont = "Segoe UI"; /* default value on first visit */
         localStorage.setItem("secondary-font", secondaryFont);
     }
     document.getElementById("secondary-font-select").value = secondaryFont;
@@ -438,21 +462,21 @@ function pageLoad() {
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     updateFonts();
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    let accentColor = localStorage.getItem("accent-color");
-    if (accentColor == null) {
-        accentColor = "accent-red"; // default value
-        localStorage.setItem("accent-color", accentColor);
+    let themeColor = localStorage.getItem("theme-color");
+    if (themeColor == null) {
+        themeColor = "theme-red"; /* default value on first visit */
+        localStorage.setItem("theme-color", themeColor);
     }
-    document.getElementById("accent-color-select").value = accentColor;
-    document.getElementById("accent-color-select").addEventListener("change", function() {
-        Array.from(document.getElementById("accent-color-select").getElementsByTagName("option")).forEach(o => page.classList.remove(o.value));
+    document.getElementById("theme-color-select").value = themeColor;
+    document.getElementById("theme-color-select").addEventListener("change", function() {
+        /* assume option value is class name: */
+        Array.from(document.getElementById("theme-color-select").getElementsByTagName("option")).forEach(o => page.classList.remove(o.value));
         page.classList.add(this.value);
-        localStorage.setItem("accent-color", this.value);
+        localStorage.setItem("theme-color", this.value);
     })
 
     if (document.title == "") document.title = "North of Queen";
     else if (document.title.slice(0 - "North of Queen".length) != "North of Queen") document.title += " - North of Queen";
-    
 }
 
 window.addEventListener("load", pageLoad);
@@ -462,7 +486,7 @@ function updateFonts() {
     let bodyFont = localStorage.getItem("body-font");
     let secondaryFont = localStorage.getItem("secondary-font");
 
-    // just in case, but logically this should never trigger:
+    /* logically this should never happen: */
     if (headerFont == null) { headerFont = "Inter"; }
     if (bodyFont == null) { bodyFont = "Georgia"; }
     if (secondaryFont == null) { headerFont = "Segoe UI"; }

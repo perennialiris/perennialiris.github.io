@@ -144,7 +144,7 @@ function codeSanitize(inputString) {
         .replaceAll("\n", "<br>");
 }
 /* prefer .replaceAll over .replace when you don't need regex, more readable */
-function titleFilter(inputString) {
+function filterForTitles(inputString) {
     return inputString.replace(/<.+?>/g, "")
         .replaceAll('"', "&quot;")
         .replaceAll("&rsquo;", "'")
@@ -175,6 +175,7 @@ function interpreter(targetElement) {
         .split("\n\n");
 
     let firstParagraph = true;
+    let firstHeader = true;
     let linksInArticle = [];
     let tableNum = 1;
     for (let i = 0; i < input.length; i += 1) {
@@ -205,40 +206,51 @@ function interpreter(targetElement) {
             continue; }
 
         if (input[i].startsWith("||image-box")) {
-            let lines = input[i].split("\n").slice(1);
+            const lines = input[i].split("\n").slice(1);
             for (let j = 0; j < lines.length; j += 1) {
-                lines[j] = lines[j].replace(/\[(.*)\]\((.+)\)/g, (match, altText, filePath) => {
-                    let maxHeight = 300;
-                    altText = altText.replace(/"/, "&quot;").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;")
-                    let j = filePath.indexOf("|");
-                    if (j != -1) {
-                        maxHeight = filePath.substring(j + 1);
-                        filePath = filePath.substring(0, j);
-                    }
-                    let imgAttributes = `onclick="setLightbox(this)" style="max-height:${maxHeight}px" src="${filePath}"`;
-                    if (altText != "") imgAttributes += ` title="${altText}" alt="${altText}"`;
-                    let temp = `<div><img ${imgAttributes}></div>`;
-                    return temp
-                }); }
+                const parts = lines[j].split("|");
+                while (parts.length < 3) { parts.push(""); }
+
+                let filePath = "media/" + parts[0].trim();
+                let maxHeight = parts[1].trim();
+                let altText = parts[2].trim();
+
+                if (maxHeight == "") { maxHeight = 300; }
+                altText = altText.replace(/"/, "&quot;").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;")
+
+                let imgAttributes = `onclick="setLightbox(this)" style="max-height:${maxHeight}px" src="${filePath}"`;
+                if (altText != "") { imgAttributes += ` title="${altText}" alt="${altText}"` }
+
+                lines[j] = `<div><img ${imgAttributes}></div>`;
+            }
+
             input[i] = `<div class="image-box">${lines.join("")}</div>`;
             continue; }
 
         if (input[i].startsWith("||image-right") || input[i].startsWith("||image-left")) {
-            const lines = input[i].split("\n");
-            const direction = (lines[0].startsWith("||image-right")) ? "right" : "left";
-            input[i] = lines[1].replace(/\[([^\]]*)[^\\]?\]\[(.*)\]\((.+)\)/g, (match, description, altText, filePath) => {
-                if (description.replace(/\s/g, "").length == 0) { description = ""; }
+            const direction = (input[i].startsWith("||image-right")) ? "right" : "left";
+            const lines = input[i].split("\n").slice(1);
+            for (let j = 0; j < lines.length; j += 1) {
                 let imgClass = "image-float " + direction;
-                if (description != "") {
-                    imgClass += " captioned";
-                    description = `<div>${description}</div>`
-                }
 
-                let attr = `src="${filePath}"`;
-                if (altText.replace(/\s/g, "").length > 0) { attr += ` title="${altText}" alt="${altText}"`; }
+                const parts = lines[j].split("|");
+                while (parts.length < 3) { parts.push(""); }
+
+                let filePath = "media/" + parts[0].trim();
+                let caption = parts[1].trim();
+                let altText = parts[2].trim();
                 
-                return `<div class="${imgClass}"><img onclick="setLightbox(this)" ${attr}>${description}</div>`;
-            });
+                let imgAttributes = `src=${filePath}`;
+                
+                if (caption != "") {
+                    imgClass += " captioned";
+                    caption = "<div>" + caption + "</div>";
+                    imgAttributes += ` title="${altText}" alt="${altText}"`;
+                    }
+                
+                lines[j] = `<div class="${imgClass}"><img onclick="setLightbox(this)" ${imgAttributes}>${caption}</div>`;
+            }
+            input[i] = lines.join("");
             continue;
         }
 
@@ -321,25 +333,27 @@ function interpreter(targetElement) {
         if (input[i].startsWith("# ")) {
             const temp = input[i].substring(2).split("|");
             const title = temp[0].trim();
-            if (document.title == "") { document.title = titleFilter(title); }
-            const headerId = titleFilter(title).replace(/ /g, "_");
+
+            let titleId = filterForTitles(title);
+            if (document.title == "") { document.title = titleId; }
+            titleId = titleId.replace(/ /g, "_");
+
+            input[i] = `<h1 class="${firstHeader ? "first-header" : "article-subheader"}" id="${titleId}">${title}</h1>`;
             if (temp.length == 2) {
-                const date = temp[1].trim();
-                input[i] = `<div class="title-box"><h1 id="${headerId}">${title}</h1><div class="date-box">${date}</div></div>`; }
-            else {
-                input[i] = `<h1 class="noq-subheader" id="${headerId}">${title}</h1>`;
+                input[i] += `<div class="date-subtitle">${temp[1].trim()}</div>`;
             }
+            firstHeader = false;
             continue; }
         /* ------ h2 ------ */
         if (input[i].startsWith("## ")) {
             let title = input[i].slice(3);
-            const headerId = titleFilter(title).replace(/ /g, "_");
+            const headerId = filterForTitles(title).replace(/ /g, "_");
             input[i] = `<h2 class="noq-subheader" id="${headerId}">${title}</h2>`;
             continue; }
         /* ------ h3 ------ */
         if (input[i].startsWith("### ")) {
             let title = input[i].slice(4);
-            const headerId = titleFilter(title).replace(/ /g, "_");
+            const headerId = filterForTitles(title).replace(/ /g, "_");
             input[i] = `<h3 class="noq-subheader" id="${headerId}">${title}</h2>`;
             continue; }
         /* toc-row class is useful for selecting the elements later */
@@ -383,6 +397,9 @@ function interpreter(targetElement) {
     }
     targetElement.innerHTML = input.join("");
 }
+
+
+
 
 
 
