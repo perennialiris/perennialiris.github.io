@@ -127,6 +127,7 @@ function safeConvert(inputString) {
     output += mainReplacements(input);
     return output;
 }
+
 /* for <code> or like elements, where you don't want normal formatting -- run *before* safeConvert */
 function codeSanitize(inputString) {
     return inputString
@@ -143,6 +144,34 @@ function codeSanitize(inputString) {
         .replaceAll("*", "&ast;")
         .replaceAll("\n", "<br>");
 }
+
+function wrapDigits(inputString) {
+    let output = "";
+    while (true) {
+        const openTag = inputString.indexOf("<"), closeTag = inputString.indexOf(">");
+        if (openTag == -1 || closeTag == -1) { break; }
+        output += inputString.substring(0, openTag).replace(/(\d+)/g, "<span class='digit'>$1</span>");
+        output += inputString.substring(openTag, closeTag + 1);
+        inputString = inputString.substring(closeTag + 1);
+    }
+    output += inputString.replace(/(\d+)/g, "<span class='digit'>$1</span>");
+    return output;
+}
+
+function wrapElement(targetElement) {
+    let input = targetElement.innerHTML;
+    let output = "";
+    while (true) {
+        const openTag = input.indexOf("<"), closeTag = input.indexOf(">");
+        if (openTag == -1 || closeTag == -1) { break; }
+        output += input.substring(0, openTag).replace(/(\d+)/g, "<span class=\"digit\">$1</span>");
+        output += input.substring(openTag, closeTag + 1);
+        input = input.substring(closeTag + 1);
+    }
+    output += input.replace(/(\d+)/g, "<span class=\"digit\">$1</span>");
+    targetElement.innerHTML = output;
+}
+
 /* prefer .replaceAll over .replace when you don't need regex, more readable */
 function filterForTitles(inputString) {
     return inputString.replace(/<.+?>/g, "")
@@ -178,6 +207,7 @@ function interpreter(targetElement) {
     let firstHeader = true;
     let linksInArticle = [];
     let tableNum = 1;
+
     for (let i = 0; i < input.length; i += 1) {
 
         if (input[i].startsWith("\\")) {
@@ -396,6 +426,8 @@ function interpreter(targetElement) {
         input[i] = `<p>${input[i]}</p>`;
     }
     targetElement.innerHTML = input.join("");
+    
+    ["p","li","blockquote","h1","h2","h3","h4"].forEach(e => Array.from(targetElement.getElementsByTagName(e)).forEach(i => wrapElement(i)));
 }
 
 

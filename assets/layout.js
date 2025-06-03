@@ -21,6 +21,7 @@ function setMenu(action) {
             break;
     }
 }
+
 function setBrightness(setValue) {
     switch (setValue) {
         case "light":
@@ -43,6 +44,7 @@ function setBrightness(setValue) {
             break;
     }
 }
+
 function setTextAlign(setValue) {
     switch (setValue) {
         case "left":
@@ -65,6 +67,7 @@ function setTextAlign(setValue) {
             break;
     }
 }
+
 function setToc(action) {
     switch (action) {
         case "show":
@@ -145,6 +148,7 @@ let data = `
 2 | The trans prison stats argument | transgender, politics | 2024-10-19 |
 index | | | | unlisted narrow`;
 
+
 function alignTable(dataString, splitChar) {
     const table = dataString.split("\n").filter(c => c.split(splitChar).length == 5).map(row => row.split(splitChar).map(cell => cell.trim()));
     const rowWidth = Math.max(...table.map(row => row.length));
@@ -177,6 +181,7 @@ function getFileName() {
     const r = i == -1 ? u : u.substring(0, i);
     return r.replace(/\.html$/, "");
 }
+
 const page = document.getElementById("page");
 function pageLoad() {
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
@@ -185,9 +190,6 @@ function pageLoad() {
     if (localStorage.getItem("brightness") == null) { localStorage.setItem("brightness","light"); }
     else if (localStorage.getItem("brightness") == "dark") { page.classList.add("dark"); }
 
-    if (localStorage.getItem("theme-color") == null) { localStorage.setItem("theme-color", "theme-red"); }
-
-    page.classList.add(localStorage.getItem("theme-color"));
     page.innerHTML =
        `<div class="pointless-black-bar" style="height: var(--nav-height); background-color: black;"></div>
         <header class="main-header align-center"><a class="title-link" href="index.html">North of Queen</a></header>
@@ -203,6 +205,20 @@ function pageLoad() {
                             <span class="no-select">Dark mode:</span>
                             <label class="menu-switch">
                                 <input type="checkbox" id="lightswitch">
+                                <span class="menu-slider"></span>
+                            </label>
+                        </div>
+                        <div class="menu-row">
+                            <span class="no-select">Table of contents (if available):</span>
+                            <label class="menu-switch">
+                                <input type="checkbox" id="tocToggle">
+                                <span class="menu-slider"></span>
+                            </label>
+                        </div>
+                        <div class="menu-row">
+                            <span class="no-select">Indent and justify text:</span>
+                            <label class="menu-switch">
+                                <input type="checkbox" id="text-align-switch">
                                 <span class="menu-slider"></span>
                             </label>
                         </div>
@@ -232,28 +248,6 @@ function pageLoad() {
                                 <option value="Trebuchet MS">Trebuchet MS</option>
                             </select>
                         </div>
-                        <div class="menu-row">
-                            <span class="no-select">Theme colour:</span>
-                            <select id="theme-color-select">
-                                <option value="theme-red">Red</option>
-                                <option value="theme-blue">Blue</option>
-                                <option value="theme-green">Green</option>
-                            </select>
-                        </div>
-                        <div class="menu-row">
-                            <span class="no-select">Table of contents (if available):</span>
-                            <label class="menu-switch">
-                                <input type="checkbox" id="tocToggle">
-                                <span class="menu-slider"></span>
-                            </label>
-                        </div>
-                        <div class="menu-row">
-                            <span class="no-select">Indent and justify text:</span>
-                            <label class="menu-switch">
-                                <input type="checkbox" id="text-align-switch">
-                                <span class="menu-slider"></span>
-                            </label>
-                        </div>
                         <div style="opacity: 0.8; font-size: 90%;">These settings are put in localStorage, not cookies, meaning they get cleared when you end your browser session.</div>
                     </div><input class="gear nav-button" onclick="setMenu('toggle')" title="Options" type="button">
                 </div>
@@ -274,24 +268,23 @@ function pageLoad() {
     interpreter(document.querySelector(".main-content"));
 
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    if (localStorage.getItem("tocState") == null) { localStorage.setItem("tocState", "visible"); }
-    else if (localStorage.getItem("tocState") == "visible") { setToc("show"); }
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     if (localStorage.getItem("brightness") == "dark") { document.getElementById("lightswitch").checked = true; }
     document.getElementById("lightswitch").addEventListener("change", function() {
         setBrightness(this.checked ? "dark" : "light");
+    });
+    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
+    if (localStorage.getItem("tocState") == null) { localStorage.setItem("tocState", "visible"); }
+    else if (localStorage.getItem("tocState") == "visible") { setToc("show"); }
+    else if (localStorage.getItem("tocState") == "hidden") { setToc("hide"); }
+    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
+    document.getElementById("tocToggle").addEventListener("change", function() {
+        setToc(this.checked ? "show" : "hide");
     });
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     document.getElementById("text-align-switch").addEventListener("change", function() {
         setTextAlign(this.checked ? "justify" : "left");
     });
     if (localStorage.getItem("text-align") != "left") { setTextAlign("justify"); }
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    document.getElementById("tocToggle").addEventListener("change", function() {
-        setToc(this.checked ? "show" : "hide");
-    });
-    if (localStorage.getItem("tocState") == "hidden") { setToc("hide"); }
-    else { document.getElementById("tocToggle").checked = true; }
 
     window.addEventListener("keydown", function(e) {
         if (e.key === 'Escape') {
@@ -462,18 +455,6 @@ function pageLoad() {
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     updateFonts();
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    let themeColor = localStorage.getItem("theme-color");
-    if (themeColor == null) {
-        themeColor = "theme-red"; /* default value on first visit */
-        localStorage.setItem("theme-color", themeColor);
-    }
-    document.getElementById("theme-color-select").value = themeColor;
-    document.getElementById("theme-color-select").addEventListener("change", function() {
-        /* assume option value is class name: */
-        Array.from(document.getElementById("theme-color-select").getElementsByTagName("option")).forEach(o => page.classList.remove(o.value));
-        page.classList.add(this.value);
-        localStorage.setItem("theme-color", this.value);
-    })
 
     if (document.title == "") document.title = "North of Queen";
     else if (document.title.slice(0 - "North of Queen".length) != "North of Queen") document.title += " - North of Queen";
@@ -482,37 +463,27 @@ function pageLoad() {
 window.addEventListener("load", pageLoad);
 
 function updateFonts() {
+    const css = document.querySelector(".theme-style");
     let headerFont = localStorage.getItem("header-font");
     let bodyFont = localStorage.getItem("body-font");
     let secondaryFont = localStorage.getItem("secondary-font");
-
-    /* logically this should never happen: */
-    if (headerFont == null) { headerFont = "Inter"; }
-    if (bodyFont == null) { bodyFont = "Georgia"; }
-    if (secondaryFont == null) { headerFont = "Segoe UI"; }
-
-    function fallback(font) {
-        switch (font) {
-            case "Faculty Glyphic":
-                return font + ",sans-serif; } .main-content .mdash { font-family: unset; ";
-            case "sans-serif":
-            case "serif":
-            case "system-ui":
-                return font;
-            case "Georgia":
-            case "Lora":
-            case "Constantia":
-            case "Times":
-                return font + ",serif";
-            case "Segoe UI":
-            case "Nirmala UI":
-                return font + ",system-ui";
-            default:
-                return font + ",sans-serif";
-        }
+    
+    css.innerHTML = 
+    `.main-content { font-family: "${bodyFont}",sans-serif; }
+     .main-content h1,
+     .main-content h2,
+     .main-content h3,
+     .main-content h4 { font-family: "${headerFont}",sans-serif; }
+     .image-float,
+     .noq-table { font-family: "${secondaryFont}"; }`;
+    
+    if (bodyFont == "Georgia") {
+        css.innerHTML += `.main-content .digit { font-family: "Georgia Pro","Georgia",serif; } .main-content ol > li::marker { font-family: "Georgia Pro","Georgia",serif; }`
     }
-    document.querySelector(".theme-style").innerHTML =
-        `.main-content { font-family: ${fallback(bodyFont)} } .main-content h1, .main-content h2, .main-content h3, .main-content h4 { font-family: ${fallback(headerFont)} } .image-float, .noq-table { font-family: ${fallback(secondaryFont)}`;
+    else if (bodyFont == "Faculty Glyphic") {
+        css.innerHTML += `.mdash { font-family: unset !important; }`;
+    }
+    
     localStorage.setItem("header-font", headerFont);
     localStorage.setItem("body-font", bodyFont);
     localStorage.setItem("secondary-font", secondaryFont);
