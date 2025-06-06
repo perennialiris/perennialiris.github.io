@@ -48,12 +48,12 @@ function setBrightness(setValue) {
 function setTextAlign(setValue) {
     switch (setValue) {
         case "left":
-            document.querySelector(".main-content").classList.remove("text-justified");
+            document.querySelector(".main-content").classList.remove("neat-format");
             document.getElementById("text-align-switch").checked = false;
             localStorage.setItem("text-align", "left");
             break;
         case "justify":
-            document.querySelector(".main-content").classList.add("text-justified");
+            document.querySelector(".main-content").classList.add("neat-format");
             document.getElementById("text-align-switch").checked = true;
             localStorage.setItem("text-align", "justify");
             break;
@@ -69,6 +69,7 @@ function setTextAlign(setValue) {
 }
 
 function setToc(action) {
+    if (document.getElementById("tocToggle") == null) { return; }
     switch (action) {
         case "show":
             page.classList.remove("hide-toc");
@@ -105,6 +106,7 @@ function setLightbox(action) {
 }
 
 let data = `
+43 | Word-maker | other | | unlisted
 42 | Journalism and paywalls | media, culture | 2025-06-02 | narrow
 41 | Normalization and status quo bias | politics, culture | 2025-04-20 | 
 40 | Trump and Russia | politics | 2025-03-05 | 
@@ -191,77 +193,84 @@ function pageLoad() {
     else if (localStorage.getItem("brightness") == "dark") { page.classList.add("dark"); }
 
     page.innerHTML =
-       `<div class="pointless-black-bar" style="height: var(--nav-height); background-color: black;"></div>
-        <header class="main-header align-center"><a class="title-link" href="index.html">North of Queen</a></header>
+       `<header class="main-header align-center"><a class="title-link" href="index.html">North of Queen</a></header>
         <nav class="main-nav">
             <div class="nav-inner">
                 <div class="align-center">
-                    <div class="page-display"></div>
+                    <div class="page-name-display"></div>
                 </div>
                 <div class="align-center">
                     <input class="to-top nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="Jump to Top" type="button">
                     <div id="menu" class="hidden">
                         <div class="menu-row">
-                            <span class="no-select">Dark mode:</span>
-                            <label class="menu-switch">
-                                <input type="checkbox" id="lightswitch">
-                                <span class="menu-slider"></span>
-                            </label>
+                            <div><span class="no-select">Dark mode:</span></div>
+                            <div>
+                                <label class="menu-switch">
+                                    <input type="checkbox" id="lightswitch">
+                                    <span class="menu-slider"></span>
+                                </label>
+                            </div>
                         </div>
                         <div class="menu-row">
-                            <span class="no-select">Table of contents (if available):</span>
-                            <label class="menu-switch">
-                                <input type="checkbox" id="tocToggle">
-                                <span class="menu-slider"></span>
-                            </label>
+                            <div><span class="no-select">Indent and justify:</span></div>
+                            <div>
+                                <label class="menu-switch">
+                                    <input type="checkbox" id="text-align-switch">
+                                    <span class="menu-slider"></span>
+                                </label>
+                            </div>
                         </div>
                         <div class="menu-row">
-                            <span class="no-select">Indent and justify text:</span>
-                            <label class="menu-switch">
-                                <input type="checkbox" id="text-align-switch">
-                                <span class="menu-slider"></span>
-                            </label>
+                            <div><span class="no-select">Heading font:</span></div>
+                            <div>
+                                <select id="heading-font-select">
+                                    <option value="Inter">Inter</option>
+                                    <option value="Lora">Lora</option>
+                                    <option value="Faculty Glyphic">Faculty Glyphic</option>
+                                    <option value="Trebuchet MS">Trebuchet MS</option>
+                                    <option value="Georgia">Georgia</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="menu-row">
-                            <span class="no-select">Header font:</span>
-                            <select id="header-font-select">
-                                <option value="Inter">Inter</option>
-                                <option value="Lora">Lora</option>
-                                <option value="Faculty Glyphic">Faculty Glyphic</option>
-                                <option value="Trebuchet MS">Trebuchet MS</option>
-                                <option value="Georgia">Georgia</option>
-                            </select>
+                            <div><span class="no-select">Body font:</span></div>
+                            <div>
+                                <select id="body-font-select">
+                                    <option value="Georgia">Georgia</option>
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Faculty Glyphic">Faculty Glyphic</option>
+                                    <option value="Trebuchet MS">Trebuchet MS</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="menu-row">
-                            <span class="no-select">Body font:</span>
-                            <select id="body-font-select">
-                                <option value="Georgia">Georgia</option>
-                                <option value="Roboto">Roboto</option>
-                                <option value="Faculty Glyphic">Faculty Glyphic</option>
-                                <option value="Trebuchet MS">Trebuchet MS</option>
-                            </select>
+                            <div><span class="no-select">Secondary font:</span></div>
+                            <div>
+                                <select id="secondary-font-select">
+                                    <option value="Segoe UI">Segoe UI</option>
+                                    <option value="Trebuchet MS">Trebuchet MS</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="menu-row">
-                            <span class="no-select">Secondary font:</span>
-                            <select id="secondary-font-select">
-                                <option value="Segoe UI">Segoe UI</option>
-                                <option value="Trebuchet MS">Trebuchet MS</option>
-                            </select>
+                        <div class="">
+                            <div style="opacity: 0.8; font-size: 90%;">These settings are put in localStorage, not cookies, meaning they get cleared when you end your browser session.</div>
                         </div>
-                        <div style="opacity: 0.8; font-size: 90%;">These settings are put in localStorage, not cookies, meaning they get cleared when you end your browser session.</div>
-                    </div><input class="gear nav-button" onclick="setMenu('toggle')" title="Options" type="button">
+                    </div>
+                    <input class="gear nav-button" onclick="setMenu('toggle')" title="Options" type="button">
                 </div>
             </div>
         </nav>
-        <div class="c2">
-            <div class="c3">
+        <div class="main-container">
+            <div id="left">
                 <style class="theme-style"></style>
                 <article class="main-content">${document.getElementById("main").innerHTML}</article>
                 <footer class="article-footer">
                     <div class="see-also"></div>
-                    <div style="white-space: nowrap;"><a href="index.html">Full page index</a></div>
+                    <div style="white-space: nowrap;"><a href="index.html">Link to full page index</a></div>
                 </footer>
-                <footer class="page-bottom"><a href="https://github.com/northofqueen" target="_blank">North of Queen</a> is my personal repo. I have no association with any other person or organization. This site is coded to run entirely on client-side JavaScript, meaning if saved locally it runs identically to how it does online. The code base and site design can be taken as entirely open source (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>), while I reserve the rights to the content of my writing. To contact me, for takedown requests or anything else, email perennialforces@gmail.com.</footer>
+                <footer class="page-bottom"><a href="https://github.com/northofqueen" target="_blank">North of Queen</a> is my personal repo. I have no association with any other person or organization. This site is coded to run entirely on client-side JavaScript, meaning there is no server and if saved locally it runs identically to how it does online. The code base and site design can be taken as entirely open source (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>), whereas I reserve the rights to the content of my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
+            </div>
+            <div id="right">
             </div>
         </div>
         <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>`;
@@ -273,13 +282,13 @@ function pageLoad() {
         setBrightness(this.checked ? "dark" : "light");
     });
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    if (localStorage.getItem("tocState") == null) { localStorage.setItem("tocState", "visible"); }
-    else if (localStorage.getItem("tocState") == "visible") { setToc("show"); }
-    else if (localStorage.getItem("tocState") == "hidden") { setToc("hide"); }
+    // if (localStorage.getItem("tocState") == null) { localStorage.setItem("tocState", "visible"); }
+    // else if (localStorage.getItem("tocState") == "visible") { setToc("show"); }
+    // else if (localStorage.getItem("tocState") == "hidden") { setToc("hide"); }
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    document.getElementById("tocToggle").addEventListener("change", function() {
-        setToc(this.checked ? "show" : "hide");
-    });
+    // document.getElementById("tocToggle").addEventListener("change", function() {
+        // setToc(this.checked ? "show" : "hide");
+    // });
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     document.getElementById("text-align-switch").addEventListener("change", function() {
         setTextAlign(this.checked ? "justify" : "left");
@@ -343,23 +352,22 @@ function pageLoad() {
     }
 
     /* don't put #index on any page but index.html and we're shoifin */
-    const index = document.getElementById("index");
+    const index = document.getElementById("index-aKxOoclwfz");
     if (index) {
         index.innerHTML = pageList.full.join("");
-        document.querySelector(".page-display").innerHTML = "Front-page index";
+        document.querySelector(".page-name-display").innerHTML = "Front-page index";
     }
     else {
-        document.querySelector(".page-display").innerHTML = pageTitle;
+        document.querySelector(".page-name-display").innerHTML = pageTitle;
         if (includeToc) {
             console.log("creating table of contents...");
 
-            const c2 = document.querySelector(".main-content").parentNode.parentNode;
-            const toc = c2.insertBefore(document.createElement("nav"), c2.firstChild);
+            const toc = document.getElementById("right").appendChild(document.createElement("nav"));
             toc.id = "table-of-contents";
-            
-            const subheaders = Array.from(document.getElementsByClassName("noq-subheader"));
-            toc.innerHTML = `<div class="toc-header"><h2>Content</h2><input type="button" value="hide" onclick="setToc('close'); document.querySelector('.gear').classList.add('yellow-flash')" class="toc-button"></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${subheaders.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}</div>`;
-            
+
+            const subheadings = Array.from(document.getElementsByClassName("article-subheading"));
+            toc.innerHTML = `<div class="toc-heading"><h2>Table of contents</h2></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${subheadings.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}</div>`;
+
             const rowsInToc = Array.from(document.getElementById("table-of-contents").getElementsByClassName("toc-row"));
             let currentHeading = "";
             let canTocHighlighter = true;
@@ -368,9 +376,9 @@ function pageLoad() {
                 canTocHighlighter = false;
                 setTimeout(() => { canTocHighlighter = true; }, 300);
                 let headingId;
-                for (let i = 0; i < subheaders.length; i += 1) {
-                    if (pageYOffset > subheaders[i].offsetTop - window.innerHeight * 0.5) {
-                        headingId = subheaders[i].id; }
+                for (let i = 0; i < subheadings.length; i += 1) {
+                    if (pageYOffset > subheadings[i].offsetTop - window.innerHeight * 0.5) {
+                        headingId = subheadings[i].id; }
                     else {
                         break; } }
                 if (headingId != currentHeading) {
@@ -420,14 +428,14 @@ function pageLoad() {
     window.addEventListener("scroll", navStickyCheck);
 
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    let headerFont = localStorage.getItem("header-font");
-    if (headerFont == null) {
-        headerFont = "Inter"; /* default value on first visit */
-        localStorage.setItem("header-font", headerFont);
+    let headingFont = localStorage.getItem("heading-font");
+    if (headingFont == null) {
+        headingFont = "Inter"; /* default value on first visit */
+        localStorage.setItem("heading-font", headingFont);
     }
-    document.getElementById("header-font-select").value = headerFont;
-    document.getElementById("header-font-select").addEventListener("change", function() {
-        localStorage.setItem("header-font", this.value);
+    document.getElementById("heading-font-select").value = headingFont;
+    document.getElementById("heading-font-select").addEventListener("change", function() {
+        localStorage.setItem("heading-font", this.value);
         updateFonts();
     })
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
@@ -464,27 +472,26 @@ window.addEventListener("load", pageLoad);
 
 function updateFonts() {
     const css = document.querySelector(".theme-style");
-    let headerFont = localStorage.getItem("header-font");
+    let headingFont = localStorage.getItem("heading-font");
     let bodyFont = localStorage.getItem("body-font");
     let secondaryFont = localStorage.getItem("secondary-font");
     
     css.innerHTML = 
-    `.main-content { font-family: "${bodyFont}",sans-serif; }
-     .main-content h1,
-     .main-content h2,
-     .main-content h3,
-     .main-content h4 { font-family: "${headerFont}",sans-serif; }
-     .image-float,
-     .noq-table { font-family: "${secondaryFont}"; }`;
+    `.main-content { font-family: "${bodyFont}",sans-serif; } .main-content h1, .main-content h2, .main-content h3, .main-content h4 { font-family: "${headingFont}",sans-serif; }
+     .image-float, .noq-table { font-family: "${secondaryFont}"; }`;
     
     if (bodyFont == "Georgia") {
-        css.innerHTML += `.main-content .digit { font-family: "Georgia Pro","Georgia",serif; } .main-content ol > li::marker { font-family: "Georgia Pro","Georgia",serif; }`
+        css.innerHTML += ` p .digit, li .digit, blockquote .digit { font-family: "Georgia Pro","Georgia",serif; } .main-content ol > li::marker { font-family: "Georgia Pro","Georgia",serif; }`
     }
     else if (bodyFont == "Faculty Glyphic") {
-        css.innerHTML += `.mdash { font-family: unset !important; }`;
+        css.innerHTML += ` .mdash { font-family: unset !important; }`;
     }
     
-    localStorage.setItem("header-font", headerFont);
+    if (headingFont == "Georgia") {
+        css.innerHTML += ` h1 .digit, h2 .digit, h3 .digit, h4 .digit { font-family: "Georgia Pro","Georgia",serif; }`;
+    }
+    
+    localStorage.setItem("heading-font", headingFont);
     localStorage.setItem("body-font", bodyFont);
     localStorage.setItem("secondary-font", secondaryFont);
 }

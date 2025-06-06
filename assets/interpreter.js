@@ -204,7 +204,7 @@ function interpreter(targetElement) {
         .split("\n\n");
 
     let firstParagraph = true;
-    let firstHeader = true;
+    let firstHeading1 = true;
     let linksInArticle = [];
     let tableNum = 1;
 
@@ -358,7 +358,7 @@ function interpreter(targetElement) {
         /* -------------------------------------------------------- */
         input[i] = safeConvert(input[i]);
 
-        /* ------------------------ headers ----------------------- */
+        /* ------------------------ headings ----------------------- */
         /* ------ h1 ------ */
         if (input[i].startsWith("# ")) {
             const temp = input[i].substring(2).split("|");
@@ -368,23 +368,30 @@ function interpreter(targetElement) {
             if (document.title == "") { document.title = titleId; }
             titleId = titleId.replace(/ /g, "_");
 
-            input[i] = `<h1 class="${firstHeader ? "first-header" : "article-subheader"}" id="${titleId}">${title}</h1>`;
-            if (temp.length == 2) {
-                input[i] += `<div class="date-subtitle">${temp[1].trim()}</div>`;
+            
+            if (firstHeading1) {
+                input[i] = `<h1 class="first-heading">${title}</h1></div>`;
+                firstHeading1 = false;
+            } else {
+                input[i] = `<h1 class="article-subheading" id=${titleId}>${title}</h1>`;
             }
-            firstHeader = false;
+            
+            if (temp.length == 2) {
+                input[i] += `<div class="subtitle">${temp[1].trim()}</div>`;
+            }
+            
             continue; }
         /* ------ h2 ------ */
         if (input[i].startsWith("## ")) {
             let title = input[i].slice(3);
             const headerId = filterForTitles(title).replace(/ /g, "_");
-            input[i] = `<h2 class="noq-subheader" id="${headerId}">${title}</h2>`;
+            input[i] = `<h2 class="article-subheading" id="${headerId}">${title}</h2>`;
             continue; }
         /* ------ h3 ------ */
         if (input[i].startsWith("### ")) {
             let title = input[i].slice(4);
             const headerId = filterForTitles(title).replace(/ /g, "_");
-            input[i] = `<h3 class="noq-subheader" id="${headerId}">${title}</h2>`;
+            input[i] = `<h3 class="article-subheading" id="${headerId}">${title}</h2>`;
             continue; }
         /* toc-row class is useful for selecting the elements later */
         /* ------ h4 ------ */
@@ -408,7 +415,7 @@ function interpreter(targetElement) {
             console.error("{interpreter.js: (blank result?)}");
             continue;
         }
-        
+
         if (fine) {
             input[i] = `<p class="fine">${input[i]}</p>`
             continue;
