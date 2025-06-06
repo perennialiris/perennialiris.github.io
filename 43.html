@@ -29,7 +29,7 @@
 
 # Word-maker (5 letters)
 
-This is for semi-cheating at Wordle. This doesn't import a dictionary, so you still have to know English words, but it displays every possible letter combination for the given selection.
+This just explodes the letters you input to show you every possible letter combination that has them all.
 
 ^Put "5=h" in the filter to only show results where the 5th letter is h.
 Put "2!m" to exclude results with m as the 2nd letter.
@@ -50,7 +50,7 @@ function wProcess() {
     const forbidden = [[], [], [], [], []], required = ["", "", "", "", ""];
     document.getElementById("filter").value.toLowerCase().split(" ").forEach(x => {
         if (x.length != 3 || (x[1] != "=" && x[1] != "!")) { return; }
-        
+
         let num, letter;
         if ( /[1-5]/.test(x[0]) && /[a-z]/.test(x[2]) ) {
             num = x[0] - 1;
@@ -59,7 +59,7 @@ function wProcess() {
             num = x[2] - 1;
             letter = x[0]; }
         else { return; }
-        
+
         if (x[1] == "=") { required[num] = letter; }
         else { forbidden[num].push(letter); }
     });
