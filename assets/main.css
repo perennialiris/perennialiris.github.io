@@ -58,7 +58,7 @@
                 .main-header .title-link::after { content: ""; position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: currentcolor; transform: scaleX(0); transform-origin: left; transition: transform 0.5s ease; }
                 .main-header .title-link:hover::after { transform: scaleX(1); }
 
-        .main-nav { height: var(--nav-height); position: sticky; top: 0; color: #666; background-color: #000; display: flex; align-items: center; justify-content: center; z-index: 2; }
+        .main-nav { height: var(--nav-height); position: sticky; top: -1px; color: #666; background-color: #000; display: flex; align-items: center; justify-content: center; z-index: 2; }
             .nav-inner { height: var(--nav-height); margin: 0 1em; width: 100%;  display: flex; justify-content: space-between; max-width: var(--full-width); font-family: "Trebuchet MS", var(--site-font); }
                 .page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--main-width) - 60px); padding-right: 10px; }
 

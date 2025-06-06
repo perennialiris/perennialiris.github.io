@@ -114,8 +114,9 @@ let data = `
 38 | 
 37 | Bluesky accounts listing | other | | toc wide
 36 | India | history, politics | 2025-03-05 | 
+35 | News list | news, politics | | wide
 34 | The Nazi salute | news, politics | 2025-01-24 | narrow
-33 | 
+33 | The standard relationship model | unlisted | | 
 32 | Politics fundamentals | politics | 2025-01-05 | toc wide
 31 | Reflections on Justin Trudeau | news, politics | 2025-01-08 |
 30 | The appearance of intelligence | other | 2025-01-18 |
@@ -123,7 +124,6 @@ let data = `
 28 | The problem with Pierre | politics | 2025-03-15 | 
 27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | toc
 26 | Trump news list | news, politics | | pinned wide
-35 | News list | news, politics | | wide
 25 | A beauty holding a bird | other | 2024-12-23 | narrow
 24 | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19 |
 23 | Passing | transgender, culture | 2025-02-24 |
