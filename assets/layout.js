@@ -260,7 +260,7 @@ function pageLoad() {
                 </div>
             </div>
         </nav>
-        <div class="main-container">
+        <div class="left-right-wrapper">
             <div id="left">
                 <style class="theme-style"></style>
                 <article class="main-content">${document.getElementById("main").innerHTML}</article>
@@ -414,15 +414,15 @@ function pageLoad() {
         }
     });
 
-    let canNavStickyCheck = true;
+    let canNavStickyCheck = true, mainNav = document.querySelector(".main-nav");
     function navStickyCheck() {
-        if (!canNavStickyCheck) { return; }
+        if (!canNavStickyCheck || !mainNav) { return; }
         canNavStickyCheck = false;
         setTimeout(() => { canNavStickyCheck = true; navStickyCheck() }, 300);
         if (pageYOffset > 180) {
-            document.querySelector(".main-nav").classList.add("sticky-active"); }
+            mainNav.classList.add("sticky-active"); }
         else {
-            document.querySelector(".main-nav").classList.remove("sticky-active"); }
+            mainNav.classList.remove("sticky-active"); }
     }
     navStickyCheck();
     window.addEventListener("scroll", navStickyCheck);
