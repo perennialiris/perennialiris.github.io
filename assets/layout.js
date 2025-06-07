@@ -268,7 +268,7 @@ function pageLoad() {
                     <div class="see-also"></div>
                     <div style="white-space: nowrap;"><a href="index.html">Link to full page index</a></div>
                 </footer>
-                <footer class="page-bottom"><a href="https://github.com/northofqueen" target="_blank">North of Queen</a> is my personal repo. I have no association with any other person or organization. This site is coded to run entirely on client-side JavaScript, meaning there is no server and if saved locally it runs identically to how it does online. The code base and site design can be taken as entirely open source (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>), whereas I reserve the rights to the content of my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
+                <footer class="page-bottom"><a href="https://github.com/northofqueen" target="_blank">North of Queen</a> is my personal repo. I have no association with any other person or organization. This site is coded to run entirely on client-side JavaScript, meaning there is no server and, if saved locally, it runs identically to how it does online. The code base and site design can be taken as entirely open source (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>), whereas I reserve the rights to the content of my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
             </div>
             <div id="right">
             </div>
