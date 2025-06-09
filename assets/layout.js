@@ -25,12 +25,12 @@ function setMenu(action) {
 function setBrightness(setValue) {
     switch (setValue) {
         case "light":
-            page.classList.remove("dark");
+            pageWrapper.classList.remove("dark");
             document.getElementById("lightswitch").checked = false;
             localStorage.setItem("brightness", "light");
             break;
         case "dark":
-            page.classList.add("dark");
+            pageWrapper.classList.add("dark");
             document.getElementById("lightswitch").checked = true;
             localStorage.setItem("brightness", "dark");
             break;
@@ -72,12 +72,12 @@ function setToc(action) {
     if (document.getElementById("tocToggle") == null) { return; }
     switch (action) {
         case "show":
-            page.classList.remove("hide-toc");
+            pageWrapper.classList.remove("hide-toc");
             document.getElementById("tocToggle").checked = true;
             localStorage.setItem("tocState", "visible");
             break;
         case "hide":
-            page.classList.add("hide-toc");
+            pageWrapper.classList.add("hide-toc");
             document.getElementById("tocToggle").checked = false;
             localStorage.setItem("tocState", "hidden");
             break;
@@ -184,96 +184,94 @@ function getFileName() {
     return r.replace(/\.html$/, "");
 }
 
-const page = document.getElementById("page");
+const pageWrapper = document.querySelector(".page-wrapper");
 function pageLoad() {
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
     const fileName = getFileName();
 
     if (localStorage.getItem("brightness") == null) { localStorage.setItem("brightness","light"); }
-    else if (localStorage.getItem("brightness") == "dark") { page.classList.add("dark"); }
+    else if (localStorage.getItem("brightness") == "dark") { pageWrapper.classList.add("dark"); }
 
-    page.innerHTML =
-       `<header class="main-header align-center"><a class="title-link" href="index.html">North of Queen</a></header>
-        <nav class="main-nav">
-            <div class="nav-inner">
-                <div class="align-center">
-                    <div class="page-name-display"></div>
-                </div>
-                <div class="align-center">
-                    <input class="to-top nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="Jump to Top" type="button">
-                    <div id="menu" class="hidden">
-                        <div class="menu-row">
-                            <div><span class="no-select">Dark mode:</span></div>
-                            <div>
-                                <label class="menu-switch">
-                                    <input type="checkbox" id="lightswitch">
-                                    <span class="menu-slider"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="menu-row">
-                            <div><span class="no-select">Indent and justify:</span></div>
-                            <div>
-                                <label class="menu-switch">
-                                    <input type="checkbox" id="text-align-switch">
-                                    <span class="menu-slider"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="menu-row">
-                            <div><span class="no-select">Heading font:</span></div>
-                            <div>
-                                <select id="heading-font-select">
-                                    <option value="Inter">Inter</option>
-                                    <option value="Lora">Lora</option>
-                                    <option value="Faculty Glyphic">Faculty Glyphic</option>
-                                    <option value="Trebuchet MS">Trebuchet MS</option>
-                                    <option value="Georgia">Georgia</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="menu-row">
-                            <div><span class="no-select">Body font:</span></div>
-                            <div>
-                                <select id="body-font-select">
-                                    <option value="Georgia">Georgia</option>
-                                    <option value="Roboto">Roboto</option>
-                                    <option value="Faculty Glyphic">Faculty Glyphic</option>
-                                    <option value="Trebuchet MS">Trebuchet MS</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="menu-row">
-                            <div><span class="no-select">Secondary font:</span></div>
-                            <div>
-                                <select id="secondary-font-select">
-                                    <option value="Segoe UI">Segoe UI</option>
-                                    <option value="Trebuchet MS">Trebuchet MS</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="">
-                            <div style="opacity: 0.8; font-size: 90%;">These settings are put in localStorage, not cookies, meaning they get cleared when you end your browser session.</div>
-                        </div>
+    pageWrapper.innerHTML =
+       `<div class="page">
+            <header class="main-header align-center"><a class="title-link" href="index.html">North of Queen</a></header>
+            <nav class="main-nav">
+                <div class="nav-inner">
+                    <div class="align-center">
+                        <div class="page-name-display"></div>
                     </div>
-                    <input class="gear nav-button" onclick="setMenu('toggle')" title="Options" type="button">
+                    <div class="align-center">
+                        <input class="to-top nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="Jump to Top" type="button">
+                        <div id="menu" class="hidden">
+                            <div class="menu-row">
+                                <div><span class="no-select">Dark mode:</span></div>
+                                <div>
+                                    <label class="menu-switch">
+                                        <input type="checkbox" id="lightswitch">
+                                        <span class="menu-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="menu-row">
+                                <div><span class="no-select">Indent and justify:</span></div>
+                                <div>
+                                    <label class="menu-switch">
+                                        <input type="checkbox" id="text-align-switch">
+                                        <span class="menu-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="menu-row">
+                                <div><span class="no-select">Heading font:</span></div>
+                                <div>
+                                    <select id="heading-font-select">
+                                        <option value="Inter">Inter</option>
+                                        <option value="Lora">Lora</option>
+                                        <option value="Faculty Glyphic">Faculty Glyphic</option>
+                                        <option value="Trebuchet MS">Trebuchet MS</option>
+                                        <option value="Georgia">Georgia</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="menu-row">
+                                <div><span class="no-select">Body font:</span></div>
+                                <div>
+                                    <select id="body-font-select">
+                                        <option value="Georgia">Georgia</option>
+                                        <option value="Roboto">Roboto</option>
+                                        <option value="Faculty Glyphic">Faculty Glyphic</option>
+                                        <option value="Trebuchet MS">Trebuchet MS</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="menu-row">
+                                <div><span class="no-select">Secondary font:</span></div>
+                                <div>
+                                    <select id="secondary-font-select">
+                                        <option value="Segoe UI">Segoe UI</option>
+                                        <option value="Trebuchet MS">Trebuchet MS</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div style="opacity: 0.8; font-size: 90%;">These settings are put in localStorage, not cookies, meaning they get cleared when you end your browser session.</div>
+                            </div>
+                        </div>
+                        <input class="gear nav-button" onclick="setMenu('toggle')" title="Options" type="button">
+                    </div>
                 </div>
+            </nav>
+            <div class="main-container">
+                <div id="left">
+                    <style class="theme-style"></style>
+                    <article class="main-content">${pageWrapper.innerHTML}</article>
+                    <footer class="article-footer"><div class="see-also"></div><div style="white-space: nowrap;"><a href="index.html">Link to full page index</a></div></footer>
+                </div>
+                <div id="right"></div>
             </div>
-        </nav>
-        <div class="left-right-wrapper">
-            <div id="left">
-                <style class="theme-style"></style>
-                <article class="main-content">${document.getElementById("main").innerHTML}</article>
-                <footer class="article-footer">
-                    <div class="see-also"></div>
-                    <div style="white-space: nowrap;"><a href="index.html">Link to full page index</a></div>
-                </footer>
-                <footer class="page-bottom"><a href="https://github.com/northofqueen" target="_blank">North of Queen</a> is my personal repo. I have no association with any other person or organization. This site is coded to run entirely on client-side JavaScript, meaning there is no server and, if saved locally, it runs identically to how it does online. The code base and site design can be taken as entirely open source (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>), whereas I reserve the rights to the content of my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
-            </div>
-            <div id="right">
-            </div>
-        </div>
-        <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>`;
+            <footer class="page-bottom"><a href="https://github.com/northofqueen" target="_blank">North of Queen</a> is my personal repo. I have no association with any other person or organization. This site is coded to run entirely on client-side JavaScript, meaning there is no server and, if saved locally, it runs identically to how it does online. The code base and site design can be taken as entirely open source (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>), whereas I reserve the rights to the content of my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
+            <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
+        </div>`;
     interpreter(document.querySelector(".main-content"));
 
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
@@ -293,7 +291,6 @@ function pageLoad() {
     document.getElementById("text-align-switch").addEventListener("change", function() {
         setTextAlign(this.checked ? "justify" : "left");
     });
-    if (localStorage.getItem("text-align") != "left") { setTextAlign("justify"); }
 
     window.addEventListener("keydown", function(e) {
         if (e.key === 'Escape') {
@@ -318,18 +315,15 @@ function pageLoad() {
         if (isCurrentPage) {
             pageTitle = rowTitle;
             if (rowFlags.includes("toc")) { includeToc = true; }
-            if (rowFlags.includes("wide")) { page.classList.add("wide"); }
-            if (rowFlags.includes("narrow")) { page.classList.add("narrow"); }
+            if (rowFlags.includes("wide")) { pageWrapper.classList.add("wide"); }
+            if (rowFlags.includes("narrow")) { pageWrapper.classList.add("narrow"); }
             }
         if (rowFlags.includes("unlisted")) { continue; }
 
-        /* ---- for recent/sidenav -- not used, but will probably use again someday ---- */
-        /* const navTitle = (isCurrentPage) ? rowTitle : "<b>" + rowTitle + "</b>";
-        if (isPinned) {
-            pageList.pins.push(`<a class="pinned" href="${rowFile}.html">${navTitle}</a>`);
-        } else if (pageList.recent.length < 8) {
-            pageList.pins.push(`<a href="${rowFile}.html">${navTitle}</a>`);
-        } */
+        /* ---- for recent in sidenav ---- */
+        if (pageList.recent.length < 6) {
+            pageList.recent.push(`<a class="${isCurrentPage? "nav-row selected" : "nav-row"}" href="${rowFile}.html">${rowTitle}</a>`);
+        }
 
         /* ---- for index.html ---- */
         let fullEntry = isPinned
@@ -351,7 +345,7 @@ function pageLoad() {
         else { pageList.full.push(fullEntry); }
     }
 
-    /* don't put #index on any page but index.html and we're shoifin */
+    /* don't put #index-aKxOoclwfz on any page but index.html and we're shoifin */
     const index = document.getElementById("index-aKxOoclwfz");
     if (index) {
         index.innerHTML = pageList.full.join("");
@@ -359,14 +353,21 @@ function pageLoad() {
     }
     else {
         document.querySelector(".page-name-display").innerHTML = pageTitle;
-        if (includeToc) {
+
+        if (!includeToc) {
+            const recentPages = document.getElementById("right").appendChild(document.createElement("nav"));
+            recentPages.classList.add("recent-pages");
+            recentPages.innerHTML = `<h2>Most recently added:</h2>${pageList.recent.join("")}`;
+        }
+        else if (includeToc) {
             console.log("creating table of contents...");
 
             const toc = document.getElementById("right").appendChild(document.createElement("nav"));
             toc.id = "table-of-contents";
+            toc.classList.add("right-sticky");
 
             const subheadings = Array.from(document.getElementsByClassName("article-subheading"));
-            toc.innerHTML = `<div class="toc-heading"><h2>Table of contents</h2></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${subheadings.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}</div>`;
+            toc.innerHTML = `<h2>Table of contents</h2><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${subheadings.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}</div>`;
 
             const rowsInToc = Array.from(document.getElementById("table-of-contents").getElementsByClassName("toc-row"));
             let currentHeading = "";
@@ -389,8 +390,8 @@ function pageLoad() {
                 currentHeading = headingId;
             }
             function tocWidthCheck() {
-                if (window.innerWidth < 800) { page.classList.add("toc-vertical"); }
-                else { page.classList.remove("toc-vertical"); }
+                if (window.innerWidth < 800) { pageWrapper.classList.add("toc-vertical"); }
+                else { pageWrapper.classList.remove("toc-vertical"); }
             }
             window.addEventListener("resize", tocWidthCheck);
             window.addEventListener("scroll", tocHighlighter);

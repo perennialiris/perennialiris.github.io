@@ -342,7 +342,7 @@ function interpreter(targetElement) {
                 .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1").replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
                 .map(c => `<a href="${c}" target="_blank">${c}</a>`);
 
-            document.querySelector(".see-also").innerHTML += `<div>I posted basically this same content in other places too:</div><ul><li>${lines.join("</li><li>")}</li></ul>`;
+            document.querySelector(".see-also").innerHTML += `<div>This page’s content was also posted here:</div><ul><li>${lines.join("</li><li>")}</li></ul>`;
 
             input[i] = "";
             continue; }
