@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head><link rel="stylesheet" href="assets/main.css"><style>
-    .noq-table { margin-inline: 10px !important; }
-    .noq-table td:nth-child(1) { background-color: #f0f0f0; }
-    .dark .noq-table td:nth-child(1) { background-color: #505050; }
-    .noq-table td:nth-child(1), td:nth-child(2) { white-space: nowrap; }
-    .noq-table td:nth-child(2) { font-weight: 700; }
-    .handle { color: var(--grey-40) !important; }
+    .noq-table .col-2 { font-weight: 700; }
+    .handle { color: inherit !important; }
     .tag { color: white; border: 1px solid #0002; white-space: nowrap; padding: 0 4px 1px 3px; border-radius: 3px; font-size: 12px; vertical-align: 1px; font-family: system-ui; margin-left: 3px; background-image: linear-gradient(transparent 40%, #0002 60%); }
     
     .ca-liberal { background-color: #a55; } .tag.ca-liberal::before { content: 'Liberal Party'; }
@@ -27,6 +23,7 @@ Want to use Bluesky but don't know who to follow? I've been trying to keep track
 ### US politicians
 
 ||table
+@sarajacobs.house.gov‬ | Sara Jacobs | House Rep (California)<span class="tag us-dem"></span>
 @govpritzker.illinois.gov | Jay Robert "JB" Pritzker | Governor of Illinois<span class="tag us-dem"></span>
 @hillaryclinton.bsky.social | Hillary Clinton | Fmr. State Sec., Fmr. Senator (New York)<span class="tag us-dem"></span>
 @sanders.senate.gov | Bernie Sanders | Senator (Vermont)<span class="tag us-independent"></span>
@@ -189,7 +186,7 @@ Want to use Bluesky but don't know who to follow? I've been trying to keep track
 <script>
 
 window.addEventListener("load", function() {
-    const cells = Array.from(document.getElementsByTagName("tr")).map(c => c.firstChild);
+    const cells = Array.from(document.getElementsByClassName("col-1"));
     for (let i = 0; i < cells.length; i += 1) {
         if (cells[i].innerHTML.startsWith("@")) {
             cells[i].innerHTML = `<a class="handle" target="_blank" href="https://bsky.app/profile/${cells[i].innerHTML.substring(1)}">${cells[i].innerHTML}</a>`;

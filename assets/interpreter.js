@@ -227,11 +227,9 @@ function interpreter(targetElement) {
             input[i] = "<p></p>"; continue; }
 
         if (input[i].startsWith("||video-right-mp4")) {
-            
             input[i] = `<video class="noq-video right" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
             continue; }
         if (input[i].startsWith("||video-mp4")) {
-            
             input[i] = `<video class="noq-video" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
             continue; }
 
@@ -330,7 +328,7 @@ function interpreter(targetElement) {
             for (let j = 0; j < rows.length; j += 1) {
                 let cells = rows[j].split("|");
                 for (let k = 0; k < cells.length; k += 1) {
-                    cells[k] = "<td>" + safeConvert(cells[k].trim()) + "</td>"; }
+                    cells[k] = "<td class=\"col-"+(k+1)+"\">" + safeConvert(cells[k].trim()) + "</td>"; }
                 rows[j] = "<tr>" + cells.join("") + "</tr>"; }
             input[i] = `<table id="${"table" + tableNum++}" class="noq-table">${rows.join("")}</table>`;
             continue; }
@@ -368,12 +366,11 @@ function interpreter(targetElement) {
             if (document.title == "") { document.title = titleId; }
             titleId = titleId.replace(/ /g, "_");
 
-            
             if (firstHeading1) {
-                input[i] = `<h1 class="first-heading">${title}</h1></div>`;
+                input[i] = `<h1 class="first-heading article-heading">${title}</h1></div>`;
                 firstHeading1 = false;
             } else {
-                input[i] = `<h1 class="article-subheading" id=${titleId}>${title}</h1>`;
+                input[i] = `<h1 class="article-heading" id=${titleId}>${title}</h1>`;
             }
             
             if (temp.length == 2) {
@@ -385,13 +382,13 @@ function interpreter(targetElement) {
         if (input[i].startsWith("## ")) {
             let title = input[i].slice(3);
             const headerId = filterForTitles(title).replace(/ /g, "_");
-            input[i] = `<h2 class="article-subheading" id="${headerId}">${title}</h2>`;
+            input[i] = `<h2 class="article-heading" id="${headerId}">${title}</h2>`;
             continue; }
         /* ------ h3 ------ */
         if (input[i].startsWith("### ")) {
             let title = input[i].slice(4);
             const headerId = filterForTitles(title).replace(/ /g, "_");
-            input[i] = `<h3 class="article-subheading" id="${headerId}">${title}</h2>`;
+            input[i] = `<h3 class="article-heading" id="${headerId}">${title}</h2>`;
             continue; }
         /* toc-row class is useful for selecting the elements later */
         /* ------ h4 ------ */
@@ -415,22 +412,13 @@ function interpreter(targetElement) {
             console.error("{interpreter.js: (blank result?)}");
             continue;
         }
-
-        if (fine) {
-            input[i] = `<p class="fine">${input[i]}</p>`
-            continue;
-        }
-        if (dropCap) {
-            input[i] = `<p class="drop-cap">${input[i]}</p>`
-            continue;
-        }
-        if (firstParagraph) {
-            firstParagraph = false;
-            input[i] = `<p class="first-paragraph">${input[i]}</p>`;
-            continue;
-        }
         
-        input[i] = `<p>${input[i]}</p>`;
+        let p = "p";
+        if (firstParagraph) { p += " class=\"first-paragraph\""; firstParagraph = false; }
+        else if (fine) { p += " class=\"fine\""; }
+        else if (dropCap) { p += " class=\"drop-cap\""; }
+        
+        input[i] = `<${p}>${input[i]}</p>`;
     }
     targetElement.innerHTML = input.join("");
     
