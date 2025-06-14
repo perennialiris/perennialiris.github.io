@@ -58,12 +58,12 @@ function listParser(inputString) {
     const items = inputString.split("\n");
     const end_tags = [];
     const indent_diff = [];
-    for (let j = 0; j < items.length; j += 1) {
+    for (let j = 0; j < items.length; ++j) {
         let k = 0;
         while (items[j].charAt(k) === " ") {
             k += 1; }
         items[j] = `${" ".repeat(k)}<li>${items[j].slice(k).replace(/^[\*\-]\s+/, "- ").trimEnd()}</li>`; }
-    for (let j = 0; j < items.length; j += 1) {
+    for (let j = 0; j < items.length; ++j) {
         let indent = items[j].indexOf("<");
         const prev_indent = (j > 0) ? items[j - 1].indexOf("<") : -1;
         const li = items[j].slice(indent + 4);
@@ -184,7 +184,7 @@ function filterForTitles(inputString) {
 
 function quoteParse(inputString) {
     const lines = inputString.split("\n").slice(1);
-    for (let j = 0; j < lines.length; j += 1) {
+    for (let j = 0; j < lines.length; ++j) {
         if (lines[j].startsWith("---")) {
             lines[j] = `<div class="attribution">${lines[j]}</div>`; }
         else {
@@ -208,7 +208,7 @@ function interpreter(targetElement) {
     let linksInArticle = [];
     let tableNum = 1;
 
-    for (let i = 0; i < input.length; i += 1) {
+    for (let i = 0; i < input.length; ++i) {
 
         if (input[i].startsWith("\\")) {
             input[i] = input[i].substring(1);
@@ -235,13 +235,13 @@ function interpreter(targetElement) {
 
         if (input[i].startsWith("||image-box")) {
             const lines = input[i].split("\n").slice(1);
-            for (let j = 0; j < lines.length; j += 1) {
+            for (let j = 0; j < lines.length; ++j) {
                 const parts = lines[j].split("|");
                 while (parts.length < 3) { parts.push(""); }
 
                 let filePath = "media/" + parts[0].trim();
-                let maxHeight = parts[1].trim();
-                let altText = parts[2].trim();
+                let altText = parts[1].trim();
+                let maxHeight = parts[2].trim();
 
                 if (maxHeight == "") { maxHeight = 300; }
                 altText = altText.replace(/"/, "&quot;").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;")
@@ -258,7 +258,7 @@ function interpreter(targetElement) {
         if (input[i].startsWith("||image-right") || input[i].startsWith("||image-left")) {
             const direction = (input[i].startsWith("||image-right")) ? "right" : "left";
             const lines = input[i].split("\n").slice(1);
-            for (let j = 0; j < lines.length; j += 1) {
+            for (let j = 0; j < lines.length; ++j) {
                 let imgClass = "image-float " + direction;
 
                 const parts = lines[j].split("|");
@@ -267,9 +267,9 @@ function interpreter(targetElement) {
                 let filePath = "media/" + parts[0].trim();
                 let caption = parts[1].trim();
                 let altText = parts[2].trim();
-                
+
                 let imgAttributes = `src=${filePath}`;
-                
+
                 if (caption != "") {
                     imgClass += " captioned";
                     caption = "<div>" + caption + "</div>";
@@ -325,7 +325,7 @@ function interpreter(targetElement) {
         if (input[i].startsWith("||table")) {
             let rows = input[i].split("\n");
             rows.shift();
-            for (let j = 0; j < rows.length; j += 1) {
+            for (let j = 0; j < rows.length; ++j) {
                 let cells = rows[j].split("|");
                 for (let k = 0; k < cells.length; k += 1) {
                     cells[k] = "<td class=\"col-"+(k+1)+"\">" + safeConvert(cells[k].trim()) + "</td>"; }

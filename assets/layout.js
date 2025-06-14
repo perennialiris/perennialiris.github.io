@@ -56,7 +56,6 @@ function setTextFormat(setValue) {
     }
     
     const mainContent = document.querySelector(".main-content");
-    
     switch (setValue) {
         case 1:
             mainContent.classList.remove("text-justify");
@@ -108,7 +107,7 @@ let data = `
 40 | Trump and Russia | politics | 2025-03-05 | 
 39 | Movies | other | | narrow unlisted
 38 | Canadian news | other, politics | | repo-table
-37 | Bluesky accounts listing | other | | repo-table
+37 | Mark Robinson transcript | | 2024-11-13 | unlisted
 36 | India | history, politics | 2025-03-05 | 
 35 | International news | news, politics | | repo-table
 34 | The Nazi salute | news, politics | 2025-01-24 | narrow
@@ -130,7 +129,7 @@ let data = `
 18 | Transcripts: context for inflammatory Trump statements | politics | |
 17 | Why get bottom surgery? | transgender, culture | 2025-02-09 |
 16 | Milo Yiannopoulos’s cancellation | politics | 2025-02-03 |
-15 | Mark Robinson transcript | | 2024-11-13 | unlisted
+15 | Bluesky accounts listing | other | | repo-table
 14 | Reasons I’m glad to be Canadian | politics | 2024-12-08 |
 13 | The military–industrial complex | politics | 2024-12-04 |
 12 | The order of information | politics | 2024-12-03 |
@@ -172,18 +171,11 @@ function alignTable(dataString, splitChar) {
     data = table.map(c => c.join(` ${splitChar} `)).join("\n");
 }
 
-function getFileName() {
-    const u = document.baseURI.split("/").slice(-1)[0];
-    const i = u.indexOf("#");
-    const r = i == -1 ? u : u.substring(0, i);
-    return r.replace(/\.html$/, "");
-}
-
 const pageWrapper = document.querySelector(".page-wrapper");
 let mainContent, formatButtonContainer;
 function pageLoad() {
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
-    const fileName = getFileName();
+    const thisDir = document.baseURI.split("/").slice(-2)[0];
 
     if (localStorage.getItem("brightness") == null) { localStorage.setItem("brightness","light"); }
     else if (localStorage.getItem("brightness") == "dark") { pageWrapper.classList.add("dark"); }
@@ -191,7 +183,7 @@ function pageLoad() {
     pageWrapper.classList.add("javascript-loaded");
     pageWrapper.innerHTML =
        `<div class="page">
-            <header class="main-header align-center"><a class="title-link" href="index.html">North of Queen</a></header>
+            <header class="main-header align-center"><a class="title-link" href="${thisDir == "northofqueen.github.io" ? "" : "../index.html"}">North of Queen</a></header>
             <nav class="main-nav">
                 <div class="nav-inner">
                     <div class="align-center">
@@ -217,6 +209,8 @@ function pageLoad() {
                                         <option value="Inter">Inter</option>
                                         <option value="Lora">Lora</option>
                                         <option value="Trebuchet MS">Trebuchet MS</option>
+                                        <option value="Open Sans">Open Sans</option>
+                                        <option value="Faculty Glyphic">Faculty Glyphic</option>
                                     </select>
                                 </div>
                             </div>
@@ -227,6 +221,7 @@ function pageLoad() {
                                         <option value="Georgia">Georgia</option>
                                         <option value="Roboto">Roboto</option>
                                         <option value="Trebuchet MS">Trebuchet MS</option>
+                                        <option value="Faculty Glyphic">Faculty Glyphic</option>
                                     </select>
                                 </div>
                             </div>
@@ -241,12 +236,12 @@ function pageLoad() {
                                 </div>
                             </div>
                             <div class="menu-row">
-                                <div><span class="no-select">Text format:</span></div>
+                                <div><span class="no-select">Paragraph format:</span></div>
                                 <div class="format-button-container">
-                                    <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="icon format-button" style="background-image: url('assets/icon-paragraph-style-left-no-indent.png')">
-                                    <input type="button" title="Left-align, indent sibling paragraphs" onclick="setTextFormat(2)" class="icon format-button" style="background-image: url('assets/icon-paragraph-style-left-indent.png')">
-                                    <input type="button" title="Justified, no indenting" onclick="setTextFormat(3)" class="icon format-button" style="background-image: url('assets/icon-paragraph-style-justify-no-indent.png')">
-                                    <input type="button" title="Justified, indent sibling paragraphs" onclick="setTextFormat(4)" class="icon format-button" style="background-image: url('assets/icon-paragraph-style-justify-indent.png')">
+                                    <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="icon format-button" style="background-image: url('../assets/icon-paragraph-style-left-no-indent.png')">
+                                    <input type="button" title="Justified, no indenting" onclick="setTextFormat(2)" class="icon format-button" style="background-image: url('../assets/icon-paragraph-style-justify-no-indent.png')">
+                                    <input type="button" title="Left-align, indent sibling paragraphs" onclick="setTextFormat(3)" class="icon format-button" style="background-image: url('../assets/icon-paragraph-style-left-indent.png')">
+                                    <input type="button" title="Justified, indent sibling paragraphs" onclick="setTextFormat(4)" class="icon format-button" style="background-image: url('../assets/icon-paragraph-style-justify-indent.png')">
                                 </div>
                             </div>
                             <div>
@@ -265,29 +260,10 @@ function pageLoad() {
                 </div>
                 <div id="right"></div>
             </div>
-            <footer class="page-bottom"><a href="https://github.com/northofqueen" target="_blank">North of Queen</a> is my personal repo. I have no association with any other person or organization. This site runs entirely on client-side JavaScript, meaning there is no server and, if saved locally, it runs identically to how it does online. The code base and site design can be taken as entirely open source (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0</a>); you can copy the whole thing if you want; I don't care. On the other hand, I reserve the rights to the content of my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
+            <footer class="page-bottom"><a href="https://github.com/northofqueen" target="_blank">North of Queen</a> is my personal repo. I have no association with any other person or organization. This site runs entirely on client-side JavaScript, meaning there is no server and, if saved locally, it runs identically to how it does online. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
             <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
         </div>`;
     interpreter(document.querySelector(".main-content"));
-
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    if (localStorage.getItem("brightness") == "dark") { document.getElementById("lightswitch").checked = true; }
-    document.getElementById("lightswitch").addEventListener("change", function() {
-        setBrightness(this.checked ? "dark" : "light");
-    });
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    if (localStorage.getItem("text-style") == null) {
-        setTextFormat(1); }
-    else {
-        setTextFormat(localStorage.getItem("text-style"));
-    }
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    window.addEventListener("keydown", function(e) {
-        if (e.key === 'Escape') {
-            setLightbox("close");
-            setMenu("hide");
-        }
-    });
 
     alignTable(data, "|");
     const pageList = { recent: [], pins: [], full: [] };
@@ -301,14 +277,14 @@ function pageLoad() {
     const otherLists = [];
     for (let i = 0; i < dataRows.length; ++i) {
         const cells = dataRows[i].split("|").map(cell => cell.trim());
-        const rowFile = cells[0],
+        const rowDir = cells[0],
         rowTitle      = cells[1],
         rowCategory   = cells[2],
         rowDate       = cells[3],
         rowFlags      = cells[4].split(" ");
         
         isPinned = rowFlags.includes("pinned");
-        isCurrentPage = rowFile == fileName;
+        isCurrentPage = (rowDir == thisDir);
         
         if (isCurrentPage) {
             includeToc = rowFlags.includes("toc");
@@ -321,19 +297,19 @@ function pageLoad() {
             if (rowFlags.includes("narrow")) { pageWrapper.classList.add("narrow"); }
             }
         else if (rowFlags.includes("repo-table")) {
-            otherLists.push(`<a style="margin: 0 8px;" href="${rowFile}.html">${rowTitle}</a>`);
+            otherLists.push(`<a href="../${rowDir}/index.html">${rowTitle}</a>`);
         }
         if (rowFlags.includes("unlisted")) { continue; }
 
         /* ---- for recent in sidenav ---- */
         if (pageList.recent.length < 9) {
-            pageList.recent.push(`<div class="${isCurrentPage? "nav-row selected" : "nav-row"}"><a href="${rowFile}.html">${rowTitle}</a></div>`);
+            pageList.recent.push(`<div class="${isCurrentPage? "nav-row selected" : "nav-row"}"><a href="../${rowDir}/index.html">${rowTitle}</a></div>`);
         }
 
         /* ---- for index.html ---- */
         let fullEntry = isPinned
-            ? `<a class="pinned" href="${rowFile}.html">${rowTitle}</a>`
-            : `<a href="${rowFile}.html">${rowTitle}</a>`;
+            ? `<a class="pinned" href="${rowDir}/index.html">${rowTitle}</a>`
+            : `<a href="${rowDir}/index.html">${rowTitle}</a>`;
         
         if (rowDate || rowCategory) {
             fullEntry += " &ndash;";
@@ -361,9 +337,10 @@ function pageLoad() {
 
         if (repoTable) {
             right.classList.add("hidden");
-            const m = document.querySelector(".main-container");
-            const n2 = m.parentNode.insertBefore(document.createElement("div"), m);
-            n2.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; margin: 0 auto; height: 34px;"><div style="white-space: nowrap; margin-right: 8px;">Other lists:</div><div style="display: flex; justify-content: space-evenly; flex-direction: row-reverse;">${otherLists.join("")}</div></div>`;
+            const mcont = document.querySelector(".main-container");
+            const n2 = mcont.parentNode.insertBefore(document.createElement("div"), mcont);
+            n2.classList.add("other-lists");
+            n2.innerHTML = `<div>Other lists:</div><div class="container">${otherLists.join("")}</div>`;
             }
         else if (!includeToc) {
             const recentPages = right.appendChild(document.createElement("nav"));
@@ -439,6 +416,24 @@ function pageLoad() {
     window.addEventListener("scroll", navStickyCheck);
 
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
+    window.addEventListener("keydown", function(e) {
+        if (e.key === 'Escape') {
+            setLightbox("close");
+            setMenu("hide");
+        }
+    });
+    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
+    if (localStorage.getItem("brightness") == "dark") { document.getElementById("lightswitch").checked = true; }
+    document.getElementById("lightswitch").addEventListener("change", function() {
+        setBrightness(this.checked ? "dark" : "light");
+    });
+    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
+    if (localStorage.getItem("text-style") == null) {
+        setTextFormat(1); }
+    else {
+        setTextFormat(localStorage.getItem("text-style"));
+    }
+    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     let headingFont = localStorage.getItem("heading-font");
     if (headingFont == null) {
         headingFont = "Inter"; /* default value on first visit */
@@ -492,16 +487,18 @@ function updateFonts() {
      .image-float, .noq-table { font-family: "${secondaryFont}",system-ui; }`;
 
     if (headingFont != "Georgia") {
-        css.innerHTML += ` .article-heading .digit { font-family: inherit; }`;
-    }
-
+        css.innerHTML += " .article-heading .digit { font-family: inherit; }"; }
     if (bodyFont != "Georgia") {
-        css.innerHTML += ` p .digit, li .digit, blockquote .digit, h4 .digit, .main-content ol > li::marker { font-family: inherit; }`
+        css.innerHTML += " p .digit, li .digit, blockquote .digit, h4 .digit, .main-content ol > li::marker { font-family: inherit; }"; }
+    
+    switch (bodyFont) {
+        case "Faculty Glyphic":
+            css.innerHTML += ` .mdash { font-family: unset !important; }`;
+            break;
+        case "Nunito Sans":
+            css.innerHTML += ` .main-content { font-weight: 500; }`
     }
-    else if (bodyFont == "Faculty Glyphic") {
-        css.innerHTML += ` .mdash { font-family: unset !important; }`;
-    }
-
+    
     localStorage.setItem("heading-font", headingFont);
     localStorage.setItem("body-font", bodyFont);
     localStorage.setItem("secondary-font", secondaryFont);
