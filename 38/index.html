@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="../assets/main.css"></head>
+<body>
+<div class="page-wrapper">
+
+# Canadian news
+
+<div style="text-align:right"><button onclick="reverseOrder()" style="padding:1px 8px 3px;">reverse order ⇅</button></div>
+
+||table
+2025-04-28 | In the federal election, the Liberal Party gained seats, finishing with 169 of 343 seats, of the 172 necessary for a majority. They will maintained their status as governing party, securing the Prime Ministership for incumbent Mark Carney.[](https://newsinteractives.cbc.ca/elections/federal/2025/results/)
+2025-04-28 | Pierre Poilievre lost his seat in Parliament representing Carelton (ON) to Bruce Fanjoy (Liberal).[](https://www.cbc.ca/news/politics/poilievre-controls-the-party-from-outside-house-1.7537169)
+2025-05-27 | King Charles III delivers throne speech to open the 45th Parliament.[](https://www.cbc.ca/news/politics/king-charles-delivers-throne-speech-1.7544242)[](https://www.youtube.com/watch?v=NLITlkmyqRs)
+2025-06-06 | Carney invites Modi to the G7 summit to be held in Kananaskis, Alberta later this June. [Carney defends inviting Modi to G7 after RCMP linked India to murders and extortion](https://www.cbc.ca/news/politics/modi-g7-canada-1.7554154)
+2025-06-10 | [Carney laments Pride 'backlash' and rolls out money to make 2SLGBTQ+ parades safer.](https://www.cbc.ca/news/politics/carney-pride-backlash-1.7557360)
+2025-06-13 | Charles approves the new Seal of Canada.[](https://www.ctvnews.ca/canada/article/king-charles-iii-approves-new-great-seal-of-canada/)
+
+</div>
+<script src="../assets/interpreter.js"></script>
+<script src="../assets/layout.js"></script>
+<script>
+function reverseOrder() {
+    let table = document.getElementsByTagName("tbody")[0];
+    table.innerHTML = Array.from(table.rows).reverse().map(c => `<tr>${c.innerHTML}</tr>`).join('');
+}
+window.addEventListener("load", function() {
+
+    reverseOrder();
+});
+</script>
+</body></html>
