@@ -62,12 +62,12 @@ function setTextFormat(setValue) {
             mainContent.classList.remove("text-indent");
             break;
         case 2:
-            mainContent.classList.remove("text-justify");
-            mainContent.classList.add("text-indent");
-            break;
-        case 3:
             mainContent.classList.add("text-justify");
             mainContent.classList.remove("text-indent");
+            break;
+        case 3:
+            mainContent.classList.remove("text-justify");
+            mainContent.classList.add("text-indent");
             break;
         case 4:
             mainContent.classList.add("text-justify");
@@ -111,7 +111,7 @@ let data = `
 36 | India | history, politics | 2025-03-05 | 
 35 | International news | news, politics | | repo-table
 34 | The Nazi salute | news, politics | 2025-01-24 | narrow
-33 | The standard relationship model | unlisted | | 
+33 | The standard relationship model | other | | 
 32 | Politics fundamentals | politics | 2025-01-05 | toc wide
 31 | Reflections on Justin Trudeau | news, politics | 2025-01-08 |
 30 | The appearance of intelligence | other | 2025-01-18 |
@@ -207,8 +207,9 @@ function pageLoad() {
                                 <div>
                                     <select id="heading-font-select">
                                         <option value="Inter">Inter</option>
-                                        <option value="Lora">Lora</option>
+                                        <option value="Merriweather">Merriweather</option>
                                         <option value="Trebuchet MS">Trebuchet MS</option>
+                                        <option value="Lora">Lora</option>
                                         <option value="Open Sans">Open Sans</option>
                                         <option value="Faculty Glyphic">Faculty Glyphic</option>
                                     </select>
@@ -260,7 +261,7 @@ function pageLoad() {
                 </div>
                 <div id="right"></div>
             </div>
-            <footer class="page-bottom"><a href="https://github.com/northofqueen" target="_blank">North of Queen</a> is my personal repo. I have no association with any other person or organization. This site runs entirely on client-side JavaScript, meaning there is no server and, if saved locally, it runs identically to how it does online. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
+            <footer class="page-bottom"><a href="https://github.com/northofqueen" target="_blank">North of Queen</a> is my personal repo. I have no association with any other person or organization. This hacky “website” is really just stitched-together pages that runs entirely on client-side JavaScript. There is no server and, if saved locally, it all runs identically to how it does online. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
             <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
         </div>`;
     interpreter(document.querySelector(".main-content"));
@@ -429,7 +430,7 @@ function pageLoad() {
     });
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     if (localStorage.getItem("text-style") == null) {
-        setTextFormat(1); }
+        setTextFormat(3); }
     else {
         setTextFormat(localStorage.getItem("text-style"));
     }

@@ -15,8 +15,9 @@ function mainReplacements(inputString) {
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
         .replaceAll("\\", "&#92;")
-        /* It took many versions, but I think I finally got to a point where this always works the way I want it to */
-        /* curly " replacement */
+        /* It took many versions, but I think I finally got to a point where this always works the way I want it to. */
+        /* Is there a much better way to do this? I don't know. */
+        /* ---- curly " replacement ---- */
         .replace(/(\S\*{1,3})" /g, "$1&rdquo; ")
         .replace(/^"(\w)/g, "&ldquo;$1")
         .replace(/^" /g, "&rdquo; ")
@@ -28,7 +29,7 @@ function mainReplacements(inputString) {
         .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
         .replace(/"/g, "&rdquo;")
         .replace(/&rdquo;(,|\.)/g, `<span class="right-quote-margin">&rdquo;</span>$1`)
-        /* curly ' replacement */
+        /* ---- curly ' replacement ---- */
         .replace(/'(\d{2})(\D{1})/g, "&rsquo;$1$2") // for saying '95 or '27 etc.
         .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
         .replace(/^'(\w)/g, "&lsquo;$1")
@@ -43,9 +44,8 @@ function mainReplacements(inputString) {
         .replace(/'/g, "&rsquo;")
         .replace(/&rsquo;(,|\.)/g, `<span class="right-quote-margin">&rsquo;</span>$1`)
         .replace(/__(.+?)__/g, "<u>$1</u>")
-        .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
-        .replace(/\*(.+?)\*/g, "<i>$1</i>")
-        // .replaceAll("---", "&mdash;")
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.+?)\*/g, "<em>$1</em>")
         .replaceAll("---", "<span class='mdash'>&mdash;</span>")
         .replaceAll("--", "&ndash;")
         .replaceAll("...", "&hellip;")
@@ -53,7 +53,7 @@ function mainReplacements(inputString) {
 }
 
 /* nested list parser */
-/* usage note: you can do a nested */
+/* usage note: you can do nested */
 function listParser(inputString) {
     const items = inputString.split("\n");
     const end_tags = [];
@@ -62,14 +62,14 @@ function listParser(inputString) {
         let k = 0;
         while (items[j].charAt(k) === " ") {
             k += 1; }
-        items[j] = `${" ".repeat(k)}<li>${items[j].slice(k).replace(/^[\*\-]\s+/, "- ").trimEnd()}</li>`; }
+        items[j] = `${" ".repeat(k)}<li>${items[j].slice(k).replace(/^[\*\*]\s+/, "* ").trimEnd()}</li>`; }
     for (let j = 0; j < items.length; ++j) {
         let indent = items[j].indexOf("<");
         const prev_indent = (j > 0) ? items[j - 1].indexOf("<") : -1;
         const li = items[j].slice(indent + 4);
-        /* Is this line more indented than previous line? */
+        /* If this line is more indented than previous line: */
         if (indent > prev_indent) {
-            if (li.startsWith("- ")) {
+            if (li.startsWith("* ")) {
                 end_tags.push("</ul>");
                 items[j] = "<ul><li>" + li.slice(2); }
             else {
@@ -83,7 +83,7 @@ function listParser(inputString) {
             indent_diff.push(indent - prev_indent); } }
         else {
             let br = false;
-            if (li.startsWith("- ")) {
+            if (li.startsWith("* ")) {
                 items[j] = "<li>" + li.slice(2); }
             else {
                 if (/^\d+\./.test(li)) {
@@ -399,7 +399,7 @@ function interpreter(targetElement) {
             continue; }
 
         /* ------------------------ lists ------------------------- */
-        if (input[i].startsWith("* ") || input[i].startsWith("- ") || /^\d+\./.test(input[i])) {
+        if (input[i].startsWith("* ") || /^\d+\./.test(input[i])) {
             input[i] = listParser(input[i]);
             if (fine) {
                 if (input[i].substring(0, 3) != "<ol" && input[i].substring(0, 3) != "<ul") console.error("{interpreter.js: confused list}")
