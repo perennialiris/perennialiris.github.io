@@ -174,8 +174,9 @@ function alignTable(dataString, splitChar) {
 const pageWrapper = document.querySelector(".page-wrapper");
 let mainContent, formatButtonContainer;
 function pageLoad() {
-    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="assets/favicon.ico">`;
+    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="../assets/favicon.ico">`;
     const thisDir = document.baseURI.split("/").slice(-2)[0];
+    const index = document.getElementById("index-aKxOoclwfz");
 
     if (localStorage.getItem("brightness") == null) { localStorage.setItem("brightness","light"); }
     else if (localStorage.getItem("brightness") == "dark") { pageWrapper.classList.add("dark"); }
@@ -208,9 +209,7 @@ function pageLoad() {
                                     <select id="heading-font-select">
                                         <option value="Inter">Inter</option>
                                         <option value="Merriweather">Merriweather</option>
-                                        <option value="Trebuchet MS">Trebuchet MS</option>
-                                        <option value="Lora">Lora</option>
-                                        <option value="Open Sans">Open Sans</option>
+                                        <option value="Roboto Slab">Roboto Slab</option>
                                         <option value="Faculty Glyphic">Faculty Glyphic</option>
                                     </select>
                                 </div>
@@ -222,6 +221,7 @@ function pageLoad() {
                                         <option value="Georgia">Georgia</option>
                                         <option value="Roboto">Roboto</option>
                                         <option value="Trebuchet MS">Trebuchet MS</option>
+                                        <option value="Lato">Lato</option>
                                         <option value="Faculty Glyphic">Faculty Glyphic</option>
                                     </select>
                                 </div>
@@ -233,16 +233,17 @@ function pageLoad() {
                                         <option value="Segoe UI">Segoe UI</option>
                                         <option value="Roboto">Roboto</option>
                                         <option value="Trebuchet MS">Trebuchet MS</option>
+                                        <option value="Lato">Lato</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="menu-row">
-                                <div><span class="no-select">Paragraph format:</span></div>
+                                <div><span class="no-select">Text format:</span></div>
                                 <div class="format-button-container">
-                                    <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="icon format-button" style="background-image: url('../assets/icon-paragraph-style-left-no-indent.png')">
-                                    <input type="button" title="Justified, no indenting" onclick="setTextFormat(2)" class="icon format-button" style="background-image: url('../assets/icon-paragraph-style-justify-no-indent.png')">
-                                    <input type="button" title="Left-align, indent sibling paragraphs" onclick="setTextFormat(3)" class="icon format-button" style="background-image: url('../assets/icon-paragraph-style-left-indent.png')">
-                                    <input type="button" title="Justified, indent sibling paragraphs" onclick="setTextFormat(4)" class="icon format-button" style="background-image: url('../assets/icon-paragraph-style-justify-indent.png')">
+                                    <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="icon format-button" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-left-no-indent.png')">
+                                    <input type="button" title="Justified, no indenting" onclick="setTextFormat(2)" class="icon format-button" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-justify-no-indent.png')">
+                                    <input type="button" title="Left-align, indent sibling paragraphs" onclick="setTextFormat(3)" class="icon format-button" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-left-indent.png')">
+                                    <input type="button" title="Justified, indent sibling paragraphs" onclick="setTextFormat(4)" class="icon format-button" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-justify-indent.png')">
                                 </div>
                             </div>
                             <div>
@@ -261,14 +262,17 @@ function pageLoad() {
                 </div>
                 <div id="right"></div>
             </div>
-            <footer class="page-bottom"><a href="https://github.com/northofqueen" target="_blank">North of Queen</a> is my personal repo. I have no association with any other person or organization. This hacky “website” is really just stitched-together pages that runs entirely on client-side JavaScript. There is no server and, if saved locally, it all runs identically to how it does online. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
+            <footer class="page-bottom">
+            [North of Queen](https://github.com/northofqueen) is my personal repo. I have no association with any other person or organization. This "website" runs entirely on client-side JavaScript, meaning there is no server software and if saved locally it all runs identically to how it does online. I don't care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.
+            </footer>
             <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
         </div>`;
     interpreter(document.querySelector(".main-content"));
+    interpreter(document.querySelector(".page-bottom"));
 
     alignTable(data, "|");
     const pageList = { recent: [], pins: [], full: [] };
-    
+
     let includeToc = false;
     let isPinned = false;
     let isCurrentPage = false;
@@ -278,7 +282,7 @@ function pageLoad() {
     const otherLists = [];
     for (let i = 0; i < dataRows.length; ++i) {
         const cells = dataRows[i].split("|").map(cell => cell.trim());
-        const rowDir = cells[0],
+        const rowDir  = cells[0],
         rowTitle      = cells[1],
         rowCategory   = cells[2],
         rowDate       = cells[3],
@@ -327,10 +331,9 @@ function pageLoad() {
         else { pageList.full.push(fullEntry); }
     }
     
-    const index = document.getElementById("index-aKxOoclwfz");
     if (index) {
-        index.innerHTML = pageList.full.join("");
         document.querySelector(".page-name-display").innerHTML = "Front-page index";
+        document.getElementById("index-aKxOoclwfz").innerHTML = pageList.full.join("");
     }
     else {
         document.querySelector(".page-name-display").innerHTML = pageTitle;
@@ -483,15 +486,16 @@ function updateFonts() {
     let bodyFont = localStorage.getItem("body-font");
     let secondaryFont = localStorage.getItem("secondary-font");
 
-    css.innerHTML = 
-    `.main-content { font-family: "${bodyFont}",sans-serif; } .article-heading { font-family: "${headingFont}",sans-serif; }
-     .image-float, .noq-table { font-family: "${secondaryFont}",system-ui; }`;
+    css.innerHTML = `
+    .page {
+        --body-font: "${bodyFont}", sans-serif;
+        --heading-font: "${headingFont}", sans-serif;
+        --secondary-font: "${secondaryFont}", system-ui;
+    }`;
 
-    if (headingFont != "Georgia") {
-        css.innerHTML += " .article-heading .digit { font-family: inherit; }"; }
-    if (bodyFont != "Georgia") {
-        css.innerHTML += " p .digit, li .digit, blockquote .digit, h4 .digit, .main-content ol > li::marker { font-family: inherit; }"; }
-    
+    if (headingFont != "Georgia") { css.innerHTML += " .article-heading .digit { font-family: inherit; }"; }
+    if (bodyFont != "Georgia") { css.innerHTML += " p .digit, li .digit, blockquote .digit, h4 .digit, .main-content ol > li::marker { font-family: inherit; }"; }
+
     switch (bodyFont) {
         case "Faculty Glyphic":
             css.innerHTML += ` .mdash { font-family: unset !important; }`;
@@ -499,7 +503,7 @@ function updateFonts() {
         case "Nunito Sans":
             css.innerHTML += ` .main-content { font-weight: 500; }`
     }
-    
+
     localStorage.setItem("heading-font", headingFont);
     localStorage.setItem("body-font", bodyFont);
     localStorage.setItem("secondary-font", secondaryFont);

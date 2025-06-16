@@ -3,7 +3,7 @@
 
 /*  These are the replacements run over all inputs, separated into its
     own function because I needed to call it multiple times. */
-function mainReplacements(inputString) {
+function stdReplace(inputString) {
     if (inputString == "") { return ""; }
     
     let output = inputString
@@ -54,65 +54,25 @@ function mainReplacements(inputString) {
 
 /* nested list parser */
 /* usage note: you can do nested */
-function listParser(inputString) {
-    const items = inputString.split("\n");
-    const end_tags = [];
-    const indent_diff = [];
-    for (let j = 0; j < items.length; ++j) {
-        let k = 0;
-        while (items[j].charAt(k) === " ") {
-            k += 1; }
-        items[j] = `${" ".repeat(k)}<li>${items[j].slice(k).replace(/^[\*\*]\s+/, "* ").trimEnd()}</li>`; }
-    for (let j = 0; j < items.length; ++j) {
-        let indent = items[j].indexOf("<");
-        const prev_indent = (j > 0) ? items[j - 1].indexOf("<") : -1;
-        const li = items[j].slice(indent + 4);
-        /* If this line is more indented than previous line: */
-        if (indent > prev_indent) {
-            if (li.startsWith("* ")) {
-                end_tags.push("</ul>");
-                items[j] = "<ul><li>" + li.slice(2); }
-            else {
-                if (/^\d+\./.test(li)) {
-                    end_tags.push("</ol>");
-                    items[j] = `<ol start="${li.substring(0, li.indexOf("."))}"><li>${li.slice(li.indexOf(".") + 1).trimStart()}`; }
-                else {
-                    items[j] = "<br class='br-sp'>" + " ".repeat(indent - prev_indent) + li;
-                    items[j - 1] = items[j - 1].slice(0, -5);
-                    indent = prev_indent; }
-            indent_diff.push(indent - prev_indent); } }
-        else {
-            let br = false;
-            if (li.startsWith("* ")) {
-                items[j] = "<li>" + li.slice(2); }
-            else {
-                if (/^\d+\./.test(li)) {
-                    items[j] = "<li>" + li.slice(li.indexOf(".") + 1).trimStart(); }
-                else {
-                    br = true; } }
-            /* If this line is less indented than previous line: */
-            if (indent < prev_indent) {
-                let diff = prev_indent - indent;
-                while (diff > 0) {
-                    if (diff < indent_diff[indent_diff.length - 1]) {
-                        indent_diff[indent_diff.length - 1] -= diff;
-                        diff = 0;
-                    } else {
-                        diff -= indent_diff.pop();
-                        items[j - 1] += end_tags.pop(); } } }
-            if (br) {
-                let k;
-                for (k = j - 1; k > -1; k -= 1) {
-                    if (items[k].indexOf("<") == indent) {
-                        break; }
-                    if (items[k].indexOf("<") < indent) {
-                        k += 1; break; } }
-                items[k] = items[k].slice(0, -5);
-                items[j] = "<br class='br-sp'>" + li; } }
-        items[j] = " ".repeat(indent) + items[j]; }
-    while (end_tags.length > 0) {
-        items[items.length - 1] += end_tags.pop(); }
-    return items.join('\n');
+function listParse(inputString) {
+    const lines = inputString.split("\n");
+    
+    for (let i = 0; i < lines.length; ++i) {
+        const leftRight = Math.floor(lines[i].search(/[^\s]/) / 2) + 1;
+        
+        let listStyleType = "none";
+        let marginTop = "6px";
+        
+        if (lines[i].startsWith("* ")) {
+            lines[i] = lines[i].slice(1);
+            listStyleType = "disc";
+            marginTop = "10px";
+        }
+        
+        lines[i] = `<li style="list-style-type: ${listStyleType}; display: list-item; margin: ${marginTop} ${leftRight * 40}px 0;">${safeConvert(lines[i].trim())}</li>`;
+        
+    }
+    return `<ul style="padding: 0;">${lines.join("")}</ul>`;
 }
 
 /* general parser to run all input through, safely ignores anything <inside> of tags, same logic as wrapDigits */
@@ -121,15 +81,15 @@ function safeConvert(inputString) {
     while (true) {
         let openTag = input.indexOf("<"), closeTag = input.indexOf(">");
         if (openTag == -1 || closeTag == -1) break;
-        output += mainReplacements(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
+        output += stdReplace(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
         input = input.substring(closeTag + 1);
     }
-    output += mainReplacements(input);
+    output += stdReplace(input);
     return output;
 }
 
 /* for <code> or like elements, where you don't want normal formatting -- run *before* safeConvert */
-function codeSanitize(inputString) {
+function codeblockSanitize(inputString) {
     return inputString
         .replaceAll("=\"\"", "")
         .replaceAll("\"", "&quot;")
@@ -173,7 +133,7 @@ function wrapElement(targetElement) {
 }
 
 /* prefer .replaceAll over .replace when you don't need regex, more readable */
-function filterForTitles(inputString) {
+function titleFilter(inputString) {
     return inputString.replace(/<.+?>/g, "")
         .replaceAll('"', "&quot;")
         .replaceAll("&rsquo;", "'")
@@ -303,11 +263,12 @@ function interpreter(targetElement) {
         /* div.codeblock: */
         if (input[i].startsWith("```")) {
             input[i] = input[i].replace(/\s*```\n*/g, "");
-            input[i] = "<div class=\"codeblock\">" + codeSanitize(input[i]) + "</div>";
+            input[i] = "<div class=\"codeblock\">" + codeblockSanitize(input[i]) + "</div>";
             continue; }
         /* <code></code>: */
         input[i] = input[i].replace(/`(.+?)`/g, (match, captureGroup) => {
-            return "<code>" + codeSanitize(captureGroup) + "</code>"; });
+            return "<code>" + codeblockSanitize(captureGroup) + "</code>";
+        });
 
         /* ------------------------ links ------------------------- */
         /* \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\) */
@@ -353,16 +314,31 @@ function interpreter(targetElement) {
             input[i] = quoteParse("\n"+input[i].substring(4));
             continue; }
 
+        /* ------------------------ lists ------------------------- */
+        if ( /^\* /.test(input[i]) || /^\d+\. /.test(input[i]) ) {
+            input[i] = listParse(input[i]);
+            if (fine) {
+                input[i] = input.substring(0,3) + ` class="fine"` + input[i].substring(3);
+                }
+            continue;
+        }
         /* -------------------------------------------------------- */
+        
         input[i] = safeConvert(input[i]);
+
+        /* ---- This should be impossible ---- */
+        if (input[i] == "") {
+            console.error("{interpreter.js: (blank result?)}");
+            continue;
+        }
 
         /* ------------------------ headings ----------------------- */
         /* ------ h1 ------ */
         if (input[i].startsWith("# ")) {
-            const temp = input[i].substring(2).split("|");
-            const title = temp[0].trim();
+            const parts = input[i].substring(2).split("|");
+            const title = parts[0].trim();
 
-            let titleId = filterForTitles(title);
+            let titleId = titleFilter(title);
             if (document.title == "") { document.title = titleId; }
             titleId = titleId.replace(/ /g, "_");
 
@@ -373,21 +349,21 @@ function interpreter(targetElement) {
                 input[i] = `<h1 class="article-heading" id=${titleId}>${title}</h1>`;
             }
             
-            if (temp.length == 2) {
-                input[i] += `<div class="subtitle">${temp[1].trim()}</div>`;
+            if (parts.length == 2) {
+                input[i] += `<div class="subtitle">${parts[1].trim()}</div>`;
             }
             
             continue; }
         /* ------ h2 ------ */
         if (input[i].startsWith("## ")) {
             let title = input[i].slice(3);
-            const headerId = filterForTitles(title).replace(/ /g, "_");
+            const headerId = titleFilter(title).replace(/ /g, "_");
             input[i] = `<h2 class="article-heading" id="${headerId}">${title}</h2>`;
             continue; }
         /* ------ h3 ------ */
         if (input[i].startsWith("### ")) {
             let title = input[i].slice(4);
-            const headerId = filterForTitles(title).replace(/ /g, "_");
+            const headerId = titleFilter(title).replace(/ /g, "_");
             input[i] = `<h3 class="article-heading" id="${headerId}">${title}</h2>`;
             continue; }
         /* toc-row class is useful for selecting the elements later */
@@ -397,21 +373,6 @@ function interpreter(targetElement) {
             input[i] = `<h4>${title}</h4>`;
             /* don't put h4 in toc */
             continue; }
-
-        /* ------------------------ lists ------------------------- */
-        if (input[i].startsWith("* ") || /^\d+\./.test(input[i])) {
-            input[i] = listParser(input[i]);
-            if (fine) {
-                if (input[i].substring(0, 3) != "<ol" && input[i].substring(0, 3) != "<ul") console.error("{interpreter.js: confused list}")
-                input[i] = input[i].substring(0, 3) + " class=\"fine\"" + input[i].substring(3); }
-            continue; }
-        input[i] = input[i].replace(/\n/g, "<br>");
-
-        if (input[i] == "") {
-            /* should be impossible, indicates problem with code */
-            console.error("{interpreter.js: (blank result?)}");
-            continue;
-        }
         
         let p = "p";
         if (firstParagraph) { p += " class=\"first-paragraph\""; firstParagraph = false; }
