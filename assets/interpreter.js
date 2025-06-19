@@ -156,6 +156,7 @@ function quoteParse(inputString) {
 }
 
 /* Main interpreter loop. Pass the main element to start. */
+let linksInArticle = [];
 function interpreter(targetElement) {
     let input = targetElement.innerHTML
         .replace(/\n\n+/g, "\n\n")
@@ -164,8 +165,7 @@ function interpreter(targetElement) {
         .split("\n\n");
 
     let firstParagraph = true;
-    let firstHeading1 = true;
-    let linksInArticle = [];
+    let firstH1 = true;
     let tableNum = 1;
 
     for (let i = 0; i < input.length; ++i) {
@@ -242,22 +242,6 @@ function interpreter(targetElement) {
             continue;
         }
 
-        if (input[i].startsWith("||image-left")) {
-            input[i] = input[i].split("\n")[1].replace(/\[([^\]]*)[^\\]?\]\[(.*)\]\((.+)\)/g, (match, caption, altText, filePath) => {
-                let c = "image-float left";
-                if (caption == "") c += " caption"
-                let temp = `<div class="${c}"><img onclick="setLightbox(this)" src="${filePath}"`;
-                if (altText.replace(/\s/g, "").length > 0) {
-                    temp += ` title="${altText}" alt="${altText}">`;
-                } else {
-                    temp += `>`; }
-                if (caption.replace(/\s/g, "").length > 0) {
-                    temp += `<div>${caption}</div>`;
-                }
-                return temp + "</div>"; });
-            continue;
-        }
-
         /* before looking for code, fix any \` instances: */
         input[i] = input[i].replace(/\\`/g, "&#96;");
         /* div.codeblock: */
@@ -274,12 +258,13 @@ function interpreter(targetElement) {
         /* \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\) */
         input[i] = input[i].replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
             let index = linksInArticle.indexOf(address);
-            address = address.replaceAll("\\)", ")");
-            
             if (index == -1) index = linksInArticle.push(address);
+
+            address = address.replaceAll("\\)", ")");
+
             let result = (displayText === "")
-                ? `<a class="citeref" target="_blank" href="${address}">&lbrack;${index}&rbrack;</a>`
-                : `<a target="_blank" href="${address}">${displayText}</a>`;
+                ? `<a class="citeref" title="${address}" href="#cr-${index}">&lbrack;${index}&rbrack;</a>`
+                : `<a title="${address}" href="#cr-${index}">${displayText}</a>`;
             return result; });
 
         /* ------------------------ table ------------------------- */
@@ -291,7 +276,7 @@ function interpreter(targetElement) {
                 for (let k = 0; k < cells.length; k += 1) {
                     cells[k] = "<td class=\"col-"+(k+1)+"\">" + safeConvert(cells[k].trim()) + "</td>"; }
                 rows[j] = "<tr class=\"row-"+(j+1)+"\">" + cells.join("") + "</tr>"; }
-            input[i] = `<table id="${"table" + tableNum++}" class="noq-table">${rows.join("")}</table>`;
+            input[i] = `<table id="${"table" + tableNum++}" class="auto-table">${rows.join("")}</table>`;
             continue; }
 
         /* ------------- "This was also posted here:" ------------- */
@@ -342,9 +327,9 @@ function interpreter(targetElement) {
             if (document.title == "") { document.title = titleId; }
             titleId = titleId.replace(/ /g, "_");
 
-            if (firstHeading1) {
+            if (firstH1) {
                 input[i] = `<h1 class="first-heading article-heading">${title}</h1></div>`;
-                firstHeading1 = false;
+                firstH1 = false;
             } else {
                 input[i] = `<h1 class="article-heading" id=${titleId}>${title}</h1>`;
             }

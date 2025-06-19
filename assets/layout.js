@@ -174,9 +174,9 @@ function alignTable(dataString, splitChar) {
 const pageWrapper = document.querySelector(".page-wrapper");
 let mainContent, formatButtonContainer;
 function pageLoad() {
-    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="../assets/favicon.ico">`;
     const thisDir = document.baseURI.split("/").slice(-2)[0];
     const index = document.getElementById("index-aKxOoclwfz");
+    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="${index?"assets":"../assets"}/favicon.ico">`;
 
     if (localStorage.getItem("brightness") == null) { localStorage.setItem("brightness","light"); }
     else if (localStorage.getItem("brightness") == "dark") { pageWrapper.classList.add("dark"); }
@@ -184,7 +184,7 @@ function pageLoad() {
     pageWrapper.classList.add("javascript-loaded");
     pageWrapper.innerHTML =
        `<div class="page">
-            <header class="main-header align-center"><a class="title-link" href="${thisDir == "perennialiris.github.io" ? "" : "../index.html"}">Perennial Iris</a></header>
+            <header class="main-header align-center"><a href="${index?"":"../index.html"}" style="display: block; height: 100%; width: 100%;"></a></header>
             <nav class="main-nav">
                 <div class="nav-inner">
                     <div class="align-center">
@@ -240,10 +240,10 @@ function pageLoad() {
                             <div class="menu-row">
                                 <div><span class="no-select">Paragraph format:</span></div>
                                 <div class="format-button-container">
-                                    <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="icon format-button" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-left-no-indent.png')">
-                                    <input type="button" title="Justified, no indenting" onclick="setTextFormat(2)" class="icon format-button" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-justify-no-indent.png')">
-                                    <input type="button" title="Left-align, indent sibling paragraphs" onclick="setTextFormat(3)" class="icon format-button" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-left-indent.png')">
-                                    <input type="button" title="Justified, indent sibling paragraphs" onclick="setTextFormat(4)" class="icon format-button" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-justify-indent.png')">
+                                    <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="format-button icon" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-left-no-indent.png')">
+                                    <input type="button" title="Justified, no indenting" onclick="setTextFormat(2)" class="format-button icon" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-justify-no-indent.png')">
+                                    <input type="button" title="Left-align, indent sibling paragraphs" onclick="setTextFormat(3)" class="format-button icon" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-left-indent.png')">
+                                    <input type="button" title="Justified, indent sibling paragraphs" onclick="setTextFormat(4)" class="format-button icon" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-justify-indent.png')">
                                 </div>
                             </div>
                             <div>
@@ -255,12 +255,12 @@ function pageLoad() {
                 </div>
             </nav>
             <div class="main-container">
-                <div id="left">
+                <main id="left">
                     <style class="theme-style"></style>
                     <article class="main-content">${pageWrapper.innerHTML}</article>
                     <footer class="article-footer"><div class="see-also"></div><div style="white-space: nowrap;"><a href="index.html">Link to full page index</a></div></footer>
-                </div>
-                <div id="right"></div>
+                </main>
+                <aside id="right"></aside>
             </div>
             <footer class="page-bottom">
             This is [my personal repo](https://github.com/perennialiris). I have no association with any other person or organization. This "website" runs entirely on client-side JavaScript, meaning there is no server software and if saved locally it all runs identically to how it does online. I don't care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.
@@ -332,11 +332,11 @@ function pageLoad() {
     }
     
     if (index) {
-        document.querySelector(".page-name-display").innerHTML = `<a href="">Front-page index</a>`;
+        document.querySelector(".page-name-display").innerHTML = `Iris’s documents`;
         document.getElementById("index-aKxOoclwfz").innerHTML = pageList.full.join("");
     }
     else {
-        document.querySelector(".page-name-display").innerHTML = `<a href="">${pageTitle}</a>`;
+        document.querySelector(".page-name-display").innerHTML = `<a href="../index.html">Index</a> <span style="font-family: 'Arial',sans-serif; font-weight: 700; margin-inline: 2px;">&rarr;</span> <a href="">${pageTitle}</a>`;
         const right = document.getElementById("right");
 
         if (repoTable) {
@@ -347,9 +347,22 @@ function pageLoad() {
             n2.innerHTML = `<div>Other lists:</div><div class="container">${otherLists.join("")}</div>`;
             }
         else if (!includeToc) {
-            const recentPages = right.appendChild(document.createElement("nav"));
-            recentPages.classList.add("recently-added");
-            recentPages.innerHTML = `<h2>Pages recently added:</h2><hr>${pageList.recent.join("")}`;
+            right.style.maxHeight = "2000px";
+            right.innerHTML = `
+            <div style="position: sticky; top: calc(1em + var(--main-nav-height));">
+                <nav class="recently-added">
+                    <h2>Pages recently added:</h2>
+                    <hr>
+                    ${pageList.recent.join("")}
+                </nav>
+                <nav>
+                    <hr>
+                    <div class="plug" style="background-color: #5e7f93"><a href="https://bsky.app/profile/perennialiris.bsky.social">follow me on bluesky</a></div>
+                    <div class="plug" style="background-color: #935e5e"><a href="https://youtube.com/@perennialiris">check out my youtube</a></div>
+                    <div class="plug" style="background-color: #5c668e"><a href="https://perennialiris.tumblr.com">still use tumblr? me too</a></div>
+                    <div class="plug" style="background-color: #635f77"><a href="https://discord.com/invite/puJEP8HKk3">discord server invite</a></div>
+                </nav>
+            <div>`;
         }
         else if (includeToc) {
             console.log("creating table of contents...");
@@ -473,6 +486,12 @@ function pageLoad() {
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     updateFonts();
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
+    
+    if (linksInArticle.length > 2) {
+        const citations = document.getElementById("left").appendChild(document.createElement("div"));
+        citations.classList.add("citations-list");
+        citations.innerHTML = `<h3>external links referenced:</h3><ol>${linksInArticle.filter(i=>i.startsWith("http")).map((i,n)=>`<li><a target="_blank" id="cr-${n+1}" href="${i}">${i}</a></li>`).join("")}</ol>`;
+    }
 
     if (document.title == "") document.title = "Perennial Iris";
     else if (document.title.slice(0 - "Perennial Iris".length) != "Perennial Iris") document.title += " - Perennial Iris";
