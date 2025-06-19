@@ -184,7 +184,7 @@ function pageLoad() {
     pageWrapper.classList.add("javascript-loaded");
     pageWrapper.innerHTML =
        `<div class="page">
-            <header class="main-header align-center"><a class="title-link" href="${thisDir == "northofqueen.github.io" ? "" : "../index.html"}">North of Queen</a></header>
+            <header class="main-header align-center"><a class="title-link" href="${thisDir == "perennialiris.github.io" ? "" : "../index.html"}">Perennial Iris</a></header>
             <nav class="main-nav">
                 <div class="nav-inner">
                     <div class="align-center">
@@ -227,7 +227,7 @@ function pageLoad() {
                                 </div>
                             </div>
                             <div class="menu-row">
-                                <div><span class="no-select">Table font:</span></div>
+                                <div><span class="no-select">Secondary font:</span></div>
                                 <div>
                                     <select id="secondary-font-select">
                                         <option value="Segoe UI">Segoe UI</option>
@@ -238,7 +238,7 @@ function pageLoad() {
                                 </div>
                             </div>
                             <div class="menu-row">
-                                <div><span class="no-select">Text format:</span></div>
+                                <div><span class="no-select">Paragraph format:</span></div>
                                 <div class="format-button-container">
                                     <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="icon format-button" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-left-no-indent.png')">
                                     <input type="button" title="Justified, no indenting" onclick="setTextFormat(2)" class="icon format-button" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-justify-no-indent.png')">
@@ -263,7 +263,7 @@ function pageLoad() {
                 <div id="right"></div>
             </div>
             <footer class="page-bottom">
-            [North of Queen](https://github.com/northofqueen) is my personal repo. I have no association with any other person or organization. This "website" runs entirely on client-side JavaScript, meaning there is no server software and if saved locally it all runs identically to how it does online. I don't care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.
+            This is [my personal repo](https://github.com/perennialiris). I have no association with any other person or organization. This "website" runs entirely on client-side JavaScript, meaning there is no server software and if saved locally it all runs identically to how it does online. I don't care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.
             </footer>
             <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
         </div>`;
@@ -332,11 +332,11 @@ function pageLoad() {
     }
     
     if (index) {
-        document.querySelector(".page-name-display").innerHTML = "Front-page index";
+        document.querySelector(".page-name-display").innerHTML = `<a href="">Front-page index</a>`;
         document.getElementById("index-aKxOoclwfz").innerHTML = pageList.full.join("");
     }
     else {
-        document.querySelector(".page-name-display").innerHTML = pageTitle;
+        document.querySelector(".page-name-display").innerHTML = `<a href="">${pageTitle}</a>`;
         const right = document.getElementById("right");
 
         if (repoTable) {
@@ -348,8 +348,8 @@ function pageLoad() {
             }
         else if (!includeToc) {
             const recentPages = right.appendChild(document.createElement("nav"));
-            recentPages.classList.add("recent-pages");
-            recentPages.innerHTML = `<h2>Pages recently added:</h2>${pageList.recent.join("")}`;
+            recentPages.classList.add("recently-added");
+            recentPages.innerHTML = `<h2>Pages recently added:</h2><hr>${pageList.recent.join("")}`;
         }
         else if (includeToc) {
             console.log("creating table of contents...");
@@ -358,7 +358,7 @@ function pageLoad() {
             toc.classList.add("table-of-contents", "right-sticky");
 
             const headings = Array.from(document.getElementsByClassName("article-heading")).slice(1);
-            toc.innerHTML = `<div class="toc-title-box"><h2>Table of contents</h2><input type="button" value="Hide ToC" class="hide-toc-button" onclick="toggleToc()"></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${headings.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}</div>`;
+            toc.innerHTML = `<div class="toc-title-box"><h2>Table of contents</h2><input type="button" value="hide" class="hide-toc-button" onclick="toggleToc()"></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${headings.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}</div>`;
 
             const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
             let currentHeading = "";
@@ -433,7 +433,7 @@ function pageLoad() {
     });
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     if (localStorage.getItem("text-style") == null) {
-        setTextFormat(3); }
+        setTextFormat(1); }
     else {
         setTextFormat(localStorage.getItem("text-style"));
     }
@@ -474,8 +474,9 @@ function pageLoad() {
     updateFonts();
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
 
-    if (document.title == "") document.title = "North of Queen";
-    else if (document.title.slice(0 - "North of Queen".length) != "North of Queen") document.title += " - North of Queen";
+    if (document.title == "") document.title = "Perennial Iris";
+    else if (document.title.slice(0 - "Perennial Iris".length) != "Perennial Iris") document.title += " - Perennial Iris";
+    
 }
 
 window.addEventListener("load", pageLoad);

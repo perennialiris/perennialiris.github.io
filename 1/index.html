@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="../assets/main.css">
+<style>
+#right { display: none !important; }
+#left { width: 100% !important; }
+
+.noq-table td { text-align: center; font-weight: 600; }
+.noq-table:nth-child(even) .row-1 { background-color: #edf; }
+.noq-table:nth-child(odd) .row-1 { background-color: #def; }
+.noq-table .row-2 { background-color: #eee; }
+tr:not(.row-1):not(.row-2) .col-7,
+tr:not(.row-1):not(.row-2) .col-1 { color: grey; font-weight: 400; }
+.noq-table td { min-width: 60px; height: 40px; }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+||table
+January
+Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+|||1|2|3|4
+5|6|7|8|9|10|11
+12|13|14|15|16|17|18
+19|20|21|22|23|24|25
+26|27|28|29|30|31
+
+||table
+February
+Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+||||||1
+2|3|4|5|6|7|8
+9|10|11|12|13|14|15
+16|17|18|19|20|21|22
+23|24|25|26|27|28
+
+||table
+March
+Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+||||||1
+2|3|4|5|6|7|8
+9|10|11|12|13|14|15
+16|17|18|19|20|21|22
+23|24|25|26|27|28|29
+30|31
+
+||table
+April
+Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+||1|2|3|4|5
+6|7|8|9|10|11|12
+13|14|15|16|17|18|19
+20|21|22|23|24|25|26
+27|28|29|30
+
+||table
+May
+Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+||||1|2|3
+4|5|6|7|8|9|10
+11|12|13|14|15|16|17
+18|19|20|21|22|23|24
+25|26|27|28|29|30|31
+
+||table
+June
+Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+1|2|3|4|5|6|7
+8|9|10|11|12|13|14
+15|16|17|18|19|20|21
+22|23|24|25|26|27|28
+29|30
+
+||table
+July
+Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+||1|2|3|4|5
+6|7|8|9|10|11|12
+13|14|15|16|17|18|19
+20|21|22|23|24|25|26
+27|28|29|30|31
+
+||table
+August
+Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+|||||1|2
+3|4|5|6|7|8|9
+10|11|12|13|14|15|16
+17|18|19|20|21|22|23
+24|25|26|27|28|29|30
+31
+
+||table
+September
+Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+|1|2|3|4|5|6
+7|8|9|10|11|12|13
+14|15|16|17|18|19|20
+21|22|23|24|25|26|27
+28|29|30
+
+||table
+October
+Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+|||1|2|3|4
+5|6|7|8|9|10|11
+12|13|14|15|16|17|18
+19|20|21|22|23|24|25
+26|27|28|29|30|31
+
+||table
+November
+Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+||||||1
+2|3|4|5|6|7|8
+9|10|11|12|13|14|15
+16|17|18|19|20|21|22
+23|24|25|26|27|28|29
+30
+
+||table
+December
+Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+|1|2|3|4|5|6
+7|8|9|10|11|12|13
+14|15|16|17|18|19|20
+21|22|23|24|25|26|27
+28|29|30|31
+
+
+</div>
+<script src="../assets/interpreter.js"></script>
+<script src="../assets/layout.js"></script>
+<script>
+window.addEventListener("load", function() {
+    Array.from(document.getElementsByClassName("noq-table")).forEach(t => t.querySelector("td").colSpan = "7");
+    Array.from(document.getElementsByTagName("td")).forEach(t => t.addEventListener("click", () => {
+        if (t.style.backgroundColor == "") {
+            t.style.backgroundColor = "#ffbebe";
+        } else {
+            t.style.backgroundColor = "";
+        }
+    }))
+})
+
+</script>
+
+</body></html>
+
+

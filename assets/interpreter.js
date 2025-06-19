@@ -290,7 +290,7 @@ function interpreter(targetElement) {
                 let cells = rows[j].split("|");
                 for (let k = 0; k < cells.length; k += 1) {
                     cells[k] = "<td class=\"col-"+(k+1)+"\">" + safeConvert(cells[k].trim()) + "</td>"; }
-                rows[j] = "<tr>" + cells.join("") + "</tr>"; }
+                rows[j] = "<tr class=\"row-"+(j+1)+"\">" + cells.join("") + "</tr>"; }
             input[i] = `<table id="${"table" + tableNum++}" class="noq-table">${rows.join("")}</table>`;
             continue; }
 
@@ -318,7 +318,7 @@ function interpreter(targetElement) {
         if ( /^\* /.test(input[i]) || /^\d+\. /.test(input[i]) ) {
             input[i] = listParse(input[i]);
             if (fine) {
-                input[i] = input.substring(0,3) + ` class="fine"` + input[i].substring(3);
+                input[i] = input[i].substring(0,3) + ` class="fine"` + input[i].substring(3);
                 }
             continue;
         }
@@ -375,8 +375,8 @@ function interpreter(targetElement) {
             continue; }
         
         let p = "p";
-        if (firstParagraph) { p += " class=\"first-paragraph\""; firstParagraph = false; }
-        else if (fine) { p += " class=\"fine\""; }
+        if (fine) { p += " class=\"fine\""; }
+        else if (firstParagraph) { p += " class=\"first-paragraph\""; firstParagraph = false; }
         else if (dropCap) { p += " class=\"drop-cap\""; }
         
         input[i] = `<${p}>${input[i]}</p>`;
