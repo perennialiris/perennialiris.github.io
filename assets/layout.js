@@ -350,7 +350,7 @@ function pageLoad() {
             n2.innerHTML = `<div>Other lists:</div><div class="container">${otherLists.join("")}</div>`;
             }
         else if (!includeToc) {
-            right.style.maxHeight = "2000px";
+            right.style.maxHeight = "1500px";
             right.innerHTML = `
             <div style="position: sticky; top: calc(1em + var(--main-nav-height));">
                 <nav class="recently-added">
