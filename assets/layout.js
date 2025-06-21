@@ -184,9 +184,9 @@ function pageLoad() {
     pageWrapper.classList.add("javascript-loaded");
     pageWrapper.innerHTML =
        `<div class="page">
-            <header class="main-header align-center"><a href="${index?"":"../index.html"}" style="display: block; height: 100%; width: 100%;"></a></header>
+            <header class="main-header align-center"><a href="${index?"":"../index.html"}"></a></header>
             <nav class="main-nav">
-                <div class="nav-inner">
+                <div class="nav-inner space-between">
                     <div class="align-center">
                         <div class="page-name-display"></div>
                     </div>
@@ -239,7 +239,7 @@ function pageLoad() {
                             </div>
                             <div class="menu-row">
                                 <div><span class="no-select">Paragraph format:</span></div>
-                                <div class="format-button-container">
+                                <div class="format-button-container space-between">
                                     <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="format-button icon" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-left-no-indent.png')">
                                     <input type="button" title="Justified, no indenting" onclick="setTextFormat(2)" class="format-button icon" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-justify-no-indent.png')">
                                     <input type="button" title="Left-align, indent sibling paragraphs" onclick="setTextFormat(3)" class="format-button icon" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-left-indent.png')">
@@ -258,17 +258,20 @@ function pageLoad() {
                 <main id="left">
                     <style class="theme-style"></style>
                     <article class="main-content">${pageWrapper.innerHTML}</article>
-                    <footer class="article-footer"><div class="see-also"></div><div style="white-space: nowrap;"><a href="index.html">Link to full page index</a></div></footer>
+                    <footer class="article-footer space-between">
+                        <div class="column">
+                            <div class="see-also"></div>
+                            <div class="citations"></div>
+                        </div>
+                        <div style="white-space: nowrap;"><a href="index.html">Link to full page index</a></div>
+                    </footer>
                 </main>
                 <aside id="right"></aside>
             </div>
-            <footer class="page-bottom">
-            This is [my personal repo](https://github.com/perennialiris). I have no association with any other person or organization. This "website" runs entirely on client-side JavaScript, meaning there is no server software and if saved locally it all runs identically to how it does online. I don't care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.
-            </footer>
+            <footer class="page-bottom"><i>This is <a title="https://github.com/perennialiris" href="https://github.com/perennialiris">my personal repo</a>. I have no association with any other person or organization. This “website” runs entirely on client-side JavaScript, meaning there is no server software and if saved locally it all runs identically to how it does online. I don’t care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</i></footer>
             <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
         </div>`;
     interpreter(document.querySelector(".main-content"));
-    interpreter(document.querySelector(".page-bottom"));
 
     alignTable(data, "|");
     const pageList = { recent: [], pins: [], full: [] };
@@ -371,7 +374,7 @@ function pageLoad() {
             toc.classList.add("table-of-contents", "right-sticky");
 
             const headings = Array.from(document.getElementsByClassName("article-heading")).slice(1);
-            toc.innerHTML = `<div class="toc-title-box"><h2>Table of contents</h2><input type="button" value="hide" class="hide-toc-button" onclick="toggleToc()"></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${headings.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}</div>`;
+            toc.innerHTML = `<div class="toc-title-box space-between"><h2>Table of contents</h2><input type="button" value="hide" class="hide-toc-button" onclick="toggleToc()"></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${headings.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}</div>`;
 
             const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
             let currentHeading = "";
@@ -488,9 +491,7 @@ function pageLoad() {
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     
     if (linksInArticle.length > 2) {
-        const citations = document.getElementById("left").appendChild(document.createElement("div"));
-        citations.classList.add("citations-list");
-        citations.innerHTML = `<h3>external links referenced:</h3><ol>${linksInArticle.filter(i=>i.startsWith("http")).map((i,n)=>`<li><a target="_blank" id="cr-${n+1}" href="${i}">${i}</a></li>`).join("")}</ol>`;
+        document.querySelector(".citations").innerHTML = `<div>External links referenced:</div><div style=""><ol>${linksInArticle.filter(i=>i.startsWith("http")).map((i,n)=>`<li><a target="_blank" id="cr-${n+1}" href="${i}">${i}</a></li>`).join("")}</ol></div>`;
     }
 
     if (document.title == "") document.title = "Perennial Iris";

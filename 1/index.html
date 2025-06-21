@@ -5,13 +5,12 @@
 #right { display: none !important; }
 #left { width: 100% !important; }
 
-.noq-table td { text-align: center; font-weight: 600; }
-.noq-table:nth-child(even) .row-1 { background-color: #edf; }
-.noq-table:nth-child(odd) .row-1 { background-color: #def; }
-.noq-table .row-2 { background-color: #eee; }
+.auto-table td { text-align: center; font-weight: 600; }
+.auto-table .row-1 { background-color: # ddd; }
+.auto-table .row-2 { background-color: # eee; }
 tr:not(.row-1):not(.row-2) .col-7,
 tr:not(.row-1):not(.row-2) .col-1 { color: grey; font-weight: 400; }
-.noq-table td { min-width: 60px; height: 40px; }
+.auto-table td { min-width: 60px; height: 30px; }
 </style>
 </head>
 <body>
@@ -134,10 +133,10 @@ Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
 <script src="../assets/layout.js"></script>
 <script>
 window.addEventListener("load", function() {
-    Array.from(document.getElementsByClassName("noq-table")).forEach(t => t.querySelector("td").colSpan = "7");
+    Array.from(document.getElementsByClassName("auto-table")).forEach(t => t.querySelector("td").colSpan = "7");
     Array.from(document.getElementsByTagName("td")).forEach(t => t.addEventListener("click", () => {
         if (t.style.backgroundColor == "") {
-            t.style.backgroundColor = "#ffbebe";
+            t.style.backgroundColor = "#e3edf9";
         } else {
             t.style.backgroundColor = "";
         }
