@@ -51,7 +51,7 @@ function setTextFormat(setValue) {
     const btns = document.querySelector(".format-button-container").children;
     
     btns[setValue-1].classList.add("selected");
-    for (let i = 0; i < btns.length; ++i) {
+    for (let i = 0; i < btns.length; i += 1) {
         if (i != setValue-1) { btns[i].classList.remove("selected"); }
     }
     
@@ -150,12 +150,12 @@ function alignTable(dataString, splitChar) {
     const rowWidth = Math.max(...table.map(row => row.length));
     for (let col = 0; col < rowWidth; ++col) {
         let cellWidth = 0;
-        for (let i = 0; i < table.length; ++i) {
+        for (let i = 0; i < table.length; i += 1) {
             while (table[i].length < rowWidth) {
                 table[i].push(""); }
             if (table[i][col].length > cellWidth) {
                 cellWidth = table[i][col].length; } }
-        for (let i = 0; i < table.length; ++i) {
+        for (let i = 0; i < table.length; i += 1) {
             if (table[i].length < rowWidth) { continue; }
             table[i][col] += " ".repeat(cellWidth - table[i][col].length);
             } }
@@ -268,7 +268,7 @@ function pageLoad() {
                 </main>
                 <aside id="right"></aside>
             </div>
-            <footer class="page-bottom"><i>This is <a title="https://github.com/perennialiris" href="https://github.com/perennialiris">my personal repo</a>. I have no association with any other person or organization. This “website” runs entirely on client-side JavaScript, meaning there is no server software and if saved locally it all runs identically to how it does online. I don’t care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</i></footer>
+            <footer class="page-bottom">This is <a title="https://github.com/perennialiris" href="https://github.com/perennialiris">my personal repo</a>. I have no association with any other person or organization. This “website” runs entirely on client-side JavaScript, meaning there is no server software and if saved locally it all runs identically to how it does online. I don’t care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
             <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
         </div>`;
     interpreter(document.querySelector(".main-content"));
@@ -283,7 +283,7 @@ function pageLoad() {
     let pageTitle = "";
     const dataRows = data.split("\n");
     const otherLists = [];
-    for (let i = 0; i < dataRows.length; ++i) {
+    for (let i = 0; i < dataRows.length; i += 1) {
         const cells = dataRows[i].split("|").map(cell => cell.trim());
         const rowDir  = cells[0],
         rowTitle      = cells[1],
@@ -384,13 +384,13 @@ function pageLoad() {
                 canTocHighlighter = false;
                 setTimeout(() => { canTocHighlighter = true; }, 300);
                 let headingId;
-                for (let i = 0; i < headings.length; ++i) {
+                for (let i = 0; i < headings.length; i += 1) {
                     if (pageYOffset > headings[i].offsetTop - window.innerHeight * 0.5) {
                         headingId = headings[i].id; }
                     else {
                         break; } }
                 if (headingId != currentHeading) {
-                for (let i = 0; i < rowsInToc.length; ++i) {
+                for (let i = 0; i < rowsInToc.length; i += 1) {
                     rowsInToc[i].classList.remove("active-heading");
                     if (rowsInToc[i].getAttribute("href") == "#" + headingId) {
                         rowsInToc[i].classList.add("active-heading"); } } }
@@ -490,8 +490,22 @@ function pageLoad() {
     updateFonts();
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     
-    if (linksInArticle.length > 2) {
-        document.querySelector(".citations").innerHTML = `<div>External links referenced:</div><div style=""><ol>${linksInArticle.filter(i=>i.startsWith("http")).map((i,n)=>`<li><a target="_blank" id="cr-${n+1}" href="${i}">${i}</a></li>`).join("")}</ol></div>`;
+    console.log(articleLinks)
+    articleLinks = articleLinks.filter(i => i[0].startsWith("http"));
+    if (articleLinks.length > 0) {
+        document.querySelector(".citations").innerHTML = `
+        <div>External links referenced:</div>
+        <div>
+            <ol>${
+                articleLinks
+                    .map((i, n) => {
+                        let j = 0;
+                        return `<li><a target="_blank" id="cite-${n + 1}" href="${i[0]}">${i[0]}</a> ${
+                            (i[1] == 1) ? `<a href="#cite-${n + 1}">^</a>` : ` <a href="#cite-${i[1] + "-" + j++}">^</a>`.repeat(i[1] )
+                        }</li>`})
+                    .join("")
+            }</ol>
+        </div>`;
     }
 
     if (document.title == "") document.title = "Perennial Iris";

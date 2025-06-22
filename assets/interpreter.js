@@ -57,7 +57,7 @@ function stdReplace(inputString) {
 function listParse(inputString) {
     const lines = inputString.split("\n");
     
-    for (let i = 0; i < lines.length; ++i) {
+    for (let i = 0; i < lines.length; i += 1) {
         const leftRight = Math.floor(lines[i].search(/[^\s]/) / 2) + 1;
         
         let listStyleType = "none";
@@ -155,8 +155,8 @@ function quoteParse(inputString) {
     return "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
 }
 
-/* Main interpreter loop. Pass the main element to start. */
-let linksInArticle = [];
+/* Interpreter loop. Pass the main element to start. */
+let articleLinks = [];
 function interpreter(targetElement) {
     let input = targetElement.innerHTML
         .replace(/\n\n+/g, "\n\n")
@@ -168,7 +168,7 @@ function interpreter(targetElement) {
     let firstH1 = true;
     let tableNum = 1;
 
-    for (let i = 0; i < input.length; ++i) {
+    for (let i = 0; i < input.length; i += 1) {
 
         if (input[i].startsWith("\\")) {
             input[i] = input[i].substring(1);
@@ -257,14 +257,28 @@ function interpreter(targetElement) {
         /* ------------------------ links ------------------------- */
         /* \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\) */
         input[i] = input[i].replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
-            let index = linksInArticle.indexOf(address);
-            if (index == -1) index = linksInArticle.push(address);
-
+            let index = -1, refNum = 1;
+            for (let i = 0; i < articleLinks.length; i += 1) {
+                if (articleLinks[i][0] == address) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index == -1) {
+                index = articleLinks.push([address, 1]);
+            } else {
+                refNum = articleLinks[index][1] + 1;
+            }
+            
+            if (refNum != 1) {
+                index = index + "-inst-" + refNum;
+            }
+            
             address = address.replaceAll("\\)", ")");
 
             let result = (displayText === "")
-                ? `<a class="citeref" title="${address}" href="#cr-${index}">&lbrack;${index}&rbrack;</a>`
-                : `<a title="${address}" href="#cr-${index}">${displayText}</a>`;
+                ? `<a class="citeref" id="cite-${index}" title="${address}" href="${address}">&lbrack;${index}&rbrack;</a>`
+                : `<a title="${address}" id="cite-${index}" href="${address}">${displayText}</a>`;
             return result; });
 
         /* ------------------------ table ------------------------- */
