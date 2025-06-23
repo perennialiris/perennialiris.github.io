@@ -54,10 +54,10 @@
 
     .page-wrapper { min-height: 100vh; color: #3f3f3f; font-size: 14px; line-height: 1.5; min-width: 640px; white-space: pre-wrap; padding: 50px; font-family: monospace; max-width: 800px; margin: auto; }
     .page-wrapper.javascript-loaded { white-space: normal; padding: 0; font-family: var(--system-font); max-width: unset; margin: unset; }
-    .page-wrapper.dark { color: #949ca7; background-color: #191A1C; }
-    .page-wrapper.dark .page { background-color: #1c1d1f; border-color: #4a4e51; }
+    .page-wrapper.dark { color: #949ca7; background-color: #1c1d1f; }
 
-    .page { min-height: 100vh; max-width: var(--full-width); margin: 0 auto; background-color: white; }
+        .page-wrapper.dark .page { background-color: #1c1d1f; border-color: #4a4e51; }
+        .page { min-height: 100vh; max-width: var(--full-width); margin: 0 auto; background-color: white; }
 
     ::selection { background-color: #fff1ba; color: #333; }
     .dark ::selection { background-color: #556088; color: #ddd; }
@@ -154,8 +154,8 @@
                 .dark .nav-row { color: #6a727d; }
                 .dark .nav-row.selected { color: #868e99; }
 
-            .plug { color: #555; padding: 7px 10px; margin-top: 8px; border: 1px solid #999; font-family: var(--nav-menu-font); }
-            .plug a { color: inherit; }
+            .plugs { color: #555; font-family: var(--nav-menu-font); }
+            .plug { margin-inline: 5px; display: block; color: inherit; margin-top: 8px; padding: 7px 10px; border: 1px solid #999; }
                 .dark .plug { color: #999a9c; border-color: #515254; }
 
             .hide-toc .table-of-contents { display: none; }

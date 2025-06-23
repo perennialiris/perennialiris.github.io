@@ -184,7 +184,7 @@ function pageLoad() {
     pageWrapper.classList.add("javascript-loaded");
     pageWrapper.innerHTML =
        `<div class="page">
-            <header class="main-header align-center"><a href="${index?"":"../index.html"}"></a></header>
+            <header class="main-header align-center"><a href="${index?"":"../"}"></a></header>
             <nav class="main-nav">
                 <div class="nav-inner space-between">
                     <div class="align-center">
@@ -263,7 +263,7 @@ function pageLoad() {
                             <div class="see-also"></div>
                             <div class="citations"></div>
                         </div>
-                        <div style="white-space: nowrap;"><a href="index.html">Link to full page index</a></div>
+                        <div style="white-space: nowrap;"><a href="../">Link to full page index</a></div>
                     </footer>
                 </main>
                 <aside id="right"></aside>
@@ -305,19 +305,19 @@ function pageLoad() {
             if (rowFlags.includes("narrow")) { pageWrapper.classList.add("narrow"); }
             }
         else if (rowFlags.includes("repo-table")) {
-            otherLists.push(`<a href="../${rowDir}/index.html">${rowTitle}</a>`);
+            otherLists.push(`<a href="../${rowDir}">${rowTitle}</a>`);
         }
         if (rowFlags.includes("unlisted")) { continue; }
 
         /* ---- for recent in sidenav ---- */
         if (pageList.recent.length < 9) {
-            pageList.recent.push(`<div class="${isCurrentPage? "nav-row selected" : "nav-row"}"><a href="../${rowDir}/index.html">${rowTitle}</a></div>`);
+            pageList.recent.push(`<div class="${isCurrentPage? "nav-row selected" : "nav-row"}"><a href="../${rowDir}">${rowTitle}</a></div>`);
         }
 
-        /* ---- for index.html ---- */
+        /* ---- for home index ---- */
         let fullEntry = isPinned
-            ? `<a class="pinned" href="${rowDir}/index.html">${rowTitle}</a>`
-            : `<a href="${rowDir}/index.html">${rowTitle}</a>`;
+            ? `<a class="pinned" href="${rowDir}">${rowTitle}</a>`
+            : `<a href="${rowDir}">${rowTitle}</a>`;
         
         if (rowDate || rowCategory) {
             fullEntry += " &ndash;";
@@ -339,7 +339,7 @@ function pageLoad() {
         document.getElementById("index-aKxOoclwfz").innerHTML = pageList.full.join("");
     }
     else {
-        document.querySelector(".page-name-display").innerHTML = `<a href="../index.html">Index</a> <span style="font-family: 'Arial',sans-serif; font-weight: 700; margin-inline: 2px;">&rarr;</span> <a href="">${pageTitle}</a>`;
+        document.querySelector(".page-name-display").innerHTML = `<a href="../">Index</a> <span style="font-family: 'Arial',sans-serif; font-weight: 700; margin-inline: 2px;">&rarr;</span> <a href="">${pageTitle}</a>`;
         const right = document.getElementById("right");
 
         if (repoTable) {
@@ -358,12 +358,12 @@ function pageLoad() {
                     <hr>
                     ${pageList.recent.join("")}
                 </nav>
-                <nav>
+                <nav class="plugs">
                     <hr>
-                    <div class="plug"><a href="https://bsky.app/profile/perennialiris.bsky.social">follow me on bluesky</a></div>
-                    <div class="plug"><a href="https://youtube.com/@perennialiris">check out my youtube</a></div>
-                    <div class="plug"><a href="https://perennialiris.tumblr.com">still use tumblr? me too</a></div>
-                    <div class="plug"><a href="https://discord.com/invite/puJEP8HKk3">discord server invite</a></div>
+                    <a class="plug" href="https://bsky.app/profile/perennialiris.bsky.social">follow me on bluesky</a>
+                    <a class="plug" href="https://youtube.com/@perennialiris">check out my youtube</a>
+                    <a class="plug" href="https://perennialiris.tumblr.com">still use tumblr? me too</a>
+                    <a class="plug" href="https://discord.com/invite/puJEP8HKk3">discord server invite</a>
                 </nav>
             </div>`;
         }
