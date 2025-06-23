@@ -79,10 +79,10 @@ function setTextFormat(setValue) {
 }
 
 function toggleToc() {
-    if (pageWrapper.classList.contains("hide-right")) {
-        pageWrapper.classList.remove("hide-right");
+    if (pageWrapper.classList.contains("hide-toc")) {
+        pageWrapper.classList.remove("hide-toc");
     } else {
-        pageWrapper.classList.add("hide-right");
+        pageWrapper.classList.add("hide-toc");
     }
 }
 
@@ -176,7 +176,7 @@ let mainContent, formatButtonContainer;
 function pageLoad() {
     const thisDir = document.baseURI.split("/").slice(-2)[0];
     const index = document.getElementById("index-aKxOoclwfz");
-    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="${index?"assets":"../assets"}/favicon.ico">`;
+    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="${index?"":"../"}/favicon.ico">`;
 
     if (localStorage.getItem("brightness") == null) { localStorage.setItem("brightness","light"); }
     else if (localStorage.getItem("brightness") == "dark") { pageWrapper.classList.add("dark"); }
@@ -360,18 +360,18 @@ function pageLoad() {
                 </nav>
                 <nav>
                     <hr>
-                    <div class="plug" style="background-color: #5e7f93"><a href="https://bsky.app/profile/perennialiris.bsky.social">follow me on bluesky</a></div>
-                    <div class="plug" style="background-color: #935e5e"><a href="https://youtube.com/@perennialiris">check out my youtube</a></div>
-                    <div class="plug" style="background-color: #5c668e"><a href="https://perennialiris.tumblr.com">still use tumblr? me too</a></div>
-                    <div class="plug" style="background-color: #635f77"><a href="https://discord.com/invite/puJEP8HKk3">discord server invite</a></div>
+                    <div class="plug"><a href="https://bsky.app/profile/perennialiris.bsky.social">follow me on bluesky</a></div>
+                    <div class="plug"><a href="https://youtube.com/@perennialiris">check out my youtube</a></div>
+                    <div class="plug"><a href="https://perennialiris.tumblr.com">still use tumblr? me too</a></div>
+                    <div class="plug"><a href="https://discord.com/invite/puJEP8HKk3">discord server invite</a></div>
                 </nav>
-            <div>`;
+            </div>`;
         }
         else if (includeToc) {
             console.log("creating table of contents...");
 
             const toc = right.appendChild(document.createElement("nav"));
-            toc.classList.add("table-of-contents", "right-sticky");
+            toc.classList.add("table-of-contents");
 
             const headings = Array.from(document.getElementsByClassName("article-heading")).slice(1);
             toc.innerHTML = `<div class="toc-title-box space-between"><h2>Table of contents</h2><input type="button" value="hide" class="hide-toc-button" onclick="toggleToc()"></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${headings.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}</div>`;
@@ -500,9 +500,9 @@ function pageLoad() {
                 articleLinks
                     .map((i, n) => {
                         let j = 0;
-                        return `<li><a target="_blank" id="cite-${n + 1}" href="${i[0]}">${i[0]}</a> ${
-                            (i[1] == 1) ? `<a href="#cite-${n + 1}">^</a>` : ` <a href="#cite-${i[1] + "-" + j++}">^</a>`.repeat(i[1] )
-                        }</li>`})
+                        return `<li>${
+                            (i[1] == 1) ? `<a style="font-family: monospace" href="#cite-${n + 1}">[^]</a>` : ` <a href="#cite-${i[1] + "-" + j++}">^</a>`.repeat(i[1] )
+                        } <a target="_blank" id="cite-${n + 1}" href="${i[0]}">${i[0]}</a></li>`})
                     .join("")
             }</ol>
         </div>`;
