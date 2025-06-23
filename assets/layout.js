@@ -358,13 +358,6 @@ function pageLoad() {
                     <hr>
                     ${pageList.recent.join("")}
                 </nav>
-                <nav class="plugs">
-                    <hr>
-                    <a class="plug" href="https://bsky.app/profile/perennialiris.bsky.social">follow me on bluesky</a>
-                    <a class="plug" href="https://youtube.com/@perennialiris">check out my youtube</a>
-                    <a class="plug" href="https://perennialiris.tumblr.com">still use tumblr? me too</a>
-                    <a class="plug" href="https://discord.com/invite/puJEP8HKk3">discord server invite</a>
-                </nav>
             </div>`;
         }
         else if (includeToc) {
