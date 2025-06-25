@@ -259,7 +259,7 @@ function pageLoad() {
                     <style class="theme-style"></style>
                     <article class="main-content">${pageWrapper.innerHTML}</article>
                     <footer class="article-footer space-between">
-                        <div class="column">
+                        <div style="display: flex; flex-direction: column; gap: 1em;">
                             <div class="see-also"></div>
                             <div class="citations"></div>
                         </div>
@@ -268,7 +268,7 @@ function pageLoad() {
                 </main>
                 <aside id="right"></aside>
             </div>
-            <footer class="page-bottom">This is <a title="https://github.com/perennialiris" href="https://github.com/perennialiris">my personal repo</a>. I have no association with any other person or organization. This “website” runs entirely on client-side JavaScript, meaning there is no server software and if saved locally it all runs identically to how it does online. I don’t care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
+            <footer class="page-bottom">This is <a title="https://github.com/perennialiris" href="https://github.com/perennialiris">my personal repo</a>. I have no association with any other person or organization. This “website” runs entirely on client-side JavaScript; there is no server software and if saved locally it runs almost the same way it does online. I don’t care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
             <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
         </div>`;
     interpreter(document.querySelector(".main-content"));
@@ -352,13 +352,14 @@ function pageLoad() {
         else if (!includeToc) {
             right.style.maxHeight = "1500px";
             right.innerHTML = `
-            <div style="position: sticky; top: calc(1em + var(--main-nav-height));">
                 <nav class="recently-added">
-                    <h2>Pages recently added:</h2>
+                    <div class="space-between" style="align-items: center;">
+                        <div class="heading">Pages recently added:</div>
+                        <input type="button" class="x-button icon" onclick="document.getElementById('right').remove()"></div>
+                    </div>
                     <hr>
                     ${pageList.recent.join("")}
-                </nav>
-            </div>`;
+                </nav>`;
         }
         else if (includeToc) {
             console.log("creating table of contents...");
@@ -367,7 +368,15 @@ function pageLoad() {
             toc.classList.add("table-of-contents");
 
             const headings = Array.from(document.getElementsByClassName("article-heading")).slice(1);
-            toc.innerHTML = `<div class="toc-title-box space-between"><h2>Table of contents</h2><input type="button" value="hide" class="hide-toc-button" onclick="toggleToc()"></div><a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a><div class="scroller">${headings.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}</div>`;
+            toc.innerHTML = `
+            <div class="toc-title-box space-between">
+                <div class="heading">Table of contents</div>
+                <input type="button" value="hide" class="hide-toc-button" onclick="toggleToc()">
+            </div>
+            <a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a>
+            <div class="scroller">
+                ${headings.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}
+            </div>`;
 
             const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
             let currentHeading = "";

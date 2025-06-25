@@ -64,6 +64,8 @@
 
     a { color: var(--accent); text-decoration: none; text-underline-offset: 2px; }
     a:hover { text-decoration: underline; }
+    a:target { background-color: #fff5be;  }
+    .dark a:target { background-color: #404b5d; }
 
     strong { font-weight: 600; letter-spacing: -0.15px; color: #202020; }
     .dark strong { color: #b3bbc6; }
@@ -73,11 +75,11 @@
     ol > li { margin-left: -2px; padding-left: 2px; }
     ul { list-style-type: disc; } ul ul { list-style-type: inherit; }
     hr { border: none; height: 1px; width: 100%; background-color: #909090; }
+    .dark hr { background-color: #666; }
 
     .hidden { display: none !important; }
     .align-center { display: flex; align-items: center; gap: 5px; }
     .space-between { display: flex; justify-content: space-between; }
-    .column { display: flex; flex-direction: column; gap: 1em; }
     .no-select { -webkit-user-select: none; -ms-user-select: none; user-select: none; }
     .pinned { display: inline-flex; align-items: center; gap: 2px; }
     .pinned::after { background-image: url(icon-pin.png); content: ""; height: 17px; width: 17px; background-size: contain; display: inline-block; background-position: center; background-repeat: no-repeat; }
@@ -92,7 +94,7 @@
         .main-nav { background-color: inherit; border-block: 1px solid #ddd; height: var(--main-nav-height); position: sticky; top: -1px; color: #666; display: flex; align-items: center; justify-content: center; z-index: 2; }
             .nav-inner { height: var(--main-nav-height); margin: 0 1em; width: 100%; max-width: var(--full-width); font-family: var(--nav-menu-font); }
                 .page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--main-width) - 60px); padding-right: 10px; }
-        .dark .main-nav { border-color: #4a4e51; }
+        .dark .main-nav { border-color: #37383a; }
 
                     .nav-button { color: #808080; font-family: inherit; cursor: pointer; transition: opacity 0.5s; border: 1px solid transparent; height: 35px; background-color: transparent; padding: 0 8px; }
                     .nav-inner .nav-button:hover { border-color: #80808080; }
@@ -140,12 +142,15 @@
 
         #right { min-width: var(--side-width); max-width: var(--side-width); line-height: 1.3; box-sizing: border-box; margin-right: calc(-1 * var(--pad)); }
             #right nav + nav { margin-top: 1em; }
-
+            #right .heading { font-weight: 700; color: #555; line-height: 1.5; }
             #right hr { margin: 8px 0; background-color: #ccc; }
-            .dark #right hr { background-color: #505153; }
-            .dark #right h2 { color: #848c97; }
+                .dark #right .heading { color: #848c97; }
+                .dark #right hr { background-color: #505153; }
 
-            .recently-added h2 { margin: 0 0 10px; font-size: 14px; color: #555; font-weight: 700; }
+            #right .x-button { opacity: 0.7; background-image: url(icon-x.png); height: 18px; width: 18px; position: relative; border: 1px solid transparent; background-color: transparent; }
+            #right .x-button:hover { outline: 1px solid #80808040; }
+
+            .table-of-contents, .recently-added { position: sticky; top: calc(1em + var(--main-nav-height)); }
 
             .nav-row { color: #808080; display: block; margin-left: 8px; padding-right: 1em; }
             .nav-row a { color: inherit; }
@@ -159,9 +164,9 @@
                 .dark .plug { color: #999a9c; border-color: #515254; }
 
             .hide-toc .table-of-contents { display: none; }
-            .table-of-contents { min-width: var(--side-width); position: sticky; top: calc(1rem + var(--main-nav-height)); max-height: calc(100vg - calc(2 * var(--pad)) - var(--main-nav-height)); }
+            .table-of-contents { min-width: var(--side-width); max-height: calc(100vg - calc(2 * var(--pad)) - var(--main-nav-height)); }
                 .toc-title-box { border-bottom: 1px solid #d0d0d0; padding-bottom: 7px; }
-                    .hide-toc-button { cursor: pointer; border: none; padding: 2px 5px; color: #999; background-color: transparent; font-family: inherit; font-size: 12px; opacity: 0.8; margin-right: 15px; }
+                    .hide-toc-button { cursor: pointer; border: none; padding: 2px 5px; color: #999; background-color: transparent; font-family: inherit; font-size: 12px; opacity: 0.8; }
                     .hide-toc-button:hover { color: #555; background-color: #f0f0f0; }
                         .dark .hide-toc-button { color: #5a626d; }
                         .dark .hide-toc-button:hover { color: #949ca7; background-color: #3c4043; }
@@ -262,15 +267,16 @@
                     .dark .image-float { border-color: #4a4e51; background-color: #2f3337; }
                     .dark .image-float img { border: 1px solid #4a4e51; }
 
-            .article-footer { color: #505050; border-top: 1px solid #aaa; padding-top: 1.5em; margin-top: 32px; gap: 10px; }
+            .article-footer { color: #505050; border-top: 1px solid #aaa; padding-top: 1.5em; margin-top: 32px; gap: 32px; }
             .article-footer a { color: inherit; }
-            .see-also ul, .see-also li { margin: 3px 0; list-style-type: none; }
+            .see-also ul, .see-also li { margin: 3px 0; list-style-type: none; padding: 0; }
             .see-also p + p { margin-top: 1em; }
                 .dark .article-footer { color: #787c80; border-color: #4a4e51; }
 
-            .citations { color: #999; font-size: 13px; width: 100%; max-height: 233px; overflow-y: hidden; margin-right: 50px; scrollbar-width: thin; }
+            .citations { color: #999; font-size: 13px; width: 100%; max-height: 233px; overflow-y: hidden; scrollbar-width: thin; }
             .citations:hover { overflow-y: auto; }
-            .citations li { margin-block: 5px; }
+            .citations ol { padding-right: 0; }
+            .citations li { margin-block: 5px; max-width: calc(100% - 10px); }
             .citations a { color: inherit; }
                 .dark .citations h3 { color: #82868a; }
                 .dark .citations { color: #717579; }

@@ -257,6 +257,7 @@ function interpreter(targetElement) {
         /* ------------------------ links ------------------------- */
         /* \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\) */
         input[i] = input[i].replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
+            address = address.replaceAll("\\)", ")");
             let index = -1, refNum = 1;
             for (let i = 0; i < articleLinks.length; i += 1) {
                 if (articleLinks[i][0] == address) {
@@ -268,17 +269,17 @@ function interpreter(targetElement) {
                 index = articleLinks.push([address, 1]);
             } else {
                 refNum = articleLinks[index][1] + 1;
+                index += 1;
             }
-            
+
+            let id = index;
             if (refNum != 1) {
-                index = index + "-inst-" + refNum;
+                id += "-inst-" + refNum;
             }
-            
-            address = address.replaceAll("\\)", ")");
 
             let result = (displayText === "")
-                ? `<a class="citeref" id="cite-${index}" title="${address}" href="${address}">&lbrack;${index}&rbrack;</a>`
-                : `<a title="${address}" id="cite-${index}" href="${address}">${displayText}</a>`;
+                ? `<a class="citeref" id="cite-${id}" title="${address}" href="${address}">&lbrack;${index}&rbrack;</a>`
+                : `<a title="${address}" id="cite-${id}" href="${address}">${displayText}</a>`;
             return result; });
 
         /* ------------------------ table ------------------------- */
