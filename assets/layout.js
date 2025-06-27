@@ -174,9 +174,9 @@ function alignTable(dataString, splitChar) {
 const pageWrapper = document.querySelector(".page-wrapper");
 let mainContent, formatButtonContainer;
 function pageLoad() {
-    const thisDir = document.baseURI.split("/").slice(-2)[0];
+    const thisDir = document.baseURI.split("/").slice(-1)[0].replace(/\.html$/, "");
     const index = document.getElementById("index-aKxOoclwfz");
-    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="${index?"":"../"}/favicon.ico">`;
+    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="favicon.ico">`;
 
     if (localStorage.getItem("brightness") == null) { localStorage.setItem("brightness","light"); }
     else if (localStorage.getItem("brightness") == "dark") { pageWrapper.classList.add("dark"); }
@@ -184,7 +184,7 @@ function pageLoad() {
     pageWrapper.classList.add("javascript-loaded");
     pageWrapper.innerHTML =
        `<div class="page">
-            <header class="main-header align-center"><a href="${index?"":"../"}"></a></header>
+            <header class="main-header align-center"><a href="index.html"}"></a></header>
             <nav class="main-nav">
                 <div class="nav-inner space-between">
                     <div class="align-center">
@@ -240,10 +240,10 @@ function pageLoad() {
                             <div class="menu-row">
                                 <div><span class="no-select">Paragraph format:</span></div>
                                 <div class="format-button-container space-between">
-                                    <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="format-button icon" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-left-no-indent.png')">
-                                    <input type="button" title="Justified, no indenting" onclick="setTextFormat(2)" class="format-button icon" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-justify-no-indent.png')">
-                                    <input type="button" title="Left-align, indent sibling paragraphs" onclick="setTextFormat(3)" class="format-button icon" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-left-indent.png')">
-                                    <input type="button" title="Justified, indent sibling paragraphs" onclick="setTextFormat(4)" class="format-button icon" style="background-image: url('${index?"":"../"}assets/icon-paragraph-style-justify-indent.png')">
+                                    <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="format-button icon" style="background-image: url('assets/icon-paragraph-style-left-no-indent.png')">
+                                    <input type="button" title="Justified, no indenting" onclick="setTextFormat(2)" class="format-button icon" style="background-image: url('assets/icon-paragraph-style-justify-no-indent.png')">
+                                    <input type="button" title="Left-align, indent sibling paragraphs" onclick="setTextFormat(3)" class="format-button icon" style="background-image: url('assets/icon-paragraph-style-left-indent.png')">
+                                    <input type="button" title="Justified, indent sibling paragraphs" onclick="setTextFormat(4)" class="format-button icon" style="background-image: url('assets/icon-paragraph-style-justify-indent.png')">
                                 </div>
                             </div>
                             <div>
@@ -258,17 +258,17 @@ function pageLoad() {
                 <main id="left">
                     <style class="theme-style"></style>
                     <article class="main-content">${pageWrapper.innerHTML}</article>
-                    <footer class="article-footer space-between">
-                        <div style="display: flex; flex-direction: column; gap: 1em;">
+                    <footer class="article-footer">
+                        <div class="space-between">
                             <div class="see-also"></div>
-                            <div class="citations"></div>
+                            <div style="white-space: nowrap;"><a href="../">Link to full page index</a></div>
                         </div>
-                        <div style="white-space: nowrap;"><a href="../">Link to full page index</a></div>
+                        <div class="citations"></div>
                     </footer>
                 </main>
                 <aside id="right"></aside>
             </div>
-            <footer class="page-bottom">This is <a title="https://github.com/perennialiris" href="https://github.com/perennialiris">my personal repo</a>. I have no association with any other person or organization. This “website” runs entirely on client-side JavaScript; there is no server software and if saved locally it runs almost the same way it does online. I don’t care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
+            <footer class="page-bottom">This is <a title="https://github.com/perennialiris" href="https://github.com/perennialiris">my personal repo</a>. I have no association with any other person or organization. This ‘website’ runs entirely on client-side JavaScript; there is no server software and if saved locally it runs identically to how it does online. I don’t care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
             <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
         </div>`;
     interpreter(document.querySelector(".main-content"));
@@ -305,19 +305,19 @@ function pageLoad() {
             if (rowFlags.includes("narrow")) { pageWrapper.classList.add("narrow"); }
             }
         else if (rowFlags.includes("repo-table")) {
-            otherLists.push(`<a href="../${rowDir}">${rowTitle}</a>`);
+            otherLists.push(`<a href="${rowDir}.html">${rowTitle}</a>`);
         }
         if (rowFlags.includes("unlisted")) { continue; }
 
         /* ---- for recent in sidenav ---- */
         if (pageList.recent.length < 9) {
-            pageList.recent.push(`<div class="${isCurrentPage? "nav-row selected" : "nav-row"}"><a href="../${rowDir}">${rowTitle}</a></div>`);
+            pageList.recent.push(`<div class="${isCurrentPage? "nav-row selected" : "nav-row"}"><a href="${rowDir}.html">${rowTitle}</a></div>`);
         }
 
         /* ---- for home index ---- */
         let fullEntry = isPinned
-            ? `<a class="pinned" href="${rowDir}">${rowTitle}</a>`
-            : `<a href="${rowDir}">${rowTitle}</a>`;
+            ? `<a class="pinned" href="${rowDir}.html">${rowTitle}</a>`
+            : `<a href="${rowDir}.html">${rowTitle}</a>`;
         
         if (rowDate || rowCategory) {
             fullEntry += " &ndash;";
@@ -339,7 +339,7 @@ function pageLoad() {
         document.getElementById("index-aKxOoclwfz").innerHTML = pageList.full.join("");
     }
     else {
-        document.querySelector(".page-name-display").innerHTML = `<a href="../">Index</a> <span style="font-family: 'Arial',sans-serif; font-weight: 700; margin-inline: 2px;">&rarr;</span> <a href="">${pageTitle}</a>`;
+        document.querySelector(".page-name-display").innerHTML = `<a href="../">Index</a> <span style="font-family: 'Arial',sans-serif; font-weight: 700; margin-inline: 2px;">&rarr;</span> <a href="">${pageTitle!=""?pageTitle:thisDir}</a>`;
         const right = document.getElementById("right");
 
         if (repoTable) {
@@ -503,7 +503,7 @@ function pageLoad() {
                     .map((i, n) => {
                         let j = 0;
                         return `<li>${
-                            (i[1] == 1) ? `<a style="font-family: monospace" href="#cite-${n + 1}">[^]</a>` : ` <a href="#cite-${i[1] + "-" + j++}">^</a>`.repeat(i[1] )
+                            (i[1] == 1) ? `<a style="font-family: monospace" href="#cite-${n + 1}">^</a>` : ` <a href="#cite-${i[1] + "-" + j++}">^</a>`.repeat(i[1] )
                         } <a target="_blank" id="cite-${n + 1}" href="${i[0]}">${i[0]}</a></li>`})
                     .join("")
             }</ol>

@@ -30,7 +30,7 @@
     /* ---- end of fonts ---- */
 
     :root {
-        --accent: #aa222f;
+        --accent: #a61e2b;
         --header-height: 193px;
         --main-nav-height: 44px;
         --pad: 52px;
@@ -92,7 +92,7 @@
             .main-header a { display: block; height: 100%; width: 100%; }
 
         .main-nav { background-color: inherit; border-block: 1px solid #ddd; height: var(--main-nav-height); position: sticky; top: -1px; color: #666; display: flex; align-items: center; justify-content: center; z-index: 2; }
-            .nav-inner { height: var(--main-nav-height); margin: 0 1em; width: 100%; max-width: var(--full-width); font-family: var(--nav-menu-font); }
+            .nav-inner { height: var(--main-nav-height); margin-left: 1em; width: 100%; max-width: var(--full-width); font-family: var(--nav-menu-font); }
                 .page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--main-width) - 60px); padding-right: 10px; }
         .dark .main-nav { border-color: #37383a; }
 
@@ -108,7 +108,7 @@
 
                     .gear { border: 1px solid transparent; background-color: transparent; background-image: url("icon-gear.png"); width: 41px; height: 35px; background-size: contain; background-position: center; background-repeat: no-repeat; }
 
-                #menu { width: var(--menu-width); transform: translateX(calc(144px - var(--menu-width))); padding: 15px 23px; color: #555; background-color: #eee; position: absolute; top: var(--main-nav-height); box-sizing: border-box; border: 1px solid #999; font-family: var(--nav-menu-font); }
+                #menu { width: var(--menu-width); transform: translateX(calc(137px - var(--menu-width))); padding: 15px 23px; color: #555; background-color: #eee; position: absolute; top: var(--main-nav-height); box-sizing: border-box; border: 1px solid #999; font-family: var(--nav-menu-font); }
                 .dark #menu { color: #aaa; background-color: #3c4044; border-color: #56595c; }
 
                     .format-button-container { width: 130px; }
@@ -236,7 +236,7 @@
                 .main-content.text-indent p:not(.drop-cap):not(.fine) { text-indent: 2.5em; }
                 .text-justify p, .text-justify li, .text-justify blockquote { text-align: justify; }
 
-                .main-content blockquote { font-size: calc(var(--main-font-size) - 0.5px); line-height: 1.6; margin: 1.3em 1px; background-color: #8881; padding: 1em 1.5em 0.8em; border-left: 3px solid var(--accent); border-radius: 3px; }
+                .main-content blockquote { font-size: calc(var(--main-font-size) - 0.5px); line-height: 1.6; margin: 1.3em 1px; background-color: #8881; padding: 1em 1.5em 0.8em; border-left: 3px solid currentColor; border-radius: 3px; }
                 .main-content blockquote br { margin-bottom: 8px; }
                 .main-content blockquote .fine { color: #909090; }
                 .main-content blockquote .attribution { text-align: right; color: #6a6e72; }
@@ -267,18 +267,18 @@
                     .dark .image-float { border-color: #4a4e51; background-color: #2f3337; }
                     .dark .image-float img { border: 1px solid #4a4e51; }
 
-            .article-footer { color: #505050; border-top: 1px solid #aaa; padding-top: 1.5em; margin-top: 32px; gap: 32px; }
+            .article-footer { display: flex; flex-direction: column; gap: 1em; color: #505050; border-top: 1px solid #aaa; padding-top: 1.5em; margin-top: 32px; }
             .article-footer a { color: inherit; }
+
             .see-also ul, .see-also li { margin: 3px 0; list-style-type: none; padding: 0; }
             .see-also p + p { margin-top: 1em; }
                 .dark .article-footer { color: #787c80; border-color: #4a4e51; }
 
             .citations { color: #999; font-size: 13px; width: 100%; max-height: 233px; overflow-y: hidden; scrollbar-width: thin; }
-            .citations:hover { overflow-y: auto; }
-            .citations ol { padding-right: 0; }
-            .citations li { margin-block: 5px; max-width: calc(100% - 10px); }
             .citations a { color: inherit; }
-                .dark .citations h3 { color: #82868a; }
+            .citations:hover { overflow-y: auto; }
+            .citations ol { padding: 0 0 0 40px; }
+            .citations li { margin-block: 5px; max-width: calc(var(--main-width) - 60px); }
                 .dark .citations { color: #717579; }
                 .dark .citations :target { background-color: #764; border: none; outline: 2px solid #764; color: #bdbdbd; }
 
