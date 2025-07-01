@@ -188,7 +188,7 @@ function pageLoad() {
             <nav class="main-nav">
                 <div class="nav-inner space-between">
                     <div class="align-center">
-                        <div class="page-name-display"></div>
+                        <div id="page-name-display"></div>
                     </div>
                     <div class="align-center">
                         <input class="to-top nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="Jump to Top" title="Click to scroll to the top of the page" type="button">
@@ -268,7 +268,7 @@ function pageLoad() {
                 </main>
                 <aside id="right"></aside>
             </div>
-            <footer class="page-bottom">This is <a title="https://github.com/perennialiris" href="https://github.com/perennialiris">my personal repo</a>. I have no association with any other person or organization. This ‘website’ runs entirely on client-side JavaScript; there is no server software and if saved locally it runs identically to how it does online. I don’t care if you copy any aspect of how I set this up (the code base), though I reserve all rights to my writing. To contact me for takedown requests or anything else, email perennialforces@gmail.com.</footer>
+            <footer class="page-bottom">This is page is hosted on <a title="https://github.com/perennialiris" href="https://github.com/perennialiris">my personal Github repo</a>, which is controlled by me alone. I have no association with any other person or organization. To contact me for any reason, email perennialforces@gmail.com.</footer>
             <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
         </div>`;
     interpreter(document.querySelector(".main-content"));
@@ -335,11 +335,11 @@ function pageLoad() {
     }
     
     if (index) {
-        document.querySelector(".page-name-display").innerHTML = `Iris’s documents`;
+        document.getElementById("page-name-display").innerHTML = `Iris’s documents`;
         document.getElementById("index-aKxOoclwfz").innerHTML = pageList.full.join("");
     }
     else {
-        document.querySelector(".page-name-display").innerHTML = `<a href="../">Index</a> <span style="font-family: 'Arial',sans-serif; font-weight: 700; margin-inline: 2px;">&rarr;</span> <a href="">${pageTitle!=""?pageTitle:thisDir}</a>`;
+        document.getElementById("page-name-display").innerHTML = `<a href="index.html">Index</a> <span style="font-family: 'Arial',sans-serif; font-weight: 700; margin-inline: 2px;">&rarr;</span> <a href="">${pageTitle!=""?pageTitle:thisDir}</a>`;
         const right = document.getElementById("right");
 
         if (repoTable) {

@@ -187,10 +187,10 @@ function interpreter(targetElement) {
             input[i] = "<p></p>"; continue; }
 
         if (input[i].startsWith("||video-right-mp4")) {
-            input[i] = `<video class="noq-video right" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
+            input[i] = `<video class="auto-video right" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
             continue; }
         if (input[i].startsWith("||video-mp4")) {
-            input[i] = `<video class="noq-video" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
+            input[i] = `<video class="auto-video" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
             continue; }
 
         if (input[i].startsWith("||image-box")) {
