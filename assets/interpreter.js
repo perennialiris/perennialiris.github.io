@@ -1,172 +1,20 @@
 
 "use strict"
 
-/*  These are the replacements run over all inputs, separated into its
-    own function because I needed to call it multiple times. */
-function stdReplace(inputString) {
-    if (inputString == "") { return ""; }
-    
-    let output = inputString
-        .replaceAll("\\*", "&ast;")
-        .replaceAll("\\^", "&Hat;")
-        .replaceAll("\\_", "&lowbar;")
-        .replaceAll("\\(", "&lpar;")
-        .replaceAll("\\)", "&rpar;")
-        .replaceAll("\\[", "&lbrack;")
-        .replaceAll("\\]", "&rbrack;")
-        .replaceAll("\\", "&#92;")
-        /* It took many versions, but I think I finally got to a point where this always works the way I want it to. */
-        /* Is there a much better way to do this? I don't know. */
-        /* ---- curly " replacement ---- */
-        .replace(/(\S\*{1,3})" /g, "$1&rdquo; ")
-        .replace(/^"(\w)/g, "&ldquo;$1")
-        .replace(/^" /g, "&rdquo; ")
-        .replace(/", /g, "&rdquo;, ")
-        .replace(/\*"\-/g, "*&rdquo;-")
-        .replace(/^"(\.|,)/g, "&rdquo;$1")
-        .replace(/ "$/g, " &ldquo;")
-        .replace(/"$/g, "&rdquo;")
-        .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
-        .replace(/"/g, "&rdquo;")
-        .replace(/&rdquo;(,|\.)/g, `<span class="right-quote-margin">&rdquo;</span>$1`)
-        /* ---- curly ' replacement ---- */
-        .replace(/'(\d{2})(\D{1})/g, "&rsquo;$1$2") // for saying '95 or '27 etc.
-        .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
-        .replace(/^'(\w)/g, "&lsquo;$1")
-        .replace(/^',/g, "&rsquo; ")
-        .replace(/^' /g, "&rsquo; ")
-        .replace(/', /g, "&rsquo;, ")
-        .replace(/\*'\-/g, "*&rsquo;-")
-        .replace(/^'(\.|)/g, "&rsquo;$1")
-        .replace(/ '$/g, " &lsquo;")
-        .replace(/'$/g, "&rsquo;")
-        .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
-        .replace(/'/g, "&rsquo;")
-        .replace(/&rsquo;(,|\.)/g, `<span class="right-quote-margin">&rsquo;</span>$1`)
-        .replace(/__(.+?)__/g, "<u>$1</u>")
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.+?)\*/g, "<em>$1</em>")
-        .replaceAll("---", "<span class='mdash'>&mdash;</span>")
-        .replaceAll("--", "&ndash;")
-        .replaceAll("...", "&hellip;")
-    return output;
-}
-
-/* nested list parser */
-/* usage note: you can do nested */
-function listParse(inputString) {
-    const lines = inputString.split("\n");
-    
-    for (let i = 0; i < lines.length; i += 1) {
-        const leftRight = Math.floor(lines[i].search(/[^\s]/) / 2) + 1;
-        
-        let listStyleType = "none";
-        let marginTop = "6px";
-        
-        if (lines[i].startsWith("* ")) {
-            lines[i] = lines[i].slice(1);
-            listStyleType = "disc";
-            marginTop = "10px";
-        }
-        
-        lines[i] = `<li style="list-style-type: ${listStyleType}; display: list-item; margin: ${marginTop} ${leftRight * 40}px 0;">${safeConvert(lines[i].trim())}</li>`;
-        
-    }
-    return `<ul style="padding: 0;">${lines.join("")}</ul>`;
-}
-
-/* general parser to run all input through, safely ignores anything <inside> of tags, same logic as wrapDigits */
-function safeConvert(inputString) {
-    let input = inputString, output = "";
-    while (true) {
-        let openTag = input.indexOf("<"), closeTag = input.indexOf(">");
-        if (openTag == -1 || closeTag == -1) break;
-        output += stdReplace(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
-        input = input.substring(closeTag + 1);
-    }
-    output += stdReplace(input);
-    return output;
-}
-
-/* for <code> or like elements, where you don't want normal formatting -- run *before* safeConvert */
-function codeblockSanitize(inputString) {
-    return inputString
-        .replaceAll("=\"\"", "")
-        .replaceAll("\"", "&quot;")
-        .replaceAll("'", "&apos;")
-        .replaceAll("-", "&hyphen;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll("(", "&lpar;")
-        .replaceAll(")", "&rpar;")
-        .replaceAll("[", "&lbrack;")
-        .replaceAll("]", "&rbrack;")
-        .replaceAll("*", "&ast;")
-        .replaceAll("\n", "<br>");
-}
-
-function wrapDigits(inputString) {
-    let output = "";
-    while (true) {
-        const openTag = inputString.indexOf("<"), closeTag = inputString.indexOf(">");
-        if (openTag == -1 || closeTag == -1) { break; }
-        output += inputString.substring(0, openTag).replace(/(\d+)/g, "<span class='digit'>$1</span>");
-        output += inputString.substring(openTag, closeTag + 1);
-        inputString = inputString.substring(closeTag + 1);
-    }
-    output += inputString.replace(/(\d+)/g, "<span class='digit'>$1</span>");
-    return output;
-}
-
-function wrapElement(targetElement) {
-    let input = targetElement.innerHTML;
-    let output = "";
-    while (true) {
-        const openTag = input.indexOf("<"), closeTag = input.indexOf(">");
-        if (openTag == -1 || closeTag == -1) { break; }
-        output += input.substring(0, openTag).replace(/(\d+)/g, "<span class=\"digit\">$1</span>");
-        output += input.substring(openTag, closeTag + 1);
-        input = input.substring(closeTag + 1);
-    }
-    output += input.replace(/(\d+)/g, "<span class=\"digit\">$1</span>");
-    targetElement.innerHTML = output;
-}
-
-/* prefer .replaceAll over .replace when you don't need regex, more readable */
-function titleFilter(inputString) {
-    return inputString.replace(/<.+?>/g, "")
-        .replaceAll('"', "&quot;")
-        .replaceAll("&rsquo;", "'")
-        .replaceAll("&ndash;", "–")
-        .replaceAll("&mdash;", "—")
-        .replaceAll("&amp;", "&");
-}
-
-function quoteParse(inputString) {
-    const lines = inputString.split("\n").slice(1);
-    for (let j = 0; j < lines.length; ++j) {
-        if (lines[j].startsWith("---")) {
-            lines[j] = `<div class="attribution">${lines[j]}</div>`; }
-        else {
-            if (lines[j].startsWith("^")) {
-                lines[j] = `<div class="fine">${lines[j].substring(1)}</div>`; }
-            else {
-                lines[j] += "<br>"; } } }
-    return "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
-}
+/*
+    This takes an element and formats all of the element's contents.
+*/
+let articleLinks = [];
 
 /* Interpreter loop. Pass the main element to start. */
-let articleLinks = [];
 function interpreter(targetElement) {
     let input = targetElement.innerHTML
         .replace(/\n\n+/g, "\n\n")
-        .replace(/\r/g, "") /* safety */
+        .replace(/\r/g, "") /* for safety, probably no effect */
         .trim()
         .split("\n\n");
 
-    let firstParagraph = true;
-    let firstH1 = true;
-    let tableNum = 1;
+    let firstParagraph = true, firstHeading = true, tableNum = 1;
 
     for (let i = 0; i < input.length; i += 1) {
 
@@ -342,9 +190,9 @@ function interpreter(targetElement) {
             if (document.title == "") { document.title = titleId; }
             titleId = titleId.replace(/ /g, "_");
 
-            if (firstH1) {
+            if (firstHeading) {
                 input[i] = `<h1 class="first-heading article-heading">${title}</h1></div>`;
-                firstH1 = false;
+                firstHeading = false;
             } else {
                 input[i] = `<h1 class="article-heading" id=${titleId}>${title}</h1>`;
             }
@@ -386,8 +234,159 @@ function interpreter(targetElement) {
     ["p","li","blockquote","h1","h2","h3","h4"].forEach(e => Array.from(targetElement.getElementsByTagName(e)).forEach(i => wrapElement(i)));
 }
 
+/*  These are the replacements run over all inputs, separated into its
+    own function because I needed to call it multiple times. */
+function stdReplace(inputString) {
+    if (inputString == "") { return ""; }
+    
+    let output = inputString
+        .replaceAll("\\*", "&ast;")
+        .replaceAll("\\^", "&Hat;")
+        .replaceAll("\\_", "&lowbar;")
+        .replaceAll("\\(", "&lpar;")
+        .replaceAll("\\)", "&rpar;")
+        .replaceAll("\\[", "&lbrack;")
+        .replaceAll("\\]", "&rbrack;")
+        .replaceAll("\\", "&#92;")
+        /* It took many versions, but I think I finally got to a point where this always works the way I want it to. */
+        /* Is there a much better way to do this? I don't know. */
+        /* ---- curly " replacement ---- */
+        .replace(/(\S\*{1,3})" /g, "$1&rdquo; ")
+        .replace(/^"(\w)/g, "&ldquo;$1")
+        .replace(/^" /g, "&rdquo; ")
+        .replace(/", /g, "&rdquo;, ")
+        .replace(/\*"\-/g, "*&rdquo;-")
+        .replace(/^"(\.|,)/g, "&rdquo;$1")
+        .replace(/ "$/g, " &ldquo;")
+        .replace(/"$/g, "&rdquo;")
+        .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
+        .replace(/"/g, "&rdquo;")
+        .replace(/&rdquo;(,|\.)/g, `<span class="right-quote-margin">&rdquo;</span>$1`)
+        /* ---- curly ' replacement ---- */
+        .replace(/'(\d{2})(\D{1})/g, "&rsquo;$1$2") // for saying '95 or '27 etc.
+        .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
+        .replace(/^'(\w)/g, "&lsquo;$1")
+        .replace(/^',/g, "&rsquo; ")
+        .replace(/^' /g, "&rsquo; ")
+        .replace(/', /g, "&rsquo;, ")
+        .replace(/\*'\-/g, "*&rsquo;-")
+        .replace(/^'(\.|)/g, "&rsquo;$1")
+        .replace(/ '$/g, " &lsquo;")
+        .replace(/'$/g, "&rsquo;")
+        .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
+        .replace(/'/g, "&rsquo;")
+        .replace(/&rsquo;(,|\.)/g, `<span class="right-quote-margin">&rsquo;</span>$1`)
+        .replace(/__(.+?)__/g, "<u>$1</u>")
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.+?)\*/g, "<em>$1</em>")
+        .replaceAll("---", "<span class='mdash'>&mdash;</span>")
+        .replaceAll("--", "&ndash;")
+        .replaceAll("...", "&hellip;")
+    return output;
+}
 
+/* nested list parser */
+/* usage note: you can do nested */
+function listParse(inputString) {
+    const lines = inputString.split("\n");
+    
+    for (let i = 0; i < lines.length; i += 1) {
+        const leftRight = Math.floor(lines[i].search(/[^\s]/) / 2) + 1;
+        
+        let listStyleType = "none";
+        let marginTop = "6px";
+        
+        if (lines[i].startsWith("* ")) {
+            lines[i] = lines[i].slice(1);
+            listStyleType = "disc";
+            marginTop = "10px";
+        }
+        
+        lines[i] = `<li style="list-style-type: ${listStyleType}; display: list-item; margin: ${marginTop} ${leftRight * 40}px 0;">${safeConvert(lines[i].trim())}</li>`;
+        
+    }
+    return `<ul style="padding: 0;">${lines.join("")}</ul>`;
+}
 
+/* general parser to run all input through, safely ignores anything <inside> of tags, same logic as wrapDigits */
+function safeConvert(inputString) {
+    let input = inputString, output = "";
+    while (true) {
+        let openTag = input.indexOf("<"), closeTag = input.indexOf(">");
+        if (openTag == -1 || closeTag == -1) break;
+        output += stdReplace(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
+        input = input.substring(closeTag + 1);
+    }
+    output += stdReplace(input);
+    return output;
+}
+
+/* for <code> or like elements, where you don't want normal formatting -- run *before* safeConvert */
+function codeblockSanitize(inputString) {
+    return inputString
+        .replaceAll("=\"\"", "")
+        .replaceAll("\"", "&quot;")
+        .replaceAll("'", "&apos;")
+        .replaceAll("-", "&hyphen;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll("(", "&lpar;")
+        .replaceAll(")", "&rpar;")
+        .replaceAll("[", "&lbrack;")
+        .replaceAll("]", "&rbrack;")
+        .replaceAll("*", "&ast;")
+        .replaceAll("\n", "<br>");
+}
+
+function wrapDigits(inputString) {
+    let output = "";
+    while (true) {
+        const openTag = inputString.indexOf("<"), closeTag = inputString.indexOf(">");
+        if (openTag == -1 || closeTag == -1) { break; }
+        output += inputString.substring(0, openTag).replace(/(\d+)/g, "<span class='digit'>$1</span>");
+        output += inputString.substring(openTag, closeTag + 1);
+        inputString = inputString.substring(closeTag + 1);
+    }
+    output += inputString.replace(/(\d+)/g, "<span class='digit'>$1</span>");
+    return output;
+}
+
+function wrapElement(targetElement) {
+    let input = targetElement.innerHTML;
+    let output = "";
+    while (true) {
+        const openTag = input.indexOf("<"), closeTag = input.indexOf(">");
+        if (openTag == -1 || closeTag == -1) { break; }
+        output += input.substring(0, openTag).replace(/(\d+)/g, "<span class=\"digit\">$1</span>");
+        output += input.substring(openTag, closeTag + 1);
+        input = input.substring(closeTag + 1);
+    }
+    output += input.replace(/(\d+)/g, "<span class=\"digit\">$1</span>");
+    targetElement.innerHTML = output;
+}
+
+/* prefer .replaceAll over .replace when you don't need regex, more readable */
+function titleFilter(inputString) {
+    return inputString.replace(/<.+?>/g, "")
+        .replaceAll('"', "&quot;")
+        .replaceAll("&rsquo;", "'")
+        .replaceAll("&ndash;", "–")
+        .replaceAll("&mdash;", "—")
+        .replaceAll("&amp;", "&");
+}
+
+function quoteParse(inputString) {
+    const lines = inputString.split("\n").slice(1);
+    for (let j = 0; j < lines.length; ++j) {
+        if (lines[j].startsWith("---")) {
+            lines[j] = `<div class="attribution">${lines[j]}</div>`; }
+        else {
+            if (lines[j].startsWith("^")) {
+                lines[j] = `<div class="fine">${lines[j].substring(1)}</div>`; }
+            else {
+                lines[j] += "<br>"; } } }
+    return "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
+}
 
 
 

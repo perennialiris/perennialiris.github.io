@@ -1,190 +1,113 @@
 
 "use strict"
 
-function setMenu(action) {
-    switch (action) {
-        case "show":
-            document.getElementById("menu").classList.remove("hidden");
-            localStorage.setItem("menuState", "visible");
-            break;
-        case "hide":
-            document.getElementById("menu").classList.add("hidden");
-            localStorage.setItem("menuState", "hidden");
-            break;
-        default:
-            const mode = localStorage.getItem("menuState");
-            if (mode == null || mode == "hidden") {
-                setMenu("show");
-            } else {
-                setMenu("hide");
-            }
-            break;
-    }
-}
-
-function setBrightness(setValue) {
-    switch (setValue) {
-        case "light":
-            pageWrapper.classList.remove("dark");
-            document.getElementById("lightswitch").checked = false;
-            localStorage.setItem("brightness", "light");
-            break;
-        case "dark":
-            pageWrapper.classList.add("dark");
-            document.getElementById("lightswitch").checked = true;
-            localStorage.setItem("brightness", "dark");
-            break;
-        default:
-            const mode = localStorage.getitem("brightness");
-            if (mode == null || mode == "light") {
-                setBrightness("dark");
-            } else {
-                setBrightness("light");
-            }
-            break;
-    }
-}
-
-function setTextFormat(setValue) {
-    setValue = Number(setValue);
-
-    const btns = document.querySelector(".format-button-container").children;
+/*
+    This .js creates the website dynamically when this file is loaded by the .html file.
+    For everything to work properly, create html files in this format:
     
-    btns[setValue-1].classList.add("selected");
-    for (let i = 0; i < btns.length; i += 1) {
-        if (i != setValue-1) { btns[i].classList.remove("selected"); }
-    }
+        <!DOCTYPE html>
+        <html lang="en">
+            <head>
+                <link rel="stylesheet" href="assets/main.css">
+            </head>
+            <body>
+                <div class="page-wrapper">
+                    The unique body text of the page goes here.
+                </div>
+                <script src="assets/interpreter.js"></script>
+                <script src="assets/pi-layout.js"></script>
+            </body>
+        </html>
     
-    const mainContent = document.querySelector(".main-content");
-    switch (setValue) {
-        case 1:
-            mainContent.classList.remove("text-justify");
-            mainContent.classList.remove("text-indent");
-            break;
-        case 2:
-            mainContent.classList.add("text-justify");
-            mainContent.classList.remove("text-indent");
-            break;
-        case 3:
-            mainContent.classList.remove("text-justify");
-            mainContent.classList.add("text-indent");
-            break;
-        case 4:
-            mainContent.classList.add("text-justify");
-            mainContent.classList.add("text-indent");
-            break;
-    }
+    The script looks for "page-wrapper" and takes it from there.
+*/
+
+let pageData =
+/*
+    .html name  |  Article title  |  topic  |  date  |  options
     
-    localStorage.setItem("text-style", setValue);
-}
+    unlisted   : doesn't appear in homepage list or sidebar
+    repo-table : hides sidebar, applies different styling, like news lists
+    toc        : include table of contents
+    pinned     : put at top of homepage page list
+*/
+`
+43    | Word-maker                                             | other                 |            | unlisted         
+42    | Journalism and paywalls                                | media, culture        | 2025-06-02 | narrow           
+41    | Normalization and status quo bias                      | politics, culture     | 2025-04-20 |                  
+40    | Trump and Russia                                       | politics              | 2025-03-05 |                  
+39    | Movies                                                 | other                 |            | narrow unlisted  
+38    | Canadian news                                          | other, politics       |            | repo-table       
+37    | Mark Robinson transcript                               |                       | 2024-11-13 | unlisted         
+36    | India                                                  | history, politics     | 2025-03-05 |                  
+35    | International news                                     | news, politics        |            | repo-table       
+34    | The Nazi salute                                        | news, politics        | 2025-01-24 | narrow           
+33    | The standard relationship model                        | other                 |            |                  
+32    | Politics fundamentals                                  | politics              | 2025-01-05 | toc wide         
+31    | Reflections on Justin Trudeau                          | news, politics        | 2025-01-08 |                  
+30    | The appearance of intelligence                         | other                 | 2025-01-18 |                  
+29    | Date formats                                           | other                 | 2025-01-11 | narrow           
+28    | The problem with Pierre                                | politics              | 2025-03-15 |                  
+27    | Sex, gender, & transsexuals                            | transgender, politics | 2024-12-29 | toc              
+26    | American news                                          | news, politics        |            | pinned repo-table
+25    | A beauty holding a bird                                | other                 | 2024-12-23 | narrow           
+24    | Enduring falsehoods about Warren, Clinton              | politics              | 2024-12-19 |                  
+23    | Passing                                                | transgender, culture  | 2025-02-24 |                  
+22    | Dehumanization                                         | politics              | 2024-12-15 |                  
+21    | Relationships                                          | personal              | 2024-12-14 | unlisted         
+20    | Israel–Palestine notes                                 | politics              | 2025-02-24 | toc unlisted     
+19    | Ilhan Omar’s comments about Somalia                    | politics              | 2025-02-12 |                  
+18    | Transcripts: context for inflammatory Trump statements | politics              |            |                  
+17    | Why get bottom surgery?                                | transgender, culture  | 2025-02-09 |                  
+16    | Milo Yiannopoulos’s cancellation                       | politics              | 2025-02-03 |                  
+15    | Bluesky accounts listing                               | other                 |            | repo-table       
+14    | Reasons I’m glad to be Canadian                        | politics              | 2024-12-08 |                  
+13    | The military–industrial complex                        | politics              | 2024-12-04 |                  
+12    | The order of information                               | politics              | 2024-12-03 |                  
+11    | The Trump appeal                                       | politics              | 2024-12-03 |                  
+10    | Touchscreens and smartphones                           | culture               | 2024-12-02 |                  
+9     | The default politician                                 | politics              | 2024-11-26 |                  
+8     | 10 Dollar                                              | culture               | 2024-11-25 |                  
+7     | Fetishism & politics                                   | transgender, culture  | 2024-11-14 |                  
+6     | Mark Robinson                                          | news, politics        | 2024-11-13 |                  
+5     | Types of masculinity                                   | culture               | 2024-11-08 |                  
+4     | Anime reviews                                          | culture               | 2024-11-02 |                  
+3     | Poor things (2023 film)                                | culture               | 2024-10-31 |                  
+2     | The trans prison stats argument                        | transgender, politics | 2024-10-19 |                  
+index |                                                        |                       |            | unlisted narrow  
+`;
 
-function toggleToc() {
-    if (pageWrapper.classList.contains("hide-toc")) {
-        pageWrapper.classList.remove("hide-toc");
-    } else {
-        pageWrapper.classList.add("hide-toc");
-    }
-}
+/* These are some variables I want to pass between things: */
+let pageWrapper = null;
+let formatButtonContainer = null;
 
-function setLightbox(action) {
-    let lightbox = document.getElementById("lightbox");
-    if (lightbox) {
-        if (action == "close") {
-            lightbox.src = lightbox.alt = "";
-            lightbox.parentNode.style.display = "none";
-        } else if (typeof action == "object") {
-            lightbox.src = action.src;
-            lightbox.alt = action.alt;
-            lightbox.parentNode.style.display = "flex";
-        }
-    }
-}
+window.addEventListener("load", pageLoad);
 
-let data = `
-43 | Word-maker | other | | unlisted
-42 | Journalism and paywalls | media, culture | 2025-06-02 | narrow
-41 | Normalization and status quo bias | politics, culture | 2025-04-20 | 
-40 | Trump and Russia | politics | 2025-03-05 | 
-39 | Movies | other | | narrow unlisted
-38 | Canadian news | other, politics | | repo-table
-37 | Mark Robinson transcript | | 2024-11-13 | unlisted
-36 | India | history, politics | 2025-03-05 | 
-35 | International news | news, politics | | repo-table
-34 | The Nazi salute | news, politics | 2025-01-24 | narrow
-33 | The standard relationship model | other | | 
-32 | Politics fundamentals | politics | 2025-01-05 | toc wide
-31 | Reflections on Justin Trudeau | news, politics | 2025-01-08 |
-30 | The appearance of intelligence | other | 2025-01-18 |
-29 | Date formats | other | 2025-01-11 | narrow
-28 | The problem with Pierre | politics | 2025-03-15 | 
-27 | Sex, gender, & transsexuals | transgender, politics | 2024-12-29 | toc
-26 | American news | news, politics | | pinned repo-table
-25 | A beauty holding a bird | other | 2024-12-23 | narrow
-24 | Enduring falsehoods about Warren, Clinton | politics | 2024-12-19 |
-23 | Passing | transgender, culture | 2025-02-24 |
-22 | Dehumanization | politics | 2024-12-15 |
-21 | Relationships | personal | 2024-12-14 | unlisted
-20 | Israel–Palestine notes | politics | 2025-02-24 | toc unlisted
-19 | Ilhan Omar’s comments about Somalia | politics | 2025-02-12 |
-18 | Transcripts: context for inflammatory Trump statements | politics | |
-17 | Why get bottom surgery? | transgender, culture | 2025-02-09 |
-16 | Milo Yiannopoulos’s cancellation | politics | 2025-02-03 |
-15 | Bluesky accounts listing | other | | repo-table
-14 | Reasons I’m glad to be Canadian | politics | 2024-12-08 |
-13 | The military–industrial complex | politics | 2024-12-04 |
-12 | The order of information | politics | 2024-12-03 |
-11 | The Trump appeal | politics | 2024-12-03 |
-10 | Touchscreens and smartphones | culture | 2024-12-02 |
-9 | The default politician | politics | 2024-11-26 |
-8 | 10 Dollar | culture | 2024-11-25 |
-7 | Fetishism & politics | transgender, culture | 2024-11-14 |
-6 | Mark Robinson | news, politics | 2024-11-13 |
-5 | Types of masculinity | culture | 2024-11-08 |
-4 | Anime reviews | culture | 2024-11-02 |
-3 | Poor things (2023 film) | culture | 2024-10-31 |
-2 | The trans prison stats argument | transgender, politics | 2024-10-19 |
-index | | | | unlisted narrow`;
-
-function alignTable(dataString, splitChar) {
-    const table = dataString.split("\n").filter(c => c.split(splitChar).length == 5).map(row => row.split(splitChar).map(cell => cell.trim()));
-    const rowWidth = Math.max(...table.map(row => row.length));
-    for (let col = 0; col < rowWidth; ++col) {
-        let cellWidth = 0;
-        for (let i = 0; i < table.length; i += 1) {
-            while (table[i].length < rowWidth) {
-                table[i].push(""); }
-            if (table[i][col].length > cellWidth) {
-                cellWidth = table[i][col].length; } }
-        for (let i = 0; i < table.length; i += 1) {
-            if (table[i].length < rowWidth) { continue; }
-            table[i][col] += " ".repeat(cellWidth - table[i][col].length);
-            } }
-    table.sort((a, b) => {
-        a = a[3].replace(/\D/g, ""); if (a == "") { a = 0; }
-        b = b[3].replace(/\D/g, ""); if (b == "") { b = 0; }
-        return parseInt(b) - parseInt(a);
-    }).sort((a, b) => {
-        if (a[4].trim() == "pinned") { return -1; }
-        if (b[4].trim() == "pinned") { return 1; }
-        return 0;
-    });
-    data = table.map(c => c.join(` ${splitChar} `)).join("\n");
-}
-
-const pageWrapper = document.querySelector(".page-wrapper");
-let mainContent, formatButtonContainer;
 function pageLoad() {
-    const thisDir = document.baseURI.split("/").slice(-1)[0].replace(/\.html$/, "");
-    const index = document.getElementById("index-aKxOoclwfz");
-    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="favicon.ico">`;
+    /* Favicon (icon for browser tab) */ document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="favicon.ico">`;
+    /* Get name of this .html file: */ const thisFile = document.baseURI.split("/").slice(-1)[0].replace(/\.html$/, "");
+    /* Is this my front-page index.html? */ const index = document.getElementById("index-aKxOoclwfz");
 
-    if (localStorage.getItem("brightness") == null) { localStorage.setItem("brightness","light"); }
-    else if (localStorage.getItem("brightness") == "dark") { pageWrapper.classList.add("dark"); }
-
+    /* I wish JavaScript had 'final' variables (like in Java), but whatever. */
+    pageWrapper = document.querySelector(".page-wrapper");
+    
+    /* Enable dark-mode if it was enabled previously in session: */
+    if (localStorage.getItem("brightness") == "dark") {
+        pageWrapper.classList.add("dark");
+    }
+        /* Otherwise, default to light: */
+    else {
+        localStorage.setItem("brightness", "light");
+    }
+    
+    /* If this JavaScript fails, the page CSS has no targets and it defaults to a monospace text display of
+       the .html contents. This class is what removes that styling: */
     pageWrapper.classList.add("javascript-loaded");
+    
+    /* Wrap the current pageWrapper contents in this structure: */
     pageWrapper.innerHTML =
        `<div class="page">
-            <header class="main-header align-center"><a href="index.html"}"></a></header>
+            <header class="main-header"><a href="index.html"}"></a></header>
             <nav class="main-nav">
                 <div class="nav-inner space-between">
                     <div class="align-center">
@@ -192,7 +115,7 @@ function pageLoad() {
                     </div>
                     <div class="align-center">
                         <input class="to-top nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="Jump to Top" title="Click to scroll to the top of the page" type="button">
-                        <input class="show-toc nav-button" value="Show ToC" onclick="toggleToc()" type="button">
+                        <input class="show-toc-button nav-button" value="Show ToC" onclick="toggleToc()" type="button">
                         <div id="menu" class="hidden">
                             <div class="menu-row">
                                 <div><span class="no-select">Dark mode:</span></div>
@@ -271,28 +194,26 @@ function pageLoad() {
             <footer class="page-bottom">This is page is hosted on <a title="https://github.com/perennialiris" href="https://github.com/perennialiris">my personal Github repo</a>, which is controlled by me alone. I have no association with any other person or organization. To contact me for any reason, email perennialforces@gmail.com.</footer>
             <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
         </div>`;
+    
     interpreter(document.querySelector(".main-content"));
+    
+    /* alignTable(pageData, "|"); */
 
-    alignTable(data, "|");
+    /* Take the data for page lists from above: */
     const pageList = { recent: [], pins: [], full: [] };
-
-    let includeToc = false;
-    let isPinned = false;
-    let isCurrentPage = false;
-    let repoTable = false;
-    let pageTitle = "";
-    const dataRows = data.split("\n");
-    const otherLists = [];
+    const otherRepoTables = [];
+    let includeToc = false, isPinned = false, isCurrentPage = false, repoTable = false, pageTitle = "";
+    const dataRows = pageData.split("\n").filter(n => n.trim().length > 2);
     for (let i = 0; i < dataRows.length; i += 1) {
         const cells = dataRows[i].split("|").map(cell => cell.trim());
-        const rowDir  = cells[0],
-        rowTitle      = cells[1],
-        rowCategory   = cells[2],
-        rowDate       = cells[3],
-        rowFlags      = cells[4].split(" ");
+        const rowFile     = cells[0],
+            rowTitle      = cells[1],
+            rowCategory   = cells[2],
+            rowDate       = cells[3],
+            rowFlags      = cells[4].split(" ");
         
         isPinned = rowFlags.includes("pinned");
-        isCurrentPage = (rowDir == thisDir);
+        isCurrentPage = (rowFile == thisFile);
         
         if (isCurrentPage) {
             includeToc = rowFlags.includes("toc");
@@ -303,21 +224,21 @@ function pageLoad() {
             }
             if (rowFlags.includes("wide")) { pageWrapper.classList.add("wide"); }
             if (rowFlags.includes("narrow")) { pageWrapper.classList.add("narrow"); }
-            }
+        }
         else if (rowFlags.includes("repo-table")) {
-            otherLists.push(`<a href="${rowDir}.html">${rowTitle}</a>`);
+            otherRepoTables.push(`<a href="${rowFile}.html">${rowTitle}</a>`);
         }
         if (rowFlags.includes("unlisted")) { continue; }
 
         /* ---- for recent in sidenav ---- */
         if (pageList.recent.length < 9) {
-            pageList.recent.push(`<div class="${isCurrentPage? "nav-row selected" : "nav-row"}"><a href="${rowDir}.html">${rowTitle}</a></div>`);
+            pageList.recent.push(`<div class="${isCurrentPage? "nav-row selected" : "nav-row"}"><a href="${rowFile}.html">${rowTitle}</a></div>`);
         }
 
         /* ---- for home index ---- */
         let fullEntry = isPinned
-            ? `<a class="pinned" href="${rowDir}.html">${rowTitle}</a>`
-            : `<a href="${rowDir}.html">${rowTitle}</a>`;
+            ? `<a class="pinned" href="${rowFile}.html">${rowTitle}</a>`
+            : `<a href="${rowFile}.html">${rowTitle}</a>`;
         
         if (rowDate || rowCategory) {
             fullEntry += " &ndash;";
@@ -325,7 +246,7 @@ function pageLoad() {
                 fullEntry += ` <span>${rowCategory}</span>`;
             }
             if (rowDate != "") {
-                fullEntry += ` <span>(${rowDate})</span>`;
+                fullEntry += ` <span class="digit">(${rowDate})</span>`;
             }
         }
         fullEntry = "<li>" + fullEntry + "</li>";
@@ -339,7 +260,7 @@ function pageLoad() {
         document.getElementById("index-aKxOoclwfz").innerHTML = pageList.full.join("");
     }
     else {
-        document.getElementById("page-name-display").innerHTML = `<a href="index.html">Index</a> <span style="font-family: 'Arial',sans-serif; font-weight: 700; margin-inline: 2px;">&rarr;</span> <a href="">${pageTitle!=""?pageTitle:thisDir}</a>`;
+        document.getElementById("page-name-display").innerHTML = `<a href="index.html">Index</a> <span style="font-family: 'Arial',sans-serif; font-weight: 700; margin-inline: 2px;">&rarr;</span> <a href="">${pageTitle != "" ? pageTitle : thisFile}</a>`;
         const right = document.getElementById("right");
 
         if (repoTable) {
@@ -347,7 +268,7 @@ function pageLoad() {
             const mcont = document.querySelector(".main-container");
             const n2 = mcont.parentNode.insertBefore(document.createElement("div"), mcont);
             n2.classList.add("other-lists");
-            n2.innerHTML = `<div>Other lists:</div><div class="container">${otherLists.join("")}</div>`;
+            n2.innerHTML = `<div>Other lists:</div><div class="container">${otherRepoTables.join("")}</div>`;
             }
         else if (!includeToc) {
             right.style.maxHeight = "1500px";
@@ -492,7 +413,6 @@ function pageLoad() {
     updateFonts();
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     
-    console.log(articleLinks)
     articleLinks = articleLinks.filter(i => i[0].startsWith("http"));
     if (articleLinks.length > 0) {
         document.querySelector(".citations").innerHTML = `
@@ -514,8 +434,6 @@ function pageLoad() {
     else if (document.title.slice(0 - "Perennial Iris".length) != "Perennial Iris") document.title += " - Perennial Iris";
     
 }
-
-window.addEventListener("load", pageLoad);
 
 function updateFonts() {
     const css = document.querySelector(".theme-style");
@@ -547,7 +465,136 @@ function updateFonts() {
 }
 
 
+/* If you want the input data in this .js to be nice and neat, this does that and throws it in console log. */
+function alignTable(dataString, splitChar) {
+    const table_ = dataString.split("\n").filter(c => c.split(splitChar).length == 5).map(row => row.split(splitChar).map(cell => cell.trim()));
+    const rowWidth = Math.max(...table_.map(row => row.length));
+    for (let col = 0; col < rowWidth; ++col) {
+        let cellWidth = 0;
+        for (let i = 0; i < table_.length; i += 1) {
+            while (table_[i].length < rowWidth) {
+                table_[i].push("");
+            }
+            if (table_[i][col].length > cellWidth) {
+                cellWidth = table_[i][col].length;
+            }
+        }
+        for (let i = 0; i < table_.length; i += 1) {
+            if (table_[i].length < rowWidth) {
+                continue;
+            }
+            table_[i][col] += " ".repeat(cellWidth - table_[i][col].length);
+        }
+    }
+    table_.sort((a, b) => {
+        /* This sorts the entries by date, pushing entries without date to the bottom: */
+        a = a[3].replace(/\D/g, ""); if (a == "") { a = 0; }
+        b = b[3].replace(/\D/g, ""); if (b == "") { b = 0; }
+        return parseInt(b) - parseInt(a);
+    }).sort((a, b) => {
+        /* Then this pushes any entry with pinned to the top: */
+        if (a[4].indexOf("pinned") != -1) { return -1; }
+        if (b[4].indexOf("pinned") != -1) { return 1; }
+        return 0;
+    });
+    pageData = table_.map(c => c.join(` ${splitChar} `)).join("\n");
+    console.log(pageData);
+}
 
+function setMenu(action) {
+    switch (action) {
+        case "show":
+            document.getElementById("menu").classList.remove("hidden");
+            localStorage.setItem("menuState", "visible");
+            break;
+        case "hide":
+            document.getElementById("menu").classList.add("hidden");
+            localStorage.setItem("menuState", "hidden");
+            break;
+        default:
+            const mode = localStorage.getItem("menuState");
+            if (mode == null || mode == "hidden") {
+                setMenu("show");
+            } else {
+                setMenu("hide");
+            }
+            break;
+    }
+}
+
+function setBrightness(setValue) {
+    switch (setValue) {
+        case "light":
+            pageWrapper.classList.remove("dark");
+            document.getElementById("lightswitch").checked = false;
+            localStorage.setItem("brightness", "light");
+            break;
+        case "dark":
+            pageWrapper.classList.add("dark");
+            document.getElementById("lightswitch").checked = true;
+            localStorage.setItem("brightness", "dark");
+            break;
+        default:
+            const mode = localStorage.getitem("brightness");
+            if (mode == null || mode == "light") {
+                setBrightness("dark");
+            } else {
+                setBrightness("light");
+            }
+            break;
+    }
+}
+
+function setTextFormat(setValue) {
+    setValue = Number(setValue);
+    
+    /* Put 'selected' class on the button of the option that's selected: */
+    const btns = document.getElementById("menu").getElementsByClassName("format-button");
+    btns[setValue - 1].classList.add("selected");
+    
+    for (let i = 0; i < btns.length; i += 1) {
+        if (i != setValue-1) { btns[i].classList.remove("selected"); }
+    }
+    /* This just add or remove the classes as required: */
+    if (setValue == 1) {
+        pageWrapper.classList.remove("text-justify", "text-indent")
+    }
+    else if (setValue == 2) {
+        pageWrapper.classList.add("text-justify");
+        pageWrapper.classList.remove("text-indent");
+    }
+    else if (setValue == 3) {
+        pageWrapper.classList.add("text-justify", "text-indent");
+    }
+    else if (setValue == 4) {
+        pageWrapper.classList.remove("text-justify");
+        pageWrapper.classList.add("text-indent");
+    }
+    
+    localStorage.setItem("text-style", setValue);
+}
+
+function toggleToc() {
+    if (pageWrapper.classList.contains("toc-hidden")) {
+        pageWrapper.classList.remove("toc-hidden");
+    } else {
+        pageWrapper.classList.add("toc-hidden");
+    }
+}
+
+function setLightbox(action) {
+    let lightbox = document.getElementById("lightbox");
+    if (lightbox) {
+        if (action == "close") {
+            lightbox.src = lightbox.alt = "";
+            lightbox.parentNode.style.display = "none";
+        } else if (typeof action == "object") {
+            lightbox.src = action.src;
+            lightbox.alt = action.alt;
+            lightbox.parentNode.style.display = "flex";
+        }
+    }
+}
 
 
 
