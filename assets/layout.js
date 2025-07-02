@@ -110,10 +110,10 @@ function pageLoad() {
             <header class="main-header"><a href="index.html"}"></a></header>
             <nav class="main-nav">
                 <div class="nav-inner space-between">
-                    <div class="align-center">
+                    <div class="nav-section">
                         <div id="page-name-display"></div>
                     </div>
-                    <div class="align-center">
+                    <div class="nav-section">
                         <input class="to-top nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="Jump to Top" title="Click to scroll to the top of the page" type="button">
                         <input class="show-toc-button nav-button" value="Show ToC" onclick="toggleToc()" type="button">
                         <div id="menu" class="hidden">
@@ -197,7 +197,7 @@ function pageLoad() {
     
     interpreter(document.querySelector(".main-content"));
     
-    /* alignTable(pageData, "|"); */
+    alignTable(pageData, "|");
 
     /* Take the data for page lists from above: */
     const pageList = { recent: [], pins: [], full: [] };
@@ -237,7 +237,7 @@ function pageLoad() {
 
         /* ---- for home index ---- */
         
-        let entry = `<tr><td><a href="${rowFile}.html" class="${isPinned ? "pinned" : ""}">${wrapDigits(rowTitle)}</a></td><td class="date">${rowDate != "" ? "<span class='digit'>(" + rowDate + ")</span>" : ""}</td><td>${rowCategory}</td></tr>`;
+        let entry = `<tr><td><a href="${rowFile}.html" class="${isPinned ? "pinned" : ""}">${wrapDigits(rowTitle)}</a></td><td class="date">${rowDate != "" ? "<span class='digit' style='color: #808080;'>" + rowDate + "</span>" : ""}</td><td>${rowCategory}</td></tr>`;
         
         if (isPinned) {
             pageList.full.unshift(entry);
