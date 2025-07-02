@@ -236,23 +236,15 @@ function pageLoad() {
         }
 
         /* ---- for home index ---- */
-        let fullEntry = isPinned
-            ? `<a class="pinned" href="${rowFile}.html">${rowTitle}</a>`
-            : `<a href="${rowFile}.html">${rowTitle}</a>`;
         
-        if (rowDate || rowCategory) {
-            fullEntry += " &ndash;";
-            if (rowCategory != "") {
-                fullEntry += ` <span>${rowCategory}</span>`;
-            }
-            if (rowDate != "") {
-                fullEntry += ` <span class="digit">(${rowDate})</span>`;
-            }
+        let entry = `<tr><td><a href="${rowFile}.html" class="${isPinned ? "pinned" : ""}">${wrapDigits(rowTitle)}</a></td><td class="date">${rowDate != "" ? "<span class='digit'>(" + rowDate + ")</span>" : ""}</td><td>${rowCategory}</td></tr>`;
+        
+        if (isPinned) {
+            pageList.full.unshift(entry);
         }
-        fullEntry = "<li>" + fullEntry + "</li>";
-        
-        if (isPinned) { pageList.full.unshift(fullEntry); }
-        else { pageList.full.push(fullEntry); }
+        else {
+            pageList.full.push(entry);
+        }
     }
     
     if (index) {
@@ -269,7 +261,7 @@ function pageLoad() {
             const n2 = mcont.parentNode.insertBefore(document.createElement("div"), mcont);
             n2.classList.add("other-lists");
             n2.innerHTML = `<div>Other lists:</div><div class="container">${otherRepoTables.join("")}</div>`;
-            }
+        }
         else if (!includeToc) {
             right.style.maxHeight = "1500px";
             right.innerHTML = `
@@ -449,7 +441,7 @@ function updateFonts() {
     }`;
 
     if (headingFont != "Georgia") { css.innerHTML += " .article-heading .digit { font-family: inherit; }"; }
-    if (bodyFont != "Georgia") { css.innerHTML += " p .digit, li .digit, blockquote .digit, h4 .digit, .main-content ol > li::marker { font-family: inherit; }"; }
+    if (bodyFont != "Georgia") { css.innerHTML += " .main-content .digit, .main-content ol > li::marker { font-family: inherit; }"; }
 
     switch (bodyFont) {
         case "Faculty Glyphic":
