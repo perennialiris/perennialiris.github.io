@@ -15,7 +15,7 @@
                     The unique body text of the page goes here.
                 </div>
                 <script src="assets/interpreter.js"></script>
-                <script src="assets/pi-layout.js"></script>
+                <script src="assets/layout.js"></script>
             </body>
         </html>
     
@@ -30,6 +30,8 @@ let pageData =
     repo-table : hides sidebar, applies different styling, like news lists
     toc        : include table of contents
     pinned     : put at top of homepage page list
+    
+    The page still works if you don't include it in this list, but it will be 'unlisted' and have no options or page title
 */
 `
 43    | Word-maker                                             | other                 |            | unlisted         
@@ -74,6 +76,7 @@ let pageData =
 4     | Anime reviews                                          | culture               | 2024-11-02 |                  
 3     | Poor things (2023 film)                                | culture               | 2024-10-31 |                  
 2     | The trans prison stats argument                        | transgender, politics | 2024-10-19 |                  
+1     | Calendar                                               |                       |            | unlisted         
 index |                                                        |                       |            | unlisted narrow  
 `;
 
@@ -132,8 +135,11 @@ function pageLoad() {
                                     <select id="heading-font-select">
                                         <option value="Inter">Inter</option>
                                         <option value="Merriweather">Merriweather</option>
+                                        <option value="Georgia">Georgia</option>
+                                        <option value="Roboto">Roboto</option>
                                         <option value="Roboto Slab">Roboto Slab</option>
                                         <option value="Faculty Glyphic">Faculty Glyphic</option>
+                                        <option value="Segoe UI">Segoe UI</option>
                                     </select>
                                 </div>
                             </div>
@@ -197,6 +203,7 @@ function pageLoad() {
     
     interpreter(document.querySelector(".main-content"));
     
+    /* If you want this to auto-organize and make the list above look nice, have the function console.log the output: */
     alignTable(pageData, "|");
 
     /* Take the data for page lists from above: */
@@ -210,34 +217,34 @@ function pageLoad() {
             rowTitle      = cells[1],
             rowCategory   = cells[2],
             rowDate       = cells[3],
-            rowFlags      = cells[4].split(" ");
+            rowOptions    = cells[4].split(" ");
         
-        isPinned = rowFlags.includes("pinned");
+        isPinned = rowOptions.includes("pinned");
         isCurrentPage = (rowFile == thisFile);
         
         if (isCurrentPage) {
-            includeToc = rowFlags.includes("toc");
+            includeToc = rowOptions.includes("toc");
             pageTitle = rowTitle;
-            repoTable = rowFlags.includes("repo-table");
+            repoTable = rowOptions.includes("repo-table");
             if (repoTable) {
                 pageWrapper.classList.add("repo-table");
             }
-            if (rowFlags.includes("wide")) { pageWrapper.classList.add("wide"); }
-            if (rowFlags.includes("narrow")) { pageWrapper.classList.add("narrow"); }
+            if (rowOptions.includes("wide")) { pageWrapper.classList.add("wide"); }
+            if (rowOptions.includes("narrow")) { pageWrapper.classList.add("narrow"); }
         }
-        else if (rowFlags.includes("repo-table")) {
+        else if (rowOptions.includes("repo-table")) {
             otherRepoTables.push(`<a href="${rowFile}.html">${rowTitle}</a>`);
         }
-        if (rowFlags.includes("unlisted")) { continue; }
+        if (rowOptions.includes("unlisted")) { continue; }
 
         /* ---- for recent in sidenav ---- */
         if (pageList.recent.length < 9) {
             pageList.recent.push(`<div class="${isCurrentPage? "nav-row selected" : "nav-row"}"><a href="${rowFile}.html">${rowTitle}</a></div>`);
         }
 
-        /* ---- for home index ---- */
+        /* ---- for homepage index ---- */
         
-        let entry = `<tr><td><a href="${rowFile}.html" class="${isPinned ? "pinned" : ""}">${wrapDigits(rowTitle)}</a></td><td class="date">${rowDate != "" ? "<span class='digit' style='color: #808080;'>" + rowDate + "</span>" : ""}</td><td>${rowCategory}</td></tr>`;
+        let entry = `<tr><td><a href="${rowFile}.html" class="${isPinned ? "pinned" : ""}">${wrapDigits(rowTitle)}</a></td><td class="date">${rowDate != "" ? "<span style='font-size: 95%; font-family: system-ui; color: #808080; white-space: nowrap;'>" + rowDate + "</span>" : ""}</td><td>${rowCategory}</td></tr>`;
         
         if (isPinned) {
             pageList.full.unshift(entry);
@@ -267,7 +274,7 @@ function pageLoad() {
             right.innerHTML = `
                 <nav class="recently-added">
                     <div class="space-between" style="align-items: center;">
-                        <div class="heading">Pages recently added:</div>
+                        <div class="heading">Recent pages:</div>
                         <input type="button" class="x-button icon" onclick="document.getElementById('right').remove()"></div>
                     </div>
                     <hr>
@@ -490,7 +497,7 @@ function alignTable(dataString, splitChar) {
         return 0;
     });
     pageData = table_.map(c => c.join(` ${splitChar} `)).join("\n");
-    console.log(pageData);
+    // console.log(pageData);
 }
 
 function setMenu(action) {

@@ -14,7 +14,9 @@ function interpreter(targetElement) {
         .trim()
         .split("\n\n");
 
-    let firstParagraph = true, firstHeading = true, tableNum = 1;
+    let firstParagraph = true;
+    let firstHeading = true;
+    let tableNum = 1;
 
     for (let i = 0; i < input.length; i += 1) {
 
@@ -23,7 +25,9 @@ function interpreter(targetElement) {
             continue; }
 
         const fine = input[i].charAt(0) == "^";
-        if (fine) { input[i] = input[i].substring(1); }
+        if (fine) {
+            input[i] = input[i].substring(1);
+        }
 
         const dropCap = input[i].charAt(0) == "$";
         if (dropCap) { input[i] = input[i].substring(1); }
@@ -139,7 +143,7 @@ function interpreter(targetElement) {
                 for (let k = 0; k < cells.length; k += 1) {
                     cells[k] = "<td class=\"col-"+(k+1)+"\">" + safeConvert(cells[k].trim()) + "</td>"; }
                 rows[j] = "<tr class=\"row-"+(j+1)+"\">" + cells.join("") + "</tr>"; }
-            input[i] = `<table id="${"table" + tableNum++}" class="auto-table">${rows.join("")}</table>`;
+            input[i] = `<table class="auto-table table-${tableNum++}">${rows.join("")}</table>`;
             continue; }
 
         /* ------------- "This was also posted here:" ------------- */
@@ -156,11 +160,23 @@ function interpreter(targetElement) {
         
         /* ---------------------- blockquote ---------------------- */
         if (input[i].startsWith("||indent")) {
-            input[i] = quoteParse(input[i]);
-            continue; }
-        if (input[i].startsWith("&gt;")) {
-            input[i] = quoteParse("\n"+input[i].substring(4));
-            continue; }
+            const lines = input[i].split("\n").slice(1);
+            
+            for (let j = 0; j < lines.length; j += 1) {
+                if (lines[j].startsWith("---")) {
+                    lines[j] = `<p class="attribution">${lines[j]}</p>`;
+                }
+                else if (lines[j].startsWith("^")) {
+                    lines[j] = `<p class="fine">${lines[j].substring(1)}</p>`;
+                }
+                else {
+                    lines[j] = `<p>${lines[j]}</p>`;
+                }
+            }
+            
+            input[i] = `<blockquote>${ safeConvert(lines.join("")) }</blockquote>`;
+            continue;
+        }
 
         /* ------------------------ lists ------------------------- */
         if ( /^\* /.test(input[i]) || /^\d+\. /.test(input[i]) ) {
@@ -378,13 +394,16 @@ function titleFilter(inputString) {
 function quoteParse(inputString) {
     const lines = inputString.split("\n").slice(1);
     for (let j = 0; j < lines.length; ++j) {
-        if (lines[j].startsWith("---")) {
-            lines[j] = `<div class="attribution">${lines[j]}</div>`; }
+        if (lines[j].startsWith("--- ")) {
+            lines[j] = `<p class="attribution">${lines[j]}</p>`;
+        }
+        else if (lines[j].startsWith("^")) {
+            lines[j] = `<p class="fine">${lines[j]}</p>`;
+        }
         else {
-            if (lines[j].startsWith("^")) {
-                lines[j] = `<div class="fine">${lines[j].substring(1)}</div>`; }
-            else {
-                lines[j] += "<br>"; } } }
+            lines[j] = `<p class="fine">${lines[j].substring(1)}</p>`;
+        }
+    }
     return "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
 }
 
