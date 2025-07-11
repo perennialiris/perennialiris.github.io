@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="assets/main.css">
+<style>
+    input {
+        padding: 3px 6px;
+    }
+    #result {
+        min-height: 12px;
+        font-family: monospace;
+        background-color: #eee;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 5px;
+        padding: 5px;
+        max-height: 340px;
+        align-content: center;
+    }
+    #result div {
+        background-color: white;
+        padding: 2px 5px;
+    }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+# Word-maker (5 letters)
+
+This just explodes the letters you input to show you every possible letter combination that has them all.
+
+^Put "5=h" in the filter to only show results where the 5th letter is h.
+Put "2!m" to exclude results with m as the 2nd letter.
+
+#### Input:
+
+Letters: <input id="letters" type="text" maxlength="5"> <input type="button" onclick="wProcess()" value="go"> • Filter: <input id="filter" type="text" placeholder="5=o 3!k 1!j">
+
+<div id="result"></div>
+
+</div>
+<script src="assets/interpreter.js"></script>
+<script src="assets/layout.js"></script>
+<script>
+
+function wProcess() {
+    /* grab first 5 letters from input: */
+    const letters = document.getElementById("letters").value.toLowerCase().replace(/[^a-z]/g,"").slice(0, 5);
+
+    /* interpret filter instructions: */
+    const forbidden = [[], [], [], [], []], required = ["", "", "", "", ""];
+    document.getElementById("filter").value.toLowerCase().split(" ").forEach(x => {
+        if (x.length != 3 || (x[1] != "=" && x[1] != "!")) { return; }
+
+        let num, letter;
+        if ( /[1-5]/.test(x[0]) && /[a-z]/.test(x[2]) ) {
+            num = x[0] - 1;
+            letter = x[2]; }
+        else if ( /[1-5]/.test(x[2]) && /[a-z]/.test(x[0]) ) {
+            num = x[2] - 1;
+            letter = x[0]; }
+        else { return; }
+
+        if (x[1] == "=") { required[num] = letter; }
+        else /* if (x[1] == "!") */ {
+            forbidden[num].push(letter); }
+    });
+    
+    function itDeeper(word, letter) {
+        let output = [];
+        for (let i = 0; i < 5; ++i) {
+            if (word[i] == "." && !forbidden[i].includes(letter)) {
+                output.push(word.slice(0, i) + letter + word.slice(i + 1));
+            }
+        }
+        return output;
+    }
+    
+    /* make possible letter combinations: */
+    let results = ["....."];
+    for (let i = 0; i < letters.length; ++i) {
+        results = results.map(x => itDeeper(x, letters[i])).flat(1);
+    }
+    
+    /* remove output that doesn't satisfy requirements: */
+    for (let i = 0; i < 5; ++i) {
+        if (required[i] != "") { results = results.filter(w => required[i] == w[i]); }
+    }
+    
+    document.getElementById("result").innerHTML = results.filter((x, i) => results.indexOf(x) === i).map(w => `<div>${w}</div>`).join(" ");
+}
+
+window.addEventListener("load", () => {
+    document.getElementById("letters").addEventListener("keydown", function(event) { if (event.key === "Enter") { wProcess(); } });
+    document.getElementById("filter").addEventListener("keydown", function(event) { if (event.key === "Enter") { wProcess(); } });
+});
+
+
+</script>
+</body></html>
+
+
+
+
+
+
+
