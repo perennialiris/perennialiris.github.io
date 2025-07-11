@@ -58,6 +58,13 @@
     strong, b { font-weight: 600; color: #222; }
     .dark strong, .dark b { color: #ccc; }
 
+    /*
+        Wikipedia link colors:
+            a { color: #36c; }
+            a:hover { color: #3056a9; }
+            a:visited { color: #6a60b0; }
+    */
+
     a { color: var(--link-accent); text-decoration: none; text-underline-offset: 2px; }
     a:hover { text-decoration: underline; color: color-mix(in srgb, var(--link-accent) 90%, white); }
     .dark a { color: var(--link-accent-dark); }
