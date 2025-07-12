@@ -2,14 +2,12 @@
 <html lang="en">
 <head><link rel="stylesheet" href="assets/main.css"><style>
     .article-footer { display: none !important; }
-    
-    #index-aKxOoclwfz { border-collapse: collapse; }
-    #index-aKxOoclwfz tr:nth-child(even) { background-color: #f4f4f4; }
-    .dark #index-aKxOoclwfz tr:nth-child(even) { background-color: #2e2e2e; }
-    #index-aKxOoclwfz td { padding: 5px 7px; }
-    #index-aKxOoclwfz * { text-align: left !important; }
-    
-    #index-aKxOoclwfz a:visited { color: #855; }
+    #home-directory-index { border-collapse: collapse; }
+    #home-directory-index tr + tr { border-top: 1px dotted #888; }
+    #home-directory-index tr:nth-child(odd) { background-color: #f8f8f8; }
+    .dark #home-directory-index tr:nth-child(odd) { background-color: #2e2e2e; }
+    #home-directory-index td { padding: 5px 7px; }
+    #home-directory-index * { text-align: left !important; }
     
 </style></head>
 <body>
@@ -17,11 +15,11 @@
 
 ### What is this?
 
-I'm a Canadian writer named Iris. I think of this repo as like a more public-facing version of Google docs that makes it easier for me to share things I'm hosting with people.
+I'm Iris. I live in Canada. I think of this as like a more public-facing version of Google docs that makes it easier for me to share things I'm hosting with people.
 
 \
 <h3 style="margin: 20px 0 -4px;" class="article-heading">Page listing</h3>
-<table id="index-aKxOoclwfz"></table>
+<table id="home-directory-index"></table>
 
 </div>
 <script src="assets/site.js"></script>
@@ -30,11 +28,10 @@ I'm a Canadian writer named Iris. I think of this repo as like a more public-fac
 window.addEventListener("load", function() {
     document.getElementById("right").innerHTML =
        `<div class="plugs">
-            <p>Places you can find me:</p>
-            <a class="plug" href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA" target="_blank">YouTube</a>
-            <a class="plug" href="https://bsky.app/profile/perennialiris.bsky.social" target="_blank">Bluesky</a>
-            <a class="plug" href="https://perennialiris.tumblr.com" target="_blank">Tumblr</a>
-            <a class="plug" href="https://perennialiris.substack.com" target="_blank">Substack</a>
+            <a class="plug" target="_blank" href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA">YouTube</a>
+            <a class="plug" target="_blank" href="https://bsky.app/profile/perennialiris.bsky.social">Bluesky</a>
+            <a class="plug" target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a>
+            <a class="plug" target="_blank" href="https://perennialiris.substack.com">Substack</a>
         </div>`;
 });
 

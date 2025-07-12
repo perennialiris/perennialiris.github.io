@@ -89,9 +89,10 @@ let formatButtonContainer = null;
 window.addEventListener("load", pageLoad);
 
 function pageLoad() {
-    /* Favicon (icon for browser tab) */ document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="favicon.ico">`;
-    /* Get name of this .html file: */ const thisFile = document.baseURI.split("/").slice(-1)[0].replace(/\.html$/, "");
-    /* Is this my front-page index.html? */ const index = document.getElementById("index-aKxOoclwfz");
+    const isFrontIndex = document.getElementById("home-directory-index");
+    const filePath_ = isFrontIndex ? "" : "../../";
+    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="${filePath_}favicon.ico">`;
+    const thisDir = document.baseURI.split("/").slice(-2)[0];
 
     /* I wish JavaScript had 'final' variables (like in Java), but whatever. */
     pageWrapper = document.querySelector(".page-wrapper");
@@ -109,10 +110,11 @@ function pageLoad() {
        the .html contents. This class is what removes that styling: */
     pageWrapper.classList.add("javascript-loaded");
     
+    /* This is just for the pageWrapper generation: */
     /* Wrap the current pageWrapper contents in this structure: */
     pageWrapper.innerHTML =
        `<div class="page">
-            <header class="main-header"><a href="index.html"}"></a></header>
+            <header class="main-header"><a href="${filePath_}index.html"}"></a></header>
             <nav class="main-nav">
                 <div class="nav-inner space-between">
                     <div class="nav-section">
@@ -171,10 +173,10 @@ function pageLoad() {
                             <div class="menu-row">
                                 <div><span class="no-select">Paragraph format:</span></div>
                                 <div class="format-button-container space-between">
-                                    <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="format-button icon" style="background-image: url('assets/icon-paragraph-style-left-no-indent.png')">
-                                    <input type="button" title="Justified, no indenting" onclick="setTextFormat(2)" class="format-button icon" style="background-image: url('assets/icon-paragraph-style-justify-no-indent.png')">
-                                    <input type="button" title="Left-align, indent sibling paragraphs" onclick="setTextFormat(3)" class="format-button icon" style="background-image: url('assets/icon-paragraph-style-left-indent.png')">
-                                    <input type="button" title="Justified, indent sibling paragraphs" onclick="setTextFormat(4)" class="format-button icon" style="background-image: url('assets/icon-paragraph-style-justify-indent.png')">
+                                    <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="format-button icon" style="background-image: url('${filePath_}assets/icon-paragraph-style-left-no-indent.png')">
+                                    <input type="button" title="Justified, no indenting" onclick="setTextFormat(2)" class="format-button icon" style="background-image: url('${filePath_}assets/icon-paragraph-style-justify-no-indent.png')">
+                                    <input type="button" title="Left-align, indent sibling paragraphs" onclick="setTextFormat(3)" class="format-button icon" style="background-image: url('${filePath_}assets/icon-paragraph-style-left-indent.png')">
+                                    <input type="button" title="Justified, indent sibling paragraphs" onclick="setTextFormat(4)" class="format-button icon" style="background-image: url('${filePath_}assets/icon-paragraph-style-justify-indent.png')">
                                 </div>
                             </div>
                             <div>
@@ -192,7 +194,7 @@ function pageLoad() {
                     <footer class="article-footer">
                         <div class="space-between">
                             <div class="see-also"></div>
-                            <div style="white-space: nowrap;"><a href="../">Link to full page index</a></div>
+                            <div style="white-space: nowrap;"><a href="../../index.html">Link to full page index</a></div>
                         </div>
                         <div class="citations"></div>
                     </footer>
@@ -215,14 +217,14 @@ function pageLoad() {
     const dataRows = pageData.split("\n").filter(n => n.trim().length > 2);
     for (let i = 0; i < dataRows.length; i += 1) {
         const cells = dataRows[i].split("|").map(cell => cell.trim());
-        const rowFile     = cells[0],
+        const rowDir      = cells[0],
             rowTitle      = cells[1],
             rowCategory   = cells[2],
             rowDate       = cells[3],
             rowOptions    = cells[4].split(" ");
         
         isPinned = rowOptions.includes("pinned");
-        isCurrentPage = (rowFile == thisFile);
+        isCurrentPage = (rowDir == thisDir);
         
         if (isCurrentPage) {
             includeToc = rowOptions.includes("toc");
@@ -235,18 +237,17 @@ function pageLoad() {
             if (rowOptions.includes("narrow")) { pageWrapper.classList.add("narrow"); }
         }
         else if (rowOptions.includes("repo-table")) {
-            otherRepoTables.push(`<a href="${rowFile}.html">${rowTitle}</a>`);
+            otherRepoTables.push(`<a href="p/${rowDir}/index.html">${rowTitle}</a>`);
         }
         if (rowOptions.includes("unlisted")) { continue; }
 
         /* ---- for recent in sidenav ---- */
         if (pageList.recent.length < 9) {
-            pageList.recent.push(`<div class="${isCurrentPage? "nav-row selected" : "nav-row"}"><a href="${rowFile}.html">${rowTitle}</a></div>`);
+            pageList.recent.push(`<div class="${isCurrentPage? "nav-row selected" : "nav-row"}"><a href="../../p/${rowDir}/index.html">${rowTitle}</a></div>`);
         }
 
         /* ---- for homepage index ---- */
-        
-        let entry = `<tr><td><a href="${rowFile}.html" class="${isPinned ? "pinned" : ""}">${wrapDigits(rowTitle)}</a></td><td class="date">${rowDate != "" ? "<span style='font-size: 95%; font-family: system-ui; color: #808080; white-space: nowrap;'>" + rowDate + "</span>" : ""}</td><td>${rowCategory}</td></tr>`;
+        let entry = `<tr><td><a href="p/${rowDir}/index.html" class="${isPinned ? "pinned" : ""}">${wrapDigits(rowTitle)}</a></td><td class="date">${rowDate != "" ? "<span style='font-size: 95%; font-family: system-ui; color: #808080; white-space: nowrap;'>" + rowDate + "</span>" : ""}</td><td>${rowCategory}</td></tr>`;
         
         if (isPinned) {
             pageList.full.unshift(entry);
@@ -256,12 +257,12 @@ function pageLoad() {
         }
     }
     
-    if (index) {
+    if (isFrontIndex) {
         document.getElementById("page-name-display").innerHTML = `Iris’s documents`;
-        document.getElementById("index-aKxOoclwfz").innerHTML = pageList.full.join("");
+        document.getElementById("home-directory-index").innerHTML = pageList.full.join("");
     }
     else {
-        document.getElementById("page-name-display").innerHTML = `<a href="index.html">Index</a> <span style="font-family: 'Arial',sans-serif; font-weight: 700; margin-inline: 2px;">&rarr;</span> <a href="">${pageTitle != "" ? pageTitle : thisFile}</a>`;
+        document.getElementById("page-name-display").innerHTML = `<a href="../../index.html">Index</a> <span style="font-family: 'Arial',sans-serif; font-weight: 700; margin-inline: 2px;">&rarr;</span> <a href="">${pageTitle != "" ? pageTitle : thisDir}</a>`;
         const right = document.getElementById("right");
 
         if (repoTable) {
