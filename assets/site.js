@@ -1,319 +1,158 @@
 
 "use strict"
 
-let articleLinks = [];
-
 /*
-    This .js creates the website dynamically when this file is loaded by the .html file.
-    For everything to work properly, create html files in this format:
-    
-        <!DOCTYPE html>
-        <html lang="en">
-            <head>
-                <link rel="stylesheet" href="assets/main.css">
-            </head>
-            <body>
-                <div class="page-wrapper">
-                    The unique body text of the page goes here.
-                </div>
-                <script src="assets/interpreter.js"></script>
-                <script src="assets/layout.js"></script>
-            </body>
-        </html>
-    
-    The script looks for "page-wrapper" and takes it from there.
+    This file is the javascript that creates each page dynamically from the text in the original file.
 */
 
 let pageData =
 /*
-    .html name  |  Article title  |  topic  |  date  |  options
-    
+    .html name  |  Article title  |  date  |  options
+
     unlisted   : doesn't appear in homepage list or sidebar
     repo-table : hides sidebar, applies different styling, like news lists
     toc        : include table of contents
     pinned     : put at top of homepage page list
-    
+
     The page still works if you don't include it in this list, but it will be 'unlisted' and have no options or page title
 */
 `
-43    | Word-maker                                             | other                 |            | unlisted         
-42    | Journalism and paywalls                                | media, culture        | 2025-06-02 | narrow           
-41    | Normalization and status quo bias                      | politics, culture     | 2025-04-20 |                  
-40    | Trump and Russia                                       | politics              | 2025-03-05 |                  
-39    | Movies                                                 | other                 |            | narrow unlisted  
-38    | Canadian news                                          | other, politics       |            | repo-table       
-37    |                                                        |                       |            | unlisted         
-36    | India                                                  | history, politics     | 2025-03-05 |                  
-35    | International news                                     | news, politics        |            | repo-table       
-34    | The Nazi salute                                        | news, politics        | 2025-01-24 | narrow           
-33    | The standard relationship model                        | other                 |            |                  
-32    | Politics fundamentals                                  | politics              | 2025-01-05 | toc wide         
-31    | Reflections on Justin Trudeau                          | news, politics        | 2025-01-08 |                  
-30    | The appearance of intelligence                         | other                 | 2025-01-18 |                  
-29    | Date formats                                           | other                 | 2025-01-11 | narrow           
-28    | The problem with Pierre                                | politics              | 2025-03-15 |                  
-27    | Sex, gender, & transsexuals                            | transgender, politics | 2024-12-29 | toc              
-26    | American news                                          | news, politics        |            | pinned repo-table
-25    | A beauty holding a bird                                | other                 | 2024-12-23 | narrow           
-24    | Enduring falsehoods about Warren, Clinton              | politics              | 2024-12-19 |                  
-23    | Passing                                                | transgender, culture  | 2025-02-24 |                  
-22    | Dehumanization                                         | politics              | 2024-12-15 |                  
-21    | Relationships                                          | personal              | 2024-12-14 | unlisted         
-20    | Israel–Palestine notes                                 | politics              | 2025-02-24 | toc unlisted     
-19    | Ilhan Omar’s comments about Somalia                    | politics              | 2025-02-12 |                  
-18    | Transcripts: context for inflammatory Trump statements | politics              |            |                  
-17    | Why get bottom surgery?                                | transgender, culture  | 2025-02-09 |                  
-16    | Milo Yiannopoulos’s cancellation                       | politics              | 2025-02-03 |                  
-15    | Bluesky accounts listing                               | other                 |            | repo-table       
-14    | Reasons I’m glad to be Canadian                        | politics              | 2024-12-08 |                  
-13    | The military–industrial complex                        | politics              | 2024-12-04 |                  
-12    | The order of information                               | politics              | 2024-12-03 |                  
-11    | The Trump appeal                                       | politics              | 2024-12-03 |                  
-10    | Touchscreens and smartphones                           | culture               | 2024-12-02 |                  
-9     | The default politician                                 | politics              | 2024-11-26 |                  
-8     | 10 Dollar                                              | culture               | 2024-11-25 |                  
-7     | Fetishism & politics                                   | transgender, culture  | 2024-11-14 |                  
-6     | Mark Robinson                                          | news, politics        | 2024-11-13 |                  
-5     | Types of masculinity                                   | culture               | 2024-11-08 |                  
-4     | Anime reviews                                          | culture               | 2024-11-02 |                  
-3     | Poor things (2023 film)                                | culture               | 2024-10-31 |                  
-2     | The trans prison stats argument                        | transgender, politics | 2024-10-19 |                  
-1     | Calendar                                               |                       |            | unlisted         
-index |                                                        |                       |            | unlisted narrow  
+2 * US news list                          *            * table pinned
+4 * International news list               *            * table pinned
+3 * Canadian news list                    *            * table pinned
+22 * Normalization and status quo bias     * 2025-04-20 *
+21 * Donald Trump                          *            * toc
+20 * Israel–Palestine notes                * 2025-02-24 * toc
+19 * Pierre Poilievre                      * 2025-03-15 *
+18 * Politics fundamentals                 * 2025-01-05 * toc
+17 * Why get bottom surgery?               * 2025-02-09 *
+16 * Sex, gender, & transsexuals           * 2024-12-29 * toc
+15 * Ilhan Omar's comments about Somalia   * 2024-12-23 *
+14 * Enduring falsehoods (Warren, Clinton) * 2024-12-19 *
+13 * A beauty holding a bird               * 2024-12-17 *
+12 * Mark Robinson                         * 2024-12-15 *
+11 * The standard relationship model       * 2024-12-08 *
+10 * Fetishism & politics                  * 2024-11-14 *
+9  * Types of masculinity                  * 2024-11-08 *
+8  * My anime reviews                      * 2024-11-02 *
+7  * Poor things (2023 film)               * 2024-10-31 *
+6  * The trans prison stats argument       * 2024-10-19 *
+5  * Every movie I’ve ever seen            *            *
 `;
 
-/* These are some variables I want to pass between things: */
-let pageWrapper = null;
-let formatButtonContainer = null;
+pageData = pageData.split("\n")
+    .filter(n => n.trim().length > 3)
+    .map(cell => cell.split("*").map(c => c.trim()));
 
-window.addEventListener("load", pageLoad);
+window.addEventListener("load", function() {
+    const thisPageDirectory = document.baseURI.split("/").slice(-2)[0]; /* gets name of folder this .html is in */
+    const isIndex = document.getElementById("page-list");
+    const pathToRoot = (isIndex ? "" : "../");
+    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="${pathToRoot}favicon.ico">`;
 
-function pageLoad() {
-    const isFrontIndex = document.getElementById("home-directory-index");
-    const filePath_ = isFrontIndex ? "" : "../../";
-    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="${filePath_}favicon.ico">`;
-    const thisDir = document.baseURI.split("/").slice(-2)[0];
+    const articleLinks = [];
+    const pageList = [];
+    const otherTables = [];
 
-    /* I wish JavaScript had 'final' variables (like in Java), but whatever. */
-    pageWrapper = document.querySelector(".page-wrapper");
-    
-    /* Enable dark-mode if it was enabled previously in session: */
-    if (localStorage.getItem("brightness") == "dark") {
-        pageWrapper.classList.add("dark");
-    }
-        /* Otherwise, default to light: */
-    else {
-        localStorage.setItem("brightness", "light");
-    }
-    
-    /* If this JavaScript fails, the page CSS has no targets and it defaults to a monospace text display of
-       the .html contents. This class is what removes that styling: */
-    pageWrapper.classList.add("javascript-loaded");
-    
-    /* This is just for the pageWrapper generation: */
-    /* Wrap the current pageWrapper contents in this structure: */
-    pageWrapper.innerHTML =
-       `<div class="page">
-            <header class="main-header"><a href="${filePath_}index.html"}"></a></header>
-            <nav class="main-nav">
-                <div class="nav-inner space-between">
-                    <div class="nav-section">
-                        <div id="page-name-display"></div>
-                    </div>
-                    <div class="nav-section">
-                        <input class="to-top nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" value="Jump to Top" title="Click to scroll to the top of the page" type="button">
-                        <input class="show-toc-button nav-button" value="Show ToC" onclick="toggleToc()" type="button">
-                        <div id="menu" class="hidden">
-                            <div class="menu-row">
-                                <div><span class="no-select">Dark mode:</span></div>
-                                <div>
-                                    <label class="menu-switch">
-                                        <input type="checkbox" id="lightswitch">
-                                        <span class="menu-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="menu-row">
-                                <div><span class="no-select">Heading font:</span></div>
-                                <div>
-                                    <select id="heading-font-select">
-                                        <option value="Inter">Inter</option>
-                                        <option value="Merriweather">Merriweather</option>
-                                        <option value="Georgia">Georgia</option>
-                                        <option value="Roboto">Roboto</option>
-                                        <option value="Roboto Slab">Roboto Slab</option>
-                                        <option value="Faculty Glyphic">Faculty Glyphic</option>
-                                        <option value="Segoe UI">Segoe UI</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="menu-row">
-                                <div><span class="no-select">Body font:</span></div>
-                                <div>
-                                    <select id="body-font-select">
-                                        <option value="Georgia">Georgia</option>
-                                        <option value="Roboto">Roboto</option>
-                                        <option value="Trebuchet MS">Trebuchet MS</option>
-                                        <option value="Lato">Lato</option>
-                                        <option value="Faculty Glyphic">Faculty Glyphic</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="menu-row">
-                                <div><span class="no-select">Secondary font:</span></div>
-                                <div>
-                                    <select id="secondary-font-select">
-                                        <option value="Segoe UI">Segoe UI</option>
-                                        <option value="Roboto">Roboto</option>
-                                        <option value="Trebuchet MS">Trebuchet MS</option>
-                                        <option value="Lato">Lato</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="menu-row">
-                                <div><span class="no-select">Paragraph format:</span></div>
-                                <div class="format-button-container space-between">
-                                    <input type="button" title="Left-align, no indenting" onclick="setTextFormat(1)" class="format-button icon" style="background-image: url('${filePath_}assets/icon-paragraph-style-left-no-indent.png')">
-                                    <input type="button" title="Justified, no indenting" onclick="setTextFormat(2)" class="format-button icon" style="background-image: url('${filePath_}assets/icon-paragraph-style-justify-no-indent.png')">
-                                    <input type="button" title="Left-align, indent sibling paragraphs" onclick="setTextFormat(3)" class="format-button icon" style="background-image: url('${filePath_}assets/icon-paragraph-style-left-indent.png')">
-                                    <input type="button" title="Justified, indent sibling paragraphs" onclick="setTextFormat(4)" class="format-button icon" style="background-image: url('${filePath_}assets/icon-paragraph-style-justify-indent.png')">
-                                </div>
-                            </div>
-                            <div>
-                                <div style="color: #808080; font-size: 90%;">These settings are put in localStorage, not cookies, meaning they get cleared when you end your browser session.</div>
-                            </div>
-                        </div>
-                        <input class="gear nav-button" onclick="setMenu('toggle')" title="Options" type="button">
-                    </div>
-                </div>
-            </nav>
-            <div class="main-container">
-                <main id="left">
-                    <style class="theme-style"></style>
-                    <article class="main-content">${pageWrapper.innerHTML}</article>
-                    <footer class="article-footer">
-                        <div class="space-between">
-                            <div class="see-also"></div>
-                            <div style="white-space: nowrap;"><a href="../../index.html">Link to full page index</a></div>
-                        </div>
-                        <div class="citations"></div>
-                    </footer>
-                </main>
-                <aside id="right"></aside>
-            </div>
-            <footer class="page-bottom">This is page is hosted on <a title="https://github.com/perennialiris" href="https://github.com/perennialiris">my personal Github repo</a>, which is controlled by me alone. I have no association with any other person or organization. To contact me for any reason, email perennialforces@gmail.com.</footer>
-            <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
-        </div>`;
-    
-    interpreter(document.querySelector(".main-content"));
-    
-    /* If you want this to auto-organize and make the list above look nice, have the function console.log the output: */
-    alignTable(pageData, "|");
-
-    /* Take the data for page lists from above: */
-    const pageList = { recent: [], pins: [], full: [] };
-    const otherRepoTables = [];
-    let includeToc = false, isPinned = false, isCurrentPage = false, repoTable = false, pageTitle = "";
-    const dataRows = pageData.split("\n").filter(n => n.trim().length > 2);
-    for (let i = 0; i < dataRows.length; i += 1) {
-        const cells = dataRows[i].split("|").map(cell => cell.trim());
-        const rowDir      = cells[0],
-            rowTitle      = cells[1],
-            rowCategory   = cells[2],
-            rowDate       = cells[3],
-            rowOptions    = cells[4].split(" ");
-        
-        isPinned = rowOptions.includes("pinned");
-        isCurrentPage = (rowDir == thisDir);
-        
-        if (isCurrentPage) {
-            includeToc = rowOptions.includes("toc");
-            pageTitle = rowTitle;
-            repoTable = rowOptions.includes("repo-table");
-            if (repoTable) {
-                pageWrapper.classList.add("repo-table");
+    let includeToc = false;
+    let isTable = false;
+    pageData.forEach(cell => {
+        const pageDirectory = cell[0], pageTitle = cell[1], pageDate = cell[2], pageOptions = cell[3];
+        if (thisPageDirectory == pageDirectory) {
+            document.title = pageTitle;
+            includeToc = pageOptions.includes("toc");
+            isTable = pageOptions.includes("table");
+        }
+            else if (pageOptions.includes("table")) {
+                otherTables.push(`<a href="../${pageDirectory}/index.html">${pageTitle}</a>`);
             }
-            if (rowOptions.includes("wide")) { pageWrapper.classList.add("wide"); }
-            if (rowOptions.includes("narrow")) { pageWrapper.classList.add("narrow"); }
+        if (!pageOptions.includes("unlisted")) {
+            pageList.push(`
+                <tr>
+                    <td>
+                    <span ${pageOptions.includes("pinned") ? "style='display: inline-flex; align-items: center; gap: 5px;'" : ""}>
+                        <a href="${pageDirectory}/index.html">${pageTitle}</a>
+                        ${ pageOptions.includes("pinned") ? `<span class="pin-icon"></span>` : "" }
+                    </span>
+                    </td>
+                    <td>${ pageDate }</td>
+                </tr>`);
         }
-        else if (rowOptions.includes("repo-table")) {
-            otherRepoTables.push(`<a href="p/${rowDir}/index.html">${rowTitle}</a>`);
-        }
-        if (rowOptions.includes("unlisted")) { continue; }
-
-        /* ---- for recent in sidenav ---- */
-        if (pageList.recent.length < 9) {
-            pageList.recent.push(`<div class="${isCurrentPage? "nav-row selected" : "nav-row"}"><a href="../../p/${rowDir}/index.html">${rowTitle}</a></div>`);
-        }
-
-        /* ---- for homepage index ---- */
-        let entry = `<tr><td><a href="p/${rowDir}/index.html" class="${isPinned ? "pinned" : ""}">${wrapDigits(rowTitle)}</a></td><td class="date">${rowDate != "" ? "<span style='font-size: 95%; font-family: system-ui; color: #808080; white-space: nowrap;'>" + rowDate + "</span>" : ""}</td><td>${rowCategory}</td></tr>`;
-        
-        if (isPinned) {
-            pageList.full.unshift(entry);
-        }
-        else {
-            pageList.full.push(entry);
-        }
+    })
+    
+    if (isTable) {
+        document.body.classList.add("table");
+    }
+    else if (includeToc) {
+        document.body.classList.add("toc");
     }
     
-    if (isFrontIndex) {
-        document.getElementById("page-name-display").innerHTML = `Iris’s documents`;
-        document.getElementById("home-directory-index").innerHTML = pageList.full.join("");
+    let pageNameDisplay = "";
+    if (!isIndex) { pageNameDisplay = `<a href="../index.html">Index</a> : <a href="">${document.title || "Unlisted document"}</a>`; }
+    
+    document.body.innerHTML =
+       `<header id="header">
+        </header>
+        <nav id="nav">
+            <div class="nav-inner">
+                <span class="page-name-display">${ pageNameDisplay }</span>
+                <a class="to-top-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Jump to Top</a>
+            </div>
+        </nav>
+        <div class="c1">
+            <div class="c2">
+                <div id="article">${ document.getElementById("page").innerHTML }</div>
+                <footer id="article-footer">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div class="see-also"></div>
+                        <div style="white-space: nowrap;"><a href="${pathToRoot}index.html">Link to full page index</a></div>
+                    </div>
+                    <div class="citations"></div>
+                </footer>
+            </div>
+        </div>
+        <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
+        `;
+    interpreter(document.getElementById("article"), articleLinks);
+
+    if (isIndex) {
+        document.getElementById("page-list").innerHTML = pageList.join("");
     }
     else {
-        document.getElementById("page-name-display").innerHTML = `<a href="../../index.html">Index</a> <span style="font-family: 'Arial',sans-serif; font-weight: 700; margin-inline: 2px;">&rarr;</span> <a href="">${pageTitle != "" ? pageTitle : thisDir}</a>`;
-        const right = document.getElementById("right");
-
-        if (repoTable) {
-            right.classList.add("hidden");
-            const mcont = document.querySelector(".main-container");
-            const n2 = mcont.parentNode.insertBefore(document.createElement("div"), mcont);
-            n2.classList.add("other-lists");
-            n2.innerHTML = `<div>Other lists:</div><div class="container">${otherRepoTables.join("")}</div>`;
-        }
-        else if (!includeToc) {
-            right.style.maxHeight = "1500px";
-            right.innerHTML = `
-                <nav class="recently-added">
-                    <div class="space-between" style="align-items: center;">
-                        <div class="heading">Recent pages:</div>
-                        <input type="button" class="x-button icon" onclick="document.getElementById('right').remove()"></div>
-                    </div>
-                    <hr>
-                    ${pageList.recent.join("")}
-                </nav>`;
+        const mainContainer = document.querySelector(".c1");
+        
+        if (isTable) {
+            const otherLists = mainContainer.parentNode.insertBefore(document.createElement("div"), mainContainer);
+            otherLists.classList.add("other-lists");
+            otherLists.innerHTML = `<div>Other lists:</div><div class="container">${otherTables.join("")}</div>`;
         }
         else if (includeToc) {
             console.log("creating table of contents...");
-
-            const toc = right.appendChild(document.createElement("nav"));
-            toc.classList.add("table-of-contents");
-
-            const headings = Array.from(document.getElementsByClassName("article-heading")).slice(1);
-            toc.innerHTML = `
-            <div class="toc-title-box space-between">
-                <div class="heading">Table of contents</div>
-                <input type="button" value="hide" class="hide-toc-button" onclick="toggleToc()">
-            </div>
-            <a class="toc-row h1" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="cursor: pointer;">(Top of page)</a>
-            <div class="scroller">
-                ${headings.map(h => `<a class="toc-row ${h.tagName.toLowerCase()}" href="#${h.id}">${h.innerHTML.replace(/\/?i>/g, "")}</a>`).join("")}
-            </div>`;
+            
+            const toc = mainContainer.insertBefore(document.createElement("nav"), mainContainer.firstElementChild);
+            toc.id = "toc";
+            
+            const headings = Array.from(document.getElementsByClassName("heading"));
+            toc.innerHTML = headings.map(heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${heading.id}">${heading.innerHTML.replace(/\/?i>/g, "")}</a>`).join("");
 
             const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
             let currentHeading = "";
             let canTocHighlighter = true;
             function tocHighlighter() {
-                if (!canTocHighlighter) { return; }
+                if (!canTocHighlighter) {
+                    return;
+                }
                 canTocHighlighter = false;
                 setTimeout(() => { canTocHighlighter = true; }, 300);
                 let headingId;
                 for (let i = 0; i < headings.length; i += 1) {
                     if (pageYOffset > headings[i].offsetTop - window.innerHeight * 0.5) {
-                        headingId = headings[i].id; }
+                        headingId = headings[i].id;
+                    }
                     else {
-                        break; } }
+                        break;
+                    }
+                }
                 if (headingId != currentHeading) {
                 for (let i = 0; i < rowsInToc.length; i += 1) {
                     rowsInToc[i].classList.remove("active-heading");
@@ -322,36 +161,34 @@ function pageLoad() {
                 currentHeading = headingId;
             }
             function tocWidthCheck() {
-                if (window.innerWidth < 800) { pageWrapper.classList.add("toc-vertical"); }
-                else { pageWrapper.classList.remove("toc-vertical"); }
+                console.log(window.innerWidth)
+                toc.style.display = (parseInt(window.innerWidth) > 620) ? "block" : "none";
             }
             window.addEventListener("resize", tocWidthCheck);
             window.addEventListener("scroll", tocHighlighter);
             setTimeout(() => { tocWidthCheck(); tocHighlighter(); }, 100);
-
-            const scroller = toc.getElementsByClassName("scroller")[0];
             function scrollerHandler() {
-                if (scroller.scrollHeight == scroller.offsetHeight || scroller.scrollHeight - scroller.scrollTop <= scroller.clientHeight + 20) {
-                    scroller.classList.add("hide-mask"); }
+                if (toc.scrollHeight == toc.offsetHeight || toc.scrollHeight - toc.scrollTop <= toc.clientHeight + 20) {
+                    toc.classList.add("hide-mask");
+                }
                 else {
-                    scroller.classList.remove("hide-mask"); } }
-            ["scroll", "resize"].forEach(e => { scroller.addEventListener(e, scrollerHandler); });
+                    toc.classList.remove("hide-mask"); } }
+            ["scroll", "resize"].forEach(e => { toc.addEventListener(e, scrollerHandler); });
             scrollerHandler();
         }
     }
 
-    let gear = document.querySelector(".gear");
-    document.addEventListener("click", function(e) {
-        if (!document.getElementById("menu").contains(e.target) && !gear.contains(e.target)) {
-            setMenu("hide");
+    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
+    window.addEventListener("keydown", function(e) {
+        if (e.key === 'Escape') {
+            setLightbox("close");
         }
     });
-
-    let canNavStickyCheck = true, mainNav = document.querySelector(".main-nav");
+    let canNavStickyCheck = true, mainNav = document.getElementById("nav");
     function navStickyCheck() {
         if (!canNavStickyCheck || !mainNav) { return; }
         canNavStickyCheck = false;
-        setTimeout(() => { canNavStickyCheck = true; navStickyCheck() }, 300);
+        setTimeout(() => { canNavStickyCheck = true; navStickyCheck() }, 500);
         if (pageYOffset > 180) {
             mainNav.classList.add("sticky-active"); }
         else {
@@ -359,230 +196,30 @@ function pageLoad() {
     }
     navStickyCheck();
     window.addEventListener("scroll", navStickyCheck);
-
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    window.addEventListener("keydown", function(e) {
-        if (e.key === 'Escape') {
-            setLightbox("close");
-            setMenu("hide");
-        }
-    });
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    if (localStorage.getItem("brightness") == "dark") { document.getElementById("lightswitch").checked = true; }
-    document.getElementById("lightswitch").addEventListener("change", function() {
-        setBrightness(this.checked ? "dark" : "light");
-    });
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    if (localStorage.getItem("text-style") == null) {
-        setTextFormat(1); }
-    else {
-        setTextFormat(localStorage.getItem("text-style"));
-    }
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    let headingFont = localStorage.getItem("heading-font");
-    if (headingFont == null) {
-        headingFont = "Inter"; /* default value on first visit */
-        localStorage.setItem("heading-font", headingFont);
-    }
-    document.getElementById("heading-font-select").value = headingFont;
-    document.getElementById("heading-font-select").addEventListener("change", function() {
-        localStorage.setItem("heading-font", this.value);
-        updateFonts();
-    })
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    let bodyFont = localStorage.getItem("body-font");
-    if (bodyFont == null) {
-        bodyFont = "Georgia"; /* default value on first visit */
-        localStorage.setItem("body-font", bodyFont);
-    }
-    document.getElementById("body-font-select").value = bodyFont;
-    document.getElementById("body-font-select").addEventListener("change", function() {
-        localStorage.setItem("body-font", this.value);
-        updateFonts();
-    })
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    let secondaryFont = localStorage.getItem("secondary-font");
-    if (secondaryFont == null) {
-        secondaryFont = "Segoe UI"; /* default value on first visit */
-        localStorage.setItem("secondary-font", secondaryFont);
-    }
-    document.getElementById("secondary-font-select").value = secondaryFont;
-    document.getElementById("secondary-font-select").addEventListener("change", function() {
-        localStorage.setItem("secondary-font", this.value);
-        updateFonts();
-    })
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    updateFonts();
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    
-    articleLinks = articleLinks.filter(i => i[0].startsWith("http"));
-    if (articleLinks.length > 0) {
+    const externalLinks = articleLinks.filter(i => i[0].startsWith("http"));
+    if (externalLinks.length > 0) {
         document.querySelector(".citations").innerHTML = `
         <div>External links referenced:</div>
-        <div>
-            <ol>${
-                articleLinks
-                    .map((i, n) => {
-                        let j = 0;
-                        return `<li>${
-                            (i[1] == 1) ? `<a style="font-family: monospace" href="#cite-${n + 1}">^</a>` : ` <a href="#cite-${i[1] + "-" + j++}">^</a>`.repeat(i[1] )
-                        } <a target="_blank" id="cite-${n + 1}" href="${i[0]}">${i[0]}</a></li>`})
-                    .join("")
-            }</ol>
-        </div>`;
+        <div>${externalLinks
+            .map((i, n) => {
+                let j = 0;
+                return `<div class="cite-li">${(i[1] == 1) ?
+                    `<a style="font-family: monospace" href="#cite-${n + 1}">^</a>`
+                    : ` <a href="#cite-${i[1] + "-" + j++}">^</a>`.repeat(i[1])
+                }
+                <a target="_blank" id="cite-${n + 1}" href="${i[0]}">${i[0]}</a></div>`
+            }).join("")
+        }</div>`;
     }
 
-    if (document.title == "") document.title = "Perennial Iris";
-    else if (document.title.slice(0 - "Perennial Iris".length) != "Perennial Iris") document.title += " - Perennial Iris";
-    
-}
-
-function updateFonts() {
-    const css = document.querySelector(".theme-style");
-    let headingFont = localStorage.getItem("heading-font");
-    let bodyFont = localStorage.getItem("body-font");
-    let secondaryFont = localStorage.getItem("secondary-font");
-
-    css.innerHTML = `
-    .page {
-        --body-font: "${bodyFont}", sans-serif;
-        --heading-font: "${headingFont}", sans-serif;
-        --secondary-font: "${secondaryFont}", system-ui;
-    }`;
-
-    if (headingFont != "Georgia") { css.innerHTML += " .article-heading .digit { font-family: inherit; }"; }
-    if (bodyFont != "Georgia") { css.innerHTML += " .main-content .digit, .main-content ol > li::marker { font-family: inherit; }"; }
-
-    switch (bodyFont) {
-        case "Faculty Glyphic":
-            css.innerHTML += ` .mdash { font-family: unset !important; }`;
-            break;
-        case "Nunito Sans":
-            css.innerHTML += ` .main-content { font-weight: 500; }`
+    if (document.title == "") {
+        document.title = "Perennial Iris";
     }
-
-    localStorage.setItem("heading-font", headingFont);
-    localStorage.setItem("body-font", bodyFont);
-    localStorage.setItem("secondary-font", secondaryFont);
-}
-
-
-/* If you want the input data in this .js to be nice and neat, this does that and throws it in console log. */
-function alignTable(dataString, splitChar) {
-    const table_ = dataString.split("\n").filter(c => c.split(splitChar).length == 5).map(row => row.split(splitChar).map(cell => cell.trim()));
-    const rowWidth = Math.max(...table_.map(row => row.length));
-    for (let col = 0; col < rowWidth; ++col) {
-        let cellWidth = 0;
-        for (let i = 0; i < table_.length; i += 1) {
-            while (table_[i].length < rowWidth) {
-                table_[i].push("");
-            }
-            if (table_[i][col].length > cellWidth) {
-                cellWidth = table_[i][col].length;
-            }
-        }
-        for (let i = 0; i < table_.length; i += 1) {
-            if (table_[i].length < rowWidth) {
-                continue;
-            }
-            table_[i][col] += " ".repeat(cellWidth - table_[i][col].length);
-        }
+    else if (document.title.slice(0 - "Perennial Iris".length) != "Perennial Iris") {
+        document.title += " - Perennial Iris";
     }
-    table_.sort((a, b) => {
-        /* This sorts the entries by date, pushing entries without date to the bottom: */
-        a = a[3].replace(/\D/g, ""); if (a == "") { a = 0; }
-        b = b[3].replace(/\D/g, ""); if (b == "") { b = 0; }
-        return parseInt(b) - parseInt(a);
-    }).sort((a, b) => {
-        /* Then this pushes any entry with pinned to the top: */
-        if (a[4].indexOf("pinned") != -1) { return -1; }
-        if (b[4].indexOf("pinned") != -1) { return 1; }
-        return 0;
-    });
-    pageData = table_.map(c => c.join(` ${splitChar} `)).join("\n");
-    // console.log(pageData);
-}
-
-function setMenu(action) {
-    switch (action) {
-        case "show":
-            document.getElementById("menu").classList.remove("hidden");
-            localStorage.setItem("menuState", "visible");
-            break;
-        case "hide":
-            document.getElementById("menu").classList.add("hidden");
-            localStorage.setItem("menuState", "hidden");
-            break;
-        default:
-            const mode = localStorage.getItem("menuState");
-            if (mode == null || mode == "hidden") {
-                setMenu("show");
-            } else {
-                setMenu("hide");
-            }
-            break;
-    }
-}
-
-function setBrightness(setValue) {
-    switch (setValue) {
-        case "light":
-            pageWrapper.classList.remove("dark");
-            document.getElementById("lightswitch").checked = false;
-            localStorage.setItem("brightness", "light");
-            break;
-        case "dark":
-            pageWrapper.classList.add("dark");
-            document.getElementById("lightswitch").checked = true;
-            localStorage.setItem("brightness", "dark");
-            break;
-        default:
-            const mode = localStorage.getitem("brightness");
-            if (mode == null || mode == "light") {
-                setBrightness("dark");
-            } else {
-                setBrightness("light");
-            }
-            break;
-    }
-}
-
-function setTextFormat(setValue) {
-    setValue = Number(setValue);
-    
-    /* Put 'selected' class on the button of the option that's selected: */
-    const btns = document.getElementById("menu").getElementsByClassName("format-button");
-    btns[setValue - 1].classList.add("selected");
-    
-    for (let i = 0; i < btns.length; i += 1) {
-        if (i != setValue-1) { btns[i].classList.remove("selected"); }
-    }
-    /* This just add or remove the classes as required: */
-    if (setValue == 1) {
-        pageWrapper.classList.remove("text-justify", "text-indent")
-    }
-    else if (setValue == 2) {
-        pageWrapper.classList.add("text-justify");
-        pageWrapper.classList.remove("text-indent");
-    }
-    else if (setValue == 3) {
-        pageWrapper.classList.add("text-justify", "text-indent");
-    }
-    else if (setValue == 4) {
-        pageWrapper.classList.remove("text-justify");
-        pageWrapper.classList.add("text-indent");
-    }
-    
-    localStorage.setItem("text-style", setValue);
-}
-
-function toggleToc() {
-    if (pageWrapper.classList.contains("toc-hidden")) {
-        pageWrapper.classList.remove("toc-hidden");
-    } else {
-        pageWrapper.classList.add("toc-hidden");
-    }
-}
+})
 
 function setLightbox(action) {
     let lightbox = document.getElementById("lightbox");
@@ -590,7 +227,8 @@ function setLightbox(action) {
         if (action == "close") {
             lightbox.src = lightbox.alt = "";
             lightbox.parentNode.style.display = "none";
-        } else if (typeof action == "object") {
+        }
+        else if (typeof action == "object") {
             lightbox.src = action.src;
             lightbox.alt = action.alt;
             lightbox.parentNode.style.display = "flex";
@@ -598,76 +236,64 @@ function setLightbox(action) {
     }
 }
 
-
-/* Interpreter loop. Pass the main element to start. */
-function interpreter(targetElement) {
+function interpreter(targetElement, articleLinks) {
     let input = targetElement.innerHTML
         .replace(/\n\n+/g, "\n\n")
         .replace(/\r/g, "") /* for safety, probably no effect */
         .trim()
         .split("\n\n");
 
-    let firstParagraph = true;
-    let firstHeading = true;
     let tableNum = 1;
-
-    for (let i = 0; i < input.length; i += 1) {
-
-        if (input[i].startsWith("\\")) {
-            input[i] = input[i].substring(1);
-            continue; }
-
-        const fine = input[i].charAt(0) == "^";
-        if (fine) {
-            input[i] = input[i].substring(1);
+    let firstParagraph = true;
+    
+    input = input.map( chunk => {
+    
+        if (chunk.startsWith("\\")) {
+            return chunk.slice(1);
         }
-
-        const dropCap = input[i].charAt(0) == "$";
-        if (dropCap) { input[i] = input[i].substring(1); }
-
-        if (input[i] == "***" || input[i] == "---") {
-            input[i] = "<hr>"; continue; }
-
-        if (input[i] == "**" || input[i] == "--") {
-            input[i] = "<p></p>"; continue; }
-
-        if (input[i].startsWith("||video-right-mp4")) {
-            input[i] = `<video class="auto-video right" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
-            continue; }
-        if (input[i].startsWith("||video-mp4")) {
-            input[i] = `<video class="auto-video" controls src="${input[i].split("\n")[1]}" type="video/mp4"></video>`;
-            continue; }
-
-        if (input[i].startsWith("||image-box")) {
-            const lines = input[i].split("\n").slice(1);
-            for (let j = 0; j < lines.length; ++j) {
-                const parts = lines[j].split("|");
-                while (parts.length < 3) { parts.push(""); }
-
+        if (chunk == "---") {
+            return "<hr>";
+        }
+        if (chunk.startsWith("||date")) {
+            return `<p class='date'>${ chunk.split("\n")[1] }</p>`;
+        }
+        
+        let fine = chunk.startsWith("^");
+        if (fine) {
+            chunk = chunk.slice(1);
+        }
+        
+        /* -------------------------------------------- images -------------------------------------------- */
+        
+        if (chunk.startsWith("||image-box")) {
+            let lines = chunk.split("\n").slice(1);
+            lines = lines.map( line => {
+                let parts = line.split("|")
+                while ( parts.length < 3 ) {
+                    parts.push("");
+                }
                 let filePath = "media/" + parts[0].trim();
-                let altText = parts[1].trim();
+                let altText = parts[1].trim().replace(/"/g, "&quot;").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;");
                 let maxHeight = parts[2].trim();
-
-                if (maxHeight == "") { maxHeight = 300; }
-                altText = altText.replace(/"/, "&quot;").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;")
-
-                let imgAttributes = `onclick="setLightbox(this)" style="max-height:${maxHeight}px" src="${filePath}"`;
-                if (altText != "") { imgAttributes += ` title="${altText}" alt="${altText}"` }
-
-                lines[j] = `<div><img ${imgAttributes}></div>`;
-            }
-
-            input[i] = `<div class="image-box">${lines.join("")}</div>`;
-            continue; }
-
-        if (input[i].startsWith("||image-right") || input[i].startsWith("||image-left")) {
-            const direction = (input[i].startsWith("||image-right")) ? "right" : "left";
-            const lines = input[i].split("\n").slice(1);
-            for (let j = 0; j < lines.length; ++j) {
-                let imgClass = "image-float " + direction;
+                
+                if (maxHeight === "") {
+                    maxHeight = 300;
+                }
+                
+                return `<div><img onclick="setLightbox(this)" style="max-height: ${ maxHeight }px" src="${ filePath }" title="${ altText }" alt="${ altText }"></div>`;
+            });
+            return `<div class="image-box">${ lines.join("") }</div>`;
+        }
+        
+        if (chunk.startsWith("||image-float")) {
+            const lines = chunk.split("\n").slice(1);
+            for (let j = 0; j < lines.length; j += 1) {
+                let imgClass = "image-float";
 
                 const parts = lines[j].split("|");
-                while (parts.length < 3) { parts.push(""); }
+                while (parts.length < 3) {
+                    parts.push("");
+                }
 
                 let filePath = "media/" + parts[0].trim();
                 let caption = parts[1].trim();
@@ -679,29 +305,27 @@ function interpreter(targetElement) {
                     imgClass += " captioned";
                     caption = "<div>" + caption + "</div>";
                     imgAttributes += ` title="${altText}" alt="${altText}"`;
-                    }
-                
-                lines[j] = `<div class="${imgClass}"><img onclick="setLightbox(this)" ${imgAttributes}>${caption}</div>`;
+                }
+
+                lines[j] = `<div class="${imgClass}"><img onclick="setLightbox(this)" ${ imgAttributes }>${ caption }</div>`;
             }
-            input[i] = lines.join("");
-            continue;
+            return lines.join("");
+        
         }
-
-        /* before looking for code, fix any \` instances: */
-        input[i] = input[i].replace(/\\`/g, "&#96;");
-        /* div.codeblock: */
-        if (input[i].startsWith("```")) {
-            input[i] = input[i].replace(/\s*```\n*/g, "");
-            input[i] = "<div class=\"codeblock\">" + codeblockSanitize(input[i]) + "</div>";
-            continue; }
-        /* <code></code>: */
-        input[i] = input[i].replace(/`(.+?)`/g, (match, captureGroup) => {
-            return "<code>" + codeblockSanitize(captureGroup) + "</code>";
+        /* --------------------------------------------- code --------------------------------------------- */
+        if (chunk.startsWith("||codeblock")) {
+            return `<div class="codeblock">${ chunk.split("\n").slice(1).join("<br>") }</div>`;
+        }
+        
+        chunk = chunk.replace(/`(.+?)`/g, (match, captured) => {
+            return `<code>${ captured.replaceAll("\"", "&quot;").replaceAll("'", "&apos;").replaceAll("-", "&hyphen;").replaceAll("(", "&lpar;").replaceAll(")", "&rpar;").replaceAll("[", "&lbrack;").replaceAll("]", "&rbrack;").replaceAll("*", "&ast;").replaceAll("\n", "<br>") }</code>`;
         });
-
-        /* ------------------------ links ------------------------- */
-        /* \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\) */
-        input[i] = input[i].replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
+        
+        /* --------------------------------------------- links --------------------------------------------- */
+        /*  \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\)
+            [text to be displayed](https://perennialiris.github.io/)
+        */
+        chunk = chunk.replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
             address = address.replaceAll("\\)", ")");
             let index = -1, refNum = 1;
             for (let i = 0; i < articleLinks.length; i += 1) {
@@ -712,142 +336,132 @@ function interpreter(targetElement) {
             }
             if (index == -1) {
                 index = articleLinks.push([address, 1]);
-            } else {
+            }
+            else {
                 refNum = articleLinks[index][1] + 1;
                 index += 1;
             }
 
             let id = index;
             if (refNum != 1) {
-                id += "-inst-" + refNum;
+                id += "-" + refNum;
             }
+            
+            return `<a class="${displayText ? "" : "citeref"} id="cite-${id}" href=${address}>${ displayText ? displayText : `&lbrack;${index}&rbrack;` }</a>`;
+        });
 
-            let result = (displayText === "")
-                ? `<a class="citeref" id="cite-${id}" title="${address}" href="${address}">&lbrack;${index}&rbrack;</a>`
-                : `<a title="${address}" id="cite-${id}" href="${address}">${displayText}</a>`;
-            return result; });
+        /* --------------------------------------------- table --------------------------------------------- */
+        if (chunk.startsWith("||table")) {
+            let rows = chunk.split("\n").slice(1);
+            for (let row = 0; row < rows.length; row += 1) {
+                let cells = rows[row].split("|");
+                for (let cell = 0; cell < cells.length; cell += 1) {
+                    cells[cell] = `<td class="col-${cell + 1}">${ formatting(cells[cell].trim()) }</td>`;
+                }
+                rows[row] = `<tr class="row-${row + 1}">${ cells.join("") }</tr>`;
+            }
+            return `<table class="auto-table table-${tableNum++}"><tbody>${rows.join("")}</tbody></table>`;
+        }
 
-        /* ------------------------ table ------------------------- */
-        if (input[i].startsWith("||table")) {
-            let rows = input[i].split("\n");
-            rows.shift();
-            for (let j = 0; j < rows.length; ++j) {
-                let cells = rows[j].split("|");
-                for (let k = 0; k < cells.length; k += 1) {
-                    cells[k] = "<td class=\"col-"+(k+1)+"\">" + safeConvert(cells[k].trim()) + "</td>"; }
-                rows[j] = "<tr class=\"row-"+(j+1)+"\">" + cells.join("") + "</tr>"; }
-            input[i] = `<table class="auto-table table-${tableNum++}">${rows.join("")}</table>`;
-            continue; }
+        /* ------------------------------------------ blockquote ------------------------------------------ */
+        if (chunk.startsWith("||indent")) {
+            const lines = chunk.split("\n").slice(1).map( line => {
+                if (line.startsWith("---")) {
+                    return `<p class="attribution">${line}</p>`;
+                }
+                if (line.startsWith("^")) {
+                    return `<p class="fine">${line}</p>`;
+                }
+                return `<p>${line}</p>`;
+            })
+            
+            return `<blockquote>${ formatting(lines.join("")) }</blockquote>`;
+        }
 
-        /* ------------- "This was also posted here:" ------------- */
-        if (input[i].startsWith("||see-also")) {
+        /* --------------------------------------------- lists --------------------------------------------- */
+        /* This isn't a perfect handler but whatever it's fine for my specific purposes. */
+        if ( chunk.startsWith("* ") || /^\d+\. /.test(chunk) ) {
+            const lines = chunk.split("\n").map( line => {
+                const marginLeftRight = (Math.floor(line.search(/[^\s]/) / 2) + 1) * 40;
+                let listStyleTop = "none";
+                let marginTop = "6px";
+                if (line.startsWith("* ")) {
+                    line = line.slice(1);
+                    listStyleTop = "disc";
+                    marginTop = "10px"
+                }
+                
+                return `<li style="list-style-type: ${ listStyleTop }; display: list-item; margin: ${ marginTop } ${marginLeftRight }px 0;">${ formatting(line.trim()) }</li>`;
+            })
+            const listType = chunk.startsWith("* ") ? "ul" : "ol";
+            
+            return `<${ listType } style="padding:0" class="${ fine ? "fine" : "" }">${ lines.join("") }</${ listType }>`;
+        }
 
-            const lines = input[i].split("\n").slice(1)
+        /* ------------------------------------------- headings ------------------------------------------- */
+        if (chunk.startsWith("# ") || chunk.startsWith("## ") || chunk.startsWith("### ") || chunk.startsWith("#### ")) {
+            const headingType = chunk.indexOf(" ");
+            chunk = chunk.slice(headingType + 1);
+            
+            return `<h${headingType} id=${ chunk.replaceAll(" ", "_").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;").replaceAll("*" ,"") } class="heading">${ formatting(chunk) }</h${headingType}>`;
+        }
+
+        /* ------------------------------------------- see also ------------------------------------------- */
+        if (chunk.startsWith("||see-also")) {
+
+            const lines = chunk.split("\n").slice(1)
                 .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1").replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
                 .map(c => `<a href="${c}" target="_blank">${c}</a>`);
 
-            document.querySelector(".see-also").innerHTML += `<div>This page’s content was also posted here:</div><ul><li>${lines.join("</li><li>")}</li></ul>`;
+            document.querySelector(".see-also").innerHTML += `<div>This content elsewhere:</div><ul><li>${lines.join("</li><li>")}</li></ul>`;
 
-            input[i] = "";
-            continue; }
-        
-        /* ---------------------- blockquote ---------------------- */
-        if (input[i].startsWith("||indent")) {
-            const lines = input[i].split("\n").slice(1);
-            
-            for (let j = 0; j < lines.length; j += 1) {
-                if (lines[j].startsWith("---")) {
-                    lines[j] = `<p class="attribution">${lines[j]}</p>`;
-                }
-                else if (lines[j].startsWith("^")) {
-                    lines[j] = `<p class="fine">${lines[j].substring(1)}</p>`;
-                }
-                else {
-                    lines[j] = `<p>${lines[j]}</p>`;
-                }
-            }
-            
-            input[i] = `<blockquote>${ safeConvert(lines.join("")) }</blockquote>`;
-            continue;
+            return "";
         }
 
-        /* ------------------------ lists ------------------------- */
-        if ( /^\* /.test(input[i]) || /^\d+\. /.test(input[i]) ) {
-            input[i] = listParse(input[i]);
-            if (fine) {
-                input[i] = input[i].substring(0,3) + ` class="fine"` + input[i].substring(3);
-                }
-            continue;
+        /* -------------------------------- finalizing (normal paragraphs) -------------------------------- */
+        
+        chunk = formatting(chunk);
+
+        if (fine) {
+            return `<p class='fine'>${ chunk.replaceAll("\n", "<br>") }</p>`;
         }
-        /* -------------------------------------------------------- */
-        
-        input[i] = safeConvert(input[i]);
-
-        /* ---- This should be impossible ---- */
-        if (input[i] == "") {
-            console.error("{interpreter.js: (blank result?)}");
-            continue;
+        if (firstParagraph) {
+            firstParagraph = false;
+            return `<p class='first-paragraph'>${ chunk }</p>`;
         }
-
-        /* ------------------------ headings ----------------------- */
-        /* ------ h1 ------ */
-        if (input[i].startsWith("# ")) {
-            const parts = input[i].substring(2).split("|");
-            const title = parts[0].trim();
-
-            let titleId = titleFilter(title);
-            if (document.title == "") { document.title = titleId; }
-            titleId = titleId.replace(/ /g, "_");
-
-            if (firstHeading) {
-                input[i] = `<h1 class="first-heading article-heading">${title}</h1></div>`;
-                firstHeading = false;
-            } else {
-                input[i] = `<h1 class="article-heading" id=${titleId}>${title}</h1>`;
-            }
-            
-            if (parts.length == 2) {
-                input[i] += `<div class="subtitle">${parts[1].trim()}</div>`;
-            }
-            
-            continue; }
-        /* ------ h2 ------ */
-        if (input[i].startsWith("## ")) {
-            let title = input[i].slice(3);
-            const headerId = titleFilter(title).replace(/ /g, "_");
-            input[i] = `<h2 class="article-heading" id="${headerId}">${title}</h2>`;
-            continue; }
-        /* ------ h3 ------ */
-        if (input[i].startsWith("### ")) {
-            let title = input[i].slice(4);
-            const headerId = titleFilter(title).replace(/ /g, "_");
-            input[i] = `<h3 class="article-heading" id="${headerId}">${title}</h2>`;
-            continue; }
-        /* toc-row class is useful for selecting the elements later */
-        /* ------ h4 ------ */
-        if (input[i].startsWith("#### ")) {
-            let title = input[i].slice(5);
-            input[i] = `<h4>${title}</h4>`;
-            /* don't put h4 in toc */
-            continue; }
         
-        let p = "p";
-        if (fine) { p += " class=\"fine\""; }
-        else if (firstParagraph) { p += " class=\"first-paragraph\""; firstParagraph = false; }
-        else if (dropCap) { p += " class=\"drop-cap\""; }
-        
-        input[i] = `<${p}>${input[i]}</p>`;
-    }
+        return `<p>${ chunk }</p>`;
+    })
+
     targetElement.innerHTML = input.join("");
     
-    ["p","li","blockquote","h1","h2","h3","h4"].forEach(e => Array.from(targetElement.getElementsByTagName(e)).forEach(i => wrapElement(i)));
+    wrapDigits(document.getElementById("nav"))
 }
+
+function wrapDigits(arg) {
+    if (typeof arg != "string") { arg.innerHTML = wrapDigits(arg.innerHTML); }
+    else {
+        let output = "";
+        while (true) {
+            const openTag = arg.indexOf("<"), closeTag = arg.indexOf(">");
+            if (openTag == -1 || closeTag == -1) { break; }
+            output += arg.substring(0, openTag).replace(/(\d+)/g, "<span class='digit'>$1</span>");
+            output += arg.substring(openTag, closeTag + 1);
+            arg = arg.substring(closeTag + 1);
+        }
+        output += arg.replace(/(\d+)/g, "<span class='digit'>$1</span>");
+        return output;
+    }
+}
+
+
 
 /*  These are the replacements run over all inputs, separated into its
     own function because I needed to call it multiple times. */
-function stdReplace(inputString) {
-    if (inputString == "") { return ""; }
-    
+function replacements(inputString) {
+    if (inputString == "") {
+        return "";
+    }
     let output = inputString
         .replaceAll("\\*", "&ast;")
         .replaceAll("\\^", "&Hat;")
@@ -857,8 +471,9 @@ function stdReplace(inputString) {
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
         .replaceAll("\\", "&#92;")
-        /* It took many versions, but I think I finally got to a point where this always works the way I want it to. */
-        /* Is there a much better way to do this? I don't know. */
+        /* It took many versions, but I think I finally got to a point where this always
+           works the way I want it to. */
+        /* Is there a much better way to do this? Not sure, whatever. */
         /* ---- curly " replacement ---- */
         .replace(/(\S\*{1,3})" /g, "$1&rdquo; ")
         .replace(/^"(\w)/g, "&ldquo;$1")
@@ -870,7 +485,7 @@ function stdReplace(inputString) {
         .replace(/"$/g, "&rdquo;")
         .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
         .replace(/"/g, "&rdquo;")
-        .replace(/&rdquo;(,|\.)/g, `<span class="right-quote-margin">&rdquo;</span>$1`)
+        // .replace(/&rdquo;(,|\.|[a-zA-Z])/g, `<span class="rquo">&rdquo;</span>$1`)
         /* ---- curly ' replacement ---- */
         .replace(/'(\d{2})(\D{1})/g, "&rsquo;$1$2") // for saying '95 or '27 etc.
         .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
@@ -884,127 +499,27 @@ function stdReplace(inputString) {
         .replace(/'$/g, "&rsquo;")
         .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
         .replace(/'/g, "&rsquo;")
-        .replace(/&rsquo;(,|\.)/g, `<span class="right-quote-margin">&rsquo;</span>$1`)
+        // .replace(/&rsquo;(,|\.|[a-zA-Z])/g, `<span class="rquo">&rsquo;</span>$1`)
         .replace(/__(.+?)__/g, "<u>$1</u>")
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.+?)\*/g, "<em>$1</em>")
+        .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
+        .replace(/\*(.+?)\*/g, "<i>$1</i>")
         .replaceAll("---", "<span class='mdash'>&mdash;</span>")
         .replaceAll("--", "&ndash;")
         .replaceAll("...", "&hellip;")
     return output;
 }
 
-/* nested list parser */
-/* usage note: you can do nested */
-function listParse(inputString) {
-    const lines = inputString.split("\n");
-    
-    for (let i = 0; i < lines.length; i += 1) {
-        const leftRight = Math.floor(lines[i].search(/[^\s]/) / 2) + 1;
-        
-        let listStyleType = "none";
-        let marginTop = "6px";
-        
-        if (lines[i].startsWith("* ")) {
-            lines[i] = lines[i].slice(1);
-            listStyleType = "disc";
-            marginTop = "10px";
-        }
-        
-        lines[i] = `<li style="list-style-type: ${listStyleType}; display: list-item; margin: ${marginTop} ${leftRight * 40}px 0;">${safeConvert(lines[i].trim())}</li>`;
-        
-    }
-    return `<ul style="padding: 0;">${lines.join("")}</ul>`;
-}
-
-/* general parser to run all input through, safely ignores anything <inside> of tags, same logic as wrapDigits */
-function safeConvert(inputString) {
+function formatting(inputString) {
     let input = inputString, output = "";
     while (true) {
         let openTag = input.indexOf("<"), closeTag = input.indexOf(">");
         if (openTag == -1 || closeTag == -1) break;
-        output += stdReplace(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
+        output += replacements(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
         input = input.substring(closeTag + 1);
     }
-    output += stdReplace(input);
+    output += replacements(input);
     return output;
 }
-
-/* for <code> or like elements, where you don't want normal formatting -- run *before* safeConvert */
-function codeblockSanitize(inputString) {
-    return inputString
-        .replaceAll("=\"\"", "")
-        .replaceAll("\"", "&quot;")
-        .replaceAll("'", "&apos;")
-        .replaceAll("-", "&hyphen;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll("(", "&lpar;")
-        .replaceAll(")", "&rpar;")
-        .replaceAll("[", "&lbrack;")
-        .replaceAll("]", "&rbrack;")
-        .replaceAll("*", "&ast;")
-        .replaceAll("\n", "<br>");
-}
-
-function wrapDigits(inputString) {
-    let output = "";
-    while (true) {
-        const openTag = inputString.indexOf("<"), closeTag = inputString.indexOf(">");
-        if (openTag == -1 || closeTag == -1) { break; }
-        output += inputString.substring(0, openTag).replace(/(\d+)/g, "<span class='digit'>$1</span>");
-        output += inputString.substring(openTag, closeTag + 1);
-        inputString = inputString.substring(closeTag + 1);
-    }
-    output += inputString.replace(/(\d+)/g, "<span class='digit'>$1</span>");
-    return output;
-}
-
-function wrapElement(targetElement) {
-    let input = targetElement.innerHTML;
-    let output = "";
-    while (true) {
-        const openTag = input.indexOf("<"), closeTag = input.indexOf(">");
-        if (openTag == -1 || closeTag == -1) { break; }
-        output += input.substring(0, openTag).replace(/(\d+)/g, "<span class=\"digit\">$1</span>");
-        output += input.substring(openTag, closeTag + 1);
-        input = input.substring(closeTag + 1);
-    }
-    output += input.replace(/(\d+)/g, "<span class=\"digit\">$1</span>");
-    targetElement.innerHTML = output;
-}
-
-/* prefer .replaceAll over .replace when you don't need regex, more readable */
-function titleFilter(inputString) {
-    return inputString.replace(/<.+?>/g, "")
-        .replaceAll('"', "&quot;")
-        .replaceAll("&rsquo;", "'")
-        .replaceAll("&ndash;", "–")
-        .replaceAll("&mdash;", "—")
-        .replaceAll("&amp;", "&");
-}
-
-function quoteParse(inputString) {
-    const lines = inputString.split("\n").slice(1);
-    for (let j = 0; j < lines.length; ++j) {
-        if (lines[j].startsWith("--- ")) {
-            lines[j] = `<p class="attribution">${lines[j]}</p>`;
-        }
-        else if (lines[j].startsWith("^")) {
-            lines[j] = `<p class="fine">${lines[j]}</p>`;
-        }
-        else {
-            lines[j] = `<p class="fine">${lines[j].substring(1)}</p>`;
-        }
-    }
-    return "<blockquote>" + safeConvert(lines.join("")) + "</blockquote>";
-}
-
-
-
-
-
-
 
 
 

@@ -1,46 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head><link rel="stylesheet" href="assets/main.css"><style>
-    .article-footer { display: none !important; }
-    #home-directory-index { border-collapse: collapse; }
-    #home-directory-index tr + tr { border-top: 1px dotted #888; }
-    #home-directory-index tr:nth-child(odd) { background-color: #f8f8f8; }
-    .dark #home-directory-index tr:nth-child(odd) { background-color: #2e2e2e; }
-    #home-directory-index td { padding: 5px 7px; }
-    #home-directory-index * { text-align: left !important; }
-    
+    table { border-collapse: collapse; width: 100%; }
+    table a { color: inherit !important; }
+    table tr { border-block: 1px dotted #aaa; }
+    table td { padding: 5px 12px 4px; }
+    table td:nth-child(2) { text-align: right; color: grey; }
+    table * { font-family: Roboto, sans-serif !important; }
+    #article-footer { display: none !important; }
+    h2 { font-family: Georgia !important }
 </style></head>
 <body>
-<div class="page-wrapper">
+<div id="page">
 
-### What is this?
+about me: [https://perennialiris.tumblr.com/post/784956255288672256/](https://perennialiris.tumblr.com/post/784956255288672256/)
 
-I'm Iris. I live in Canada. I think of this as like a more public-facing version of Google docs that makes it easier for me to share things I'm hosting with people.
-
-\
-<h3 style="margin: 20px 0 -4px;" class="article-heading">Page listing</h3>
-<table id="home-directory-index"></table>
+\<table id="page-list"></table>
 
 </div>
 <script src="assets/site.js"></script>
-
-<script>
-window.addEventListener("load", function() {
-    document.getElementById("right").innerHTML =
-       `<div class="plugs">
-            <a class="plug" target="_blank" href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA">YouTube</a>
-            <a class="plug" target="_blank" href="https://bsky.app/profile/perennialiris.bsky.social">Bluesky</a>
-            <a class="plug" target="_blank" href="https://perennialiris.tumblr.com">Tumblr</a>
-            <a class="plug" target="_blank" href="https://perennialiris.substack.com">Substack</a>
-        </div>`;
-});
-
-</script>
-
 </body></html>
-
-
-
-
 
 
