@@ -105,7 +105,7 @@ window.addEventListener("load", function() {
                 <footer id="article-footer">
                     <div style="display: flex; justify-content: space-between;">
                         <div class="see-also"></div>
-                        <div style="white-space: nowrap;"><a href="${pathToRoot}index.html">Link to full page index</a></div>
+                        <div style="white-space: nowrap;"><a href="${pathToRoot}index.html">Link to homepage</a></div>
                     </div>
                     <div class="citations"></div>
                 </footer>
@@ -127,14 +127,15 @@ window.addEventListener("load", function() {
             otherLists.innerHTML = `<div>Other lists:</div><div class="container">${otherTables.join("")}</div>`;
         }
         else if (includeToc) {
-            console.log("creating table of contents...");
-            
             const toc = mainContainer.insertBefore(document.createElement("nav"), mainContainer.firstElementChild);
             toc.id = "toc";
             
-            const headings = Array.from(document.getElementsByClassName("heading"));
-            toc.innerHTML = headings.map(heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${heading.id}">${heading.innerHTML.replace(/\/?i>/g, "")}</a>`).join("");
-
+            const headings = Array.from(document.getElementsByClassName("heading")).slice(1);
+            
+            toc.innerHTML = `<a class="toc-row h1" href="#">(Top of page)</a>`
+                + headings.map ( heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ heading.id }">${heading.innerHTML.replace(/\/?i>/g, "")}</a>` )
+                .join("");
+            
             const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
             let currentHeading = "";
             let canTocHighlighter = true;
@@ -161,7 +162,6 @@ window.addEventListener("load", function() {
                 currentHeading = headingId;
             }
             function tocWidthCheck() {
-                console.log(window.innerWidth)
                 toc.style.display = (parseInt(window.innerWidth) > 620) ? "block" : "none";
             }
             window.addEventListener("resize", tocWidthCheck);
@@ -200,8 +200,8 @@ window.addEventListener("load", function() {
     const externalLinks = articleLinks.filter(i => i[0].startsWith("http"));
     if (externalLinks.length > 0) {
         document.querySelector(".citations").innerHTML = `
-        <div>External links referenced:</div>
-        <div>${externalLinks
+        <div>External pages referenced (this list is auto-generated from links found in the above):</div>
+        ${externalLinks
             .map((i, n) => {
                 let j = 0;
                 return `<div class="cite-li">${(i[1] == 1) ?
@@ -210,7 +210,7 @@ window.addEventListener("load", function() {
                 }
                 <a target="_blank" id="cite-${n + 1}" href="${i[0]}">${i[0]}</a></div>`
             }).join("")
-        }</div>`;
+        }`;
     }
 
     if (document.title == "") {
@@ -266,51 +266,30 @@ function interpreter(targetElement, articleLinks) {
         /* -------------------------------------------- images -------------------------------------------- */
         
         if (chunk.startsWith("||image-box")) {
-            let lines = chunk.split("\n").slice(1);
-            lines = lines.map( line => {
-                let parts = line.split("|")
-                while ( parts.length < 3 ) {
-                    parts.push("");
-                }
+            const lines = chunk.split("\n").slice(1).map( line => {
+                const parts = line.split("|");
+                while (parts.length < 3) { parts.push(""); }
                 let filePath = "media/" + parts[0].trim();
                 let altText = parts[1].trim().replace(/"/g, "&quot;").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;");
                 let maxHeight = parts[2].trim();
-                
-                if (maxHeight === "") {
-                    maxHeight = 300;
-                }
-                
-                return `<div><img onclick="setLightbox(this)" style="max-height: ${ maxHeight }px" src="${ filePath }" title="${ altText }" alt="${ altText }"></div>`;
+                return `<div><img onclick="setLightbox(this)" style="max-height: ${ maxHeight || 300 }px" src="${ filePath }" title="${ altText }" alt="${ altText }"></div>`;
             });
-            return `<div class="image-box">${ lines.join("") }</div>`;
+            return `<figure class="image-box">${ lines.join("") }</figure>`;
         }
         
         if (chunk.startsWith("||image-float")) {
-            const lines = chunk.split("\n").slice(1);
-            for (let j = 0; j < lines.length; j += 1) {
-                let imgClass = "image-float";
-
-                const parts = lines[j].split("|");
-                while (parts.length < 3) {
-                    parts.push("");
-                }
-
+            return chunk.split("\n").slice(1).map( line => {
+                const parts = line.split("|");
+                while (parts.length < 3) { parts.push(""); }
+                
                 let filePath = "media/" + parts[0].trim();
                 let caption = parts[1].trim();
                 let altText = parts[2].trim();
-
-                let imgAttributes = `src=${filePath}`;
-
-                if (caption != "") {
-                    imgClass += " captioned";
-                    caption = "<div>" + caption + "</div>";
-                    imgAttributes += ` title="${altText}" alt="${altText}"`;
-                }
-
-                lines[j] = `<div class="${imgClass}"><img onclick="setLightbox(this)" ${ imgAttributes }>${ caption }</div>`;
-            }
-            return lines.join("");
-        
+                if (caption != "") { caption = `<figcaption>${caption}</figcaption>`; }
+                
+                return `<figure class="image-float"><img onclick="setLightbox(this)" src="${filePath}" title="${altText}" alt="${altText}">${caption}</figure>`;
+            }).join("");
+            
         }
         /* --------------------------------------------- code --------------------------------------------- */
         if (chunk.startsWith("||codeblock")) {
@@ -318,7 +297,17 @@ function interpreter(targetElement, articleLinks) {
         }
         
         chunk = chunk.replace(/`(.+?)`/g, (match, captured) => {
-            return `<code>${ captured.replaceAll("\"", "&quot;").replaceAll("'", "&apos;").replaceAll("-", "&hyphen;").replaceAll("(", "&lpar;").replaceAll(")", "&rpar;").replaceAll("[", "&lbrack;").replaceAll("]", "&rbrack;").replaceAll("*", "&ast;").replaceAll("\n", "<br>") }</code>`;
+            return `<code>${
+                captured.replaceAll("\"", "&quot;")
+                    .replaceAll("'", "&apos;")
+                    .replaceAll("-", "&hyphen;")
+                    .replaceAll("(", "&lpar;")
+                    .replaceAll(")", "&rpar;")
+                    .replaceAll("[", "&lbrack;")
+                    .replaceAll("]", "&rbrack;")
+                    .replaceAll("*", "&ast;")
+                    .replaceAll("\n", "<br>") }</code>
+                `;
         });
         
         /* --------------------------------------------- links --------------------------------------------- */
@@ -330,8 +319,7 @@ function interpreter(targetElement, articleLinks) {
             let index = -1, refNum = 1;
             for (let i = 0; i < articleLinks.length; i += 1) {
                 if (articleLinks[i][0] == address) {
-                    index = i;
-                    break;
+                    index = i; break;
                 }
             }
             if (index == -1) {
@@ -341,13 +329,15 @@ function interpreter(targetElement, articleLinks) {
                 refNum = articleLinks[index][1] + 1;
                 index += 1;
             }
-
             let id = index;
             if (refNum != 1) {
                 id += "-" + refNum;
             }
-            
             return `<a class="${displayText ? "" : "citeref"} id="cite-${id}" href=${address}>${ displayText ? displayText : `&lbrack;${index}&rbrack;` }</a>`;
+        });
+        
+        chunk = chunk.replace(/\[\[(.+?)\]\]/g, (match, displayText) => {
+            return `<a style="border-bottom: 1px dotted currentcolor;" title="Jump to section" href="#${ displayText.replaceAll(" ", "_") }">${ displayText }</a>`
         });
 
         /* --------------------------------------------- table --------------------------------------------- */
@@ -435,15 +425,17 @@ function interpreter(targetElement, articleLinks) {
 
     targetElement.innerHTML = input.join("");
     
-    wrapDigits(document.getElementById("nav"))
+    ["p", "blockquote", "li"].forEach(tagName => Array.from(targetElement.getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) )
 }
 
 function wrapDigits(arg) {
     if (typeof arg != "string") { arg.innerHTML = wrapDigits(arg.innerHTML); }
     else {
-        let output = "";
+        let k = 0;
+        let output = "", left = 0;
         while (true) {
-            const openTag = arg.indexOf("<"), closeTag = arg.indexOf(">");
+            const openTag = arg.indexOf("<");
+            const closeTag = arg.indexOf(">");
             if (openTag == -1 || closeTag == -1) { break; }
             output += arg.substring(0, openTag).replace(/(\d+)/g, "<span class='digit'>$1</span>");
             output += arg.substring(openTag, closeTag + 1);
@@ -453,7 +445,6 @@ function wrapDigits(arg) {
         return output;
     }
 }
-
 
 
 /*  These are the replacements run over all inputs, separated into its
@@ -484,8 +475,8 @@ function replacements(inputString) {
         .replace(/ "$/g, " &ldquo;")
         .replace(/"$/g, "&rdquo;")
         .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
+        .replace(/\-"([a-zA-Z])/g, "-&ldquo;$1")
         .replace(/"/g, "&rdquo;")
-        // .replace(/&rdquo;(,|\.|[a-zA-Z])/g, `<span class="rquo">&rdquo;</span>$1`)
         /* ---- curly ' replacement ---- */
         .replace(/'(\d{2})(\D{1})/g, "&rsquo;$1$2") // for saying '95 or '27 etc.
         .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
@@ -493,13 +484,13 @@ function replacements(inputString) {
         .replace(/^',/g, "&rsquo; ")
         .replace(/^' /g, "&rsquo; ")
         .replace(/', /g, "&rsquo;, ")
+        .replace(/\-'([a-zA-Z])/g, "-&lsquo;$1")
         .replace(/\*'\-/g, "*&rsquo;-")
         .replace(/^'(\.|)/g, "&rsquo;$1")
         .replace(/ '$/g, " &lsquo;")
         .replace(/'$/g, "&rsquo;")
         .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
         .replace(/'/g, "&rsquo;")
-        // .replace(/&rsquo;(,|\.|[a-zA-Z])/g, `<span class="rquo">&rsquo;</span>$1`)
         .replace(/__(.+?)__/g, "<u>$1</u>")
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>")
@@ -509,8 +500,8 @@ function replacements(inputString) {
     return output;
 }
 
-function formatting(inputString) {
-    let input = inputString, output = "";
+function formatting(input) {
+    let output = "";
     while (true) {
         let openTag = input.indexOf("<"), closeTag = input.indexOf(">");
         if (openTag == -1 || closeTag == -1) break;
