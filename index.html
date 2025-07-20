@@ -2,11 +2,13 @@
 <html lang="en">
 <head><link rel="stylesheet" href="assets/main.css"><style>
     table { border-collapse: collapse; width: 100%; }
+    table .col-1 { font-size: 15.4px !important; font-family: Georgia,serif; }
+    table .col-1 .digit { font-family: Georgia Pro,Georgia,serif; }
     table a { color: inherit !important; }
-    table tr { border-block: 1px dotted #aaa; }
-    table td { padding: 5px 12px 4px; }
+    table tr { border-block: 1px dotted #aaa !important; }
+    table tr:nth-child(2n+1) { background-color: #f8f8f8; }
+    table td { padding: 5px 12px 4px; border: none !important; background-color: transparent !important; }
     table td:nth-child(2) { text-align: right; color: grey; }
-    table * { font-family: Roboto, sans-serif !important; }
     #article-footer { display: none !important; }
     h2 { font-family: Georgia !important }
 </style></head>
@@ -15,7 +17,7 @@
 
 about me: [https://perennialiris.tumblr.com/post/784956255288672256/](https://perennialiris.tumblr.com/post/784956255288672256/)
 
-\<table id="page-list"></table>
+\<table class="auto-table" id="page-list"></table>
 
 </div>
 <script src="assets/site.js"></script>

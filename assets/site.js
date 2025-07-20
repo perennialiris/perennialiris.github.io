@@ -50,7 +50,7 @@ window.addEventListener("load", function() {
     const pathToRoot = (isIndex ? "" : "../");
     document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="${pathToRoot}favicon.ico">`;
 
-    const articleLinks = [];
+    let articleLinks = [];
     const pageList = [];
     const otherTables = [];
 
@@ -68,14 +68,13 @@ window.addEventListener("load", function() {
             }
         if (!pageOptions.includes("unlisted")) {
             pageList.push(`
-                <tr>
-                    <td>
-                    <span ${pageOptions.includes("pinned") ? "style='display: inline-flex; align-items: center; gap: 5px;'" : ""}>
-                        <a href="${pageDirectory}/index.html">${pageTitle}</a>
-                        ${ pageOptions.includes("pinned") ? `<span class="pin-icon"></span>` : "" }
-                    </span>
+                <tr class="row-${pageList.length + 1}">
+                    <td class="col-1">
+                    <a href="${pageDirectory}/index.html" ${pageOptions.includes("pinned") ? "style='display: inline-flex; align-items: center; gap: 5px;'" : ""}>
+                        ${wrapDigits(pageTitle)}${ pageOptions.includes("pinned") ? `<span class="pin-icon"></span>` : "" }
+                    </a>
                     </td>
-                    <td>${ pageDate }</td>
+                    <td class="col-2">${ pageDate }</td>
                 </tr>`);
         }
     })
@@ -96,18 +95,17 @@ window.addEventListener("load", function() {
         <nav id="nav">
             <div class="nav-inner">
                 <span class="page-name-display">${ pageNameDisplay }</span>
-                <a class="to-top-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Jump to Top</a>
+                <a class="to-top-button" href="#">Jump to Top</a>
             </div>
         </nav>
         <div class="c1">
             <div class="c2">
                 <div id="article">${ document.getElementById("page").innerHTML }</div>
                 <footer id="article-footer">
-                    <div style="display: flex; justify-content: space-between;">
+                    <div class="space-between">
                         <div class="see-also"></div>
                         <div style="white-space: nowrap;"><a href="${pathToRoot}index.html">Link to homepage</a></div>
                     </div>
-                    <div class="citations"></div>
                 </footer>
             </div>
         </div>
@@ -130,7 +128,7 @@ window.addEventListener("load", function() {
             const toc = mainContainer.insertBefore(document.createElement("nav"), mainContainer.firstElementChild);
             toc.id = "toc";
             
-            const headings = Array.from(document.getElementsByClassName("heading")).slice(1);
+            const headings = Array.from(document.getElementsByClassName("side-heading")).slice(1);
             
             toc.innerHTML = `<a class="toc-row h1" href="#">(Top of page)</a>`
                 + headings.map ( heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ heading.id }">${heading.innerHTML.replace(/\/?i>/g, "")}</a>` )
@@ -197,20 +195,24 @@ window.addEventListener("load", function() {
     navStickyCheck();
     window.addEventListener("scroll", navStickyCheck);
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    const externalLinks = articleLinks.filter(i => i[0].startsWith("http"));
-    if (externalLinks.length > 0) {
-        document.querySelector(".citations").innerHTML = `
-        <div>External pages referenced (this list is auto-generated from links found in the above):</div>
-        ${externalLinks
-            .map((i, n) => {
-                let j = 0;
-                return `<div class="cite-li">${(i[1] == 1) ?
-                    `<a style="font-family: monospace" href="#cite-${n + 1}">^</a>`
-                    : ` <a href="#cite-${i[1] + "-" + j++}">^</a>`.repeat(i[1])
+    articleLinks = articleLinks.filter(a => a.url.startsWith("http"));
+    if (articleLinks.length > 0) {
+        let citations = document.createElement("div");
+        citations.classList.add("citations");
+        document.getElementById("article-footer").appendChild(citations);
+        citations.innerHTML =
+        `<div>External pages referenced (this list is auto-generated from links found in the above):</div>
+        <ol>
+        ${
+            articleLinks.map( (link_, n) => {
+                let jumpers = `<a href="#cite-${n + 1}">^</a>`;
+                for (let i = 2; i < link_.count; i += 1) {
+                    jumpers += ` <a href="#cite-${n + 1}-${i}">^</a>`;
                 }
-                <a target="_blank" id="cite-${n + 1}" href="${i[0]}">${i[0]}</a></div>`
+                return `<li class="cite-li">${jumpers} <a target="_blank" id="cite-${n + 1}" href="${link_.url}">${link_.url}</a>`
             }).join("")
-        }`;
+        }
+        </ol>`;
     }
 
     if (document.title == "") {
@@ -263,7 +265,7 @@ function interpreter(targetElement, articleLinks) {
             chunk = chunk.slice(1);
         }
         
-        /* -------------------------------------------- images -------------------------------------------- */
+        /* ------------------------------------ images ------------------------------------ */
         
         if (chunk.startsWith("||image-box")) {
             const lines = chunk.split("\n").slice(1).map( line => {
@@ -291,7 +293,7 @@ function interpreter(targetElement, articleLinks) {
             }).join("");
             
         }
-        /* --------------------------------------------- code --------------------------------------------- */
+        /* ------------------------------------- code ------------------------------------- */
         if (chunk.startsWith("||codeblock")) {
             return `<div class="codeblock">${ chunk.split("\n").slice(1).join("<br>") }</div>`;
         }
@@ -310,37 +312,38 @@ function interpreter(targetElement, articleLinks) {
                 `;
         });
         
-        /* --------------------------------------------- links --------------------------------------------- */
+        /* ------------------------------------- links ------------------------------------- */
         /*  \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\)
             [text to be displayed](https://perennialiris.github.io/)
         */
         chunk = chunk.replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
             address = address.replaceAll("\\)", ")");
-            let index = -1, refNum = 1;
+            
+            let index = -1;
             for (let i = 0; i < articleLinks.length; i += 1) {
-                if (articleLinks[i][0] == address) {
+                if (articleLinks[i].url == address) {
                     index = i; break;
                 }
             }
+            
             if (index == -1) {
-                index = articleLinks.push([address, 1]);
+                index = articleLinks.push({ "url": address, "count": 1 }) - 1;
             }
             else {
-                refNum = articleLinks[index][1] + 1;
-                index += 1;
+                articleLinks[index].count += 1;
             }
-            let id = index;
-            if (refNum != 1) {
-                id += "-" + refNum;
-            }
-            return `<a class="${displayText ? "" : "citeref"} id="cite-${id}" href=${address}>${ displayText ? displayText : `&lbrack;${index}&rbrack;` }</a>`;
+            
+            let id = `cite-${index + 1}`;
+            if (articleLinks[index].count > 1) { id += `-${articleLinks[index].count}`; }
+            
+            return `<a id="${id}" href="${address}" ${displayText ? "" : `class="citeref"`}>${displayText || `[${index + 1}]`}</a>`;
         });
         
         chunk = chunk.replace(/\[\[(.+?)\]\]/g, (match, displayText) => {
             return `<a style="border-bottom: 1px dotted currentcolor;" title="Jump to section" href="#${ displayText.replaceAll(" ", "_") }">${ displayText }</a>`
         });
 
-        /* --------------------------------------------- table --------------------------------------------- */
+        /* ------------------------------------- table ------------------------------------- */
         if (chunk.startsWith("||table")) {
             let rows = chunk.split("\n").slice(1);
             for (let row = 0; row < rows.length; row += 1) {
@@ -353,7 +356,7 @@ function interpreter(targetElement, articleLinks) {
             return `<table class="auto-table table-${tableNum++}"><tbody>${rows.join("")}</tbody></table>`;
         }
 
-        /* ------------------------------------------ blockquote ------------------------------------------ */
+        /* ---------------------------------- blockquote ---------------------------------- */
         if (chunk.startsWith("||indent")) {
             const lines = chunk.split("\n").slice(1).map( line => {
                 if (line.startsWith("---")) {
@@ -368,11 +371,11 @@ function interpreter(targetElement, articleLinks) {
             return `<blockquote>${ formatting(lines.join("")) }</blockquote>`;
         }
 
-        /* --------------------------------------------- lists --------------------------------------------- */
+        /* ------------------------------------- lists ------------------------------------- */
         /* This isn't a perfect handler but whatever it's fine for my specific purposes. */
         if ( chunk.startsWith("* ") || /^\d+\. /.test(chunk) ) {
             const lines = chunk.split("\n").map( line => {
-                const marginLeftRight = (Math.floor(line.search(/[^\s]/) / 2) + 1) * 40;
+                const marginLeftRight = ((Math.floor(line.search(/[^\s]/) / 2) + 1) * 40) + "px";
                 let listStyleTop = "none";
                 let marginTop = "6px";
                 if (line.startsWith("* ")) {
@@ -381,22 +384,22 @@ function interpreter(targetElement, articleLinks) {
                     marginTop = "10px"
                 }
                 
-                return `<li style="list-style-type: ${ listStyleTop }; display: list-item; margin: ${ marginTop } ${marginLeftRight }px 0;">${ formatting(line.trim()) }</li>`;
+                return `<li style="list-style-type: ${ listStyleTop }; display: list-item; margin: ${ marginTop } ${marginLeftRight } 0;">${ formatting(line.trim()) }</li>`;
             })
             const listType = chunk.startsWith("* ") ? "ul" : "ol";
             
             return `<${ listType } style="padding:0" class="${ fine ? "fine" : "" }">${ lines.join("") }</${ listType }>`;
         }
 
-        /* ------------------------------------------- headings ------------------------------------------- */
+        /* ----------------------------------- headings ----------------------------------- */
         if (chunk.startsWith("# ") || chunk.startsWith("## ") || chunk.startsWith("### ") || chunk.startsWith("#### ")) {
             const headingType = chunk.indexOf(" ");
             chunk = chunk.slice(headingType + 1);
             
-            return `<h${headingType} id=${ chunk.replaceAll(" ", "_").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;").replaceAll("*" ,"") } class="heading">${ formatting(chunk) }</h${headingType}>`;
+            return `<h${headingType} id=${ chunk.replaceAll(" ", "_").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;").replaceAll("*" ,"") } ${ headingType != 4 ? `class="side-heading"` : "" }>${ formatting(chunk) }</h${headingType}>`;
         }
 
-        /* ------------------------------------------- see also ------------------------------------------- */
+        /* ----------------------------------- see also ----------------------------------- */
         if (chunk.startsWith("||see-also")) {
 
             const lines = chunk.split("\n").slice(1)
@@ -408,7 +411,7 @@ function interpreter(targetElement, articleLinks) {
             return "";
         }
 
-        /* -------------------------------- finalizing (normal paragraphs) -------------------------------- */
+        /* ------------------------ finalizing (normal paragraphs) ------------------------ */
         
         chunk = formatting(chunk);
 
@@ -427,25 +430,6 @@ function interpreter(targetElement, articleLinks) {
     
     ["p", "blockquote", "li"].forEach(tagName => Array.from(targetElement.getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) )
 }
-
-function wrapDigits(arg) {
-    if (typeof arg != "string") { arg.innerHTML = wrapDigits(arg.innerHTML); }
-    else {
-        let k = 0;
-        let output = "", left = 0;
-        while (true) {
-            const openTag = arg.indexOf("<");
-            const closeTag = arg.indexOf(">");
-            if (openTag == -1 || closeTag == -1) { break; }
-            output += arg.substring(0, openTag).replace(/(\d+)/g, "<span class='digit'>$1</span>");
-            output += arg.substring(openTag, closeTag + 1);
-            arg = arg.substring(closeTag + 1);
-        }
-        output += arg.replace(/(\d+)/g, "<span class='digit'>$1</span>");
-        return output;
-    }
-}
-
 
 /*  These are the replacements run over all inputs, separated into its
     own function because I needed to call it multiple times. */
@@ -511,6 +495,35 @@ function formatting(input) {
     output += replacements(input);
     return output;
 }
+
+function wrapDigits(arg) {
+    if (typeof arg != "string") { arg.innerHTML = wrapDigits(arg.innerHTML); }
+    else {
+        let k = 0;
+        let output = "", left = 0;
+        while (true) {
+            const openTag = arg.indexOf("<");
+            const closeTag = arg.indexOf(">");
+            if (openTag == -1 || closeTag == -1) { break; }
+            
+            let not_in_tags = arg.substring(0, openTag);
+            let between_tags = arg.substring(openTag, closeTag + 1);
+            
+            output += (not_in_tags.startsWith("[") && not_in_tags.endsWith("]"))
+                ? not_in_tags
+                : not_in_tags.replace(/(\d+)/g, "<span class='digit'>$1</span>");
+            
+            output += between_tags;
+            arg = arg.substring(closeTag + 1);
+        }
+        output += arg.replace(/(\d+)/g, "<span class='digit'>$1</span>");
+        return output;
+    }
+}
+
+
+
+
 
 
 
