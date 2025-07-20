@@ -374,20 +374,14 @@ function interpreter(targetElement, articleLinks) {
         /* ------------------------------------- lists ------------------------------------- */
         /* This isn't a perfect handler but whatever it's fine for my specific purposes. */
         if ( chunk.startsWith("* ") || /^\d+\. /.test(chunk) ) {
-            const lines = chunk.split("\n").map( line => {
-                const marginLeftRight = ((Math.floor(line.search(/[^\s]/) / 2) + 1) * 40) + "px";
-                let listStyleTop = "none";
-                let marginTop = "6px";
-                if (line.startsWith("* ")) {
-                    line = line.slice(1);
-                    listStyleTop = "disc";
-                    marginTop = "10px"
-                }
-                
-                return `<li style="list-style-type: ${ listStyleTop }; display: list-item; margin: ${ marginTop } ${marginLeftRight } 0;">${ formatting(line.trim()) }</li>`;
-            })
             const listType = chunk.startsWith("* ") ? "ul" : "ol";
-            
+            const lines = chunk.split("\n").map( line_ => {
+                const marginLeft = (Math.floor(line_.search(/[^\s]/) / 2) + 1) * 40;
+                line_ = line_.trim();
+                let bullet = line_.startsWith("* ");
+                if (bullet) { line_ = line_.slice(1).trim(); }
+                return `<li style="margin-left: ${marginLeft}px; margin-right: 20px" ${!bullet && "class='no-marker'"}>${formatting(line_)}</li>`;
+            })
             return `<${ listType } style="padding:0" class="${ fine ? "fine" : "" }">${ lines.join("") }</${ listType }>`;
         }
 
