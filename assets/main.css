@@ -137,9 +137,9 @@
                     #article > * { margin-top: 1em; }
                     #article > :nth-child(1) { margin-top: 0 !important; }
                     #article a { color: var(--accent); }
-                    #article p, #article li { line-height: 1.7; font-family: Georgia,serif; }
+                    #article p, #article li { line-height: 1.7; font-family: Trebuchet MS,Georgia,serif; }
                     #article p b, #article li b { letter-spacing: -0.24px; }
-                        #article ol > li::marker, #article .digit { font-family: Georgia Pro,Tahoma,sans-serif; }
+                        /* #article ol > li::marker, #article .digit { font-family: Georgia Pro,Tahoma,sans-serif; } */
                     /* #article p, #article li { text-align: justify; } */
                     #article > p:not(.fine) + p:not(.fine) { text-indent: 2.5em; }
 
