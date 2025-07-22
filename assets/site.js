@@ -5,175 +5,115 @@
     This file is the javascript that creates each page dynamically from the text in the original file.
 */
 
-let pageData =
-/*
-    .html name  |  Article title  |  date  |  options
-
-    unlisted   : doesn't appear in homepage list or sidebar
-    repo-table : hides sidebar, applies different styling, like news lists
-    toc        : include table of contents
-    pinned     : put at top of homepage page list
-
-    The page still works if you don't include it in this list, but it will be 'unlisted' and have no options or page title
-*/
-`
-2 * US news list                          *            * table pinned
-4 * International news list               *            * table pinned
-3 * Canadian news list                    *            * table pinned
-22 * Normalization and status quo bias     * 2025-04-20 *
-21 * Donald Trump                          *            * toc
-20 * Israel–Palestine notes                * 2025-02-24 * toc
-19 * Pierre Poilievre                      * 2025-03-15 *
-18 * Politics fundamentals                 * 2025-01-05 * toc
-17 * Why get bottom surgery?               * 2025-02-09 *
-16 * Sex, gender, & transsexuals           * 2024-12-29 * toc
-15 * Ilhan Omar's comments about Somalia   * 2024-12-23 *
-14 * Enduring falsehoods (Warren, Clinton) * 2024-12-19 *
-13 * A beauty holding a bird               * 2024-12-17 *
-12 * Mark Robinson                         * 2024-12-15 *
-11 * The standard relationship model       * 2024-12-08 *
-10 * Fetishism & politics                  * 2024-11-14 *
-9  * Types of masculinity                  * 2024-11-08 *
-8  * My anime reviews                      * 2024-11-02 *
-7  * Poor things (2023 film)               * 2024-10-31 *
-6  * The trans prison stats argument       * 2024-10-19 *
-5  * Every movie I’ve ever seen            *            *
-`;
-
-pageData = pageData.split("\n")
-    .filter(n => n.trim().length > 3)
-    .map(cell => cell.split("*").map(c => c.trim()));
+let pageData = `
+2  * US news list                * archive
+4  * International news list     * archive
+3  * Canadian news list          * archive
+21 * Donald Trump                * toc
+20 * Israel–Palestine            * toc
+19 * Pierre Poilievre            * toc
+16 * Sex, gender, & transsexuals * toc
+18 * Politics fundamentals       * toc
+`.split("\n").filter(n => n.trim().length > 2).map(cell => cell.split("*").map(c => c.trim()));
 
 window.addEventListener("load", function() {
-    const thisPageDirectory = document.baseURI.split("/").slice(-2)[0]; /* gets name of folder this .html is in */
-    const isIndex = document.getElementById("page-list");
-    const pathToRoot = (isIndex ? "" : "../");
-    document.head.innerHTML += `<link rel="icon" type="image/x-icon" href="${pathToRoot}favicon.ico">`;
+    const thisPageDirectory = document.baseURI.split("/").slice(-2)[0];
+    pageData.forEach(p => { if (p[0] == thisPageDirectory) { document.body.classList.add(p[2]); } })
+    let isIndex = document.getElementById("index");
 
-    let articleLinks = [];
-    const pageList = [];
-    const otherTables = [];
-
-    let includeToc = false;
-    let isTable = false;
-    pageData.forEach(cell => {
-        const pageDirectory = cell[0], pageTitle = cell[1], pageDate = cell[2], pageOptions = cell[3];
-        if (thisPageDirectory == pageDirectory) {
-            document.title = pageTitle;
-            includeToc = pageOptions.includes("toc");
-            isTable = pageOptions.includes("table");
-        }
-            else if (pageOptions.includes("table")) {
-                otherTables.push(`<a href="../${pageDirectory}/index.html">${pageTitle}</a>`);
-            }
-        if (!pageOptions.includes("unlisted")) {
-            pageList.push(`
-                <tr class="row-${pageList.length + 1}">
-                    <td class="col-1">
-                    <a href="${pageDirectory}/index.html" ${pageOptions.includes("pinned") ? "style='display: inline-flex; align-items: center; gap: 5px;'" : ""}>
-                        ${wrapDigits(pageTitle)}${ pageOptions.includes("pinned") ? `<span class="pin-icon"></span>` : "" }
-                    </a>
-                    </td>
-                    <td class="col-2">${ pageDate }</td>
-                </tr>`);
-        }
-    })
-    
-    if (isTable) {
-        document.body.classList.add("table");
-    }
-    else if (includeToc) {
-        document.body.classList.add("toc");
-    }
-    
-    let pageNameDisplay = "";
-    if (!isIndex) { pageNameDisplay = `<a href="../index.html">Index</a> : <a href="">${document.title || "Unlisted document"}</a>`; }
-    
     document.body.innerHTML =
-       `<header id="header">
-        </header>
+       `<header id="header"></header>
         <nav id="nav">
             <div class="nav-inner">
-                <span class="page-name-display">${ pageNameDisplay }</span>
+                <span id="page-name-display">${
+                    isIndex ? "" : `<a href="../index.html">Index</a> &#47; ` + (document.title || "This page")
+                }</span>
                 <a class="to-top-button" href="#">Jump to Top</a>
             </div>
         </nav>
         <div class="c1">
+            <nav id="toc"></nav>
             <div class="c2">
-                <div id="article">${ document.getElementById("page").innerHTML }</div>
-                <footer id="article-footer">
-                    <div class="space-between">
-                        <div class="see-also"></div>
-                        <div style="white-space: nowrap;"><a href="${pathToRoot}index.html">Link to homepage</a></div>
+                <div id="article">${ document.body.innerHTML }</div>
+                <footer id="footer">
+                    <hr>
+                    <div id="about-me">
+                        <img width="100" height="100" src="../assets/grandchamp.png">
+                        <div>
+                            <div>I’m Iris. I live in Canada. I write about things. This GitHub is one place where I host stuff I want to share.</div>
+                            <div style="margin-top: 5px"><a href="https://perennialiris.tumblr.com/">Tumblr</a> · <a href="https://bsky.app/profile/perennialiris.bsky.social">Bluesky</a> · <a href="https://www.youtube.com/@perennialiris">YouTube</a> · <a href="https://substack.com/@perennialiris">Substack</a> · <a href="https://discord.com/invite/fGdV7x5dk2">Discord</a></div>
+                        </div>
                     </div>
+                    <hr>
+                    <div id="see-also"></div>
+                    <div id="citations"></div>
                 </footer>
             </div>
         </div>
-        <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>
-        `;
+        <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>`;
+    let articleLinks = [];
     interpreter(document.getElementById("article"), articleLinks);
 
-    if (isIndex) {
-        document.getElementById("page-list").innerHTML = pageList.join("");
-    }
-    else {
-        const mainContainer = document.querySelector(".c1");
-        
-        if (isTable) {
-            const otherLists = mainContainer.parentNode.insertBefore(document.createElement("div"), mainContainer);
-            otherLists.classList.add("other-lists");
-            otherLists.innerHTML = `<div>Other lists:</div><div class="container">${otherTables.join("")}</div>`;
+    if (!isIndex) { document.getElementById("header").remove(); }
+
+    articleLinks = articleLinks.filter(a => a.url.startsWith("http"));
+    if (articleLinks.length > 0) {
+        articleLinks = articleLinks.map( (link_, n) => {
+            let citelist = "<li>";
+            for (let i = 1; i < link_.count + 1; i += 1) {
+                citelist += ` <a href="#cite-${n + 1}${ i == 1 ? "" : "-" + i }">^</a>`;
+            }
+            return `${citelist} <a target="_blank" id="cite-${n + 1}" href="${link_.url}">${link_.url}</a></li>`;
+        }).join("");
+        document.getElementById("citations").innerHTML = 
+            `External pages referenced above (this list is auto-generated):<ol>${articleLinks}</ol>`;
         }
-        else if (includeToc) {
-            const toc = mainContainer.insertBefore(document.createElement("nav"), mainContainer.firstElementChild);
-            toc.id = "toc";
-            
-            const headings = Array.from(document.getElementsByClassName("side-heading")).slice(1);
-            
-            toc.innerHTML = `<a class="toc-row h1" href="#">(Top of page)</a>`
-                + headings.map ( heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ heading.id }">${heading.innerHTML.replace(/\/?i>/g, "")}</a>` )
-                .join("");
-            
-            const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
-            let currentHeading = "";
-            let canTocHighlighter = true;
-            function tocHighlighter() {
-                if (!canTocHighlighter) {
-                    return;
-                }
-                canTocHighlighter = false;
-                setTimeout(() => { canTocHighlighter = true; }, 300);
-                let headingId;
-                for (let i = 0; i < headings.length; i += 1) {
-                    if (pageYOffset > headings[i].offsetTop - window.innerHeight * 0.5) {
-                        headingId = headings[i].id;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                if (headingId != currentHeading) {
-                for (let i = 0; i < rowsInToc.length; i += 1) {
-                    rowsInToc[i].classList.remove("active-heading");
-                    if (rowsInToc[i].getAttribute("href") == "#" + headingId) {
-                        rowsInToc[i].classList.add("active-heading"); } } }
-                currentHeading = headingId;
-            }
-            function tocWidthCheck() {
-                toc.style.display = (parseInt(window.innerWidth) > 620) ? "block" : "none";
-            }
-            window.addEventListener("resize", tocWidthCheck);
-            window.addEventListener("scroll", tocHighlighter);
-            setTimeout(() => { tocWidthCheck(); tocHighlighter(); }, 100);
-            function scrollerHandler() {
-                if (toc.scrollHeight == toc.offsetHeight || toc.scrollHeight - toc.scrollTop <= toc.clientHeight + 20) {
-                    toc.classList.add("hide-mask");
+    const seeAlso = document.getElementById("see-also");
+
+    if (document.body.classList.contains("toc")) {
+        const toc = document.getElementById("toc");
+        const headings = Array.from(document.getElementsByClassName("article-heading")).slice(1);
+        toc.innerHTML = `<a class="toc-row h1" href="#">(Top of page)</a>`
+            + headings.map ( heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ heading.id }">${heading.innerHTML.replace(/\/?i>/g, "")}</a>` )
+            .join("");
+        
+        const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
+        let currentHeading = "";
+        let canTocHighlighter = true;
+        function tocHighlighter() {
+            if (canTocHighlighter) { return; }
+            canTocHighlighter = false;
+            setTimeout(() => { canTocHighlighter = true; }, 300);
+            let headingId;
+            for (let i = 0; i < headings.length; i += 1) {
+                if (pageYOffset > headings[i].offsetTop - window.innerHeight * 0.5) {
+                    headingId = headings[i].id;
                 }
                 else {
-                    toc.classList.remove("hide-mask"); } }
-            ["scroll", "resize"].forEach(e => { toc.addEventListener(e, scrollerHandler); });
-            scrollerHandler();
+                    break;
+                }
+            }
+            if (headingId != currentHeading) {
+            for (let i = 0; i < rowsInToc.length; i += 1) {
+                rowsInToc[i].classList.remove("active-heading");
+                if (rowsInToc[i].getAttribute("href") == "#" + headingId) {
+                    rowsInToc[i].classList.add("active-heading"); } } }
+            currentHeading = headingId;
         }
+        function tocWidthCheck() {
+            toc.style.display = (parseInt(window.innerWidth) > 620) ? "block" : "none";
+        }
+        window.addEventListener("resize", tocWidthCheck);
+        window.addEventListener("scroll", tocHighlighter);
+        setTimeout(() => { tocWidthCheck(); tocHighlighter(); }, 100);
+        function scrollerHandler() {
+            if (toc.scrollHeight == toc.offsetHeight || toc.scrollHeight - toc.scrollTop <= toc.clientHeight + 20) {
+                toc.classList.add("hide-mask");
+            }
+            else {
+                toc.classList.remove("hide-mask"); } }
+        ["scroll", "resize"].forEach(e => { toc.addEventListener(e, scrollerHandler); });
+        scrollerHandler();
     }
 
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
@@ -181,7 +121,7 @@ window.addEventListener("load", function() {
         if (e.key === 'Escape') {
             setLightbox("close");
         }
-    });
+    })
     let canNavStickyCheck = true, mainNav = document.getElementById("nav");
     function navStickyCheck() {
         if (!canNavStickyCheck || !mainNav) { return; }
@@ -195,25 +135,6 @@ window.addEventListener("load", function() {
     navStickyCheck();
     window.addEventListener("scroll", navStickyCheck);
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    articleLinks = articleLinks.filter(a => a.url.startsWith("http"));
-    if (articleLinks.length > 0) {
-        let citations = document.createElement("div");
-        citations.classList.add("citations");
-        document.getElementById("article-footer").appendChild(citations);
-        citations.innerHTML =
-        `<div>External pages referenced (this list is auto-generated from links found in the above):</div>
-        <ol>
-        ${
-            articleLinks.map( (link_, n) => {
-                let jumpers = `<a href="#cite-${n + 1}">^</a>`;
-                for (let i = 2; i < link_.count; i += 1) {
-                    jumpers += ` <a href="#cite-${n + 1}-${i}">^</a>`;
-                }
-                return `<li class="cite-li">${jumpers} <a target="_blank" id="cite-${n + 1}" href="${link_.url}">${link_.url}</a>`
-            }).join("")
-        }
-        </ol>`;
-    }
 
     if (document.title == "") {
         document.title = "Perennial Iris";
@@ -257,10 +178,10 @@ function interpreter(targetElement, articleLinks) {
             return "<hr>";
         }
         if (chunk.startsWith("||date")) {
-            return `<p class='date'>${ chunk.split("\n")[1] }</p>`;
+            return `<div class="fine">${ chunk.split("\n")[1] }</div>`;
         }
         
-        let fine = chunk.startsWith("^");
+        let fine = chunk.startsWith("^") ? "fine" : "";
         if (fine) {
             chunk = chunk.slice(1);
         }
@@ -274,7 +195,7 @@ function interpreter(targetElement, articleLinks) {
                 let filePath = "media/" + parts[0].trim();
                 let altText = parts[1].trim().replace(/"/g, "&quot;").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;");
                 let maxHeight = parts[2].trim();
-                return `<div><img onclick="setLightbox(this)" style="max-height: ${ maxHeight || 300 }px" src="${ filePath }" title="${ altText }" alt="${ altText }"></div>`;
+                return `<div><img onclick="setLightbox(this)" style="max-height: ${ maxHeight || 250 }px" src="${ filePath }" title="${ altText }" alt="${ altText }"></div>`;
             });
             return `<figure class="image-box">${ lines.join("") }</figure>`;
         }
@@ -336,7 +257,7 @@ function interpreter(targetElement, articleLinks) {
             let id = `cite-${index + 1}`;
             if (articleLinks[index].count > 1) { id += `-${articleLinks[index].count}`; }
             
-            return `<a id="${id}" href="${address}" ${displayText ? "" : `class="citeref"`}>${displayText || `[${index + 1}]`}</a>`;
+            return `<a id="${id}" href="${address}" ${displayText ? "" : `class="citeref"`}>${ displayText || `[${index + 1}]`}</a>`;
         });
         
         chunk = chunk.replace(/\[\[(.+?)\]\]/g, (match, displayText) => {
@@ -375,14 +296,30 @@ function interpreter(targetElement, articleLinks) {
         /* This isn't a perfect handler but whatever it's fine for my specific purposes. */
         if ( chunk.startsWith("* ") || /^\d+\. /.test(chunk) ) {
             const listType = chunk.startsWith("* ") ? "ul" : "ol";
+            let startAttr = "";
+            if (listType == "ol") {
+                startAttr = `start="${chunk.slice(0, chunk.indexOf(" ") - 1)}"`;
+            }
             const lines = chunk.split("\n").map( line_ => {
-                const marginLeft = (Math.floor(line_.search(/[^\s]/) / 2) + 1) * 40;
+                const pLeft = (Math.floor(line_.search(/[^\s]/) / 2) + 1) * 2.5;
                 line_ = line_.trim();
+                
+                let liType = "";
+                if (line_.startsWith("* ")) {
+                    line_ = line_.slice(1).trim();
+                }
+                else if (/^\d+\. /.test(line_)) {
+                    line_ = line_.slice(line_.indexOf(" ")).trim();
+                }
+                else {
+                    liType = `class="no-marker"`;
+                }
+                
                 let bullet = line_.startsWith("* ");
                 if (bullet) { line_ = line_.slice(1).trim(); }
-                return `<li style="margin-left: ${marginLeft}px; margin-right: 20px" ${!bullet && "class='no-marker'"}>${formatting(line_)}</li>`;
+                return `<li style="margin-left: ${pLeft}em; margin-right: ${pLeft}em" ${liType}>${formatting(line_)}</li>`;
             })
-            return `<${ listType } style="padding:0" class="${ fine ? "fine" : "" }">${ lines.join("") }</${ listType }>`;
+            return `<${ listType } ${ startAttr } class="${fine}">${ lines.join("") }</${ listType }>`;
         }
 
         /* ----------------------------------- headings ----------------------------------- */
@@ -390,7 +327,7 @@ function interpreter(targetElement, articleLinks) {
             const headingType = chunk.indexOf(" ");
             chunk = chunk.slice(headingType + 1);
             
-            return `<h${headingType} id=${ chunk.replaceAll(" ", "_").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;").replaceAll("*" ,"") } ${ headingType != 4 ? `class="side-heading"` : "" }>${ formatting(chunk) }</h${headingType}>`;
+            return `<h${headingType} id=${ chunk.replaceAll(" ", "_").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;").replaceAll("*" ,"") } ${ headingType != 4 ? `class="article-heading"` : "" }>${ formatting(chunk) }</h${headingType}>`;
         }
 
         /* ----------------------------------- see also ----------------------------------- */
@@ -400,7 +337,7 @@ function interpreter(targetElement, articleLinks) {
                 .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1").replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
                 .map(c => `<a href="${c}" target="_blank">${c}</a>`);
 
-            document.querySelector(".see-also").innerHTML += `<div>This content elsewhere:</div><ul><li>${lines.join("</li><li>")}</li></ul>`;
+            document.getElementById("see-also").innerHTML += `<div>This content elsewhere:</div><ul><li>${lines.join("</li><li>")}</li></ul>`;
 
             return "";
         }
@@ -419,10 +356,10 @@ function interpreter(targetElement, articleLinks) {
         
         return `<p>${ chunk }</p>`;
     })
-
+    
     targetElement.innerHTML = input.join("");
     
-    ["p", "blockquote", "li"].forEach(tagName => Array.from(targetElement.getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) )
+    ["p", "blockquote", "li" ].forEach(tagName => Array.from(targetElement.getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) )
 }
 
 /*  These are the replacements run over all inputs, separated into its
