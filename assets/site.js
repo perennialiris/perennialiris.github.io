@@ -17,17 +17,18 @@ let pageData = `
 `.split("\n").filter(n => n.trim().length > 2).map(cell => cell.split("*").map(c => c.trim()));
 
 window.addEventListener("load", function() {
+    if (localStorage.getItem("brightness") == "dark") {
+        document.body.classList.add("dark");
+    }
     const thisPageDirectory = document.baseURI.split("/").slice(-2)[0];
     pageData.forEach(p => { if (p[0] == thisPageDirectory) { document.body.classList.add(p[2]); } })
     let isIndex = document.getElementById("index");
-
+ 
     document.body.innerHTML =
-       `<header id="header"></header>
+       `${ true ? `<header id="header"></header>` : "" }
         <nav id="nav">
             <div class="nav-inner">
-                <span id="page-name-display">${
-                    isIndex ? "" : `<a href="../index.html">Index</a> &#47; ` + (document.title || "This page")
-                }</span>
+                <span id="page-name-display">${ isIndex ? "" : `<a href="../index.html">Index</a> &#47; ` + (document.title || "This page") }</span>
                 <a class="to-top-button" href="#">Jump to Top</a>
             </div>
         </nav>
@@ -53,8 +54,9 @@ window.addEventListener("load", function() {
         <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>`;
     let articleLinks = [];
     interpreter(document.getElementById("article"), articleLinks);
-
-    if (!isIndex) { document.getElementById("header").remove(); }
+    
+    /* adds "digit" class to numbers in article: */
+    ["p", "blockquote", "li" ].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
 
     articleLinks = articleLinks.filter(a => a.url.startsWith("http"));
     if (articleLinks.length > 0) {
@@ -81,17 +83,14 @@ window.addEventListener("load", function() {
         let currentHeading = "";
         let canTocHighlighter = true;
         function tocHighlighter() {
-            if (canTocHighlighter) { return; }
+            if (!canTocHighlighter) { setTimeout(() => { tocHighlighter(); }, 300 ); return; }
             canTocHighlighter = false;
             setTimeout(() => { canTocHighlighter = true; }, 300);
             let headingId;
             for (let i = 0; i < headings.length; i += 1) {
                 if (pageYOffset > headings[i].offsetTop - window.innerHeight * 0.5) {
                     headingId = headings[i].id;
-                }
-                else {
-                    break;
-                }
+                } else { break; }
             }
             if (headingId != currentHeading) {
             for (let i = 0; i < rowsInToc.length; i += 1) {
@@ -100,8 +99,12 @@ window.addEventListener("load", function() {
                     rowsInToc[i].classList.add("active-heading"); } } }
             currentHeading = headingId;
         }
+        let canTocWidthCheck = true;
         function tocWidthCheck() {
-            toc.style.display = (parseInt(window.innerWidth) > 620) ? "block" : "none";
+            if (!canTocWidthCheck) { setTimeout(() => { tocWidthCheck(); }, 300 ); return; }
+            canTocWidthCheck = false;
+            setTimeout(() => { canTocWidthCheck = true; }, 300);
+            toc.style.display = (parseInt(window.innerWidth) > 650) ? "block" : "none";
         }
         window.addEventListener("resize", tocWidthCheck);
         window.addEventListener("scroll", tocHighlighter);
@@ -257,7 +260,10 @@ function interpreter(targetElement, articleLinks) {
             let id = `cite-${index + 1}`;
             if (articleLinks[index].count > 1) { id += `-${articleLinks[index].count}`; }
             
-            return `<a id="${id}" href="${address}" ${displayText ? "" : `class="citeref"`}>${ displayText || `[${index + 1}]`}</a>`;
+            return displayText ?
+                `<a id="${id}" href="${address}">${ displayText }</a>`
+                :
+                `<sup><a id="${id}" href="${address}" class="citeref">[${index + 1}]</a></sup>`;
         });
         
         chunk = chunk.replace(/\[\[(.+?)\]\]/g, (match, displayText) => {
@@ -293,7 +299,7 @@ function interpreter(targetElement, articleLinks) {
         }
 
         /* ------------------------------------- lists ------------------------------------- */
-        /* This isn't a perfect handler but whatever it's fine for my specific purposes. */
+        /* Not a perfect handler but whatever it's fine. */
         if ( chunk.startsWith("* ") || /^\d+\. /.test(chunk) ) {
             const listType = chunk.startsWith("* ") ? "ul" : "ol";
             let startAttr = "";
@@ -304,11 +310,12 @@ function interpreter(targetElement, articleLinks) {
                 const pLeft = (Math.floor(line_.search(/[^\s]/) / 2) + 1) * 2.5;
                 line_ = line_.trim();
                 
-                let liType = "";
+                let liType = "", liValue = "";
                 if (line_.startsWith("* ")) {
                     line_ = line_.slice(1).trim();
                 }
                 else if (/^\d+\. /.test(line_)) {
+                    liValue = `value="${line_.slice(0, line_.indexOf(" ") - 1)}"`;
                     line_ = line_.slice(line_.indexOf(" ")).trim();
                 }
                 else {
@@ -317,7 +324,7 @@ function interpreter(targetElement, articleLinks) {
                 
                 let bullet = line_.startsWith("* ");
                 if (bullet) { line_ = line_.slice(1).trim(); }
-                return `<li style="margin-left: ${pLeft}em; margin-right: ${pLeft}em" ${liType}>${formatting(line_)}</li>`;
+                return `<li style="margin-left: ${pLeft}em; margin-right: ${pLeft}em" ${liType} ${liValue}>${formatting(line_)}</li>`;
             })
             return `<${ listType } ${ startAttr } class="${fine}">${ lines.join("") }</${ listType }>`;
         }
@@ -358,8 +365,6 @@ function interpreter(targetElement, articleLinks) {
     })
     
     targetElement.innerHTML = input.join("");
-    
-    ["p", "blockquote", "li" ].forEach(tagName => Array.from(targetElement.getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) )
 }
 
 /*  These are the replacements run over all inputs, separated into its

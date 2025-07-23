@@ -1,10 +1,10 @@
 
-    @font-face { font-family: "Georgia Pro"; src: url(fonts/georgia-pro-regular.ttf) format("truetype"); font-weight: 400; font-style: normal; }
-    @font-face { font-family: "Georgia Pro"; src: url(fonts/georgia-pro-bold.ttf) format("truetype"); font-weight: 700; font-style: normal; }
-    @font-face { font-family: "Georgia Pro"; src: url(fonts/georgia-pro-italic.ttf) format("truetype"); font-weight: 400; font-style: italic; }
-    @font-face { font-family: "Georgia Pro"; src: url(fonts/georgia-pro-bold-italic.ttf) format("truetype"); font-weight: 700; font-style: italic; }
-    /* @font-face { font-family: "Inter"; src: url(fonts/inter-regular.woff2) format("woff2"); font-weight: 400 700; font-style: normal; } */
-    /* @font-face { font-family: "Inter"; src: url(fonts/inter-italic.woff2) format("woff2"); font-weight: 400 700; font-style: italic; } */
+    /* @font-face { font-family: "Georgia Pro"; src: url(fonts/georgia-pro-regular.ttf) format("truetype"); font-weight: 400; font-style: normal; } */
+    /* @font-face { font-family: "Georgia Pro"; src: url(fonts/georgia-pro-bold.ttf) format("truetype"); font-weight: 700; font-style: normal; } */
+    /* @font-face { font-family: "Georgia Pro"; src: url(fonts/georgia-pro-italic.ttf) format("truetype"); font-weight: 400; font-style: italic; } */
+    /* @font-face { font-family: "Georgia Pro"; src: url(fonts/georgia-pro-bold-italic.ttf) format("truetype"); font-weight: 700; font-style: italic; } */
+    @font-face { font-family: "Inter"; src: url(fonts/inter-regular.woff2) format("woff2"); font-weight: 400 700; font-style: normal; }
+    @font-face { font-family: "Inter"; src: url(fonts/inter-italic.woff2) format("woff2"); font-weight: 400 700; font-style: italic; }
     @font-face { font-family: "Roboto"; src: url(fonts/roboto-regular.woff2) format("woff2"); font-weight: 400 700; font-style: normal; }
     @font-face { font-family: "Roboto"; src: url(fonts/roboto-italic.woff2) format("woff2"); font-weight: 400 700; font-style: italic; }
     /* @font-face { font-family: "Open Sans"; src: url(fonts/open-sans-regular.woff2) format("woff2"); font-weight: 400 700; font-style: normal; } */
@@ -18,53 +18,72 @@
     /* @font-face { font-family: "Merriweather"; font-style: italic; font-weight: 400 700; font-stretch: 100%; src: url(fonts/merriweather-italic.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; } */
     /* @font-face { font-family: "Merriweather"; font-style: normal; font-weight: 400 700; font-stretch: 100%; src: url(fonts/merriweather-regular-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; } */
     /* @font-face { font-family: "Merriweather"; font-style: italic; font-weight: 400 700; font-stretch: 100%; src: url(fonts/merriweather-italic-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; } */
-    @font-face { font-family: "Ubuntu"; src: url(fonts/ubuntu-regular.woff2) format("woff2"); font-weight: 400; font-style: normal; }
-    @font-face { font-family: "Ubuntu"; src: url(fonts/ubuntu-bold.woff2) format("woff2"); font-weight: 700; font-style: normal; }
-    @font-face { font-family: "Ubuntu"; src: url(fonts/ubuntu-italic.woff2) format("woff2"); font-weight: 400; font-style: italic; }
-    @font-face { font-family: "Ubuntu"; src: url(fonts/ubuntu-bold-italic.woff2) format("woff2"); font-weight: 700; font-style: italic; }
+    /* @font-face { font-family: "Ubuntu"; src: url(fonts/ubuntu-regular.woff2) format("woff2"); font-weight: 400; font-style: normal; } */
+    /* @font-face { font-family: "Ubuntu"; src: url(fonts/ubuntu-bold.woff2) format("woff2"); font-weight: 700; font-style: normal; } */
+    /* @font-face { font-family: "Ubuntu"; src: url(fonts/ubuntu-italic.woff2) format("woff2"); font-weight: 400; font-style: italic; } */
+    /* @font-face { font-family: "Ubuntu"; src: url(fonts/ubuntu-bold-italic.woff2) format("woff2"); font-weight: 700; font-style: italic; } */
     /* @font-face { font-family: "Faculty Glyphic"; font-style: normal; font-weight: 400 600 700; src: url(fonts/faculty-glyphic.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; } */
     /* @font-face { font-family: "Faculty Glyphic"; font-style: normal; font-weight: 400 600 700; src: url(fonts/faculty-glyphic-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; } */
 
     :root {
         --header-height: 142px;
-        --nav-height:     39px;
-        --main-width:    640px;
-        --toc-width:     240px;
-        --space:          46px;
-        --article-font-size:    16px;
-        --secondary-font-size:  14px;
-        --accent:      #3763a4;
-        --selection:   #d3e5ff;
-        --grey-22:     #222222;
-        --grey-33:     #373737;
-        --grey-55:     #555555;
-        --grey-80:     #808080;
-        --grey-99:     #999999;
-        --grey-a0:     #aaaaaa;
-        --white-f0:    #f0f0f0;
-        --white-ff:    #ffffff;
+        --nav-height: 39px;
+        --content-width: 640px;
+        --toc-width: 220px;
+        --spacer: 46px;
+        /* font-family */
+        --ff-system: Nirmala UI,Segoe UI,system-ui,sans-serif;
+        --ff-aux: Trebuchet MS,Nirmala UI,Segoe UI,system-ui,sans-serif;
+        --ff-heading-large: Roboto Slab,Trebuchet MS,Nirmala UI,Segoe UI,system-ui;
+        --ff-heading-small: Nirmala UI,Segoe UI,system-ui;
+        --ff-article-main: Georgia,Constantia,sans-serif;
+        --ff-article-number: Georgia Pro,Tahoma,system-ui;
+        --ff-table: Roboto,sans-serif;
+        --ff-monospace: Consolas,monospace;
+        --ff-mdash: Ubuntu,Nirmala UI,Segoe UI,Arial,Times,sans-serif;
+        /* font size */
+        --fs-article-main: 15.4px;
+        --fs-article-table: 15px;
+        --fs-article-small: 14.4px;
+        --fs-root: 14.4px;
+        /* colours */
+        --accent: #4060b5;
+        --selection: #d2dfff;
+        --grey-22: #222222;
+        --grey-33: #3a3a3a;
+        --grey-55: #555555;
+        --grey-80: #808080;
+        --grey-90: #909090;
+        --grey-a0: #aaaaaa;
+        --grey-d0: #d0d0d0;
+        --grey-e0: #e0e0e0;
+        --grey-f0: #f0f0f0;
+        --grey-ff: #ffffff;
     }
 
     .dark {
-        --accent:    #5b422a;
-        --selection: #282828;
-        --grey-22:   #5c5c5c;
-        --grey-33:   #464748;
-        --grey-55:   #474747;
-        --grey-80:   #3b3c3e;
-        --grey-99:   #282828;
-        --grey-a0:   #202020;
-        --white-f0:  #101010;
-        --white-ff:  #040404;
+        --accent: #5b422a;
+        --selection: #181818;
+        --grey-22: #5c5c5c;
+        --grey-33: #4b4c4d;
+        --grey-55: #474747;
+        --grey-80: #37383a;
+        --grey-90: #282828;
+        --grey-a0: #202020;
+        --grey-f0: #050505;
+        --grey-ff: #000000;
     }
+    .dark .image-box img { opacity: 0.7; }
+    .dark #nav { background-color: #0a0a0a; }
+    .dark #article * { font-family: Ubuntu,system-ui !important; }
+    .dark ::selection { background-color: var(--selection); color: #666; }
 
-    .toc { --main-width: 728px; }
-    .archive { --main-width: 820px; }
-    .archive #article .auto-table .col-1 { background-color: var(--white-f0); }
+    .toc { --content-width: 718px; }
+    .archive { --content-width: 820px; }
+    .archive #article .auto-table .col-1 { background-color: var(--grey-f0); }
 
     * { margin: 0; padding: 0; }
     ::selection { background-color: var(--selection); color: var(--grey-33); }
-    .dark ::selection { background-color: var(--selection); color: var(--grey-22); }
 
     a { color: inherit; text-decoration: none; text-underline-offset: 2px; }
     a:hover { text-decoration: underline; }
@@ -78,34 +97,34 @@
 
     .space-between { display: flex; justify-content: space-between; gap: 8px; }
 
-    html { scroll-padding-top: calc(var(--nav-height) + 30px); font-size: 14px; min-width: 350px; scrollbar-color: #666 #ddd; color: var(--grey-33); min-height: 100vh; line-height: 1.3; background-color: var(--white-ff); font-family: system-ui; }
+    html { scroll-padding-top: calc(var(--nav-height) + 30px); font-size: var(--fs-root); min-width: 350px; scrollbar-color: #666 #ddd; color: var(--grey-33); min-height: 100vh; line-height: 1.3; background-color: var(--grey-ff); font-family: var(--ff-system); }
     body { }
     .page-wrapper { }
         .page { }
             #header { height: var(--header-height); background-color: black; }
-            #nav { font-family: Trebuchet MS,system-ui; background-color: #292929; color: dimgrey; position: sticky; top: -1px; height: var(--nav-height); display: flex; align-items: center; z-index: 2; }
-                .nav-inner { width: var(--main-width); padding: 0 1rem; margin: 0 auto; }
-                    #page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--main-width) - 60px); padding-right: 10px; }
+            #nav { font-family: var(--ff-aux); background-color: #252525; color: dimgrey; position: sticky; top: -1px; height: var(--nav-height); display: flex; align-items: center; z-index: 2; }
+                .nav-inner { width: var(--content-width); padding: 0 1rem; margin: 0 auto; }
+                    #page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--content-width) - 60px); padding-right: 10px; }
                     .to-top-button { float: right; opacity: 0; pointer-events: none; transition: opacity 1s; }
                     .sticky-active .to-top-button { cursor: pointer; opacity: 1; pointer-events: auto; }
 
             .c1 {
                 margin: 0 auto;
-                padding: var(--space) 1rem;
+                padding: var(--spacer) 1rem;
                 display: flex;
                 align-items: flex-start;
                 justify-content: center;
-                gap: var(--space);
+                gap: var(--spacer);
             }
 
-            .toc .nav-inner { width: calc(var(--toc-width) + var(--space) + var(--main-width)); }
+            .toc .nav-inner { width: calc(var(--toc-width) + var(--spacer) + var(--content-width)); }
             .toc .nav-inner, .toc .c1 {
                 padding-right: clamp(
                     1rem,
-                    calc( 0.25 * calc( 100vw - 20px - calc( var(--toc-width) + var(--main-width) + var(--space) ) ) ),
+                    calc( 0.25 * calc( 100vw - 20px - calc( var(--toc-width) + var(--content-width) + var(--spacer) ) ) ),
                     300px);
             }
-                .c2 { max-width: var(--main-width); width: 100%; }
+                .c2 { max-width: var(--content-width); width: 100%; }
 
                 #toc {
                     display: none;
@@ -116,7 +135,7 @@
                     top: calc(2em + var(--nav-height));
                     overflow: hidden;
                     scrollbar-width: thin;
-                    scrollbar-color: var(--grey-80) var(--grey-55);
+                    scrollbar-color: var(--grey-90) var(--grey-f0);
                     -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent);
                     mask-image: linear-gradient(to bottom, black 80%, transparent);
                     transition: mask-image 0.2s;
@@ -130,46 +149,45 @@
                         .toc-row { margin-top: 0.7em; }
                         .toc-row.active-heading { color: var(--grey-33); }
                         .toc-row.h1 { margin-left: 0; max-width: calc(var(--toc-width) - 25px); }
-                        .toc-row.h2 { margin-left: 10px; max-width: calc(var(--toc-width) - 35px); }
+                        .toc-row.h2 { margin-left: 0px; max-width: calc(var(--toc-width) - 25px); }
                         .toc-row.h3 { margin-left: 25px; max-width: calc(var(--toc-width) - 50px); }
 
-                #article { width: 100%; max-width: var(--main-width); font-size: var(--article-font-size); }
+                #article { width: 100%; max-width: var(--content-width); font-size: var(--fs-article-main); font-family: var(--ff-article-main); }
                     #article > * { margin-top: 1em; }
                     #article > :nth-child(1) { margin-top: 0 !important; }
                     #article a { color: var(--accent); }
-                    #article p, #article li { line-height: 1.7; font-family: Trebuchet MS,Georgia,serif; }
+                    #article p, #article li { line-height: 1.7; font-family: var(--ff-article-main); }
                     #article p b, #article li b { letter-spacing: -0.24px; }
-                        /* #article ol > li::marker, #article .digit { font-family: Georgia Pro,Tahoma,sans-serif; } */
+                    #article ol > li::marker, #article .digit { font-family: var(--ff-article-number); }
+                    /* #article > figure.image-float + p:not(.fine), #article > p:not(.fine) + p:not(.fine) { text-indent: 2.5em; } */
                     /* #article p, #article li { text-align: justify; } */
-                    #article > p:not(.fine) + p:not(.fine) { text-indent: 2.5em; }
-
-                    #article h1, #article h2, #article h3, #article h4 { color: var(--grey-22); font-weight: 700; clear: both; font-family: Trebuchet MS,sans-serif; }
-                        #article h1 { font-size: 2em; }
-                        #article h2 { font-size: 1.5em; }
-                        #article h3 { font-size: 1.25em; }
-                        #article h4 { font-size: 1.0625em; }
+                    #article h1, #article h2, #article h3, #article h4 { font-weight: 700; clear: both; }
+                        #article h1 { font-size: 32px; font-family: var(--ff-heading-large); color: var(--grey-22); }
+                        #article h2 { font-size: 24px; font-family: var(--ff-heading-large); color: var(--grey-22); }
+                        #article h3 { font-size: 18px; font-family: var(--ff-heading-small); }
+                        #article h4 { font-size: 16px; font-family: var(--ff-heading-small); }
                     #article h1 + .fine { margin-top: 0.5em; }
                     #article hr { margin: 2em 0; }
-                    #article code { background-color: #ececee; vertical-align: 1px; line-height: 1; padding: 0 1px; font-family: monospace; }
-                    #article .codeblock { background-color: var(--white-f0); white-space: pre-wrap; font-family: monospace; padding: 2px 8px; }
+                    #article code { background-color: #ececee; vertical-align: 1px; line-height: 1; padding: 0 1px; font-family: var(--ff-monospace); }
+                    #article .codeblock { background-color: var(--grey-f0); white-space: pre-wrap; font-family: var(--ff-monospace); padding: 6px 10px; }
                     #article .fine,
                     #article .fine *,
-                    #article .fine ::marker { color: var(--grey-80); font-family: system-ui; font-size: var(--secondary-font-size); }
-                    #article .mdash { margin-inline: 2px; line-height: 1; font-family: Segoe UI,Nirmala UI,Arial,Times,sans-serif; }
-                    #article .citeref { vertical-align: top; line-height: 1.3; font-size: 11px; font-family: Verdana,Tahoma,Arial,sans-serif !important; }
-                        /* #article .citeref .digit { font-family: inherit !important; } */
-                    #article blockquote { margin-inline: 1px; background-color: var(--white-f0); padding: 14px 16px; border-left: 3px solid currentcolor; }
+                    #article .fine ::marker { color: var(--grey-80); font-size: var(--fs-article-small); font-family: var(--ff-system); }
+                    #article .mdash { margin-inline: 1px; line-height: 1; font-family: var(--ff-mdash); }
+                    #article sup { vertical-align: super; }
+                    #article .citeref { font-size: 11px; margin-left: 1px; font-family: Verdana,Tahoma,Arial,sans-serif !important; }
+                    #article blockquote { margin-left: 1px; background-color: var(--grey-f0); padding: 14px 16px; border-left: 3px solid currentcolor; }
                         #article blockquote p + p { margin-top: 0.5em; }
                         #article blockquote .attribution { text-align: right; color: var(--grey-80); }
-                    #article .auto-table { line-height: 1.5; border-collapse: collapse; font-size: var(--secondary-font-size); }
+                    #article .auto-table { line-height: 1.6; border-collapse: collapse; font-size: var(--fs-article-table); font-family: var(--ff-table) }
                         #article .auto-table td { border: 1px solid var(--grey-a0); padding: 5px 8px 4px; vertical-align: top; }
                     #article .auto-video { display: block; width: 100%; max-height: 300px; background-color: transparent; }
                     #article figure.image-box { display: flex; align-items: center; justify-content: space-evenly; max-width: 100%; gap: 8px; overflow: hidden; }
                         #article figure.image-box div { display: inline-block; border: 1px solid var(--grey-a0); height: 100%; }
-                        #article figure.image-box div img { width: inherit; max-width: 100%; display: block; object-fit: contain; }
-                    #article figure.image-float { margin: 1em 0 15px 18px; padding: 8px; border: 1px solid var(--grey-a0); background-color: var(--white-f0); float: right; }
-                        #article figure.image-float img { margin: auto; display: block; border: 1px solid var(--grey-a0); object-fit: contain; max-width: 200px; max-height: 250px; }
-                        #article figure.image-float figcaption { margin-top: 5px; text-align: center; max-width: 200px; font-size: var(--secondary-font-size); }
+                        #article figure.image-box div img { cursor: pointer; width: inherit; max-width: 100%; display: block; object-fit: contain; }
+                    #article figure.image-float { margin: 1em 0 15px 18px; padding: 8px; border: 1px solid var(--grey-a0); background-color: var(--grey-f0); float: right; }
+                        #article figure.image-float img { cursor: pointer; margin: auto; display: block; border: 1px solid var(--grey-a0); object-fit: contain; max-width: 200px; max-height: 250px; }
+                        #article figure.image-float figcaption { margin-top: 5px; text-align: center; max-width: 200px; font-family: var(--ff-aux); font-size: var(--fs-article-small); }
 
                 #footer {
                     color: var(--grey-55);
@@ -189,7 +207,7 @@
                     #see-also ul,
                     #see-also li { margin: 2px 0; padding: 0; list-style-type: none; }
 
-                    #citations { color: var(--grey-99); box-sizing: border-box; }
+                    #citations { color: var(--grey-90); box-sizing: border-box; }
                     #citations ol { margin: 0; padding: 0 20px; }
                     #citations ol li { margin: 2px 8px; padding: 0; }
 
