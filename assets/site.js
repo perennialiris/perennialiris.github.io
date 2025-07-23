@@ -209,8 +209,8 @@ function interpreter(targetElement, articleLinks) {
                 while (parts.length < 3) { parts.push(""); }
                 
                 let filePath = "media/" + parts[0].trim();
-                let caption = parts[1].trim();
-                let altText = parts[2].trim();
+                let caption = formatting(parts[1].trim());
+                let altText = formatting(parts[2].trim());
                 if (caption != "") { caption = `<figcaption>${caption}</figcaption>`; }
                 
                 return `<figure class="image-float"><img onclick="setLightbox(this)" src="${filePath}" title="${altText}" alt="${altText}">${caption}</figure>`;

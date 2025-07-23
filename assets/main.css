@@ -36,8 +36,8 @@
         --ff-aux: Trebuchet MS,Nirmala UI,Segoe UI,system-ui,sans-serif;
         --ff-heading-large: Roboto Slab,Trebuchet MS,Nirmala UI,Segoe UI,system-ui;
         --ff-heading-small: Nirmala UI,Segoe UI,system-ui;
-        --ff-article-main: Georgia,Constantia,sans-serif;
-        --ff-article-number: Georgia Pro,Tahoma,system-ui;
+        --ff-article-main: Georgia,Constantia,Trebuchet MS,sans-serif;
+        --ff-article-number: Georgia Pro,Tahoma,Trebuchet MS,system-ui;
         --ff-table: Roboto,sans-serif;
         --ff-monospace: Consolas,monospace;
         --ff-mdash: Ubuntu,Nirmala UI,Segoe UI,Arial,Times,sans-serif;
