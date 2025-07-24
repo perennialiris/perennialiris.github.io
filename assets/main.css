@@ -10,6 +10,7 @@
     /* @font-face { font-family: "Open Sans"; src: url(fonts/open-sans-regular.woff2) format("woff2"); font-weight: 400 700; font-style: normal; } */
     /* @font-face { font-family: "Open Sans"; src: url(fonts/open-sans-italic.woff2) format("woff2"); font-weight: 400 700; font-style: italic; } */
     /* @font-face { font-family: "Sora"; font-style: normal; font-weight: 400 700; src: url(fonts/sora-regular.woff2) format('woff2'); font-style: normal; } */
+    @font-face { font-family: "Noto Sans JP"; font-style: normal; font-weight: 400 700; src: url(fonts/noto-sans-jp.woff2) format('woff2'); font-style: normal; }
     @font-face { font-family: "Roboto Slab"; font-weight: 400 700; src: url(fonts/roboto-slab-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
     @font-face { font-family: "Roboto Slab"; font-style: normal; font-weight: 100 900; src: url(fonts/roboto-slab.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
     /* @font-face { font-family: "Lora"; src: url(fonts/lora-regular.woff2) format("woff2"); font-weight: 400 700; font-style: normal; } */
@@ -33,9 +34,11 @@
         --spacer: 46px;
         /* font-family */
         --ff-system: Nirmala UI,Segoe UI,system-ui,sans-serif;
-        --ff-aux: Trebuchet MS,Nirmala UI,Segoe UI,system-ui,sans-serif;
-        --ff-heading-large: Roboto Slab,Trebuchet MS,Nirmala UI,Segoe UI,system-ui;
-        --ff-heading-small: Nirmala UI,Segoe UI,system-ui;
+        --ff-nav: Trebuchet MS,Nirmala UI,Segoe UI,system-ui,sans-serif;
+        --ff-h1: Roboto Slab,Trebuchet MS,Nirmala UI,Segoe UI,system-ui;
+        --ff-h2: Roboto Slab,Trebuchet MS,Nirmala UI,Segoe UI,system-ui;
+        --ff-h3: Nirmala UI,Segoe UI,system-ui;
+        --ff-h4: Nirmala UI,Segoe UI,system-ui;
         --ff-article-main: Georgia,Constantia,Trebuchet MS,sans-serif;
         --ff-article-number: Georgia Pro,Tahoma,Trebuchet MS,system-ui;
         --ff-table: Roboto,sans-serif;
@@ -48,9 +51,9 @@
         --fs-root: 14.4px;
         /* colours */
         --accent: #4060b5;
-        --selection: #d2dfff;
+        --selection: #c4d6ff;
         --grey-22: #222222;
-        --grey-33: #3a3a3a;
+        --grey-33: #373737;
         --grey-55: #555555;
         --grey-80: #808080;
         --grey-90: #909090;
@@ -73,7 +76,7 @@
         --grey-f0: #050505;
         --grey-ff: #000000;
     }
-    .dark .image-box img { opacity: 0.7; }
+    .dark figure img { opacity: 0.7; }
     .dark #nav { background-color: #0a0a0a; }
     .dark #article * { font-family: Ubuntu,system-ui !important; }
     .dark ::selection { background-color: var(--selection); color: #666; }
@@ -102,7 +105,7 @@
     .page-wrapper { }
         .page { }
             #header { height: var(--header-height); background-color: black; }
-            #nav { font-family: var(--ff-aux); background-color: #252525; color: dimgrey; position: sticky; top: -1px; height: var(--nav-height); display: flex; align-items: center; z-index: 2; }
+            #nav { font-family: var(--ff-nav); background-color: #252525; color: dimgrey; position: sticky; top: -1px; height: var(--nav-height); display: flex; align-items: center; z-index: 2; }
                 .nav-inner { width: var(--content-width); padding: 0 1rem; margin: 0 auto; }
                     #page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--content-width) - 60px); padding-right: 10px; }
                     .to-top-button { float: right; opacity: 0; pointer-events: none; transition: opacity 1s; }
@@ -152,20 +155,21 @@
                         .toc-row.h2 { margin-left: 0px; max-width: calc(var(--toc-width) - 25px); }
                         .toc-row.h3 { margin-left: 25px; max-width: calc(var(--toc-width) - 50px); }
 
-                #article { width: 100%; max-width: var(--content-width); font-size: var(--fs-article-main); font-family: var(--ff-article-main); }
+                #article { width: 100%; max-width: var(--content-width); font-size: var(--fs-article-main); }
                     #article > * { margin-top: 1em; }
                     #article > :nth-child(1) { margin-top: 0 !important; }
                     #article a { color: var(--accent); }
-                    #article p, #article li { line-height: 1.7; font-family: var(--ff-article-main); }
+                    #article p, #article li { line-height: 1.6; font-family: var(--ff-article-main); font-family: var(--ff-article-main); text-align: left; }
                     #article p b, #article li b { letter-spacing: -0.24px; }
                     #article ol > li::marker, #article .digit { font-family: var(--ff-article-number); }
-                    /* #article > figure.image-float + p:not(.fine), #article > p:not(.fine) + p:not(.fine) { text-indent: 2.5em; } */
-                    /* #article p, #article li { text-align: justify; } */
+                    .indent #article > p + figure.image-float + p:not(.fine),
+                    .indent #article > p:not(.fine) + p:not(.fine) { text-indent: 2.5em; }
+                    .justify #article p, .justify #article li { text-align: justify; }
                     #article h1, #article h2, #article h3, #article h4 { font-weight: 700; clear: both; }
-                        #article h1 { font-size: 32px; font-family: var(--ff-heading-large); color: var(--grey-22); }
-                        #article h2 { font-size: 24px; font-family: var(--ff-heading-large); color: var(--grey-22); }
-                        #article h3 { font-size: 18px; font-family: var(--ff-heading-small); }
-                        #article h4 { font-size: 16px; font-family: var(--ff-heading-small); }
+                        #article h1 { font-size: 32px; font-family: var(--ff-h1); color: var(--grey-22); }
+                        #article h2 { font-size: 26px; font-family: var(--ff-h2); color: var(--grey-22); }
+                        #article h3 { font-size: 20px; font-family: var(--ff-h3); color: var(--grey-22); }
+                        #article h4 { font-size: 16px; font-family: var(--ff-h4); }
                     #article h1 + .fine { margin-top: 0.5em; }
                     #article hr { margin: 2em 0; }
                     #article code { background-color: #ececee; vertical-align: 1px; line-height: 1; padding: 0 1px; font-family: var(--ff-monospace); }
@@ -185,9 +189,9 @@
                     #article figure.image-box { display: flex; align-items: center; justify-content: space-evenly; max-width: 100%; gap: 8px; overflow: hidden; }
                         #article figure.image-box div { display: inline-block; border: 1px solid var(--grey-a0); height: 100%; }
                         #article figure.image-box div img { cursor: pointer; width: inherit; max-width: 100%; display: block; object-fit: contain; }
-                    #article figure.image-float { margin: 1em 0 15px 18px; padding: 8px; border: 1px solid var(--grey-a0); background-color: var(--grey-f0); float: right; }
+                    #article figure.image-float { margin-bottom: 1em; margin-left: 20px; padding: 10px; border: 1px solid var(--grey-a0); background-color: var(--grey-f0); float: right; display: flex; flex-direction: column; gap: 10px; }
                         #article figure.image-float img { cursor: pointer; margin: auto; display: block; border: 1px solid var(--grey-a0); object-fit: contain; max-width: 200px; max-height: 250px; }
-                        #article figure.image-float figcaption { margin-top: 5px; text-align: center; max-width: 200px; font-family: var(--ff-aux); font-size: var(--fs-article-small); }
+                        #article figure.image-float figcaption { margin-top: 5px; text-align: center; max-width: 200px; font-size: var(--fs-article-small); }
 
                 #footer {
                     color: var(--grey-55);

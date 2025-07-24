@@ -10,7 +10,7 @@ let pageData = `
 4  * International news list     * archive
 3  * Canadian news list          * archive
 21 * Donald Trump                * toc
-20 * Israel–Palestine            * toc
+20 * Israel–Palestine            * toc justify indent
 19 * Pierre Poilievre            * toc
 16 * Sex, gender, & transsexuals * toc
 18 * Politics fundamentals       * toc
@@ -18,14 +18,12 @@ let pageData = `
 
 window.addEventListener("load", function() {
     // document.getElementsByTagName("html")[0].classList.add("dark");
-    if (localStorage.getItem("brightness") == "dark") {
-        document.body.classList.add("dark");
-    } else {
-        localStorage.setItem("brightness","light");
-    }
-    
+    if (localStorage.getItem("brightness") == "dark") { document.body.classList.add("dark"); }
+    else { localStorage.setItem("brightness","light"); }
+
+    /* applying classes from list above */
     const thisPageDirectory = document.baseURI.split("/").slice(-2)[0];
-    pageData.forEach(p => { if (p[0] == thisPageDirectory) { document.body.classList.add(p[2]); } })
+    pageData.forEach(p => { if (p[0] == thisPageDirectory) { document.body.classList.add(...p[2].split(" ")); } })
     let isIndex = document.getElementById("index");
  
     document.body.innerHTML =
@@ -60,7 +58,7 @@ window.addEventListener("load", function() {
     interpreter(document.getElementById("article"), articleLinks);
     
     /* adds "digit" class to numbers in article: */
-    // ["p", "blockquote", "li" ].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
+    ["p", "blockquote", "li" ].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
 
     articleLinks = articleLinks.filter(a => a.url.startsWith("http"));
     if (articleLinks.length > 0) {
@@ -194,7 +192,6 @@ function interpreter(targetElement, articleLinks) {
         }
         
         /* ------------------------------------ images ------------------------------------ */
-        
         if (chunk.startsWith("||image-box")) {
             const lines = chunk.split("\n").slice(1).map( line => {
                 const parts = line.split("|");
@@ -208,18 +205,18 @@ function interpreter(targetElement, articleLinks) {
         }
         
         if (chunk.startsWith("||image-float")) {
-            return chunk.split("\n").slice(1).map( line => {
+            const lines = chunk.split("\n").slice(1).map( line => {
                 const parts = line.split("|");
                 while (parts.length < 3) { parts.push(""); }
                 
                 let filePath = "media/" + parts[0].trim();
                 let caption = formatting(parts[1].trim());
                 let altText = formatting(parts[2].trim());
-                if (caption != "") { caption = `<figcaption>${caption}</figcaption>`; }
+                if (caption != "") { caption = `<figcaption>${ caption }</figcaption>`; }
                 
-                return `<figure class="image-float"><img onclick="setLightbox(this)" src="${filePath}" title="${altText}" alt="${altText}">${caption}</figure>`;
-            }).join("");
-            
+                return `<div><img onclick="setLightbox(this)" src="${filePath}" title="${altText}" alt="${altText}">${caption}</div>`;
+            });
+            return `<figure class="image-float">${lines.join("") }</figure>`;
         }
         /* ------------------------------------- code ------------------------------------- */
         if (chunk.startsWith("||codeblock")) {
