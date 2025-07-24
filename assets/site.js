@@ -17,9 +17,13 @@ let pageData = `
 `.split("\n").filter(n => n.trim().length > 2).map(cell => cell.split("*").map(c => c.trim()));
 
 window.addEventListener("load", function() {
+    // document.getElementsByTagName("html")[0].classList.add("dark");
     if (localStorage.getItem("brightness") == "dark") {
         document.body.classList.add("dark");
+    } else {
+        localStorage.setItem("brightness","light");
     }
+    
     const thisPageDirectory = document.baseURI.split("/").slice(-2)[0];
     pageData.forEach(p => { if (p[0] == thisPageDirectory) { document.body.classList.add(p[2]); } })
     let isIndex = document.getElementById("index");
@@ -56,7 +60,7 @@ window.addEventListener("load", function() {
     interpreter(document.getElementById("article"), articleLinks);
     
     /* adds "digit" class to numbers in article: */
-    ["p", "blockquote", "li" ].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
+    // ["p", "blockquote", "li" ].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
 
     articleLinks = articleLinks.filter(a => a.url.startsWith("http"));
     if (articleLinks.length > 0) {
