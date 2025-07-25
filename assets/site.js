@@ -17,7 +17,7 @@ let pageData = `
 `.split("\n").filter(n => n.trim().length > 2).map(cell => cell.split("*").map(c => c.trim()));
 
 window.addEventListener("load", function() {
-    // document.getElementsByTagName("html")[0].classList.add("dark");
+    // document.body.classList.add("dark");
     if (localStorage.getItem("brightness") == "dark") { document.body.classList.add("dark"); }
     else { localStorage.setItem("brightness","light"); }
 
@@ -325,9 +325,9 @@ function interpreter(targetElement, articleLinks) {
                 
                 let bullet = line_.startsWith("* ");
                 if (bullet) { line_ = line_.slice(1).trim(); }
-                return `<li style="margin-left: ${pLeft}em; margin-right: ${pLeft}em" ${liType} ${liValue}>${formatting(line_)}</li>`;
+                return `<li style="padding: 0; margin-left: ${pLeft}em; margin-right: ${pLeft}em" ${liType} ${liValue}>${formatting(line_)}</li>`;
             })
-            return `<${ listType } ${ startAttr } class="${fine}">${ lines.join("") }</${ listType }>`;
+            return `<${ listType } ${ startAttr } style="padding: 0;" class="${ fine }">${ lines.join("") }</${ listType }>`;
         }
 
         /* ----------------------------------- headings ----------------------------------- */

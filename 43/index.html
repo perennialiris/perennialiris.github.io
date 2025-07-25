@@ -17,7 +17,7 @@
         max-height: 340px;
         align-content: center;
     }
-    #result div {
+    #result code {
         background-color: white;
         padding: 2px 5px;
     }
@@ -83,7 +83,7 @@ function wProcess() {
         if (required[i] != "") { results = results.filter(w => required[i] == w[i]); }
     }
     
-    document.getElementById("result").innerHTML = results.filter((x, i) => results.indexOf(x) === i).map(w => `<div>${w}</div>`).join(" ");
+    document.getElementById("result").innerHTML = results.filter((x, i) => results.indexOf(x) === i).map(w => `<code>${w}</code>`).join(" ");
 }
 
 window.addEventListener("load", () => {
