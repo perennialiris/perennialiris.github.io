@@ -87,7 +87,7 @@
     .dark #article * { font-family: Ubuntu,system-ui !important; }
     .dark ::selection { background-color: var(--selection); color: #666; }
 
-    /* .toc { --content-width: 1718px; } */
+    .toc { --content-width: 718px; }
     .archive { --content-width: 820px; }
     .archive #article .auto-table .col-1 { background-color: var(--grey-f0); }
 
