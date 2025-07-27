@@ -142,9 +142,6 @@ window.addEventListener("load", function() {
     if (document.title == "") {
         document.title = "Perennial Iris";
     }
-    else if (document.title.slice(0 - "Perennial Iris".length) != "Perennial Iris") {
-        document.title += " - Perennial Iris";
-    }
 })
 
 function setLightbox(action) {
