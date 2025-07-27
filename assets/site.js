@@ -61,14 +61,14 @@ window.addEventListener("load", function() {
     articleLinks = articleLinks.filter(a => a.url.startsWith("http"));
     if (articleLinks.length > 0) {
         articleLinks = articleLinks.map( (link_, n) => {
-            let citelist = "<li>";
+            let citeLi = "<li>";
             for (let i = 1; i < link_.count + 1; i += 1) {
-                citelist += ` <a href="#cite-${n + 1}${ i == 1 ? "" : "-" + i }">^</a>`;
+                citeLi += ` <a href="#cite-${n + 1}${ i == 1 ? "" : "-" + i }">^</a>`;
             }
-            return `${citelist} <a target="_blank" id="cite-${n + 1}" href="${link_.url}">${link_.url}</a></li>`;
+            return `${citeLi} <a target="_blank" href="${link_.url}">${link_.url}</a></li>`;
         }).join("");
         document.getElementById("citations").innerHTML = 
-            `External pages referenced above (this list is auto-generated):<ol>${articleLinks}</ol>`;
+            `External pages referenced above (auto-generated):<ol>${articleLinks}</ol>`;
         }
     const seeAlso = document.getElementById("see-also");
 
@@ -245,23 +245,22 @@ function interpreter(targetElement, articleLinks) {
                     index = i; break;
                 }
             }
-            
+
             if (index == -1) {
                 index = articleLinks.push({ "url": address, "count": 1 }) - 1;
             }
             else {
                 articleLinks[index].count += 1;
             }
-            
+
             let id = `cite-${index + 1}`;
             if (articleLinks[index].count > 1) { id += `-${articleLinks[index].count}`; }
-            
-            return displayText ?
-                `<a id="${id}" href="${address}">${ displayText }</a>`
-                :
-                `<sup><a id="${id}" href="${address}" class="citeref">[${index + 1}]</a></sup>`;
+
+            return displayText
+                ? `<a id="${id}" href="${address}">${ displayText }</a>`
+                : `<sup><a id="${id}" href="${address}" class="citeref">[${index + 1}]</a></sup>`;
         });
-        
+
         chunk = chunk.replace(/\[\[(.+?)\]\]/g, (match, displayText) => {
             return `<a style="border-bottom: 1px dotted currentcolor;" title="Jump to section" href="#${ displayText.replaceAll(" ", "_") }">${ displayText }</a>`
         });
@@ -429,7 +428,9 @@ function formatting(input) {
 }
 
 function wrapDigits(arg) {
-    if (typeof arg != "string") { arg.innerHTML = wrapDigits(arg.innerHTML); }
+    if (typeof arg != "string") {
+        arg.innerHTML = wrapDigits(arg.innerHTML);
+    }
     else {
         let k = 0;
         let output = "", left = 0;
@@ -438,14 +439,12 @@ function wrapDigits(arg) {
             const closeTag = arg.indexOf(">");
             if (openTag == -1 || closeTag == -1) { break; }
             
-            let not_in_tags = arg.substring(0, openTag);
+            let not_between_tags = arg.substring(0, openTag);
             let between_tags = arg.substring(openTag, closeTag + 1);
             
-            output += (not_in_tags.startsWith("[") && not_in_tags.endsWith("]"))
-                ? not_in_tags
-                : not_in_tags.replace(/(\d+)/g, "<span class='digit'>$1</span>");
-            
+            output += not_between_tags.replace(/(\d+)/g, "<span class='digit'>$1</span>");
             output += between_tags;
+            
             arg = arg.substring(closeTag + 1);
         }
         output += arg.replace(/(\d+)/g, "<span class='digit'>$1</span>");
