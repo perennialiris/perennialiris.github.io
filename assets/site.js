@@ -10,11 +10,17 @@ let pageData = `
 4  * International news list     * archive
 3  * Canadian news list          * archive
 21 * Donald Trump                * toc
-20 * Israel–Palestine            * toc justify indent
+20 * Israel–Palestine            * toc
 19 * Pierre Poilievre            * toc
 16 * Sex, gender, & transsexuals * toc
 18 * Politics fundamentals       * toc
 `.split("\n").filter(n => n.trim().length > 2).map(cell => cell.split("*").map(c => c.trim()));
+
+function pageName() {
+    const p = document.baseURI.split("/").slice(-1)[0];
+    const q = p.indexOf("#");
+    return (q == -1) ? p : p.substring(0, q);
+}
 
 window.addEventListener("load", function() {
     // document.body.classList.add("dark");
@@ -23,14 +29,15 @@ window.addEventListener("load", function() {
 
     /* applying classes from list above */
     const thisPageDirectory = document.baseURI.split("/").slice(-2)[0];
-    pageData.forEach(p => { if (p[0] == thisPageDirectory) { document.body.classList.add(...p[2].split(" ")); } })
+    const thisPageName = document.baseURI.split("/").slice(-1)
+    pageData.forEach(p => { if (p[0] == thisPageDirectory && pageName() == "index.html") { document.body.classList.add(...p[2].split(" ")); } })
     let isIndex = document.getElementById("index");
- 
+
     document.body.innerHTML =
-       `${ true ? `<header id="header"></header>` : "" }
+       `${ false ? `<header id="header"></header>` : "" }
         <nav id="nav">
             <div class="nav-inner">
-                <span id="page-name-display">${ isIndex ? "" : `<a href="../index.html">Index</a> &#47; ` + (document.title || "This page") }</span>
+                <span id="page-name-display">${ isIndex ? "" : `<a href="../index.html">Index</a> &#47; <a href="index.html">` + (document.title || "This page") + `</a>` }</span>
                 <a class="to-top-button" href="#">Jump to Top</a>
             </div>
         </nav>
@@ -39,15 +46,6 @@ window.addEventListener("load", function() {
             <div class="c2">
                 <div id="article">${ document.body.innerHTML }</div>
                 <footer id="footer">
-                    <hr>
-                    <div id="about-me">
-                        <img width="100" height="100" src="../assets/grandchamp.png">
-                        <div>
-                            <div>I’m Iris. I live in Canada. I write about things. This GitHub is one place where I host stuff I want to share.</div>
-                            <div style="margin-top: 5px"><a href="https://perennialiris.tumblr.com/">Tumblr</a> · <a href="https://bsky.app/profile/perennialiris.bsky.social">Bluesky</a> · <a href="https://www.youtube.com/@perennialiris">YouTube</a> · <a href="https://substack.com/@perennialiris">Substack</a> · <a href="https://discord.com/invite/fGdV7x5dk2">Discord</a></div>
-                        </div>
-                    </div>
-                    <hr>
                     <div id="see-also"></div>
                     <div id="citations"></div>
                 </footer>
@@ -56,7 +54,7 @@ window.addEventListener("load", function() {
         <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>`;
     let articleLinks = [];
     interpreter(document.getElementById("article"), articleLinks);
-    
+
     /* adds "digit" class to numbers in article: */
     ["p", "blockquote", "li" ].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
 
@@ -186,9 +184,10 @@ function interpreter(targetElement, articleLinks) {
             return `<div class="fine">${ chunk.split("\n")[1] }</div>`;
         }
         
-        let fine = chunk.startsWith("^") ? "fine" : "";
-        if (fine) {
+        let fine = "";
+        if (chunk.startsWith("^")) {
             chunk = chunk.slice(1);
+            fine = "fine";
         }
         
         /* ------------------------------------ images ------------------------------------ */
@@ -199,7 +198,7 @@ function interpreter(targetElement, articleLinks) {
                 let filePath = "media/" + parts[0].trim();
                 let altText = parts[1].trim().replace(/"/g, "&quot;").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;");
                 let maxHeight = parts[2].trim();
-                return `<div><img onclick="setLightbox(this)" style="max-height: ${ maxHeight || 250 }px" src="${ filePath }" title="${ altText }" alt="${ altText }"></div>`;
+                return `<div><img onclick="setLightbox(this)" style="max-height: ${ maxHeight || 250 }px;" src="${ filePath }" title="${ altText }" alt="${ altText }"></div>`;
             });
             return `<figure class="image-box">${ lines.join("") }</figure>`;
         }
@@ -208,7 +207,6 @@ function interpreter(targetElement, articleLinks) {
             const lines = chunk.split("\n").slice(1).map( line => {
                 const parts = line.split("|");
                 while (parts.length < 3) { parts.push(""); }
-                
                 let filePath = "media/" + parts[0].trim();
                 let caption = formatting(parts[1].trim());
                 let altText = formatting(parts[2].trim());
@@ -295,7 +293,7 @@ function interpreter(targetElement, articleLinks) {
                 }
                 return `<p>${line}</p>`;
             })
-            
+
             return `<blockquote>${ formatting(lines.join("")) }</blockquote>`;
         }
 
@@ -308,9 +306,9 @@ function interpreter(targetElement, articleLinks) {
                 startAttr = `start="${chunk.slice(0, chunk.indexOf(" ") - 1)}"`;
             }
             const lines = chunk.split("\n").map( line_ => {
-                const pLeft = (Math.floor(line_.search(/[^\s]/) / 2) + 1) * 2.5;
+                const pLeft = (Math.floor(line_.search(/[^\s]/) / 2) + 0) * 2.5;
                 line_ = line_.trim();
-                
+
                 let liType = "", liValue = "";
                 if (line_.startsWith("* ")) {
                     line_ = line_.slice(1).trim();
@@ -325,9 +323,9 @@ function interpreter(targetElement, articleLinks) {
                 
                 let bullet = line_.startsWith("* ");
                 if (bullet) { line_ = line_.slice(1).trim(); }
-                return `<li style="padding: 0; margin-left: ${pLeft}em; margin-right: ${pLeft}em" ${liType} ${liValue}>${formatting(line_)}</li>`;
+                return `<li style="margin-left: ${pLeft}em; margin-right: ${pLeft}em" ${liType} ${liValue}>${formatting(line_)}</li>`;
             })
-            return `<${ listType } ${ startAttr } style="padding: 0;" class="${ fine }">${ lines.join("") }</${ listType }>`;
+            return `<${ listType } ${ startAttr } class="${ fine }">${ lines.join("") }</${ listType }>`;
         }
 
         /* ----------------------------------- headings ----------------------------------- */
@@ -343,9 +341,9 @@ function interpreter(targetElement, articleLinks) {
 
             const lines = chunk.split("\n").slice(1)
                 .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1").replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
-                .map(c => `<a href="${c}" target="_blank">${c}</a>`);
+                .map(c => `<li><a href="${c}" target="_blank">${c}</a></li>`);
 
-            document.getElementById("see-also").innerHTML += `<div>This content elsewhere:</div><ul><li>${lines.join("</li><li>")}</li></ul>`;
+            document.getElementById("see-also").appendChild(document.createElement("div")).innerHTML = `<div>This content elsewhere:</div><ul>${lines.join("")}</ul>`;
 
             return "";
         }
