@@ -56,7 +56,7 @@ window.addEventListener("load", function() {
     interpreter(document.getElementById("article"), articleLinks);
 
     /* adds "digit" class to numbers in article: */
-    ["p", "blockquote", "li" ].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
+    ["p", "h4", "blockquote", "li"].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
 
     articleLinks = articleLinks.filter(a => a.url.startsWith("http"));
     if (articleLinks.length > 0) {
@@ -285,7 +285,7 @@ function interpreter(targetElement, articleLinks) {
                     return `<p class="attribution">${line}</p>`;
                 }
                 if (line.startsWith("^")) {
-                    return `<p class="fine">${line}</p>`;
+                    return `<p class="fine">${line.substring(1)}</p>`;
                 }
                 return `<p>${line}</p>`;
             })
@@ -321,7 +321,7 @@ function interpreter(targetElement, articleLinks) {
                 if (bullet) { line_ = line_.slice(1).trim(); }
                 return `<li style="margin-left: ${pLeft}em; margin-right: ${pLeft}em" ${liType} ${liValue}>${formatting(line_)}</li>`;
             })
-            return `<${ listType } ${ startAttr } class="${ fine }">${ lines.join("") }</${ listType }>`;
+            return `<${ listType } ${ startAttr } ${ !fine?"": `class="fine"` }>${ lines.join("") }</${ listType }>`;
         }
 
         /* ----------------------------------- headings ----------------------------------- */

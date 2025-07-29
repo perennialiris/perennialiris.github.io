@@ -41,8 +41,8 @@
         --ff-article-number: Georgia Pro,Tahoma,Trebuchet MS,system-ui;
         --ff-article-h1: Roboto Slab,Trebuchet MS,Nirmala UI,Segoe UI,system-ui;
         --ff-article-h2: Lora,Trebuchet MS,Nirmala UI,Segoe UI,system-ui;
-        --ff-article-h3: Lora,Trebuchet MS,Nirmala UI,Segoe UI,system-ui;
-        --ff-article-h4: Nirmala UI,Segoe UI,system-ui;
+        --ff-article-h3: Georgia Pro,Trebuchet MS,Nirmala UI,Segoe UI,system-ui;
+        --ff-article-h4: Georgia,Nirmala UI,Segoe UI,system-ui;
         --ff-table: Roboto,sans-serif;
         --ff-monospace: Consolas,monospace;
         --ff-mdash: Ubuntu,Nirmala UI,Segoe UI,Arial,Times,sans-serif;
@@ -51,14 +51,14 @@
         --fs-article-main: 15.4px;
         --fs-article-table: 15px;
         --fs-article-small: 14.4px;
-        --fs-article-h1: 32px;
-        --fs-article-h2: 26px;
+        --fs-article-h1: 46px;
+        --fs-article-h2: 27px;
         --fs-article-h3: 20px;
         --fs-article-h4: 15.4px;
         /* colours */
         --link-color: #4060b5;
-        --selection-color: #333;
-        --selection-bg: #c3d2ff;
+        --selection-color: #333333;
+        --selection-bg: #cdd9ff;
         --grey-22: #222222;
         --grey-33: #3f3f3f;
         --grey-55: #555555;
@@ -93,7 +93,7 @@
         background-attachment: fixed;
     }
 
-    .toc { --content-width: 718px; }
+    .toc { --content-width: 758px; }
     .archive { --content-width: 820px; }
     .archive #article .auto-table .col-1 { background-color: var(--grey-f5); }
 
@@ -105,8 +105,10 @@
     a:target { background-color: #dfe9ff; }
 
     ul, ol { padding: 0 2.5em; }
-    li { margin-top: 0.667em; }
-    li.no-marker { list-style-type: none; margin-top: 0.333em; }
+    li { margin-top: 0.6em; }
+    li.no-marker { list-style-type: none; margin-top: 0.3em; }
+    ul + figure.image-float + ul,
+    ol + figure.image-float + ol { margin-top: 0 !important; }
     ol > li { padding-left: 2px; }
     ul { list-style-type: disc; } ul ul { list-style-type: inherit; }
     hr { border: none; height: 1px; width: 100%; background-color: var(--grey-a0); }
@@ -175,7 +177,7 @@
                     font-family: var(--ff-article-main);
                     text-align: left;
                 }
-                #article b { color: var(--grey-22); letter-spacing: -0.24px; }
+                #article b, #article h4 { color: var(--grey-22); letter-spacing: -0.24px; }
                 #article ol > li::marker,
                 #article .digit { font-family: var(--ff-article-number); }
                 .indent #article > p + figure.image-float + p:not(.fine),
@@ -193,9 +195,9 @@
                 #article .fine,
                 #article ol.fine > li::marker,
                 #article .fine * { color: var(--grey-80); font-size: var(--fs-article-small); font-family: var(--ff-system); }
-                    #article .fine a { text-decoration: underline; }
+                    #article .fine a { text-decoration: 1px dotted underline currentcolor; }
                 #article .mdash { margin-inline: 1px; line-height: 1; font-family: var(--ff-mdash); }
-                #article sup { vertical-align: super; }
+                #article sup { vertical-align: super; line-height: 1; font-size: 0.8em; }
                 #article .citeref { font-size: 11px; margin-left: 1px; font-family: Verdana,Tahoma,Arial,sans-serif !important; }
                 #article blockquote { margin-left: 1px; background-color: var(--grey-f5); padding: 15px 17px; border-left: 3px solid currentcolor; }
                     #article blockquote > :nth-child(1) { margin-top: 0 !important; }
