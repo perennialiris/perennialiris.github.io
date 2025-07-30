@@ -18,8 +18,8 @@ let pageData = `
 
 function pageName() {
     const p = document.baseURI.split("/").slice(-1)[0];
-    const q = p.indexOf("#");
-    return (q == -1) ? p : p.substring(0, q);
+    const t = p.indexOf("#");
+    return (t == -1) ? p : p.substring(0, t);
 }
 
 window.addEventListener("load", function() {
@@ -34,7 +34,7 @@ window.addEventListener("load", function() {
     let isIndex = document.getElementById("index");
 
     document.body.innerHTML =
-       `${ false ? `<header id="header"></header>` : "" }
+       `<header id="header"></header>
         <nav id="nav">
             <div class="nav-inner">
                 <span id="page-name-display">${ isIndex ? "" : `<a href="../index.html">Index</a> &#47; <a href="index.html">` + (document.title || "This page") + `</a>` }</span>
@@ -56,7 +56,7 @@ window.addEventListener("load", function() {
     interpreter(document.getElementById("article"), articleLinks);
 
     /* adds "digit" class to numbers in article: */
-    ["p", "h4", "blockquote", "li"].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
+    ["p", "li"].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
 
     articleLinks = articleLinks.filter(a => a.url.startsWith("http"));
     if (articleLinks.length > 0) {
@@ -74,11 +74,9 @@ window.addEventListener("load", function() {
 
     if (document.body.classList.contains("toc")) {
         const toc = document.getElementById("toc");
-        const headings = Array.from(document.getElementsByClassName("article-heading")).slice(1);
-        toc.innerHTML = `<a class="toc-row h1" href="#">(Top of page)</a>`
-            + headings.map ( heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ heading.id }">${heading.innerHTML.replace(/\/?i>/g, "")}</a>` )
-            .join("");
-        
+        const headings = Array.from(document.getElementById("article").getElementsByClassName("toc-include"));
+        toc.innerHTML = headings.map ( (heading, n) => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ (n > 0) ? heading.id : "" }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
+
         const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
         let currentHeading = "";
         let canTocHighlighter = true;
@@ -175,7 +173,7 @@ function interpreter(targetElement, articleLinks) {
             return chunk.slice(1);
         }
         if (chunk == "---") {
-            return "<hr>";
+            return "<hr class='horizontal-rule'>";
         }
         if (chunk.startsWith("||date")) {
             return `<div class="fine">${ chunk.split("\n")[1] }</div>`;
@@ -285,7 +283,7 @@ function interpreter(targetElement, articleLinks) {
                     return `<p class="attribution">${line}</p>`;
                 }
                 if (line.startsWith("^")) {
-                    return `<p class="fine">${line.substring(1)}</p>`;
+                    return `<div class="fine">${line.substring(1)}</div>`;
                 }
                 return `<p>${line}</p>`;
             })
@@ -296,40 +294,42 @@ function interpreter(targetElement, articleLinks) {
         /* ------------------------------------- lists ------------------------------------- */
         /* Not a perfect handler but whatever it's fine. */
         if ( chunk.startsWith("* ") || /^\d+\. /.test(chunk) ) {
-            const listType = chunk.startsWith("* ") ? "ul" : "ol";
-            let startAttr = "";
-            if (listType == "ol") {
-                startAttr = `start="${chunk.slice(0, chunk.indexOf(" ") - 1)}"`;
+            
+            const listTag = chunk.startsWith("* ") ? "ul" : "ol";
+            let startNumber = "";
+            if (listTag == "ol") {
+                startNumber = chunk.slice(0, chunk.indexOf(" ") - 1);
             }
-            const lines = chunk.split("\n").map( line_ => {
-                const pLeft = (Math.floor(line_.search(/[^\s]/) / 2) + 0) * 2.5;
-                line_ = line_.trim();
+            
+            const lines = chunk.split("\n").map( line => {
+                let liClass = "list-item";
+                let liValue = "";
 
-                let liType = "", liValue = "";
-                if (line_.startsWith("* ")) {
-                    line_ = line_.slice(1).trim();
+                if (line.startsWith("* ")) {
+                    line = line.slice(1).trim();
                 }
-                else if (/^\d+\. /.test(line_)) {
-                    liValue = `value="${line_.slice(0, line_.indexOf(" ") - 1)}"`;
-                    line_ = line_.slice(line_.indexOf(" ")).trim();
+                else if (/^\d+\. /.test(line)) {
+                    liValue = line.slice(0, line.indexOf(" ") - 1);
+                    line = line.slice(line.indexOf(" ")).trim();
                 }
                 else {
-                    liType = `class="no-marker"`;
+                    liClass += " no-marker";
                 }
-                
-                let bullet = line_.startsWith("* ");
-                if (bullet) { line_ = line_.slice(1).trim(); }
-                return `<li style="margin-left: ${pLeft}em; margin-right: ${pLeft}em" ${liType} ${liValue}>${formatting(line_)}</li>`;
+                return `<li class="${liClass}" value="${liValue}">${formatting(line)}</li>`;
             })
-            return `<${ listType } ${ startAttr } ${ !fine?"": `class="fine"` }>${ lines.join("") }</${ listType }>`;
+            
+            const list = `<${listTag} start="${startNumber}">${lines.join("")}</${listTag}>`;
+            if (fine) { return `<div class="fine">${list}</div>`; }
+            return list;
         }
 
         /* ----------------------------------- headings ----------------------------------- */
-        if (chunk.startsWith("# ") || chunk.startsWith("## ") || chunk.startsWith("### ") || chunk.startsWith("#### ")) {
-            const headingType = chunk.indexOf(" ");
-            chunk = chunk.slice(headingType + 1);
-            
-            return `<h${headingType} id=${ chunk.replaceAll(" ", "_").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;").replaceAll("*" ,"") } ${ headingType != 4 ? `class="article-heading"` : "" }>${ formatting(chunk) }</h${headingType}>`;
+        if (/^\#{1,4} /.test(chunk)) {
+            const headingTag = "h" + chunk.indexOf(" ");
+            chunk = chunk.slice(chunk.indexOf(" ") + 1);
+            const headingId = chunk.replaceAll(" ", "_").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;").replaceAll("*" ,"");
+            const headingClass = (headingTag == "h4") ? "heading" : "heading toc-include";
+            return `<${headingTag} id="${headingId}" class="${headingClass}">${ formatting(chunk) }</${headingTag}>`;
         }
 
         /* ----------------------------------- see also ----------------------------------- */
@@ -340,16 +340,15 @@ function interpreter(targetElement, articleLinks) {
                 .map(c => `<li><a href="${c}" target="_blank">${c}</a></li>`);
 
             document.getElementById("see-also").appendChild(document.createElement("div")).innerHTML = `<div>This content elsewhere:</div><ul>${lines.join("")}</ul>`;
-
             return "";
         }
 
         /* ------------------------ finalizing (normal paragraphs) ------------------------ */
         
         chunk = formatting(chunk);
-
+        
         if (fine) {
-            return `<p class='fine'>${ chunk.replaceAll("\n", "<br>") }</p>`;
+            return `<div class='fine'>${ chunk.replaceAll("\n", "<br>") }</div>`;
         }
         if (firstParagraph) {
             firstParagraph = false;
