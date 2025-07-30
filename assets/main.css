@@ -35,7 +35,7 @@
         --nav-height: 39px;
         --content-width: 640px;
         --toc-width: 210px;
-        --spacer: 46px;
+        --spacer: 36px;
         /* font-family */
         --ff-ui: Nirmala UI, Segoe UI, system-ui, sans-serif;
         --ff-article: Georgia, sans-serif;
@@ -50,13 +50,13 @@
         --ff-mdash: Ubuntu, var(--ff-ui);
         /* font-size */
         --fs-ui: 14.4px;
+        --fs-article-h1: 24px;
+        --fs-article-h2: 20px;
+        --fs-article-h3: 17px;
+        --fs-article-h4: inherit;
         --fs-article: 15.4px;
         --fs-article-small: 14.4px;
         --fs-table: 14.8px;
-        --fs-h1: 24px;
-        --fs-h2: 20px;
-        --fs-h3: 17px;
-        --fs-h4: inherit;
         /* color */
         --link-color: #3055aa;
         --parchment: #fbf6e9;
@@ -182,10 +182,10 @@
                     clear: both;
                     color: var(--grey-22);
                 }
-                #article h1 { font-family: var(--ff-h1); font-size: var(--fs-h1); }
-                #article h2 { font-family: var(--ff-h2); font-size: var(--fs-h2); }
-                #article h3 { font-family: var(--ff-h3); font-size: var(--fs-h3); }
-                #article h4 { font-family: var(--ff-h4); font-size: var(--fs-h4); }
+                #article h1 { font-family: var(--ff-h1); font-size: var(--fs-article-h1); }
+                #article h2 { font-family: var(--ff-h2); font-size: var(--fs-article-h2); }
+                #article h3 { font-family: var(--ff-h3); font-size: var(--fs-article-h3); }
+                #article h4 { font-family: var(--ff-h4); font-size: var(--fs-article-h4); }
 
                 #article p {
                     font-family: var(--ff-article);
@@ -199,7 +199,7 @@
                 #article .auto-table,
                 #article > .fine,
                 #article .image-box {
-                    margin-block: 1em;
+                    margin-top: 1em;
                 }
                 #article .heading {
                     margin-block: 1em 1rem;
@@ -209,10 +209,10 @@
                     padding: 0 2.5em;
                     margin-top: 0.3em;
                 }
-                #article .list-item {
+                #article li {
                     margin-top: 0.6em;
                 }
-                #article .list-item.no-marker { margin-top: 0.3em; list-style-type: none; }
+                #article li.no-marker { margin-top: 0.3em; list-style-type: none; }
 
                 #article .horizontal-rule { margin: 2em 0; border: none; height: 1px; width: 100%; background-color: var(--grey-a0);  }
 

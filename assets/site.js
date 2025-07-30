@@ -179,12 +179,6 @@ function interpreter(targetElement, articleLinks) {
             return `<div class="fine">${ chunk.split("\n")[1] }</div>`;
         }
         
-        let fine = "";
-        if (chunk.startsWith("^")) {
-            chunk = chunk.slice(1);
-            fine = "fine";
-        }
-        
         /* ------------------------------------ images ------------------------------------ */
         if (chunk.startsWith("||image-box")) {
             const lines = chunk.split("\n").slice(1).map( line => {
@@ -226,9 +220,14 @@ function interpreter(targetElement, articleLinks) {
                     .replaceAll("[", "&lbrack;")
                     .replaceAll("]", "&rbrack;")
                     .replaceAll("*", "&ast;")
-                    .replaceAll("\n", "<br>") }</code>
-                `;
+                    .replaceAll("\n", "<br>") }</code>`;
         });
+        
+        let fine = "";
+        if (chunk.startsWith("^")) {
+            chunk = chunk.slice(1).trim();
+            fine = "fine";
+        }
         
         /* ------------------------------------- links ------------------------------------- */
         /*  \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\)
@@ -300,27 +299,30 @@ function interpreter(targetElement, articleLinks) {
             if (listTag == "ol") {
                 startNumber = chunk.slice(0, chunk.indexOf(" ") - 1);
             }
-            
             const lines = chunk.split("\n").map( line => {
-                let liClass = "list-item";
-                let liValue = "";
+                let li_ = "<li";
 
                 if (line.startsWith("* ")) {
-                    line = line.slice(1).trim();
+                    line = line.substring(1).trim();
                 }
                 else if (/^\d+\. /.test(line)) {
-                    liValue = line.slice(0, line.indexOf(" ") - 1);
+                    li_ += ` value="${line.slice(0, line.indexOf(" ") - 1)}"`;
                     line = line.slice(line.indexOf(" ")).trim();
                 }
                 else {
-                    liClass += " no-marker";
+                    li_ += ` class="no-marker"`;
                 }
-                return `<li class="${liClass}" value="${liValue}">${formatting(line)}</li>`;
+                return li_ + `>${formatting(line)}</li>`;
             })
-            
-            const list = `<${listTag} start="${startNumber}">${lines.join("")}</${listTag}>`;
-            if (fine) { return `<div class="fine">${list}</div>`; }
-            return list;
+            let list_ = `<${listTag}`;
+            if (startNumber) {
+                list_ += ` start="${startNumber}"`;
+            }
+            list_ += `>${lines.join("")}</${listTag}>`;
+            if (fine) {
+                list_ = `<div class="fine">${list_}</div>`;
+            }
+            return list_;
         }
 
         /* ----------------------------------- headings ----------------------------------- */
