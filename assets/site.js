@@ -47,7 +47,6 @@ window.addEventListener("load", function() {
                 <div id="article">${ document.body.innerHTML }</div>
                 <footer id="footer">
                     <div id="see-also"></div>
-                    <div id="citations"></div>
                 </footer>
             </div>
         </div>
@@ -61,16 +60,15 @@ window.addEventListener("load", function() {
     articleLinks = articleLinks.filter(a => a.url.startsWith("http"));
     if (articleLinks.length > 0) {
         articleLinks = articleLinks.map( (link_, n) => {
-            let citeLi = "<li>";
+            let li = `<li>`;
             for (let i = 1; i < link_.count + 1; i += 1) {
-                citeLi += ` <a href="#cite-${n + 1}${ i == 1 ? "" : "-" + i }">^</a>`;
+                li += `<a href="#cite-${n + 1}${ i == 1 ? "" : "-" + i }">^</a>`;
             }
-            return `${citeLi} <a target="_blank" href="${link_.url}">${link_.url}</a></li>`;
-        }).join("");
-        document.getElementById("citations").innerHTML = 
-            `External pages referenced above (auto-generated):<ol>${articleLinks}</ol>`;
+            return `${li} <a target="_blank" href="${link_.url}">${link_.url}</a></li>`;
+        });
+        document.getElementById("footer").innerHTML += 
+            `<div id="citations">External pages referenced above (this list is auto-generated):<ol>${articleLinks.join("")}</ol></div>`;
         }
-    const seeAlso = document.getElementById("see-also");
 
     if (document.body.classList.contains("toc")) {
         const toc = document.getElementById("toc");
@@ -165,6 +163,7 @@ function interpreter(targetElement, articleLinks) {
         .split("\n\n");
 
     let tableNum = 1;
+    let galleryNum = 1;
     let firstParagraph = true;
     
     input = input.map( chunk => {
@@ -173,37 +172,36 @@ function interpreter(targetElement, articleLinks) {
             return chunk.slice(1);
         }
         if (chunk == "---") {
-            return "<hr class='horizontal-rule'>";
+            return "<hr>";
         }
         if (chunk.startsWith("||date")) {
             return `<div class="fine">${ chunk.split("\n")[1] }</div>`;
         }
         
         /* ------------------------------------ images ------------------------------------ */
-        if (chunk.startsWith("||image-box")) {
-            const lines = chunk.split("\n").slice(1).map( line => {
+        if (chunk.startsWith("||gallery")) {
+            /* imgUrl | alt-text/title | figcaption */
+            const galleryFigures = chunk.split("\n").slice(1).map( line => {
                 const parts = line.split("|");
                 while (parts.length < 3) { parts.push(""); }
-                let filePath = "media/" + parts[0].trim();
-                let altText = parts[1].trim().replace(/"/g, "&quot;").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;");
-                let maxHeight = parts[2].trim();
-                return `<div><img onclick="setLightbox(this)" style="max-height: ${ maxHeight || 250 }px;" src="${ filePath }" title="${ altText }" alt="${ altText }"></div>`;
+                let imgUrl = "media/" + parts[0].trim();
+                let altText = formatting(parts[1].trim().replace(/"/g,"&quot;"));
+                return `<figure><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></figure>`;
             });
-            return `<figure class="image-box">${ lines.join("") }</figure>`;
+            return `<div class="gallery">${ galleryFigures.join("") }</div>`;
         }
-        
+
         if (chunk.startsWith("||image-float")) {
             const lines = chunk.split("\n").slice(1).map( line => {
-                const parts = line.split("|");
-                while (parts.length < 3) { parts.push(""); }
-                let filePath = "media/" + parts[0].trim();
-                let caption = formatting(parts[1].trim());
-                let altText = formatting(parts[2].trim());
-                if (caption != "") { caption = `<figcaption>${ caption }</figcaption>`; }
+                const parts = line.split("|"); while (parts.length < 3) { parts.push(""); }
+                let imgUrl = "media/" + parts[0].trim();
+                let figCaption = formatting(parts[1].trim());
+                let altText = formatting(parts[2].trim().replace(/"/g,"&quot;"));
+                if (figCaption) { figCaption = `<figcaption>${ figCaption }</figcaption>`; }
                 
-                return `<div><img onclick="setLightbox(this)" src="${filePath}" title="${altText}" alt="${altText}">${caption}</div>`;
+                return `<figure><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }">${ figCaption }</figure>`;
             });
-            return `<figure class="image-float">${lines.join("") }</figure>`;
+            return `<div class="image-float">${lines.join("") }</div>`;
         }
         /* ------------------------------------- code ------------------------------------- */
         if (chunk.startsWith("||codeblock")) {
@@ -314,15 +312,15 @@ function interpreter(targetElement, articleLinks) {
                 }
                 return li_ + `>${formatting(line)}</li>`;
             })
-            let list_ = `<${listTag}`;
+            let list = `<${listTag} class="list"`;
             if (startNumber) {
-                list_ += ` start="${startNumber}"`;
+                list += ` start="${startNumber}"`;
             }
-            list_ += `>${lines.join("")}</${listTag}>`;
+            list += `>${lines.join("")}</${listTag}>`;
             if (fine) {
-                list_ = `<div class="fine">${list_}</div>`;
+                list = `<div class="fine">${list}</div>`;
             }
-            return list_;
+            return list;
         }
 
         /* ----------------------------------- headings ----------------------------------- */
@@ -337,12 +335,12 @@ function interpreter(targetElement, articleLinks) {
         /* ----------------------------------- see also ----------------------------------- */
         if (chunk.startsWith("||see-also")) {
 
-            const lines = chunk.split("\n").slice(1)
+            const seeAlsoLines = chunk.split("\n").slice(1)
                 .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1").replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
-                .map(c => `<li><a href="${c}" target="_blank">${c}</a></li>`);
+                .map(c => `<div><a href="${c}" target="_blank">${c}</a></div>`);
 
-            document.getElementById("see-also").appendChild(document.createElement("div")).innerHTML = `<div>This content elsewhere:</div><ul>${lines.join("")}</ul>`;
-            return "";
+            document.getElementById("footer").appendChild(document.createElement("div")).innerHTML = `<div>This content elsewhere:</div>${seeAlsoLines.join("")}`;
+            return;
         }
 
         /* ------------------------ finalizing (normal paragraphs) ------------------------ */
