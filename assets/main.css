@@ -52,18 +52,20 @@
         --ff-table: Roboto, sans-serif;
         --ff-monospace: Consolas, monospace;
         --ff-mdash: Ubuntu, var(--ff-ui);
-        --ff-cite: Roboto, Arial, Tahoma, var(--ff-ui);
+        --ff-cite: Verdana, Arial, Tahoma, var(--ff-ui);
+        --ff-table-cite: Arial, Arial, Tahoma, var(--ff-ui);
         /* font-size */
         --fs-ui: 14.4px;
-        --fs-first-heading: 48px;
-        --fs-h1: 24px;
-        --fs-h2: 20px;
-        --fs-h3: 18px;
+        --fs-first-heading: 3.116883116883117em;
+        --fs-main: 15.4px;
+        --fs-small: 0.935064935064935em; /* 14.4px */
+        --fs-cite: 0.7142857142857143em; /* 11px */
+        --fs-table: 0.961038961038961em; /* 14.8px */
+        --fs-table-cite: 0.7402597402597403em; /* 11.4px */
+        --fs-h1: 1.5584415584415585em;
+        --fs-h2: 1.2987012987012987em;
+        --fs-h3: 1.1688311688311688em;
         --fs-h4: inherit;
-        --fs-article: 15.4px;
-        --fs-article-small: 14.4px;
-        --fs-table: 14.8px;
-        --fs-cite: 12px;
         /* color */
         --link-color: #3055aa;
         --selection-color: #333333;
@@ -79,7 +81,7 @@
         --white: #ffffff;
         /* line-height */
         --lh-ui: 1.3;
-        --lh-heading: 1.1;
+        --lh-heading: 1.15;
         --lh-article: 1.5;
         --lh-table: 1.5;
         --lh-caption: 1.15;
@@ -90,6 +92,11 @@
     }
         .toc { --mw-content: 728px; }
         .archive { --mw-content: 820px; }
+        .narrow {
+            --fs-article: 17.4px;
+            --mw-content: 600px;
+            --lh-article: 1.65;
+        }
 
     body.dark {
         --link-color: #5b422a;
@@ -181,7 +188,7 @@
                     .toc-row.h2 { margin-left: 20px; max-width: calc(var(--w-toc) - 40px); }
                     .toc-row.h3 { margin-left: 40px; max-width: calc(var(--w-toc) - 60px); }
 
-            #article { font-family: var(--ff-article); font-size: var(--fs-article); line-height: var(--lh-article); max-width: var(--mw-content); width: 100%; }
+            #article { font-family: var(--ff-article); font-size: var(--fs-main); line-height: var(--lh-article); max-width: var(--mw-content); width: 100%; }
                 #article > :nth-child(1) { margin-top: 0 !important; }
                 #article > h1:first-child {
                     font-family: var(--ff-first-heading);
@@ -232,7 +239,7 @@
                 
                 #article code { background-color: #ececee; vertical-align: 1px; line-height: 1; padding: 0 1px; font-family: var(--ff-monospace); }
                 #article .codeblock { background-color: var(--grey-f); white-space: pre-wrap; font-family: var(--ff-monospace); padding: 6px 10px; }
-                #article .fine { color: var(--grey-8); font-size: var(--fs-article-small); font-family: var(--ff-ui); }
+                #article .fine { color: var(--grey-8); font-size: var(--fs-small); font-family: var(--ff-ui); }
                     #article .fine ::marker,
                     #article .fine * { color: inherit; font-size: inherit; font-family: inherit; }
                     #article .fine a { text-decoration: 1px dotted underline currentcolor; }
@@ -241,24 +248,29 @@
                     #article .citeref * { font-size: inherit; font-family: inherit; }
 
                 #article blockquote { margin-inline: 1px; padding: 15px 20px; border-left: 3px solid currentcolor; background-color: var(--grey-f); }
-                    #article blockquote > * + * { margin-top: 0.5em; }
+                    #article blockquote > :nth-child(n+2) { margin-top: 0.5em; }
                     #article blockquote .attribution { text-align: right; color: var(--grey-8); }
 
                 #article .auto-table { border-collapse: collapse; font-size: var(--fs-table); font-family: var(--ff-table); line-height: var(--lh-table); }
-                #article .auto-table th,
-                #article .auto-table td { border: 1px solid var(--grey-a); padding: 5px 8px 4px; vertical-align: top; }
-                #article .auto-table th { background-size: cover; background-position: center; }
-                /* #article .auto-table .col-1 { background-color: var(--grey-e); } */
+                    #article .auto-table .citeref { font-family: var(--ff-cite-table) ;}
+                    #article .auto-table th,
+                    #article .auto-table td { border: 1px solid var(--grey-a); padding: 5px 8px 4px; vertical-align: top; }
+                    #article .auto-table th { background-size: cover; background-position: center; }
 
-                #article .image-span { display: flex; justify-content: space-evenly; gap: 8px; }
-                    #article .image-span figure { ; }
-                    #article .image-span figure img { border: 1px solid var(--grey-a); display: block; object-fit: contain; max-width: 100%; }
+                #article .image-span { display: flex; align-items: center; justify-content: space-evenly; max-width: 100%; gap: 8px; overflow: hidden; }
                 #article .image-span + .image-span { margin-top: 8px; }
+                    #article .image-span img { cursor: pointer; width: inherit; max-width: 100%; max-height: 100%; display: block; object-fit: contain; }
+
+                #article .image-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+                    #article .image-grid figure { display: flex; flex-direction: column; align-items: center; padding: 5px; }
+                        #article .image-grid div { width: 200px; height: 200px; border: 1px solid var(--grey-a); background-color: var(--grey-f); display: flex; align-items: center; justify-content: center; }
+                            #article .image-grid img { max-width: 200px; max-height: 200px; }
+                        #article .image-grid figcaption { max-width: 200px; text-align: center; margin: 5px; line-height: var(--lh-caption); font-family: var(--ff-ui); color: var(--grey-5); font-size: var(--fs-small); }
 
                 #article .image-float { clear: right; margin-bottom: 10px; margin-left: 1em; float: right; display: flex; flex-direction: column; gap: 10px; }
                     #article .image-float figure { padding: 8px; background-color: var(--grey-f); border: 1px solid var(--grey-a); }
-                        #article .image-float img { cursor: pointer; margin: auto; display: block; border: 1px solid var(--grey-a); object-fit: contain; max-width: var(--mw-float-img); max-height: var(--mh-float-img); }
-                        #article .image-float figcaption { margin-top: 5px; font-family: var(--ff-ui); line-height: var(--lh-caption); text-align: center; max-width: calc(var(--mw-float-img) - 20px); font-size: var(--fs-article-small); color: var(--grey-5); }
+                    #article .image-float img { cursor: pointer; margin: auto; display: block; border: 1px solid var(--grey-a); object-fit: contain; max-width: var(--mw-float-img); max-height: var(--mh-float-img); }
+                    #article .image-float figcaption { margin-top: 5px; font-family: var(--ff-ui); line-height: var(--lh-caption); text-align: center; max-width: calc(var(--mw-float-img) - 20px); font-size: var(--fs-small); color: var(--grey-5); }
 
             #footer {
                 color: var(--grey-8);
@@ -276,5 +288,7 @@
 
 
 
-
+                #article figure.image-box { display: flex; align-items: center; justify-content: space-evenly; max-width: 100%; gap: 8px; overflow: hidden; }
+                    #article figure.image-box div { display: inline-block; border: 1px solid var(--grey-a0); height: 100%; }
+                    #article figure.image-box div img { cursor: pointer; width: inherit; max-width: 100%; display: block; object-fit: contain; }
 

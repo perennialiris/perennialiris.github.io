@@ -14,6 +14,7 @@ let pageData = `
 19 * Pierre Poilievre            * toc
 16 * Sex, gender, & transsexuals * toc
 18 * Politics fundamentals       * toc
+7  * Poor Things                 * narrow
 `.split("\n").filter(n => n.trim().length > 2).map(cell => cell.split("*").map(c => c.trim()));
 
 function pageName() {
@@ -173,27 +174,33 @@ function interpreter(targetElement, articleLinks) {
         if (chunk == "---") {
             return "<hr>";
         }
-        if (chunk.startsWith("||date")) {
-            return `<div class="fine">${ chunk.split("\n")[1] }</div>`;
-        }
-        
+
         /* ------------------------------------ images ------------------------------------ */
         if (chunk.startsWith("||image-span")) {
-            /* imgUrl | alt-text/title | figcaption */
+            /* ||image-span maxHeight */
+            /* imgUrl | alt-text/title */
+            const rows = chunk.split("\n");
+            let homeRow = rows.shift().substring("||image-span".length).trim();
             const galleryFigures = chunk.split("\n").slice(1).map( line => {
                 const parts = line.split("|");
-                while (parts.length < 3) { parts.push(""); }
+                while (parts.length < 2) {
+                    parts.push("");
+                }
                 let imgUrl = "media/" + parts[0].trim();
                 let altText = formatting(parts[1].trim().replace(/"/g,"&quot;"));
-                return `<img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }">`;
+                return `<div><img style="max-height: ${homeRow || 300}px;" onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></div>`;
             });
             return `<div class="image-span">${ galleryFigures.join("") }</div>`;
         }
 
         if (chunk.startsWith("||image-float")) {
+            /* imgUrl | caption | alt-text/title */
             const lines = chunk.split("\n").slice(1).map( line => {
-                const parts = line.split("|"); while (parts.length < 3) { parts.push(""); }
-                let imgUrl = "media/" + parts[0].trim();
+                const parts = line.split("|");
+                while (parts.length < 3) {
+                    parts.push("");
+                }
+                const imgUrl = "media/" + parts[0].trim();
                 let figCaption = formatting(parts[1].trim());
                 let altText = formatting(parts[2].trim().replace(/"/g,"&quot;"));
                 if (figCaption) { figCaption = `<figcaption>${ figCaption }</figcaption>`; }
@@ -202,6 +209,27 @@ function interpreter(targetElement, articleLinks) {
             });
             return `<div class="image-float">${lines.join("") }</div>`;
         }
+        
+        if (chunk.startsWith("||image-grid")) {
+            /* ||image-grid gridWidth */
+            /* imgUrl | alt-text/title */
+            const rows = chunk.split("\n");
+            let homeRow = rows.shift().substring("||image-span".length).trim();
+            const lines = chunk.split("\n").slice(1).map( line => {
+                const parts = line.split("|");
+                while (parts.length < 3) {
+                    parts.push("");
+                }
+                const imgUrl = "media/" + parts[0].trim();
+                let figCaption = formatting(parts[1].trim());
+                let altText = formatting(parts[2].trim().replace(/"/g,"&quot;"));
+                if (figCaption) { figCaption = `<figcaption>${ figCaption }</figcaption>`; }
+                
+                return `<figure><div><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></div>${ figCaption }</figure>`;
+            });
+            return `<div class="image-grid">${lines.join("") }</div>`;
+        }
+        
         /* ------------------------------------- code ------------------------------------- */
         if (chunk.startsWith("||codeblock")) {
             return `<div class="codeblock">${ chunk.split("\n").slice(1).join("<br>") }</div>`;
@@ -262,7 +290,7 @@ function interpreter(targetElement, articleLinks) {
         /* ------------------------------------- table ------------------------------------- */
         if (chunk.startsWith("||table")) {
             let rows = chunk.split("\n");
-            let homeRow = rows.shift().substring(7).trim();
+            let homeRow = rows.shift().substring("||table".length).trim();
             let tableWidth = 1;
             for (let row = 0; row < rows.length; row += 1) {
                 let cells = rows[row].split("|");
