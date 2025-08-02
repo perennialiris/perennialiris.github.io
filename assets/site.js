@@ -46,7 +46,6 @@ window.addEventListener("load", function() {
             <div class="c2">
                 <div id="article">${ document.body.innerHTML }</div>
                 <footer id="footer">
-                    <div id="see-also"></div>
                 </footer>
             </div>
         </div>
@@ -60,14 +59,14 @@ window.addEventListener("load", function() {
     articleLinks = articleLinks.filter(a => a.url.startsWith("http"));
     if (articleLinks.length > 0) {
         articleLinks = articleLinks.map( (link_, n) => {
-            let li = `<li>`;
+            let li = `<tr><td class="no-select">${n + 1}. </td><td>`;
             for (let i = 1; i < link_.count + 1; i += 1) {
                 li += `<a href="#cite-${n + 1}${ i == 1 ? "" : "-" + i }">^</a>`;
             }
-            return `${li} <a target="_blank" href="${link_.url}">${link_.url}</a></li>`;
+            return `${li} <a target="_blank" href="${link_.url}">${link_.url}</a></td></tr>`;
         });
         document.getElementById("footer").innerHTML += 
-            `<div id="citations">External pages referenced above (this list is auto-generated):<ol>${articleLinks.join("")}</ol></div>`;
+            `<div>External pages referenced above (this list is auto-generated on page load):<table class="cite-list">${articleLinks.join("")}</table></div>`;
         }
 
     if (document.body.classList.contains("toc")) {
@@ -334,12 +333,14 @@ function interpreter(targetElement, articleLinks) {
 
         /* ----------------------------------- see also ----------------------------------- */
         if (chunk.startsWith("||see-also")) {
-
-            const seeAlsoLines = chunk.split("\n").slice(1)
-                .map(c => c.replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1").replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1"))
-                .map(c => `<div><a href="${c}" target="_blank">${c}</a></div>`);
-
-            document.getElementById("footer").appendChild(document.createElement("div")).innerHTML = `<div>This content elsewhere:</div>${seeAlsoLines.join("")}`;
+            document.getElementById("footer").appendChild(document.createElement("div")).innerHTML
+                = "<div>This content was also posted here:</div>" + chunk.split("\n").slice(1)
+                    .map( line => {
+                        const url = line
+                            .replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1")
+                            .replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1");
+                        return `<div><a href="${ url }" target="_blank">${ url }</a></div>`;
+                    })
             return;
         }
 
