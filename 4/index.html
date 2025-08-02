@@ -4,11 +4,23 @@
     <title>International news list</title>
     <link rel="stylesheet" href="../assets/main.css">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <style>
+    .table-1 th { background-image: url(media/us-flag.png); }
+    .col-1 { background-color: var(--grey-e); }
+    .reverse-order-button {
+        cursor: pointer;
+        padding: 1px 8px 3px;
+        border: 1px solid var(--grey-a);
+        background-color: var(--grey-f);
+        color: var(--grey-22);
+    }
+    .reverse-order-button:active { opacity: 0.8; }
+    </style>
 </head>
 <body>
-# International news archive
+# International news
 
-\<div style="text-align: right"><button onclick="reverseOrder()" style="padding:1px 8px 3px">reverse order <span style="vertical-align: 2px">↑↓</span></button></div>
+\<div style="text-align: right"><button onclick="reverseOrder()" class="reverse-order-button">reverse order <span style="vertical-align: 2px">↑↓</span></button></div>
 
 ||table
 2024-06-04 | United Kingdom --- In their general election, the opposition Labour Party won a landslide victory, resulting in a majority with 411 of 650 seats, and Labour leader Keir Starmer and the new Prime Minister.[](https://www.bbc.com/news/election/2024/uk/results)

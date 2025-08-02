@@ -4,13 +4,23 @@
     <title>US news list</title>
     <link rel="stylesheet" href="../assets/main.css">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <style>
+    .table-1 th { background-image: url(media/us-flag.png); }
+    .col-1 { background-color: var(--grey-e); }
+    .reverse-order-button {
+        cursor: pointer;
+        padding: 1px 8px 3px;
+        border: 1px solid var(--grey-a);
+        background-color: var(--grey-f);
+        color: var(--grey-22);
+    }
+    .reverse-order-button:active { opacity: 0.8; }
+    </style>
 </head>
 <body>
-# US news list (2025 onward)
+\<div style="text-align: right"><button onclick="reverseOrder()" class="reverse-order-button">reverse order <span style="vertical-align: 2px">↑↓</span></button></div>
 
-\<div style="text-align: right"><button onclick="reverseOrder()" style="padding: 1px 8px 3px; border: 1px solid var(--grey-a0); background-color: var(--grey-f5); color: var(--grey-22);">reverse order <span style="vertical-align: 2px">↑↓</span></button></div>
-
-||table
+||table US news
 2025-01-16 | Various companies---Meta, Google, Goldman Sachs, Boeing, Microsoft, Amazon, and others---have together donated $170 million to Trump's inaugural fund.[](https://www.cbc.ca/news/business/corporate-donors-trump-inauguration-1.7430028)
 2025-01-20 | Trump withdraws US from World Health Organization.[](https://www.nytimes.com/2025/01/20/us/politics/trump-world-health-organization.html)
 2025-01-20 | Trump withdraws US from Paris Climate Agreement.[](https://www.npr.org/2025/01/21/nx-s1-5266207/trump-paris-agreement-biden-climate-change)

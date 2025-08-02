@@ -52,7 +52,7 @@
         --ff-table: Roboto, sans-serif;
         --ff-monospace: Consolas, monospace;
         --ff-mdash: Ubuntu, var(--ff-ui);
-        --ff-cite: Ubuntu, var(--ff-ui);
+        --ff-cite: Roboto, Arial, Tahoma, var(--ff-ui);
         /* font-size */
         --fs-ui: 14.4px;
         --fs-first-heading: 48px;
@@ -245,12 +245,15 @@
                     #article blockquote .attribution { text-align: right; color: var(--grey-8); }
 
                 #article .auto-table { border-collapse: collapse; font-size: var(--fs-table); font-family: var(--ff-table); line-height: var(--lh-table); }
+                #article .auto-table th,
                 #article .auto-table td { border: 1px solid var(--grey-a); padding: 5px 8px 4px; vertical-align: top; }
-                #article .auto-table .col-1 { background-color: var(--grey-e); }
+                #article .auto-table th { background-size: cover; background-position: center; }
+                /* #article .auto-table .col-1 { background-color: var(--grey-e); } */
 
-                #article .gallery { display: flex; align-items: flex-start; justify-content: space-evenly; gap: 8px; overflow: hidden; max-height: var(--mh-gallery); }
-                    #article .gallery figure { display: flex; justify-content: center; flex-direction: column; gap: 3px; }
-                        #article .gallery figure img { border: 1px solid var(--grey-a); display: block; max-height: var(--mh-gallery); object-fit: contain; max-width: 100%; }
+                #article .image-span { display: flex; justify-content: space-evenly; gap: 8px; }
+                    #article .image-span figure { ; }
+                    #article .image-span figure img { border: 1px solid var(--grey-a); display: block; object-fit: contain; max-width: 100%; }
+                #article .image-span + .image-span { margin-top: 8px; }
 
                 #article .image-float { clear: right; margin-bottom: 10px; margin-left: 1em; float: right; display: flex; flex-direction: column; gap: 10px; }
                     #article .image-float figure { padding: 8px; background-color: var(--grey-f); border: 1px solid var(--grey-a); }

@@ -37,7 +37,7 @@ window.addEventListener("load", function() {
        `<header id="header"></header>
         <nav id="nav">
             <div class="nav-inner">
-                <span id="page-name-display">${ isIndex ? "" : `<a href="../index.html">Index</a> &#47; <a href="index.html">` + (document.title || "This page") + `</a>` }</span>
+                <span id="page-name-display">${ isIndex ? "" : `<a href="../index.html">Index</a> &#47; ${document.title || "This Page"}`}</span>
                 <a class="to-top-button" href="#">Jump to Top</a>
             </div>
         </nav>
@@ -178,16 +178,16 @@ function interpreter(targetElement, articleLinks) {
         }
         
         /* ------------------------------------ images ------------------------------------ */
-        if (chunk.startsWith("||gallery")) {
+        if (chunk.startsWith("||image-span")) {
             /* imgUrl | alt-text/title | figcaption */
             const galleryFigures = chunk.split("\n").slice(1).map( line => {
                 const parts = line.split("|");
                 while (parts.length < 3) { parts.push(""); }
                 let imgUrl = "media/" + parts[0].trim();
                 let altText = formatting(parts[1].trim().replace(/"/g,"&quot;"));
-                return `<figure><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></figure>`;
+                return `<img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }">`;
             });
-            return `<div class="gallery">${ galleryFigures.join("") }</div>`;
+            return `<div class="image-span">${ galleryFigures.join("") }</div>`;
         }
 
         if (chunk.startsWith("||image-float")) {
@@ -261,15 +261,18 @@ function interpreter(targetElement, articleLinks) {
 
         /* ------------------------------------- table ------------------------------------- */
         if (chunk.startsWith("||table")) {
-            let rows = chunk.split("\n").slice(1);
+            let rows = chunk.split("\n");
+            let homeRow = rows.shift().substring(7).trim();
+            let tableWidth = 1;
             for (let row = 0; row < rows.length; row += 1) {
                 let cells = rows[row].split("|");
                 for (let cell = 0; cell < cells.length; cell += 1) {
                     cells[cell] = `<td class="col-${cell + 1}">${ formatting(cells[cell].trim()) }</td>`;
+                    if (cell + 1 > tableWidth) { tableWidth = cell + 1; }
                 }
                 rows[row] = `<tr class="row-${row + 1}">${ cells.join("") }</tr>`;
             }
-            return `<table class="auto-table table-${tableNum++}"><tbody>${rows.join("")}</tbody></table>`;
+            return `<table class="auto-table auto-table-${tableNum++}">${!homeRow ? "" : "<thead><tr><th colspan="+tableWidth+">"+homeRow+"</th></tr></thead>"}<tbody>${rows.join("")}</tbody></table>`;
         }
 
         /* ---------------------------------- blockquote ---------------------------------- */
