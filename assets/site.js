@@ -267,7 +267,7 @@ function interpreter(targetElement, externalLinks) {
             chunk = chunk.slice(1).trim();
             fine = "fine";
         }
-        
+
         /* ------------------------------------- links ------------------------------------- */
         /*  \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\)
             [text to be displayed](https://perennialiris.github.io/)

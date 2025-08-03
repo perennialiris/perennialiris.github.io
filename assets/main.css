@@ -39,6 +39,7 @@
         --content-width: 648px;
         --float-img-w: 200px;
         --float-img-h: 220px;
+        --img-grid-sq: 200px;
         /* font-family */
         --ff-ui: Nirmala UI, Segoe UI, system-ui, sans-serif;
         --ff-article: Georgia, sans-serif;
@@ -51,8 +52,8 @@
         --ff-table: Roboto, sans-serif;
         --ff-monospace: Consolas, monospace;
         --ff-mdash: Ubuntu, var(--ff-ui);
-        --ff-cite: Verdana, Arial, Tahoma, var(--ff-ui);
-        --ff-cite-table: Arial, Tahoma, var(--ff-ui);
+        --ff-cite: Verdana, Tahoma, var(--ff-monospace);
+        --ff-cite-table: Verdana, Tahoma, var(--ff-monospace);
         /* font-size */
         --fs-ui: 14.4px;
         --fs-first-heading: 48px;
@@ -66,15 +67,19 @@
         --fs-h3: 18px;
         --fs-h4: inherit;
         /* color */
-        --link-color: #3a68b7;
+        --link-color: #4463aa;
+        --link-visited-color: #605e91;
         --internal-link-color: #4f757d;
+        --fine-link-color: #616ba8;
+        --fine-link-visited-color: #736891;
+        --fine-internal-link-color: #537b84;
         --selection-color: #333333;
         --selection-bg: #d0dfff;
         --grey-1: #131313;
         --grey-2: #222222;
         --grey-3: #3c3c3c; /* main text */
-        --grey-5: #5f5f5f;
-        --grey-8: #808080;
+        --grey-5: #5a5a5a;
+        --grey-8: #777777;
         --grey-9: #999999;
         --grey-a: #aaaaaa;
         --grey-c: #cccccc;
@@ -93,6 +98,7 @@
         --lh-citations: 1.15;
         /* letter-spacing */
         --ls-article-bold: -0.24px;
+        --ls-citeref: -0.5px;
     }
         .wider { --content-width: 740px; }
         .narrow {
@@ -200,7 +206,7 @@
                 }
 
                 #article > * {
-                    margin-top: 1em;
+                    margin-top: 1rem;
                 }
 
                 #article .heading {
@@ -217,10 +223,22 @@
                 #article p b,
                 #article h4 { color: var(--grey-2); letter-spacing: var(--ls-article-bold); }
 
-                #article a { color: var(--link-color); }
+                #article sup { vertical-align: super; line-height: 1; font-size: var(--fs-cite); }
+
+                #article a { color: var(--link-color); text-decoration: 1px dotted underline; }
+                #article a:not(.internal):visited { color: var(--link-visited-color); }
                 #article a.internal { color: var(--internal-link-color); text-decoration: 1px dotted underline var(--internal-link-color); }
+                #article a.citeref { margin-left: 1px; text-decoration: none; font-size: var(--fs-cite); font-family: var(--ff-cite); letter-spacing: var(--ls-citeref); }
+                    #article a.citeref * { font-size: inherit; font-family: inherit; }
 
                 #article > h1 + .fine { margin-top: 0; }
+                #article .fine { color: var(--grey-8); font-size: var(--fs-small); font-family: var(--ff-ui); }
+                    #article .fine ::marker,
+                    #article .fine * { color: inherit; font-size: inherit; font-family: inherit; }
+                    #article .fine a { color: var(--fine-link-color); text-decoration: none; }
+                    #article .fine a:not(.internal):visited { color: var(--fine-link-visited-color); }
+                    #article .fine a.internal { color: var(--fine-internal-link-color); }
+
                 #article .auto-list {
                     padding: 0 2.5em;
                     margin: 0;
@@ -246,13 +264,6 @@
                 
                 #article code { background-color: #ececee; vertical-align: 1px; line-height: 1; padding: 0 1px; font-family: var(--ff-monospace); }
                 #article .codeblock { background-color: var(--grey-f); white-space: pre-wrap; font-family: var(--ff-monospace); padding: 6px 10px; }
-                #article .fine { color: var(--grey-8); font-size: var(--fs-small); font-family: var(--ff-ui); }
-                    #article .fine ::marker,
-                    #article .fine * { color: inherit; font-size: inherit; font-family: inherit; }
-                    #article .fine a { text-decoration: 1px dotted underline currentcolor; }
-                #article sup { vertical-align: super; line-height: 1; font-size: var(--fs-cite); }
-                #article .citeref { font-size: var(--fs-cite); margin-left: 1px; font-family: var(--ff-cite); }
-                    #article .citeref * { font-size: inherit; font-family: inherit; }
 
                 #article blockquote { margin-inline: 1px; padding: 15px 20px; border-left: 3px solid currentcolor; background-color: var(--grey-f); }
                     #article blockquote > :nth-child(n+2) { margin-top: 0.5em; }
@@ -271,11 +282,11 @@
                 #article .image-span + .image-span { margin-top: 8px; }
                     #article .image-span img { cursor: pointer; width: inherit; max-width: 100%; max-height: 100%; display: block; object-fit: contain; }
 
-                #article .image-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+                #article .image-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; overflow: hidden; }
                     #article .image-grid figure { display: flex; flex-direction: column; align-items: center; padding: 5px; }
-                        #article .image-grid div { width: 200px; height: 200px; border: 1px solid var(--grey-a); background-color: var(--grey-f); display: flex; align-items: center; justify-content: center; }
-                            #article .image-grid img { max-width: 200px; max-height: 200px; }
-                        #article .image-grid figcaption { max-width: 200px; text-align: center; margin: 5px; line-height: var(--lh-caption); font-family: var(--ff-ui); color: var(--grey-5); font-size: var(--fs-small); }
+                        #article .image-grid div { width: var(--img-grid-sq); height: var(--img-grid-sq); border: 1px solid var(--grey-a); background-color: var(--grey-f); display: flex; align-items: center; justify-content: center; }
+                            #article .image-grid img { max-width: var(--img-grid-sq); max-height: var(--img-grid-sq); }
+                        #article .image-grid figcaption { max-width: var(--img-grid-sq); text-align: center; margin: 5px; line-height: var(--lh-caption); font-family: var(--ff-ui); color: var(--grey-5); font-size: var(--fs-small); }
 
                 #article .image-float { clear: right; margin-bottom: 10px; margin-left: 1em; float: right; display: flex; flex-direction: column; gap: 10px; }
                     #article .image-float figure { padding: 8px; background-color: var(--grey-f); border: 1px solid var(--grey-a); }
