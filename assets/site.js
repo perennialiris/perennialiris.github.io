@@ -6,15 +6,16 @@
 */
 
 let pageData = `
-us-news                 ** wide
-int-news                ** wide
-ca-news                 ** wide
-israel-palestine        ** toc wide
-sex-gender-transsexuals ** toc wide
-politics-fundamentals   ** toc wide
+us-news                 ** wider
+int-news                ** wider
+ca-news                 ** wider
+israel-palestine        ** toc wider
+sex-gender-transsexuals ** toc wider
+politics-fundamentals   ** toc wider
 donald-trump            ** toc
 pierre-poilievre        ** toc
 poor-things             ** narrow
+7 * Elon Nazi salut      * narrow
 `.split("\n").filter(n => n.trim().length > 2).map(cell => cell.split("*").map(c => c.trim()));
 
 function pageName() {
@@ -229,7 +230,20 @@ function interpreter(targetElement, externalLinks) {
             });
             return `<div class="image-grid">${lines.join("") }</div>`;
         }
-        
+
+        /* ------------------------------------ video ------------------------------------ */
+        if (chunk.startsWith("||video")) {
+            let data = chunk.split("\n").slice(1)[0].split("|").map(c => c.trim());
+            let fileUrl = data[0];
+            let dot = fileUrl.indexOf(".");
+            if (dot == -1) {
+                return;
+            }
+            let fileType = fileUrl.substring(dot + 1);
+            let maxHeight = (data.length == 2) ? data[1] : 300;
+            return `<div class="auto-video"><video controls height="${maxHeight}"><source src="media/${fileUrl}" type="video/${fileType}"></video></div>`;
+        }
+
         /* ------------------------------------- code ------------------------------------- */
         if (chunk.startsWith("||codeblock")) {
             return `<div class="codeblock">${ chunk.split("\n").slice(1).join("<br>") }</div>`;
@@ -344,7 +358,7 @@ function interpreter(targetElement, externalLinks) {
                 }
                 return li_ + `>${formatting(line)}</li>`;
             })
-            let list = `<${listTag} class="list"`;
+            let list = `<${listTag} class="auto-list"`;
             if (startNumber) {
                 list += ` start="${startNumber}"`;
             }
@@ -353,6 +367,17 @@ function interpreter(targetElement, externalLinks) {
                 list = `<div class="fine">${list}</div>`;
             }
             return list;
+        }
+        /* ------------------------------------- lists ------------------------------------- */
+        /* Not a perfect handler but whatever it's fine. */
+        if ( chunk.startsWith("-- ")) {
+            const lines = chunk.split("\n").map( line => {
+                if (line.startsWith("-- ")) {
+                    line = line.substring(3).trim();
+                }
+                return `<li>${ formatting(line) }</li>`;
+            })
+            return `<ul class="condensed">${ lines.join("") }</ul>`;
         }
 
         /* ----------------------------------- headings ----------------------------------- */

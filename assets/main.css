@@ -52,7 +52,7 @@
         --ff-monospace: Consolas, monospace;
         --ff-mdash: Ubuntu, var(--ff-ui);
         --ff-cite: Verdana, Arial, Tahoma, var(--ff-ui);
-        --ff-table-cite: Arial, Arial, Tahoma, var(--ff-ui);
+        --ff-cite-table: Arial, Tahoma, var(--ff-ui);
         /* font-size */
         --fs-ui: 14.4px;
         --fs-first-heading: 48px;
@@ -66,32 +66,35 @@
         --fs-h3: 18px;
         --fs-h4: inherit;
         /* color */
-        --link-color: #395fb9;
+        --link-color: #3a68b7;
         --internal-link-color: #4f757d;
         --selection-color: #333333;
         --selection-bg: #d0dfff;
+        --grey-1: #131313;
         --grey-2: #222222;
         --grey-3: #3c3c3c; /* main text */
-        --grey-5: #5a5a5a;
+        --grey-5: #5f5f5f;
         --grey-8: #808080;
         --grey-9: #999999;
         --grey-a: #aaaaaa;
         --grey-c: #cccccc;
         --grey-e: #e5e5e5;
-        --grey-f: #f5f5f5;
+        --grey-f: #f0f0f0;
         --white: #ffffff;
         /* line-height */
         --lh-ui: 1.3;
         --lh-heading: 1.15;
         --lh-article: 1.5;
         --lh-table: 1.5;
+        --lh-condensed-list: 1.3;
         --lh-caption: 1.15;
         --lh-footer: 1.3;
+        --lh-see-also: 1.5;
         --lh-citations: 1.15;
         /* letter-spacing */
         --ls-article-bold: -0.24px;
     }
-        .wide { --content-width: 780px; }
+        .wider { --content-width: 740px; }
         .narrow {
             --fs-article: 17px;
             --content-width: 614px;
@@ -102,6 +105,7 @@
         --link-color: #5b422a;
         --selection-color: #707070;
         --selection-bg: #121416;
+        --grey-1: #131313;
         --grey-2: #5a5a5a;
         --grey-3: #505154;
         --grey-5: #404040;
@@ -217,7 +221,7 @@
                 #article a.internal { color: var(--internal-link-color); text-decoration: 1px dotted underline var(--internal-link-color); }
 
                 #article > h1 + .fine { margin-top: 0; }
-                #article .list {
+                #article .auto-list {
                     padding: 0 2.5em;
                     margin: 0;
                 }
@@ -228,6 +232,9 @@
                             margin-top: 0.333em;
                             list-style-type: none;
                         }
+                
+                #article ul.condensed { padding: 0 1.5em; margin-top: 0 !important; }
+                #article ul.condensed li { margin-top: 5px; line-height: var(--lh-condensed-list); list-style-type: "– "; }
 
                 #article hr { margin: 2em 0; border: none; height: 1px; width: 100%; background-color: var(--grey-a);  }
 
@@ -257,6 +264,9 @@
                     #article .auto-table td { border: 1px solid var(--grey-a); padding: 5px 8px 4px; vertical-align: top; }
                     #article .auto-table th { background-size: cover; background-position: center; }
 
+                #article .auto-video { background-color: var(--grey-1); }
+                #article .auto-video video { display: block; margin-inline: auto; }
+
                 #article .image-span { display: flex; align-items: center; justify-content: space-evenly; max-width: 100%; gap: 8px; overflow: hidden; }
                 #article .image-span + .image-span { margin-top: 8px; }
                     #article .image-span img { cursor: pointer; width: inherit; max-width: 100%; max-height: 100%; display: block; object-fit: contain; }
@@ -280,7 +290,7 @@
                 flex-direction: column;
                 gap: 25px;
             }
-                .see-also { line-height: var(--lh-article); }
+                .see-also { line-height: var(--lh-see-also); }
                 .cite-list td:nth-child(1) { text-align: right; white-space: nowrap; }
 
         .lightbox-wrapper { z-index: 3; width: 100%; height: 100vh; background-color: #000b; position: fixed; left: 0; top: 0; display: none; align-items: center; justify-content: center; }
@@ -288,7 +298,4 @@
 
 
 
-                #article figure.image-box { display: flex; align-items: center; justify-content: space-evenly; max-width: 100%; gap: 8px; overflow: hidden; }
-                    #article figure.image-box div { display: inline-block; border: 1px solid var(--grey-a0); height: 100%; }
-                    #article figure.image-box div img { cursor: pointer; width: inherit; max-width: 100%; display: block; object-fit: contain; }
 

@@ -4,6 +4,11 @@
     <title>Movie list</title>
     <link rel="stylesheet" href="../assets/main.css">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <style>
+    .auto-table td { border: none !important; padding: 3px 6px 1px !important; }
+    .auto-table tr + tr { border-top: 1px dotted var(--grey-9); }
+    .auto-table-1 .col-2 { color: var(--grey-5); }
+    </style>
 </head>
 <body>
 ### Every movie I've ever seen
@@ -11,12 +16,17 @@
 This is a silly page. I believe it's a list of every movie I've ever seen. So far it's <span id="movie-count" class="digit"></span> movies. I'll sort it by year of release.
 
 ||table
+My Neighbor Totoro | 1988
+The Cat Returns | 2002
+Kiki's Delivery Service | 1989
+Spirited Away | 2001
 Jack Frost | 1998
 Jonah: A VeggieTales Movie | 2002
 A Goofy Movie | 1995
 The Pebble and the Penguin | 1995
 Prince of Egypt | 1998
 Top Gun | 1986
+Hoodwinked! | 2005
 Hercules | 1997
 WALL-E | 2008
 Monsters, Inc. | 2001
@@ -108,6 +118,12 @@ Crimson Tide | 1995
 Akira | 1988
 Silence of the Lambs | 1991
 Austin Powers | 1997
+Austin Powers: The Spy Who Shagged Me | 1999
+Austin Powers in Goldmember | 2002
+Futurama: Bender's Big Score | 2007
+Futurama: Bender's Game | 2008
+Futurama: The Beast with a Billion Backs | 2008
+Futurama: Into the Wild Green Yonder | 2009
 Mad Max: Fury Road | 2015
 Rogue One: A Star Wars Story | 2016
 Con Air | 1997
@@ -213,10 +229,10 @@ The Matrix Reloaded | 2003
 The Matrix Revolutions | 2003
 Cars | 2006
 Finding Nemo | 2003
-Toy Story | 1995
 The Lord of the Rings: The Fellowship of the Ring | 2001
 The Lord of the Rings: The Two Towers | 2002
 The Lord of the Rings: The Return of the King | 2003
+Toy Story | 1995
 Toy Story 2 | 1999
 Toy Story 3 | 2010
 Toy Story 4 | 2019
@@ -245,25 +261,27 @@ Back to the Future | 1985
 Back to the Future Part II | 1989
 Back to the Future Part III | 1990
 
-
 ---
 
 I don't want to do a complex rating thing, but some of my favourites are:
 
-\<ol>
-<li>Poor Things</li>
-<li>Dial M for Murder</li>
-<li>Twelve Angry Men</li>
-<li>Edge of Tomorrow</li>
-</ol>
+-- Poor Things
+-- Dial M for Murder
+-- Twelve Angry Men
+-- Edge of Tomorrow
+-- Pride and Prejudice (the 2005 version starring Keira Knightley)
 
-Sadly, I think the worst movie I've ever seen is *Star Trek: Section 31*.
+The movies I hated most:
+
+* **Whiplash**. This movie is actually just dumb as hell. I sort of understand why people like it for the idea that it's *trying* to convey about becoming great under pressure, but the way it tried to convey that was not good, the teacher was just an idiot, I'd have laughed in his face and been like dude what are you doing? I don't know how people took it seriously.
+* **Star Trek: Section 31**. This was shockingly bad. *Star Trek* already didn't translate that well into movies anyway---the TNG movies had some good moments but were overall badly written---but this one somehow blew all previous attempts away. They shouldn't have even released it.
 
 <script src="../assets/site.js"></script>
 <script>
-function reverseOrder() {
-    et table = document.getElementsByTagName("tbody")[0];
+window.addEventListener("load", function() {
+    let table = document.getElementsByTagName("tbody")[0];
     let rows = Array.from(table.rows);
+    document.getElementById("movie-count").innerHTML = rows.length;
 
     rows.sort((a, b) => {
       let a_ = parseFloat(a.cells[1].textContent) || 0;
@@ -271,29 +289,7 @@ function reverseOrder() {
       return a_ - b_;
     });
     rows.forEach(row => table.appendChild(row));
-}
-window.addEventListener("load", function() {
-    reverseOrder();
 });
-</script>
-<script>
-window.onload = function() {
-
-    movies = movies.replace(/\) (\w)/g, ")\n$1")
-            .split("\n")
-            .filter(c => c != "");
-    
-    let total = movies.length;
-    
-    document.getElementById("movie-count").innerHTML = total;
-    document.getElementById("movie-list").innerHTML = movies.sort((a, b) => { return parseInt(a.match(/\d{4}/)) - parseInt(b.match(/\d{4}/)) })
-            .map(c => `<div style="padding:2px 0">${c}</div>`)
-            .join('');
-    
-}
-
 </script>
 </body></html>
 
-\) (\w)
-)\n$1
