@@ -213,7 +213,7 @@
                     line-height: var(--lh-heading);
                     clear: both;
                     color: var(--grey-2);
-                    margin-block: 1em 0.5rem;
+                    margin-block: 1.2em 0.5rem;
                 }
                 #article h1 { font-family: var(--ff-h1); font-size: var(--fs-h1); }
                 #article h2 { font-family: var(--ff-h2); font-size: var(--fs-h2); }
@@ -226,7 +226,7 @@
                 #article sup { vertical-align: super; line-height: 1; font-size: var(--fs-cite); }
 
                 #article a { color: var(--link-color); text-decoration: 1px dotted underline; }
-                #article a:not(.internal):visited { color: var(--link-visited-color); }
+                /* #article a:not(.internal):visited { color: var(--link-visited-color); } */
                 #article a.internal { color: var(--internal-link-color); text-decoration: 1px dotted underline var(--internal-link-color); }
                 #article a.citeref { margin-left: 1px; text-decoration: none; font-size: var(--fs-cite); font-family: var(--ff-cite); letter-spacing: var(--ls-citeref); }
                     #article a.citeref * { font-size: inherit; font-family: inherit; }
@@ -236,7 +236,7 @@
                     #article .fine ::marker,
                     #article .fine * { color: inherit; font-size: inherit; font-family: inherit; }
                     #article .fine a { color: var(--fine-link-color); text-decoration: none; }
-                    #article .fine a:not(.internal):visited { color: var(--fine-link-visited-color); }
+                    /* #article .fine a:not(.internal):visited { color: var(--fine-link-visited-color); } */
                     #article .fine a.internal { color: var(--fine-internal-link-color); }
 
                 #article .auto-list {
