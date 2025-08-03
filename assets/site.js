@@ -51,6 +51,7 @@ window.addEventListener("load", function() {
                 </footer>
             </div>
         </div>
+        <div class="page-bottom"></div>
         <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>`;
     let externalLinks = [];
     interpreter(document.getElementById("article"), externalLinks);

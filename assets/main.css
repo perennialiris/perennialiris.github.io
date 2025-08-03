@@ -40,6 +40,7 @@
         --float-img-w: 200px;
         --float-img-h: 220px;
         --img-grid-sq: 200px;
+        --page-bottom-height: 126px;
         /* font-family */
         --ff-ui: Nirmala UI, Segoe UI, system-ui, sans-serif;
         --ff-article: Georgia, sans-serif;
@@ -67,6 +68,9 @@
         --fs-h3: 18px;
         --fs-h4: inherit;
         /* color */
+        --header-bg: #000;
+        --nav-bg: #252525;
+        --page-bottom-bg: #252525;
         --link-color: #4463aa;
         --link-visited-color: #605e91;
         --internal-link-color: #4f757d;
@@ -108,6 +112,8 @@
         }
 
     body.dark {
+        --nav-bg: #0a0a0a;
+        --page-bottom-bg: #0a0a0a;
         --link-color: #5b422a;
         --selection-color: #707070;
         --selection-bg: #121416;
@@ -124,7 +130,6 @@
         --white: #010101;
     }
     .dark figure img { opacity: 0.8; }
-    .dark #nav { background-color: #0a0a0a; }
     .dark ::selection { background-color: var(--selection-bg); color: var(--selection-color); }
     body.dark {
         background-image: linear-gradient(20deg, #090909, #010101);
@@ -147,8 +152,8 @@
     html { scroll-padding-top: calc(var(--nav-height) + 30px); font-size: var(--fs-ui); scrollbar-color: #666 #ddd; }
     body { min-width: 350px; color: var(--grey-3); min-height: 100vh; line-height: var(--lh-ui); background-color: var(--white); font-family: var(--ff-ui); }
 
-        #header { height: var(--header-height); background-color: black; position: sticky; top: calc(var(--nav-height) - var(--header-height) - 10px); }
-        #nav { font-family: var(--ff-nav); background-color: #252525; color: #696969; position: sticky; top: -1px; height: var(--nav-height); display: flex; align-items: center; z-index: 2; }
+        #header { height: var(--header-height); background-color: var(--header-bg); position: sticky; top: calc(var(--nav-height) - var(--header-height) - 10px); }
+        #nav { font-family: var(--ff-nav); background-color: var(--nav-bg); color: #696969; position: sticky; top: -1px; height: var(--nav-height); display: flex; align-items: center; z-index: 2; }
             .nav-inner { width: var(--content-width); padding: 0 1rem; margin: 0 auto; }
                 #page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--content-width) - 60px); padding-right: 10px; }
                 .to-top-button { float: right; opacity: 0; pointer-events: none; transition: opacity 1s; }
@@ -307,6 +312,9 @@
         .lightbox-wrapper { z-index: 3; width: 100%; height: 100vh; background-color: #000b; position: fixed; left: 0; top: 0; display: none; align-items: center; justify-content: center; }
             #lightbox { object-fit: contain; max-width: 90%; max-height: 90%; }
 
+        .page-bottom {
+            height: var(--page-bottom-height); background-color: var(--page-bottom-bg);
+        }
 
 
 
