@@ -32,14 +32,13 @@
 
     :root {
         /* layout dimensions */
-        --h-header: 126px;
-        --h-nav: 39px;
-        --c-gap: 36px;
-        --w-toc: 210px;
-        --mw-content: 640px;
-        --mw-float-img: 200px;
-        --mh-float-img: 220px;
-        --mh-gallery: 300px;
+        --header-height: 126px;
+        --nav-height: 39px;
+        --gap: 36px;
+        --toc-width: 210px;
+        --content-width: 648px;
+        --float-img-w: 200px;
+        --float-img-h: 220px;
         /* font-family */
         --ff-ui: Nirmala UI, Segoe UI, system-ui, sans-serif;
         --ff-article: Georgia, sans-serif;
@@ -56,18 +55,19 @@
         --ff-table-cite: Arial, Arial, Tahoma, var(--ff-ui);
         /* font-size */
         --fs-ui: 14.4px;
-        --fs-first-heading: 3.116883116883117em;
-        --fs-main: 15.4px;
-        --fs-small: 0.935064935064935em; /* 14.4px */
-        --fs-cite: 0.7142857142857143em; /* 11px */
-        --fs-table: 0.961038961038961em; /* 14.8px */
-        --fs-table-cite: 0.7402597402597403em; /* 11.4px */
-        --fs-h1: 1.5584415584415585em;
-        --fs-h2: 1.2987012987012987em;
-        --fs-h3: 1.1688311688311688em;
+        --fs-first-heading: 48px;
+        --fs-article: 15.4px;
+        --fs-small: 14.4px; /* 14.4px */
+        --fs-cite: 11px; /* 11px */
+        --fs-table: 14.8px; /* 14.8px */
+        --fs-table-cite: 11.4px; /* 11.4px */
+        --fs-h1: 24px;
+        --fs-h2: 20px;
+        --fs-h3: 18px;
         --fs-h4: inherit;
         /* color */
-        --link-color: #3055aa;
+        --link-color: #395fb9;
+        --internal-link-color: #4f757d;
         --selection-color: #333333;
         --selection-bg: #d0dfff;
         --grey-2: #222222;
@@ -76,6 +76,7 @@
         --grey-8: #808080;
         --grey-9: #999999;
         --grey-a: #aaaaaa;
+        --grey-c: #cccccc;
         --grey-e: #e5e5e5;
         --grey-f: #f5f5f5;
         --white: #ffffff;
@@ -90,12 +91,11 @@
         /* letter-spacing */
         --ls-article-bold: -0.24px;
     }
-        .toc { --mw-content: 728px; }
-        .archive { --mw-content: 820px; }
+        .wide { --content-width: 780px; }
         .narrow {
-            --fs-article: 17.4px;
-            --mw-content: 600px;
-            --lh-article: 1.65;
+            --fs-article: 17px;
+            --content-width: 614px;
+            --lh-article: 1.8;
         }
 
     body.dark {
@@ -108,6 +108,7 @@
         --grey-8: #323335;
         --grey-9: #282828;
         --grey-a: #202020;
+        --grey-c: #151515;
         --grey-e: #0a0a0a;
         --grey-f: #060606;
         --white: #010101;
@@ -128,47 +129,46 @@
     a { color: inherit; text-decoration: none; text-underline-offset: 2px; }
     a:hover { text-decoration: underline; }
 
-
     ::selection { background-color: var(--selection-bg); color: var(--selection-color); }
     a:target { background-color: #dfe9ff; }
     .no-select { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
     .space-between { display: flex; justify-content: space-between; gap: 8px; }
 
-    html { scroll-padding-top: calc(var(--h-nav) + 30px); font-size: var(--fs-ui); scrollbar-color: #666 #ddd; }
+    html { scroll-padding-top: calc(var(--nav-height) + 30px); font-size: var(--fs-ui); scrollbar-color: #666 #ddd; }
     body { min-width: 350px; color: var(--grey-3); min-height: 100vh; line-height: var(--lh-ui); background-color: var(--white); font-family: var(--ff-ui); }
 
-        #header { height: var(--h-header); background-color: black; position: sticky; top: calc(var(--h-nav) - var(--h-header) - 10px); }
-        #nav { font-family: var(--ff-nav); background-color: #252525; color: #696969; position: sticky; top: -1px; height: var(--h-nav); display: flex; align-items: center; z-index: 2; }
-            .nav-inner { width: var(--mw-content); padding: 0 1rem; margin: 0 auto; }
-                #page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--mw-content) - 60px); padding-right: 10px; }
+        #header { height: var(--header-height); background-color: black; position: sticky; top: calc(var(--nav-height) - var(--header-height) - 10px); }
+        #nav { font-family: var(--ff-nav); background-color: #252525; color: #696969; position: sticky; top: -1px; height: var(--nav-height); display: flex; align-items: center; z-index: 2; }
+            .nav-inner { width: var(--content-width); padding: 0 1rem; margin: 0 auto; }
+                #page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: calc(var(--content-width) - 60px); padding-right: 10px; }
                 .to-top-button { float: right; opacity: 0; pointer-events: none; transition: opacity 1s; }
                 .sticky-active .to-top-button { cursor: pointer; opacity: 1; pointer-events: auto; }
 
         .c1 {
             margin: 0 auto;
-            padding: var(--c-gap) 1rem;
+            padding: var(--gap) 1rem;
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            gap: var(--c-gap);
+            gap: var(--gap);
         }
 
-        .toc .nav-inner { width: calc(var(--w-toc) + var(--c-gap) + var(--mw-content)); }
+        .toc .nav-inner { width: calc(var(--toc-width) + var(--gap) + var(--content-width)); }
         .toc .nav-inner, .toc .c1 {
             padding-right: clamp(
                 1rem,
-                calc( 0.2 * calc( 100vw - 20px - calc( var(--w-toc) + var(--mw-content) + var(--c-gap) ) ) ),
+                calc( 0.2 * calc( 100vw - 20px - calc( var(--toc-width) + var(--content-width) + var(--gap) ) ) ),
                 300px);
         }
-            .c2 { max-width: var(--mw-content); width: 100%; }
+            .c2 { max-width: var(--content-width); width: 100%; }
 
             #toc {
                 display: none;
-                max-height: calc(100vh - 150px - var(--h-nav));
+                max-height: calc(100vh - 150px - var(--nav-height));
                 padding-bottom: 2em;
-                min-width: var(--w-toc);
+                min-width: var(--toc-width);
                 position: sticky;
-                top: calc(2em + var(--h-nav));
+                top: calc(2em + var(--nav-height));
                 overflow: hidden;
                 scrollbar-width: thin;
                 scrollbar-color: var(--grey-9) var(--grey-e);
@@ -181,20 +181,20 @@
                 #toc:focus-within,
                 #toc:hover { mask-image: none; }
                 #toc:hover { overflow: auto; }
-                    .toc-row { color: var(--grey-9); display: block; max-width: calc(var(--w-toc) - 30px); }
+                    .toc-row { color: var(--grey-9); display: block; max-width: calc(var(--toc-width) - 30px); }
                     .toc-row { margin-top: 0.7em; }
                     .toc-row.active-heading { color: var(--grey-3); }
-                    .toc-row.h1 { margin-left: 0; max-width: calc(var(--w-toc) - 20px); }
-                    .toc-row.h2 { margin-left: 20px; max-width: calc(var(--w-toc) - 40px); }
-                    .toc-row.h3 { margin-left: 40px; max-width: calc(var(--w-toc) - 60px); }
+                    .toc-row.h1 { margin-left: 0; max-width: calc(var(--toc-width) - 20px); }
+                    .toc-row.h2 { margin-left: 20px; max-width: calc(var(--toc-width) - 40px); }
+                    .toc-row.h3 { margin-left: 40px; max-width: calc(var(--toc-width) - 60px); }
 
-            #article { font-family: var(--ff-article); font-size: var(--fs-main); line-height: var(--lh-article); max-width: var(--mw-content); width: 100%; }
+            #article { font-family: var(--ff-article); font-size: var(--fs-article); line-height: var(--lh-article); max-width: var(--content-width); width: 100%; }
                 #article > :nth-child(1) { margin-top: 0 !important; }
                 #article > h1:first-child {
                     font-family: var(--ff-first-heading);
                     font-size: var(--fs-first-heading);
                 }
-                
+
                 #article > * {
                     margin-top: 1em;
                 }
@@ -214,7 +214,7 @@
                 #article h4 { color: var(--grey-2); letter-spacing: var(--ls-article-bold); }
 
                 #article a { color: var(--link-color); }
-
+                #article a.internal { color: var(--internal-link-color); text-decoration: 1px dotted underline var(--internal-link-color); }
 
                 #article > h1 + .fine { margin-top: 0; }
                 #article .list {
@@ -269,8 +269,8 @@
 
                 #article .image-float { clear: right; margin-bottom: 10px; margin-left: 1em; float: right; display: flex; flex-direction: column; gap: 10px; }
                     #article .image-float figure { padding: 8px; background-color: var(--grey-f); border: 1px solid var(--grey-a); }
-                    #article .image-float img { cursor: pointer; margin: auto; display: block; border: 1px solid var(--grey-a); object-fit: contain; max-width: var(--mw-float-img); max-height: var(--mh-float-img); }
-                    #article .image-float figcaption { margin-top: 5px; font-family: var(--ff-ui); line-height: var(--lh-caption); text-align: center; max-width: calc(var(--mw-float-img) - 20px); font-size: var(--fs-small); color: var(--grey-5); }
+                    #article .image-float img { cursor: pointer; margin: auto; display: block; border: 1px solid var(--grey-a); object-fit: contain; max-width: var(--float-img-w); max-height: var(--float-img-h); }
+                    #article .image-float figcaption { margin-top: 5px; font-family: var(--ff-ui); line-height: var(--lh-caption); text-align: center; max-width: calc(var(--float-img-w) - 20px); font-size: var(--fs-small); color: var(--grey-5); }
 
             #footer {
                 color: var(--grey-8);
@@ -280,7 +280,7 @@
                 flex-direction: column;
                 gap: 25px;
             }
-
+                .see-also { line-height: var(--lh-article); }
                 .cite-list td:nth-child(1) { text-align: right; white-space: nowrap; }
 
         .lightbox-wrapper { z-index: 3; width: 100%; height: 100vh; background-color: #000b; position: fixed; left: 0; top: 0; display: none; align-items: center; justify-content: center; }

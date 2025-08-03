@@ -6,15 +6,15 @@
 */
 
 let pageData = `
-2  * US news list                * archive
-4  * International news list     * archive
-3  * Canadian news list          * archive
-21 * Donald Trump                * toc
-20 * Israel–Palestine            * toc
-19 * Pierre Poilievre            * toc
-16 * Sex, gender, & transsexuals * toc
-18 * Politics fundamentals       * toc
-7  * Poor Things                 * narrow
+us-news                 ** wide
+int-news                ** wide
+ca-news                 ** wide
+israel-palestine        ** toc wide
+sex-gender-transsexuals ** toc wide
+politics-fundamentals   ** toc wide
+donald-trump            ** toc
+pierre-poilievre        ** toc
+poor-things             ** narrow
 `.split("\n").filter(n => n.trim().length > 2).map(cell => cell.split("*").map(c => c.trim()));
 
 function pageName() {
@@ -51,15 +51,15 @@ window.addEventListener("load", function() {
             </div>
         </div>
         <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>`;
-    let articleLinks = [];
-    interpreter(document.getElementById("article"), articleLinks);
+    let externalLinks = [];
+    interpreter(document.getElementById("article"), externalLinks);
 
     /* adds "digit" class to numbers in article: */
     ["p", "li"].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
 
-    articleLinks = articleLinks.filter(a => a.url.startsWith("http"));
-    if (articleLinks.length > 0) {
-        articleLinks = articleLinks.map( (link_, n) => {
+    externalLinks = externalLinks.filter(a => a.url.startsWith("http"));
+    if (externalLinks.length > 0) {
+        externalLinks = externalLinks.map( (link_, n) => {
             let li = `<tr><td class="no-select">${n + 1}. </td><td>`;
             for (let i = 1; i < link_.count + 1; i += 1) {
                 li += `<a href="#cite-${n + 1}${ i == 1 ? "" : "-" + i }">^</a>`;
@@ -67,7 +67,7 @@ window.addEventListener("load", function() {
             return `${li} <a target="_blank" href="${link_.url}">${link_.url}</a></td></tr>`;
         });
         document.getElementById("footer").innerHTML += 
-            `<div>External pages referenced above (this list is auto-generated on page load):<table class="cite-list">${articleLinks.join("")}</table></div>`;
+            `<div>External pages referenced above (this list is auto-generated on page load):<table class="cite-list">${externalLinks.join("")}</table></div>`;
         }
 
     if (document.body.classList.contains("toc")) {
@@ -155,7 +155,7 @@ function setLightbox(action) {
     }
 }
 
-function interpreter(targetElement, articleLinks) {
+function interpreter(targetElement, externalLinks) {
     let input = targetElement.innerHTML
         .replace(/\n\n+/g, "\n\n")
         .replace(/\r/g, "") /* for safety, probably no effect */
@@ -261,26 +261,31 @@ function interpreter(targetElement, articleLinks) {
         chunk = chunk.replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
             address = address.replaceAll("\\)", ")");
             
+            if (!address.startsWith("http")) {
+                return displayText
+                    ? `<a class="internal" href="${ address }">${ displayText }</a>`
+                    : `<sup><a href="${ address }" class="citeref">[internal]</a></sup>`;
+            }
+            
             let index = -1;
-            for (let i = 0; i < articleLinks.length; i += 1) {
-                if (articleLinks[i].url == address) {
+            for (let i = 0; i < externalLinks.length; i += 1) {
+                if (externalLinks[i].url == address) {
                     index = i; break;
                 }
             }
 
             if (index == -1) {
-                index = articleLinks.push({ "url": address, "count": 1 }) - 1;
+                index = externalLinks.push({ "url": address, "count": 1 }) - 1;
             }
             else {
-                articleLinks[index].count += 1;
+                externalLinks[index].count += 1;
             }
 
             let id = `cite-${index + 1}`;
-            if (articleLinks[index].count > 1) { id += `-${articleLinks[index].count}`; }
-
+            if (externalLinks[index].count > 1) { id += `-${ externalLinks[index].count }`; }
             return displayText
-                ? `<a id="${id}" href="${address}">${ displayText }</a>`
-                : `<sup><a id="${id}" href="${address}" class="citeref">[${index + 1}]</a></sup>`;
+                ? `<a id="${id}" href="${ address }">${ displayText }</a>`
+                : `<sup><a id="${id}" href="${ address }" class="citeref">[${ index + 1 }]</a></sup>`;
         });
 
         chunk = chunk.replace(/\[\[(.+?)\]\]/g, (match, displayText) => {
@@ -289,18 +294,15 @@ function interpreter(targetElement, articleLinks) {
 
         /* ------------------------------------- table ------------------------------------- */
         if (chunk.startsWith("||table")) {
-            let rows = chunk.split("\n");
-            let homeRow = rows.shift().substring("||table".length).trim();
-            let tableWidth = 1;
+            let rows = chunk.split("\n").slice(1);
             for (let row = 0; row < rows.length; row += 1) {
                 let cells = rows[row].split("|");
                 for (let cell = 0; cell < cells.length; cell += 1) {
                     cells[cell] = `<td class="col-${cell + 1}">${ formatting(cells[cell].trim()) }</td>`;
-                    if (cell + 1 > tableWidth) { tableWidth = cell + 1; }
                 }
                 rows[row] = `<tr class="row-${row + 1}">${ cells.join("") }</tr>`;
             }
-            return `<table class="auto-table auto-table-${tableNum++}">${!homeRow ? "" : "<thead><tr><th colspan="+tableWidth+">"+homeRow+"</th></tr></thead>"}<tbody>${rows.join("")}</tbody></table>`;
+            return `<table class="auto-table auto-table-${tableNum++}"><tbody>${rows.join("")}</tbody></table>`;
         }
 
         /* ---------------------------------- blockquote ---------------------------------- */
@@ -365,13 +367,13 @@ function interpreter(targetElement, articleLinks) {
         /* ----------------------------------- see also ----------------------------------- */
         if (chunk.startsWith("||see-also")) {
             document.getElementById("footer").appendChild(document.createElement("div")).innerHTML
-                = "<div>This content was also posted here:</div>" + chunk.split("\n").slice(1)
+                = "<div class='see-also'><div>This content was also posted here:</div>" + chunk.split("\n").slice(1)
                     .map( line => {
                         const url = line
                             .replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1")
                             .replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1");
                         return `<div><a href="${ url }" target="_blank">${ url }</a></div>`;
-                    })
+                    }).join("") + "</div>";
             return;
         }
 
