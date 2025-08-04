@@ -40,7 +40,7 @@ window.addEventListener("load", function() {
         <nav id="nav">
             <div class="nav-inner">
                 <span id="page-name-display">${ isIndex ? "" : `<a href="../index.html">Index</a> &#47; ${document.title || "This Page"}`}</span>
-                <a class="to-top-button" href="#">Jump to Top</a>
+                <a id="to-top-button" href="#">Jump to Top</a>
             </div>
         </nav>
         <div class="c1">
@@ -91,10 +91,29 @@ window.addEventListener("load", function() {
                 } else { break; }
             }
             if (headingId != currentHeading) {
-            for (let i = 0; i < rowsInToc.length; i += 1) {
-                rowsInToc[i].classList.remove("active-heading");
-                if (rowsInToc[i].getAttribute("href") == "#" + headingId) {
-                    rowsInToc[i].classList.add("active-heading"); } } }
+                rowsInToc.forEach( row => {
+                    if (row.getAttribute("href") == "#" + headingId) {
+                        row.classList.add("active-heading");
+                        
+                        let rRect = row.getBoundingClientRect();
+                        let tRect = toc.getBoundingClientRect();
+                        if (rRect.bottom > tRect.bottom) {
+                            toc.scrollTo({
+                                top: row.offsetTop + row.offsetHeight - toc.clientHeight,
+                                behavior: "smooth"
+                            });
+                        } else if (rRect.top < tRect.top) {
+                            toc.scrollTo({
+                                top: row.offsetTop,
+                                behavior: "smooth"
+                            });
+                        }
+                    }
+                    else {
+                        row.classList.remove("active-heading");
+                    }
+                });
+            }
             currentHeading = headingId;
         }
         let canTocWidthCheck = true;
@@ -118,6 +137,9 @@ window.addEventListener("load", function() {
         toc.addEventListener("scroll", scrollerHandler);
         toc.addEventListener("resize", scrollerHandler);
         scrollerHandler();
+        document.getElementById("to-top-button").addEventListener("click", () => {
+            toc.firstElementChild.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
     }
 
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */

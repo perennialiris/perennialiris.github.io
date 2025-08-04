@@ -162,9 +162,8 @@
         #nav { font-family: var(--ff-nav); background-color: var(--nav-bg); color: #606060; position: sticky; top: -1px; height: var(--nav-height); display: flex; align-items: center; z-index: 2; }
             .nav-inner { width: var(--content-width); padding: 0 1rem; margin: 0 auto; }
                 #page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; padding-right: 10px; }
-                .to-top-button { float: right; opacity: 0; pointer-events: none; transition: opacity 1s; }
-                .sticky-active .to-top-button { cursor: pointer; opacity: 1; pointer-events: auto; }
-
+                #to-top-button { float: right; opacity: 0; pointer-events: none; transition: opacity 1s; }
+                .sticky-active #to-top-button { cursor: pointer; opacity: 1; pointer-events: auto; }
 
         .c1 {
             margin: 0 auto;
@@ -190,13 +189,13 @@
                 top: calc(var(--nav-height) + 22px);
                 scrollbar-width: thin;
                 scrollbar-color: var(--grey-9) var(--grey-e);
-                -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent);
-                mask-image: linear-gradient(to bottom, black 90%, transparent);
-                transition: mask-image 0.2s;
+                /* -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent); */
+                /* mask-image: linear-gradient(to bottom, black 90%, transparent); */
+                /* transition: mask-image 0.2s; */
             }
                 .toc #toc { display: block; }
                 #toc:hover { overflow: auto; }
-                #toc.hide-mask, #toc:focus-within, #toc:hover { mask-image: none; }
+                /* #toc.hide-mask, #toc:focus-within, #toc:hover { mask-image: none; } */
                 .toc-row { color: var(--grey-9); display: block; max-width: calc(var(--toc-width) - 30px); }
                 .toc-row + .toc-row { margin-top: 0.7em; }
                 .toc-row.active-heading { color: var(--grey-3); }
@@ -302,7 +301,7 @@
                     #article .image-float figcaption { margin-top: 5px; font-family: var(--ff-ui); line-height: var(--lh-caption); text-align: center; max-width: calc(var(--float-img-w) - 20px); font-size: var(--fs-small); color: var(--grey-5); }
 
             #footer {
-                color: var(--grey-8);
+                color: var(--grey-9);
                 margin-top: 25px;
                 line-height: var(--lh-footer);
                 display: flex;
