@@ -112,8 +112,11 @@ window.addEventListener("load", function() {
                 toc.classList.add("hide-mask");
             }
             else {
-                toc.classList.remove("hide-mask"); } }
-        ["scroll", "resize"].forEach(e => { toc.addEventListener(e, scrollerHandler); });
+                toc.classList.remove("hide-mask");
+            }
+        }
+        toc.addEventListener("scroll", scrollerHandler);
+        toc.addEventListener("resize", scrollerHandler);
         scrollerHandler();
     }
 
