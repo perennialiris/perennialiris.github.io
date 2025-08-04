@@ -138,7 +138,7 @@ window.addEventListener("load", function() {
         toc.addEventListener("resize", scrollerHandler);
         scrollerHandler();
         document.getElementById("to-top-button").addEventListener("click", () => {
-            toc.firstElementChild.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            toc.scrollTo({ behavior: 'smooth', top: 0 });
         });
     }
 
