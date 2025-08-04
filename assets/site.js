@@ -6,16 +6,16 @@
 */
 
 let pageData = `
-us-news                 ** wider
-int-news                ** wider
-ca-news                 ** wider
-israel-palestine        ** toc wider
-sex-gender-transsexuals ** toc wider
-politics-fundamentals   ** toc wider
+us-news                 ** wide
+int-news                ** wide
+ca-news                 ** wide
+israel-palestine        ** toc wide
+sex-gender-transsexuals ** toc wide
+politics-fundamentals   ** toc wide
 donald-trump            ** toc
 pierre-poilievre        ** toc
 poor-things             ** narrow
-7 * Elon Nazi salut      * narrow
+7 * Elon Nazi salute     * narrow
 `.split("\n").filter(n => n.trim().length > 2).map(cell => cell.split("*").map(c => c.trim()));
 
 function pageName() {
@@ -26,40 +26,33 @@ function pageName() {
 
 window.addEventListener("load", function() {
     // document.body.classList.add("dark");
-    if (localStorage.getItem("brightness") == "dark") { document.body.classList.add("dark"); }
-    else { localStorage.setItem("brightness","light"); }
-
-    /* applying classes from list above */
-    const thisPageDirectory = document.baseURI.split("/").slice(-2)[0];
-    const thisPageName = document.baseURI.split("/").slice(-1)
-    pageData.forEach(p => { if (p[0] == thisPageDirectory && pageName() == "index.html") { document.body.classList.add(...p[2].split(" ")); } })
-    let isIndex = document.getElementById("index");
-
+    // if (localStorage.getItem("brightness") == "dark") { document.body.classList.add("dark"); }
+    // else { localStorage.setItem("brightness","light"); }
+    
     document.body.innerHTML =
-       `<header id="header"></header>
-        <nav id="nav">
-            <div class="nav-inner">
-                <span id="page-name-display">${ isIndex ? "" : `<a href="../index.html">Index</a> &#47; ${document.title || "This Page"}`}</span>
-                <a id="to-top-button" href="#">Jump to Top</a>
-            </div>
-        </nav>
-        <div class="c1">
-            <nav id="toc"></nav>
-            <div class="c2">
-                <div id="article">${ document.body.innerHTML }</div>
-                <footer id="footer">
-                </footer>
-            </div>
+   `<header id="header"></header>
+    <nav id="nav">
+        <div class="nav-inner">
+            <span id="page-name-display"><a href="../index.html">Index</a> &#47; ${ document.title || "This Page" }</span>
+            <a id="to-top-button" href="#">Jump to Top</a>
         </div>
-        <div class="page-bottom"></div>
-        <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>`;
+    </nav>
+    <div id="c1">
+        <div id="c2">
+            <div id="article">${ document.body.innerHTML }</div>
+            <footer id="footer">
+            </footer>
+        </div>
+    </div>
+    <div class="page-bottom"></div>
+    <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>`;
+    
     let externalLinks = [];
     interpreter(document.getElementById("article"), externalLinks);
-
-    /* adds "digit" class to numbers in article: */
+    
+    /* add "digit" class to numbers in article: */
     ["p", "li"].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
-
-    externalLinks = externalLinks.filter(a => a.url.startsWith("http"));
+    
     if (externalLinks.length > 0) {
         externalLinks = externalLinks.map( (link_, n) => {
             let li = `<tr><td class="no-select">${n + 1}. </td><td>`;
@@ -68,12 +61,12 @@ window.addEventListener("load", function() {
             }
             return `${li} <a target="_blank" href="${link_.url}">${link_.url}</a></td></tr>`;
         });
-        document.getElementById("footer").innerHTML += 
-            `<div>External pages referenced above (this list is auto-generated on page load):<table class="cite-list">${externalLinks.join("")}</table></div>`;
-        }
-
+        document.getElementById("footer").innerHTML += `<div>External pages referenced above (this list is auto-generated on page load):<table class="cite-list">${externalLinks.join("")}</table></div>`;
+    }
+    
     if (document.body.classList.contains("toc")) {
-        const toc = document.getElementById("toc");
+        const toc = document.getElementById("c1").insertBefore(document.createElement("nav"), document.getElementById("c2"));
+        toc.id = "toc";
         const headings = Array.from(document.getElementById("article").getElementsByClassName("toc-include"));
         toc.innerHTML = headings.map ( (heading, n) => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ (n > 0) ? heading.id : "" }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
 
