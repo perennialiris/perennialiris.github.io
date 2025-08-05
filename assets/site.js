@@ -1,120 +1,129 @@
 
 "use strict"
 
-/*
-    This file is the javascript that creates each page dynamically from the text in the original file.
-*/
-
-let pageData = `
-us-news                 ** wide
-int-news                ** wide
-ca-news                 ** wide
-israel-palestine        ** toc wide
-sex-gender-transsexuals ** toc wide
-politics-fundamentals   ** toc wide
-donald-trump            ** toc
-pierre-poilievre        ** toc
-poor-things             ** narrow
-7 * Elon Nazi salute     * narrow
-`.split("\n").filter(n => n.trim().length > 2).map(cell => cell.split("*").map(c => c.trim()));
-
-function pageName() {
-    const p = document.baseURI.split("/").slice(-1)[0];
-    const t = p.indexOf("#");
-    return (t == -1) ? p : p.substring(0, t);
-}
-
 window.addEventListener("load", function() {
-    // document.body.classList.add("dark");
-    // if (localStorage.getItem("brightness") == "dark") { document.body.classList.add("dark"); }
-    // else { localStorage.setItem("brightness","light"); }
+    setBrightness(localStorage.getItem("brightness"));
     
     document.body.innerHTML =
-   `<header id="header"></header>
-    <nav id="nav">
-        <div class="nav-inner">
-            <span id="page-name-display"><a href="../index.html">Index</a> &#47; ${ document.title || "This Page" }</span>
-            <a id="to-top-button" href="#">Jump to Top</a>
+    `<header id="header"></header>
+    <nav class="nav-wrapper">
+        <div id="nav">
+            <div>
+                <div id="page-name-display"><div><a href="../index.html">Index</a> &#47; ${ document.title || "This Page" }</div></div>
+            </div>
+            <div>
+                <div id="to-top-button">Jump to Top</div>
+                <button id="menu-button" class="icon""></button>
+                <div id="menu" class="hidden">
+                    <div class="menu-row">
+                        <span>Brightness:</span>
+                        <div>
+                            <select class="menu-select" id="brightness-menu">
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                                <option value="darker">Darker</option>
+                            </select>
+                        <div>
+                    </div>
+                </div><!-- #menu -->
+            </div>
         </div>
     </nav>
     <div id="c1">
         <div id="c2">
             <div id="article">${ document.body.innerHTML }</div>
-            <footer id="footer">
-            </footer>
+            <footer id="article-footer"></footer>
         </div>
     </div>
     <div class="page-bottom"></div>
-    <div class="lightbox-wrapper" onclick="setLightbox('close')"><img id="lightbox"></div>`;
+    <div id="lightbox-wrapper"><img id="lightbox"></div>`;
     
-    let externalLinks = [];
-    interpreter(document.getElementById("article"), externalLinks);
-    
+    interpreter(document.getElementById("article"));
+
+    document.getElementById("lightbox-wrapper").addEventListener("click", setLightbox("close"));
+    const menu = document.getElementById("menu");
+    const menuButton = document.getElementById("menu-button");
+    function menuToggle(option) {
+        if (option == "close") {
+            menu.classList.add("hidden");
+        }
+        else if (option == "open") {
+            menu.classList.remove("hidden");
+        }
+        else if (menu.classList.contains("hidden")) {
+            menuToggle("open");
+        } else {
+            menuToggle("close");
+        }
+    }
+    menuButton.addEventListener("click", menuToggle);
+    document.addEventListener("click", function(e) {
+        if (!menu.contains(e.target) && !menuButton.contains(e.target)) {
+            menuToggle("close");
+        }
+    });
+
+    let brightnessMenu = document.getElementById("brightness-menu");
+    brightnessMenu.addEventListener("change", () => {
+        setBrightness(brightnessMenu.value);
+    });
+    let brightness = localStorage.getItem("brightness");
+    document.getElementById("brightness-menu").value = (brightness == "dark") ? "dark" : (brightness == "darker") ? "darker" : "light";
+
     /* add "digit" class to numbers in article: */
     ["p", "li"].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
-    
-    if (externalLinks.length > 0) {
-        externalLinks = externalLinks.map( (link_, n) => {
-            let li = `<tr><td class="no-select">${n + 1}. </td><td>`;
-            for (let i = 1; i < link_.count + 1; i += 1) {
-                li += `<a href="#cite-${n + 1}${ i == 1 ? "" : "-" + i }">^</a>`;
-            }
-            return `${li} <a target="_blank" href="${link_.url}">${link_.url}</a></td></tr>`;
-        });
-        document.getElementById("footer").innerHTML += `<div>External pages referenced above (this list is auto-generated on page load):<table class="cite-list">${externalLinks.join("")}</table></div>`;
-    }
     
     if (document.body.classList.contains("toc")) {
         const toc = document.getElementById("c1").insertBefore(document.createElement("nav"), document.getElementById("c2"));
         toc.id = "toc";
         const headings = Array.from(document.getElementById("article").getElementsByClassName("toc-include"));
-        toc.innerHTML = headings.map ( (heading, n) => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ (n > 0) ? heading.id : "" }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
+        toc.innerHTML = `<a class="toc-row" href="#">(Top)</a>` + headings.slice(1).map ( heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ heading.id }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
 
         const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
-        let currentHeading = "";
+        let lastHeading = -1;
         let canTocHighlighter = true;
         function tocHighlighter() {
-            if (!canTocHighlighter) { setTimeout(() => { tocHighlighter(); }, 300 ); return; }
+            if (!canTocHighlighter) { return; }
             canTocHighlighter = false;
-            setTimeout(() => { canTocHighlighter = true; }, 300);
-            let headingId;
+            setTimeout(() => { canTocHighlighter = true; tocHighlighter(); }, 200);
+            let currentHeading = -1;
             for (let i = 0; i < headings.length; i += 1) {
-                if (pageYOffset > headings[i].offsetTop - window.innerHeight * 0.5) {
-                    headingId = headings[i].id;
-                } else { break; }
+                if (pageYOffset > headings[i].offsetTop - (0.5 * window.innerHeight)) {
+                    currentHeading = i;
+                }
+                else {
+                    break;
+                }
             }
-            if (headingId != currentHeading) {
-                rowsInToc.forEach( row => {
-                    if (row.getAttribute("href") == "#" + headingId) {
+            if (currentHeading != lastHeading) {
+                rowsInToc.forEach( (row, n) => {
+                    if (n == currentHeading) {
                         row.classList.add("active-heading");
-                        
                         let rRect = row.getBoundingClientRect();
                         let tRect = toc.getBoundingClientRect();
                         if (rRect.bottom > tRect.bottom) {
-                            toc.scrollTo({
-                                top: row.offsetTop + row.offsetHeight - toc.clientHeight,
-                                behavior: "smooth"
-                            });
+                            toc.scrollTo(
+                                { top: row.offsetTop + row.offsetHeight - toc.clientHeight, behavior: "smooth" }
+                            );
                         } else if (rRect.top < tRect.top) {
-                            toc.scrollTo({
-                                top: row.offsetTop,
-                                behavior: "smooth"
-                            });
+                            toc.scrollTo(
+                                { top: row.offsetTop, behavior: "smooth" }
+                            );
                         }
                     }
                     else {
                         row.classList.remove("active-heading");
                     }
-                });
+                })
             }
-            currentHeading = headingId;
+            lastHeading = currentHeading;
         }
         let canTocWidthCheck = true;
         function tocWidthCheck() {
-            if (!canTocWidthCheck) { setTimeout(() => { tocWidthCheck(); }, 300 ); return; }
+            if (!canTocWidthCheck) { return; }
             canTocWidthCheck = false;
-            setTimeout(() => { canTocWidthCheck = true; }, 300);
-            toc.style.display = (parseInt(window.innerWidth) > 650) ? "block" : "none";
+            setTimeout(() => { canTocWidthCheck = true; tocWidthCheck(); }, 300);
+            toc.style.display = (parseInt(window.innerWidth) > 840) ? "block" : "none";
         }
         window.addEventListener("resize", tocWidthCheck);
         window.addEventListener("scroll", tocHighlighter);
@@ -132,6 +141,15 @@ window.addEventListener("load", function() {
         scrollerHandler();
         document.getElementById("to-top-button").addEventListener("click", () => {
             toc.scrollTo({ behavior: 'smooth', top: 0 });
+            window.scrollTo({ behavior: 'smooth', top: 0 });
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        });
+    }
+    else {
+        document.getElementById("to-top-button").addEventListener("click", () => {
+            toc.scrollTo({ behavior: 'smooth', top: 0 });
+            window.scrollTo({ behavior: 'smooth', top: 0 });
+            history.replaceState(null, '', window.location.pathname + window.location.search);
         });
     }
 
@@ -147,9 +165,11 @@ window.addEventListener("load", function() {
         canNavStickyCheck = false;
         setTimeout(() => { canNavStickyCheck = true; navStickyCheck() }, 500);
         if (pageYOffset > 180) {
-            mainNav.classList.add("sticky-active"); }
+            mainNav.classList.add("sticky-active");
+        }
         else {
-            mainNav.classList.remove("sticky-active"); }
+            mainNav.classList.remove("sticky-active");
+        }
     }
     navStickyCheck();
     window.addEventListener("scroll", navStickyCheck);
@@ -159,6 +179,13 @@ window.addEventListener("load", function() {
         document.title = "Perennial Iris";
     }
 })
+
+function setBrightness(setValue) {
+    document.body.classList.remove("dark");
+    document.body.classList.remove("darker");
+    document.body.classList.add(setValue);
+    localStorage.setItem("brightness", setValue);
+}
 
 function setLightbox(action) {
     let lightbox = document.getElementById("lightbox");
@@ -184,6 +211,7 @@ function interpreter(targetElement, externalLinks) {
 
     let tableNum = 1;
     let galleryNum = 1;
+    let linkNum = 1;
     let firstParagraph = true;
     
     input = input.map( chunk => {
@@ -294,35 +322,31 @@ function interpreter(targetElement, externalLinks) {
         chunk = chunk.replace(/\[([^\]]*)[^\\]?\]\(([^\s]+?[^\\])\)/g, (match, displayText, address) => {
             address = address.replaceAll("\\)", ")");
             
+            let a;
             if (!address.startsWith("http")) {
-                return displayText
-                    ? `<a class="internal" href="${ address }">${ displayText }</a>`
-                    : `<sup><a href="${ address }" class="citeref">[internal]</a></sup>`;
-            }
-            
-            let index = -1;
-            for (let i = 0; i < externalLinks.length; i += 1) {
-                if (externalLinks[i].url == address) {
-                    index = i; break;
+                if (displayText == "") {
+                    a = `<a class="internal" href="${ address }>[internal]</a>`;
+                }
+                else {
+                    a = `<a class="internal" href=${ address }>${ displayText }</a>`
                 }
             }
-
-            if (index == -1) {
-                index = externalLinks.push({ "url": address, "count": 1 }) - 1;
-            }
             else {
-                externalLinks[index].count += 1;
+                if (displayText == "") {
+                    a = `<sup><a href="${ address }" class="citeref">[${ linkNum }]</a></sup>`;
+                }
+                else {
+                    a = `<a href="${ address }">${ displayText }</a>`;
+                }
             }
-
-            let id = `cite-${index + 1}`;
-            if (externalLinks[index].count > 1) { id += `-${ externalLinks[index].count }`; }
-            return displayText
-                ? `<a id="${id}" href="${ address }">${ displayText }</a>`
-                : `<sup><a id="${id}" href="${ address }" class="citeref">[${ index + 1 }]</a></sup>`;
+            
+            linkNum += 1;
+            return a;
         });
-
+        
+        /* link to section on this page: */
         chunk = chunk.replace(/\[\[(.+?)\]\]/g, (match, displayText) => {
-            return `<a style="border-bottom: 1px dotted currentcolor;" title="Jump to section" href="#${ displayText.replaceAll(" ", "_") }">${ displayText }</a>`
+            return `<a class="section-link" title="Jump to section" href="#${ displayText.replaceAll(" ", "_") }">${ displayText }</a>`
         });
 
         /* ------------------------------------- table ------------------------------------- */
@@ -410,7 +434,7 @@ function interpreter(targetElement, externalLinks) {
 
         /* ----------------------------------- see also ----------------------------------- */
         if (chunk.startsWith("||see-also")) {
-            document.getElementById("footer").appendChild(document.createElement("div")).innerHTML
+            document.getElementById("article-footer").appendChild(document.createElement("div")).innerHTML
                 = "<div class='see-also'><div>This content was also posted here:</div>" + chunk.split("\n").slice(1)
                     .map( line => {
                         const url = line
@@ -439,68 +463,42 @@ function interpreter(targetElement, externalLinks) {
     targetElement.innerHTML = input.join("");
 }
 
-/*  These are the replacements run over all inputs, separated into its
-    own function because I needed to call it multiple times. */
-function replacements(inputString) {
-    if (inputString == "") {
-        return "";
-    }
-    let output = inputString
-        .replaceAll("\\*", "&ast;")
-        .replaceAll("\\^", "&Hat;")
-        .replaceAll("\\_", "&lowbar;")
-        .replaceAll("\\(", "&lpar;")
+function rplcb(x) {
+    if (x == "") { return x; }
+    
+    /* escaped symbols */
+    return x.replaceAll("\\(", "&lpar;")
         .replaceAll("\\)", "&rpar;")
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
         .replaceAll("\\", "&#92;")
-        /* It took many versions, but I think I finally got to a point where this always
-           works the way I want it to. */
-        /* Is there a much better way to do this? Not sure, whatever. */
-        /* ---- curly " replacement ---- */
-        .replace(/(\S\*{1,3})" /g, "$1&rdquo; ")
-        .replace(/^"(\w)/g, "&ldquo;$1")
-        .replace(/^" /g, "&rdquo; ")
-        .replace(/", /g, "&rdquo;, ")
-        .replace(/\*"\-/g, "*&rdquo;-")
-        .replace(/^"(\.|,)/g, "&rdquo;$1")
-        .replace(/ "$/g, " &ldquo;")
-        .replace(/"$/g, "&rdquo;")
-        .replace(/(\s|^|;|\*|\[|\()"/g, "$1&ldquo;")
-        .replace(/\-"([a-zA-Z])/g, "-&ldquo;$1")
-        .replace(/"/g, "&rdquo;")
-        /* ---- curly ' replacement ---- */
-        .replace(/'(\d{2})(\D{1})/g, "&rsquo;$1$2") // for saying '95 or '27 etc.
-        .replace(/(\S\*{1,3})'(\s)/g, "$1&rsquo;$2")
-        .replace(/^'(\w)/g, "&lsquo;$1")
-        .replace(/^',/g, "&rsquo; ")
-        .replace(/^' /g, "&rsquo; ")
-        .replace(/', /g, "&rsquo;, ")
-        .replace(/\-'([a-zA-Z])/g, "-&lsquo;$1")
-        .replace(/\*'\-/g, "*&rsquo;-")
-        .replace(/^'(\.|)/g, "&rsquo;$1")
-        .replace(/ '$/g, " &lsquo;")
-        .replace(/'$/g, "&rsquo;")
-        .replace(/(\s|^|;|\*|\[|\()'/g, "$1&lsquo;")
-        .replace(/'/g, "&rsquo;")
-        .replace(/__(.+?)__/g, "<u>$1</u>")
-        .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
-        .replace(/\*(.+?)\*/g, "<i>$1</i>")
+        .replaceAll("\\*", "&ast;")
+        .replaceAll("\\^", "&Hat;")
+        .replace(/(^| )"(\w)/g, "$1&ldquo;$2")
+        .replaceAll('"', "&rdquo;")
+        .replace(/(^| )'(\w)/g, "$1&lsquo;$2")
+        .replaceAll("'", "&rsquo;")
         .replaceAll("---", "<span class='mdash'>&mdash;</span>")
         .replaceAll("--", "&ndash;")
-        .replaceAll("...", "&hellip;")
-    return output;
 }
 
 function formatting(input) {
+    input = input.trim();
+    if (input == "") { return input; }
+    
+    input = input.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
+        .replace(/\*(.+?)\*/g, "<i>$1</i>");
+    
     let output = "";
+    /* first: replacements that shouldn't affect inside of tags */
     while (true) {
         let openTag = input.indexOf("<"), closeTag = input.indexOf(">");
         if (openTag == -1 || closeTag == -1) break;
-        output += replacements(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
+        output += rplcb(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
         input = input.substring(closeTag + 1);
     }
-    output += replacements(input);
+    output += rplcb(input);
+    
     return output;
 }
 

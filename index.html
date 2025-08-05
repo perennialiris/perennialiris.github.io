@@ -6,11 +6,10 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
     .to-top-button,
-    #page-name-display,
+    #page-name-display *,
     #footer {
         display: none !important;
     }
-
     .auto-table a {
         color: inherit !important;
     }
@@ -80,7 +79,17 @@
 [A beauty holding a bird](13/index.html) | 2024-12-17
 [Every movie I've ever seen](movies/index.html)
 
-<script src="assets/site.js"></script><div id="index"></div>
+<div id="index"></div>
+<script src="assets/site.js"></script>
+<script>
+function t() {
+    let p = document.getElementById("page-name-display");
+    console.log("f")
+    if (p) { p.innerHTML = "Front, page list"; }
+    else { setTimeout(t, 50); }
+}
+window.onload = t;
+</script>
 </body></html>
 
 
