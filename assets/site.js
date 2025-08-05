@@ -183,6 +183,7 @@ window.addEventListener("load", function() {
 function setBrightness(setValue) {
     document.body.classList.remove("dark");
     document.body.classList.remove("darker");
+    document.body.classList.remove("light");
     document.body.classList.add(setValue);
     localStorage.setItem("brightness", setValue);
 }

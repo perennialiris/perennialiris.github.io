@@ -141,7 +141,7 @@
         #header::before { content: ""; width: 100%; height: 100%; background-image: linear-gradient(var(--nav-bg), transparent); display: block; }
         .nav-wrapper { font-family: var(--ff-nav); background-color: var(--nav-bg); color: #606060; position: sticky; top: -1px; height: var(--nav-height); z-index: 2; }
             #nav { max-width: var(--content-width); padding: 0 1rem; margin: 0 auto; height: var(--nav-height); display: flex; align-items: stretch; justify-content: space-between; }
-                #nav > div { display: flex; align-items: center; gap: 8px; }
+                #nav > div { display: flex; align-items: center; gap: 10px; }
                 #page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; padding-right: 10px; }
                 #to-top-button { opacity: 0; pointer-events: none; transition: opacity 1s; }
                 .sticky-active #to-top-button { cursor: pointer; opacity: 1; pointer-events: auto; }
@@ -155,7 +155,7 @@
                     line-height: var(--lh-menu);
                     position: absolute;
                     top: calc(var(--nav-height) + 0px);
-                    transform: translateX(-138px);
+                    transform: translateX(-142px);
                     width: var(--menu-width);
                     background-color: var(--grey-c);
                     color: var(--grey-5);
