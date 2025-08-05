@@ -112,11 +112,19 @@
         --ls-article-bold: -0.24px;
         --ls-citeref: -0.5px;
     }
-        .wide { --content-width: 740px; }
-        .narrow {
+        body.wide { --content-width: 740px; }
+        body.narrow {
             --fs-article: 17px;
             --content-width: 614px;
             --lh-article: 1.8;
+        }
+        body.roboto {
+            --ff-article: Roboto,sans-serif;
+            --ff-digit: Roboto,sans-serif;
+        }
+        body.trebuchet-ms {
+            --ff-article: Trebuchet MS,sans-serif;
+            --ff-digit: Trebuchet MS,sans-serif;
         }
 
     /* default resets that I use: */
@@ -160,7 +168,7 @@
                     background-color: var(--grey-c);
                     color: var(--grey-5);
                 }
-                    .menu-row { display: flex; justify-content: space-between; padding: 9px 12px; }
+                    .menu-row { display: flex; justify-content: space-between; margin: 9px 12px; }
                         .menu-select { min-width: 130px; height: 1.8em; border: 1px solid #bbb; background-color: white; padding: 0px 7px; width: 100%; }
 
                         .menu-switch { position: relative; display: inline-block; width: 48px; }

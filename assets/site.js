@@ -3,6 +3,7 @@
 
 window.addEventListener("load", function() {
     setBrightness(localStorage.getItem("brightness"));
+    setFont(localStorage.getItem("bodyFont"));
     
     document.body.innerHTML =
     `<header id="header"></header>
@@ -23,7 +24,17 @@ window.addEventListener("load", function() {
                                 <option value="dark">Dark</option>
                                 <option value="darker">Darker</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="menu-row">
+                        <span>Body font:</span>
                         <div>
+                            <select class="menu-select" id="font-menu">
+                                <option value="Georgia">Georgia</option>
+                                <option value="Roboto">Roboto</option>
+                                <option value="Trebuchet MS">Trebuchet MS</option>
+                            </select>
+                        </div>
                     </div>
                 </div><!-- #menu -->
             </div>
@@ -39,6 +50,8 @@ window.addEventListener("load", function() {
     <div id="lightbox-wrapper"><img id="lightbox"></div>`;
     
     interpreter(document.getElementById("article"));
+    /* add "digit" class to numbers in article: */
+    ["p", "li"].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
 
     document.getElementById("lightbox-wrapper").addEventListener("click", setLightbox("close"));
     const menu = document.getElementById("menu");
@@ -58,21 +71,24 @@ window.addEventListener("load", function() {
     }
     menuButton.addEventListener("click", menuToggle);
     document.addEventListener("click", function(e) {
-        if (!menu.contains(e.target) && !menuButton.contains(e.target)) {
-            menuToggle("close");
-        }
+        if (!menu.contains(e.target) && !menuButton.contains(e.target)) { menuToggle("close"); }
     });
-
     let brightnessMenu = document.getElementById("brightness-menu");
-    brightnessMenu.addEventListener("change", () => {
+    brightnessMenu.addEventListener("change", function() {
         setBrightness(brightnessMenu.value);
+        brightnessMenu.value = localStorage.getItem("brightness");
     });
-    let brightness = localStorage.getItem("brightness");
-    document.getElementById("brightness-menu").value = (brightness == "dark") ? "dark" : (brightness == "darker") ? "darker" : "light";
+    brightnessMenu.value = localStorage.getItem("brightness");
 
-    /* add "digit" class to numbers in article: */
-    ["p", "li"].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
+    let fontMenu = document.getElementById("font-menu");
+    fontMenu.addEventListener("change", function() {
+        setFont(fontMenu.value);
+        fontMenu.value = localStorage.getItem("bodyFont");
+    });
+    fontMenu.value = localStorage.getItem("bodyFont");
     
+    
+    /* ---- ---- ---- ---- ---- ---- ---- table of contents ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     if (document.body.classList.contains("toc")) {
         const toc = document.getElementById("c1").insertBefore(document.createElement("nav"), document.getElementById("c2"));
         toc.id = "toc";
@@ -183,9 +199,19 @@ window.addEventListener("load", function() {
 function setBrightness(setValue) {
     document.body.classList.remove("dark");
     document.body.classList.remove("darker");
-    document.body.classList.remove("light");
-    document.body.classList.add(setValue);
+    if (setValue == "dark" || setValue == "darker") {
+        document.body.classList.add(setValue);
+    }
     localStorage.setItem("brightness", setValue);
+}
+function setFont(fontName) {
+    let f = fontName.toLowerCase().replaceAll(" ", "-");
+    document.body.classList.remove("trebuchet-ms");
+    document.body.classList.remove("roboto");
+    if (f == "roboto" || f == "trebuchet-ms") {
+        document.body.classList.add(f)
+    }
+    localStorage.setItem("bodyFont", fontName);
 }
 
 function setLightbox(action) {
