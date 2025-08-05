@@ -14,7 +14,7 @@ window.addEventListener("load", function() {
             </div>
             <div>
                 <div id="to-top-button">Jump to Top</div>
-                <button id="menu-button" class="icon""></button>
+                <button id="hamburger" class="icon"></button>
                 <div id="menu" class="hidden">
                     <div class="menu-row">
                         <span>Brightness:</span>
@@ -55,7 +55,7 @@ window.addEventListener("load", function() {
 
     document.getElementById("lightbox-wrapper").addEventListener("click", setLightbox("close"));
     const menu = document.getElementById("menu");
-    const menuButton = document.getElementById("menu-button");
+    const hamburger = document.getElementById("hamburger");
     function menuToggle(option) {
         if (option == "close") {
             menu.classList.add("hidden");
@@ -69,9 +69,9 @@ window.addEventListener("load", function() {
             menuToggle("close");
         }
     }
-    menuButton.addEventListener("click", menuToggle);
+    hamburger.addEventListener("click", menuToggle);
     document.addEventListener("click", function(e) {
-        if (!menu.contains(e.target) && !menuButton.contains(e.target)) { menuToggle("close"); }
+        if (!menu.contains(e.target) && !hamburger.contains(e.target)) { menuToggle("close"); }
     });
     let brightnessMenu = document.getElementById("brightness-menu");
     brightnessMenu.addEventListener("change", function() {

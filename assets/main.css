@@ -42,10 +42,8 @@
         --toc-width: 210px;
         --content-width: 648px;
         --page-bottom-height: 126px;
-        --menu-button-size: 24px;
+        --hamburger-size: 24px;
         --menu-width: 264px;
-        --toc-top-space: 34px;
-        --toc-bottom-space: 54px;
         --float-image-width: 200px;
         --float-image-height: 220px;
         --image-grid-square-size: 200px;
@@ -60,6 +58,7 @@
         --ff-h3: Inter, Arial, var(--ff-ui);
         --ff-h4: Georgia Pro, var(--ff-ui);
         --ff-table: Roboto, sans-serif;
+        --ff-fine: var(--ff-ui);
         --ff-monospace: Consolas, monospace;
         --ff-mdash: Ubuntu, var(--ff-ui);
         --ff-cite: Verdana, Tahoma, var(--ff-monospace);
@@ -98,16 +97,15 @@
         --white: #fbfbfb;
         /* line-height */
         --lh-ui: 1.3;
-        --lh-heading: 1.15;
         --lh-menu: 1.5;
-        --lh-toc: 1.15;
-        --lh-article: 1.5;
-        --lh-table: 1.5;
-        --lh-condensed-list: 1.3;
-        --lh-caption: 1.15;
-        --lh-footer: 1.3;
-        --lh-see-also: 1.5;
-        --lh-citations: 1.15;
+        --lh-toc: 1.25;
+        --lh-article-heading: 1.15;
+        --lh-article-content: 1.5;
+        --lh-article-table: 1.5;
+        --lh-article-list-condensed: 1.3;
+        --lh-article-figcaption: 1.15;
+        --lh-article-footer: 1.3;
+        --lh-article-footer-see-also: 1.5;
         /* letter-spacing */
         --ls-article-bold: -0.24px;
         --ls-citeref: -0.5px;
@@ -116,15 +114,17 @@
         body.narrow {
             --fs-article: 17px;
             --content-width: 614px;
-            --lh-article: 1.8;
+            --lh-article-content: 1.8;
         }
         body.roboto {
             --ff-article: Roboto,sans-serif;
             --ff-digit: Roboto,sans-serif;
+            --ff-h4: Roboto,sans-serif;
         }
         body.trebuchet-ms {
             --ff-article: Trebuchet MS,sans-serif;
             --ff-digit: Trebuchet MS,sans-serif;
+            --ff-h4: Trebuchet MS,sans-serif;
         }
 
     /* default resets that I use: */
@@ -139,7 +139,7 @@
     a:target { background-color: #dfe9ff; }
     .no-select { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
     .space-between { display: flex; justify-content: space-between; gap: 8px; }
-    .icon { object-fit: contain; background-repeat: no-repeat; background-size: contain; }
+    .icon { object-fit: contain; background-repeat: no-repeat; background-size: contain; background-position: center; }
     .hidden { display: none !important; }
 
     html { scroll-padding-top: calc(var(--nav-height) + 30px); font-size: var(--fs-ui); scrollbar-color: #666 #ddd; }
@@ -156,8 +156,8 @@
                 .sticky-active #to-top-button:hover { color: #808080; }
                 #nav a:hover { color: #808080; }
 
-                #menu-button { cursor: pointer; opacity: 0.6; height: var(--menu-button-size); width: var(--menu-button-size); background-image: url(icon-menu.png); border: none; background-color: #0000; }
-                #menu-button:hover { opacity: 0.8; }
+                #hamburger { cursor: pointer; opacity: 0.6; height: var(--hamburger-size); width: var(--hamburger-size); background-image: url(icon-hamburger.png); border: none; background-color: #0000; }
+                #hamburger:hover { opacity: 0.8; }
 
                 #menu {
                     line-height: var(--lh-menu);
@@ -196,21 +196,22 @@
 
             #toc {
                 display: none;
-                max-height: calc(100vh - var(--nav-height) - var(--header-height) - var(--toc-top-space) - var(--toc-bottom-space));
+                max-height: calc(100vh - var(--nav-height) - 42px);
                 min-width: var(--toc-width);
                 position: sticky;
                 overflow: hidden;
-                top: calc(var(--nav-height) + var(--toc-top-space));
+                padding: 10px 0 30px;
+                top: var(--nav-height);
                 scrollbar-width: thin;
                 scrollbar-color: var(--grey-9) var(--grey-e);
                 line-height: var(--lh-toc);
-                /* -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent); */
-                /* mask-image: linear-gradient(to bottom, black 90%, transparent); */
-                /* transition: mask-image 0.2s; */
+                -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent);
+                mask-image: linear-gradient(to bottom, black 90%, transparent);
+                transition: mask-image 0.2s;
             }
                 .toc #toc { display: block; }
                 #toc:hover { overflow: auto; }
-                /* #toc.hide-mask, #toc:focus-within, #toc:hover { mask-image: none; } */
+                #toc.hide-mask, #toc:focus-within, #toc:hover { mask-image: none; }
                 .toc-row { transition: color 0.25s; color: var(--grey-9); display: block; max-width: calc(var(--toc-width) - 30px); }
                 .toc-row + .toc-row { margin-top: 10px; }
                 .toc-row.active-heading { color: var(--grey-5); }
@@ -218,7 +219,7 @@
                 .toc-row.h2 { margin-left: 20px; max-width: calc(var(--toc-width) - 40px); }
                 .toc-row.h3 { margin-left: 40px; max-width: calc(var(--toc-width) - 60px); }
 
-            #article { font-family: var(--ff-article); font-size: var(--fs-article); line-height: var(--lh-article); max-width: var(--content-width); width: 100%; }
+            #article { font-family: var(--ff-article); font-size: var(--fs-article); line-height: var(--lh-article-content); max-width: var(--content-width); width: 100%; }
                 #article > :nth-child(1) { margin-top: 0 !important; }
                 #article > h1:first-child {
                     font-family: var(--ff-first-heading);
@@ -230,7 +231,7 @@
                 }
 
                 #article .heading {
-                    line-height: var(--lh-heading);
+                    line-height: var(--lh-article-heading);
                     clear: both;
                     color: var(--grey-2);
                     margin-block: 1.2em 0.5rem;
@@ -256,7 +257,7 @@
                     #article a.citeref * { font-size: inherit; font-family: inherit; }
 
                 #article > h1 + .fine { margin-top: 0; }
-                #article .fine { color: var(--grey-8); font-size: var(--fs-small); font-family: var(--ff-ui); }
+                #article .fine { color: var(--grey-8); font-size: var(--fs-small); font-family: var(--ff-fine); }
                     #article .fine ::marker,
                     #article .fine * { color: inherit; font-size: inherit !important; font-family: inherit !important; }
                     #article .fine a { color: var(--fine-link-color); text-decoration: none; }
@@ -276,7 +277,7 @@
                         }
                 
                 #article ul.condensed { padding: 0 1.5em; margin-top: 0 !important; }
-                #article ul.condensed li { margin-top: 5px; line-height: var(--lh-condensed-list); list-style-type: "– "; }
+                #article ul.condensed li { margin-top: 5px; line-height: var(--lh-article-list-condensed); list-style-type: "– "; }
 
                 #article hr { margin: 2em 0; border: none; height: 1px; width: 100%; background-color: var(--grey-a);  }
 
@@ -293,7 +294,7 @@
                     #article blockquote > :nth-child(n+2) { margin-top: 0.5em; }
                     #article blockquote .attribution { text-align: right; color: var(--grey-8); }
 
-                #article .auto-table { border-collapse: collapse; font-size: var(--fs-table); font-family: var(--ff-table); line-height: var(--lh-table); }
+                #article .auto-table { border-collapse: collapse; font-size: var(--fs-table); font-family: var(--ff-table); line-height: var(--lh-article-table); }
                     #article .auto-table .citeref { font-family: var(--ff-cite-table) ;}
                     #article .auto-table th,
                     #article .auto-table td { border: 1px solid var(--grey-a); padding: 5px 8px 4px; vertical-align: top; }
@@ -310,22 +311,22 @@
                     #article .image-grid figure { display: flex; flex-direction: column; align-items: center; padding: 5px; }
                         #article .image-grid div { width: var(--image-grid-square-size); height: var(--image-grid-square-size); border: 1px solid var(--grey-a); background-color: var(--grey-f); display: flex; align-items: center; justify-content: center; }
                             #article .image-grid img { max-width: var(--image-grid-square-size); max-height: var(--image-grid-square-size); }
-                        #article .image-grid figcaption { max-width: var(--image-grid-square-size); text-align: center; margin: 5px; line-height: var(--lh-caption); font-family: var(--ff-ui); color: var(--grey-5); font-size: var(--fs-small); }
+                        #article .image-grid figcaption { max-width: var(--image-grid-square-size); text-align: center; margin: 5px; line-height: var(--lh-article-figcaption); font-family: var(--ff-ui); color: var(--grey-5); font-size: var(--fs-small); }
 
                 #article .image-float { clear: right; margin-bottom: 10px; margin-left: 1em; float: right; display: flex; flex-direction: column; gap: 10px; }
                     #article .image-float figure { padding: 8px; background-color: var(--grey-f); border: 1px solid var(--grey-a); }
                     #article .image-float img { cursor: pointer; margin: auto; display: block; border: 1px solid var(--grey-a); object-fit: contain; max-width: var(--float-image-width); max-height: var(--float-image-height); }
-                    #article .image-float figcaption { margin-top: 5px; font-family: var(--ff-ui); line-height: var(--lh-caption); text-align: center; max-width: calc(var(--float-image-width) - 20px); font-size: var(--fs-small); color: var(--grey-5); }
+                    #article .image-float figcaption { margin-top: 5px; font-family: var(--ff-ui); line-height: var(--lh-article-figcaption); text-align: center; max-width: calc(var(--float-image-width) - 20px); font-size: var(--fs-small); color: var(--grey-5); }
 
             #article-footer {
                 color: var(--grey-9);
                 margin-top: 25px;
-                line-height: var(--lh-footer);
+                line-height: var(--lh-article-footer);
                 display: flex;
                 flex-direction: column;
                 gap: 25px;
             }
-                .see-also { line-height: var(--lh-see-also); }
+                .see-also { line-height: var(--lh-article-footer-see-also); }
                 .cite-list { padding-top: 1px; }
                 .cite-list td { padding-top: 2px; }
                 .cite-list td:nth-child(1) { text-align: right; white-space: nowrap; }
