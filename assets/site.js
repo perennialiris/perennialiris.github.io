@@ -2,8 +2,10 @@
 "use strict"
 
 window.addEventListener("load", function() {
-    setBrightness(localStorage.getItem("brightness"));
-    setFont(localStorage.getItem("bodyFont"));
+    if (localStorage.getItem("brightness") != "light") { document.body.classList.add(localStorage.getItem("brightness")); }
+    else { localStorage.setItem("brightness", "light"); }
+    if (localStorage.getItem("bodyFont") != "Georgia") { document.body.classList.add(localStorage.getItem("bodyFont")); }
+    else { localStorage.setItem("bodyFont", "Georgia"); }
     
     document.body.innerHTML =
     `<header id="header"></header>
@@ -19,7 +21,7 @@ window.addEventListener("load", function() {
                     <div class="menu-row">
                         <span>Brightness:</span>
                         <div>
-                            <select class="menu-select" id="brightness-menu">
+                            <select class="menu-select" id="brightswitch">
                                 <option value="light">Light</option>
                                 <option value="dark">Dark</option>
                                 <option value="darker">Darker</option>
@@ -29,14 +31,14 @@ window.addEventListener("load", function() {
                     <div class="menu-row">
                         <span>Body font:</span>
                         <div>
-                            <select class="menu-select" id="font-menu">
+                            <select class="menu-select" id="fontswitch">
                                 <option value="Georgia">Georgia</option>
                                 <option value="Roboto">Roboto</option>
                                 <option value="Trebuchet MS">Trebuchet MS</option>
                             </select>
                         </div>
                     </div>
-                </div><!-- #menu -->
+                </div>
             </div>
         </div>
     </nav>
@@ -47,46 +49,65 @@ window.addEventListener("load", function() {
         </div>
     </div>
     <div class="page-bottom"></div>
-    <div id="lightbox-wrapper"><img id="lightbox"></div>`;
+    <div id="lb-container">
+        <div id="lb-top-left"></div>
+        <div id="lb-bottom-panel"><div id="lb-caption"></div></div>
+        <div id="lb-wrapper"><img id="lightbox"></div>
+    </div>`;
     
-    interpreter(document.getElementById("article"));
-    /* add "digit" class to numbers in article: */
-    ["p", "li"].forEach(tagName => Array.from(document.getElementById("article").getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele)) );
-
-    document.getElementById("lightbox-wrapper").addEventListener("click", setLightbox("close"));
-    const menu = document.getElementById("menu");
+    const article = document.getElementById("article");
+    interpreter(article);
+    
+    Array.from(article.getElementsByTagName("p")).forEach(e => wrapDigits(e));
+    Array.from(article.getElementsByTagName("li")).forEach(e => wrapDigits(e));
+    
+    document.getElementById("lb-container").addEventListener("click", () => { setLightbox("close") });
+    
+    /* ---------------------- setting up menu: ---------------------- */
+    
     const hamburger = document.getElementById("hamburger");
+    const menu = document.getElementById("menu");
+    
     function menuToggle(option) {
-        if (option == "close") {
-            menu.classList.add("hidden");
-        }
-        else if (option == "open") {
-            menu.classList.remove("hidden");
-        }
-        else if (menu.classList.contains("hidden")) {
-            menuToggle("open");
-        } else {
-            menuToggle("close");
+        if (option == "open")
+            menu.classList.remove("hidden")
+        else if (option == "close")
+            menu.classList.add("hidden")
+        else {
+            if (menu.classList.contains("hidden")) {
+                menu.classList.remove("hidden");
+            } else {
+                menu.classList.add("hidden");
+            }
         }
     }
     hamburger.addEventListener("click", menuToggle);
-    document.addEventListener("click", function(e) {
-        if (!menu.contains(e.target) && !hamburger.contains(e.target)) { menuToggle("close"); }
+    window.addEventListener("click", function(e) {
+        if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+            menuToggle("close");
+        }
     });
-    let brightnessMenu = document.getElementById("brightness-menu");
-    brightnessMenu.addEventListener("change", function() {
-        setBrightness(brightnessMenu.value);
-        brightnessMenu.value = localStorage.getItem("brightness");
-    });
-    brightnessMenu.value = localStorage.getItem("brightness");
-
-    let fontMenu = document.getElementById("font-menu");
-    fontMenu.addEventListener("change", function() {
-        setFont(fontMenu.value);
-        fontMenu.value = localStorage.getItem("bodyFont");
-    });
-    fontMenu.value = localStorage.getItem("bodyFont");
     
+    window.addEventListener("keydown", function(e) {
+        if (e.key === 'Escape') {
+            setLightbox("close");
+            menuToggle("close");
+        }
+    })
+    
+    let brightswitch = document.getElementById("brightswitch");
+    brightswitch.addEventListener("change", function() {
+        setBrightness(brightswitch.value);
+        brightswitch.value = localStorage.getItem("brightness");
+    });
+    brightswitch.value = localStorage.getItem("brightness");
+
+    let fontswitch = document.getElementById("fontswitch");
+    fontswitch.addEventListener("change", function() {
+        setFont(fontswitch.value);
+        fontswitch.value = localStorage.getItem("bodyFont");
+    });
+    fontswitch.value = localStorage.getItem("bodyFont");
     
     /* ---- ---- ---- ---- ---- ---- ---- table of contents ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     if (document.body.classList.contains("toc")) {
@@ -152,9 +173,9 @@ window.addEventListener("load", function() {
                 toc.classList.remove("hide-mask");
             }
         }
-        toc.addEventListener("scroll", scrollerHandler);
-        toc.addEventListener("resize", scrollerHandler);
-        scrollerHandler();
+        // toc.addEventListener("scroll", scrollerHandler);
+        // toc.addEventListener("resize", scrollerHandler);
+        // scrollerHandler();
         document.getElementById("to-top-button").addEventListener("click", () => {
             toc.scrollTo({ behavior: 'smooth', top: 0 });
             window.scrollTo({ behavior: 'smooth', top: 0 });
@@ -170,11 +191,6 @@ window.addEventListener("load", function() {
     }
 
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    window.addEventListener("keydown", function(e) {
-        if (e.key === 'Escape') {
-            setLightbox("close");
-        }
-    })
     let canNavStickyCheck = true, mainNav = document.getElementById("nav");
     function navStickyCheck() {
         if (!canNavStickyCheck || !mainNav) { return; }
@@ -196,12 +212,37 @@ window.addEventListener("load", function() {
     }
 })
 
+function setLightbox(action) {
+    let lightbox = document.getElementById("lightbox");
+    let lbTopLeft = document.getElementById("lb-top-left");
+    let lbCaption = document.getElementById("lb-caption");
+    
+    if (action == "close") {
+        lightbox.src = "";
+        lightbox.alt = "";
+        document.body.classList.remove("lightbox");
+    }
+    else {
+        lightbox.src = action.src;
+        lightbox.alt = action.alt;
+        document.body.classList.add("lightbox");
+        
+        lbTopLeft.innerHTML = `<a href="${ action.src }">${ action.src.split("/").slice(-1) }</a>`;
+        if (action.alt == "") {
+            lbCaption.innerHTML = "";
+        } else {
+            lbCaption.innerHTML = action.alt.split("/").slice(-1);
+        }
+    }
+}
+
 function setBrightness(setValue) {
     document.body.classList.remove("dark");
     document.body.classList.remove("darker");
     if (setValue == "dark" || setValue == "darker") {
         document.body.classList.add(setValue);
     }
+    if (setValue == "") { setValue = "light"; }
     localStorage.setItem("brightness", setValue);
 }
 function setFont(fontName) {
@@ -217,21 +258,6 @@ function setFont(fontName) {
         document.body.classList.add(f)
     }
     localStorage.setItem("bodyFont", fontName);
-}
-
-function setLightbox(action) {
-    let lightbox = document.getElementById("lightbox");
-    if (lightbox) {
-        if (action == "close") {
-            lightbox.src = lightbox.alt = "";
-            lightbox.parentNode.style.display = "none";
-        }
-        else if (typeof action == "object") {
-            lightbox.src = action.src;
-            lightbox.alt = action.alt;
-            lightbox.parentNode.style.display = "flex";
-        }
-    }
 }
 
 function interpreter(targetElement, externalLinks) {
@@ -514,7 +540,7 @@ function formatting(input_string) {
         if (k++ > 50) { break; }
             // prevent recursion while testing
     }
-    // console.log("k: " + k)
+    
     return (output + rplc(input_string)).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\*(.+?)\*/g, "<i>$1</i>");
 }
 
@@ -532,8 +558,6 @@ function rplc(input_string) {
     /* curly quotes: */
     if (input_string.indexOf("'") != -1 || input_string.indexOf("\"") != -1) {
         
-        console.log(input_string);
-        
         input_string = input_string.replaceAll(/(^| )'/g, "$1&lsquo;")
             .replaceAll(/(\*|>)'(\w)/g, "$1&lsquo;$2")
             .replaceAll(/'/g, "&rsquo;")
@@ -541,7 +565,7 @@ function rplc(input_string) {
             .replaceAll(/(^| )"/g, "$1&ldquo;")
             .replaceAll(/(\*|>)"(\w)/g, "$1&ldquo;$2")
             .replaceAll(/"/g, "&rdquo;")
-        // console.log(input_string);
+            
     }
     /* dashes */
     input_string = input_string.replaceAll("---", "<span class='mdash'>&mdash;</span>")
