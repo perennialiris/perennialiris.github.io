@@ -24,6 +24,7 @@
 
     .auto-table a {
         text-decoration: none !important;
+        border-bottom: none !important;
     }
     .auto-table a:hover {
         text-decoration: underline !important;
@@ -74,11 +75,15 @@
 <div id="index"></div>
 <script src="assets/site.js"></script>
 <script>
+{
+let tTry = 0;
 function t() {
     let p = document.getElementById("page-name-display");
     console.log("f")
+    tTry += 0;
     if (p) { p.innerHTML = "Front, page list"; }
-    else { setTimeout(t, 50); }
+    else { if (tTry < 50) { setTimeout(t, 50); } }
+}
 }
 window.onload = t;
 </script>

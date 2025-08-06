@@ -205,6 +205,11 @@ function setBrightness(setValue) {
     localStorage.setItem("brightness", setValue);
 }
 function setFont(fontName) {
+    if (fontName == null) {
+        localStorage.setItem("bodyFont", "Georgia");
+        return;
+    }
+    if (!fontName) { return; }
     let f = fontName.toLowerCase().replaceAll(" ", "-");
     document.body.classList.remove("trebuchet-ms");
     document.body.classList.remove("roboto");
@@ -267,7 +272,7 @@ function interpreter(targetElement, externalLinks) {
             });
             return `<div class="image-span">${ galleryFigures.join("") }</div>`;
         }
-
+        
         if (chunk.startsWith("||image-float")) {
             /* imgUrl | caption | alt-text/title */
             const lines = chunk.split("\n").slice(1).map( line => {
@@ -282,7 +287,7 @@ function interpreter(targetElement, externalLinks) {
                 
                 return `<figure><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }">${ figCaption }</figure>`;
             });
-            return `<div class="image-float">${lines.join("") }</div>`;
+            return `<div class="image-float">${ lines.join("") }</div>`;
         }
         
         if (chunk.startsWith("||image-grid")) {
@@ -302,9 +307,9 @@ function interpreter(targetElement, externalLinks) {
                 
                 return `<figure><div><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></div>${ figCaption }</figure>`;
             });
-            return `<div class="image-grid">${lines.join("") }</div>`;
+            return `<div class="image-grid">${ lines.join("") }</div>`;
         }
-
+        
         /* ------------------------------------ video ------------------------------------ */
         if (chunk.startsWith("||video")) {
             let data = chunk.split("\n").slice(1)[0].split("|").map(c => c.trim());
@@ -336,10 +341,10 @@ function interpreter(targetElement, externalLinks) {
                     .replaceAll("\n", "<br>") }</code>`;
         });
         
-        let fine = "";
+        let small = "";
         if (chunk.startsWith("^")) {
             chunk = chunk.slice(1).trim();
-            fine = "fine";
+            small = "small";
         }
 
         /* ------------------------------------- links ------------------------------------- */
@@ -396,7 +401,7 @@ function interpreter(targetElement, externalLinks) {
                     return `<p class="attribution">${line}</p>`;
                 }
                 if (line.startsWith("^")) {
-                    return `<div class="fine">${line.substring(1)}</div>`;
+                    return `<div class="small">${line.substring(1)}</div>`;
                 }
                 return `<p>${line}</p>`;
             })
@@ -405,7 +410,7 @@ function interpreter(targetElement, externalLinks) {
         }
 
         /* ------------------------------------- lists ------------------------------------- */
-        /* Not a perfect handler but whatever it's fine. */
+        /* Not a perfect handler but whatever it'll do. */
         if ( chunk.startsWith("* ") || /^\d+\. /.test(chunk) ) {
             
             const listTag = chunk.startsWith("* ") ? "ul" : "ol";
@@ -433,13 +438,12 @@ function interpreter(targetElement, externalLinks) {
                 list += ` start="${startNumber}"`;
             }
             list += `>${lines.join("")}</${listTag}>`;
-            if (fine) {
-                list = `<div class="fine">${list}</div>`;
+            if (small) {
+                list = `<div class="small">${list}</div>`;
             }
             return list;
         }
-        /* ------------------------------------- lists ------------------------------------- */
-        /* Not a perfect handler but whatever it's fine. */
+        
         if ( chunk.startsWith("-- ")) {
             const lines = chunk.split("\n").map( line => {
                 if (line.startsWith("-- ")) {
@@ -476,8 +480,8 @@ function interpreter(targetElement, externalLinks) {
         
         chunk = formatting(chunk);
         
-        if (fine) {
-            return `<div class='fine'>${ chunk.replaceAll("\n", "<br>") }</div>`;
+        if (small) {
+            return `<div class='small'>${ chunk.replaceAll("\n", "<br>") }</div>`;
         }
         if (firstParagraph) {
             firstParagraph = false;
@@ -490,43 +494,60 @@ function interpreter(targetElement, externalLinks) {
     targetElement.innerHTML = input.join("");
 }
 
-function rplcb(x) {
-    if (x == "") { return x; }
+function formatting(input_string) {
+    input_string = input_string.trim();
+    if (input_string == "") { return input_string; }
     
+    let output = "";
+    
+    /* first: replacements that shouldn't affect inside of tags */
+    let left = 0;
+    let k = 0;
+    while (true) {
+        /* the logic here is funky because it makes curly quotes easier (see wrapDigits for alternative logic) */
+        let openTag = input_string.indexOf("<"),
+            closeTag = openTag + input_string.substring(openTag).indexOf(">");
+        if (openTag == -1 || closeTag == -1) { break; }
+        output += rplc(input_string.substring(0, openTag + 1)) + input_string.substring(openTag + 1, closeTag);
+        input_string = input_string.substring(closeTag);
+        
+        if (k++ > 50) { break; }
+            // prevent recursion while testing
+    }
+    // console.log("k: " + k)
+    return (output + rplc(input_string)).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\*(.+?)\*/g, "<i>$1</i>");
+}
+
+function rplc(input_string) {
+    if (input_string == "") { return input_string; }
     /* escaped symbols */
-    return x.replaceAll("\\(", "&lpar;")
+    input_string = input_string.replaceAll("\\*", "&ast;")
+        .replaceAll("\\(", "&lpar;")
         .replaceAll("\\)", "&rpar;")
         .replaceAll("\\[", "&lbrack;")
         .replaceAll("\\]", "&rbrack;")
         .replaceAll("\\", "&#92;")
-        .replaceAll("\\*", "&ast;")
-        .replaceAll("\\^", "&Hat;")
-        .replace(/(^| )"(\w)/g, "$1&ldquo;$2")
-        .replaceAll('"', "&rdquo;")
-        .replace(/(^| )'(\w)/g, "$1&lsquo;$2")
-        .replaceAll("'", "&rsquo;")
-        .replaceAll("---", "<span class='mdash'>&mdash;</span>")
-        .replaceAll("--", "&ndash;")
-}
+        .replaceAll("\\^", "&Hat;");
 
-function formatting(input) {
-    input = input.trim();
-    if (input == "") { return input; }
-    
-    input = input.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
-        .replace(/\*(.+?)\*/g, "<i>$1</i>");
-    
-    let output = "";
-    /* first: replacements that shouldn't affect inside of tags */
-    while (true) {
-        let openTag = input.indexOf("<"), closeTag = input.indexOf(">");
-        if (openTag == -1 || closeTag == -1) break;
-        output += rplcb(input.substring(0, openTag)) + input.substring(openTag, closeTag + 1);
-        input = input.substring(closeTag + 1);
+    /* curly quotes: */
+    if (input_string.indexOf("'") != -1 || input_string.indexOf("\"") != -1) {
+        
+        console.log(input_string);
+        
+        input_string = input_string.replaceAll(/(^| )'/g, "$1&lsquo;")
+            .replaceAll(/(\*|>)'(\w)/g, "$1&lsquo;$2")
+            .replaceAll(/'/g, "&rsquo;")
+
+            .replaceAll(/(^| )"/g, "$1&ldquo;")
+            .replaceAll(/(\*|>)"(\w)/g, "$1&ldquo;$2")
+            .replaceAll(/"/g, "&rdquo;")
+        // console.log(input_string);
     }
-    output += rplcb(input);
+    /* dashes */
+    input_string = input_string.replaceAll("---", "<span class='mdash'>&mdash;</span>")
+        .replaceAll("--", "&ndash;");
     
-    return output;
+    return input_string;
 }
 
 function wrapDigits(arg) {
@@ -535,7 +556,7 @@ function wrapDigits(arg) {
     }
     else {
         let k = 0;
-        let output = "", left = 0;
+        let output = "";
         while (true) {
             const openTag = arg.indexOf("<");
             const closeTag = arg.indexOf(">");
