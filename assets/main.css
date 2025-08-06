@@ -213,9 +213,9 @@
                 .toc #toc { display: block; }
                 #toc:hover { overflow: auto; }
                 /* #toc.hide-mask, #toc:focus-within, #toc:hover { mask-image: none; } */
-                .toc-row { transition: color 0.25s; color: var(--grey-9); display: block; max-width: calc(var(--toc-width) - 30px); }
+                .toc-row { color: var(--grey-9); display: block; max-width: calc(var(--toc-width) - 30px); }
                 .toc-row + .toc-row { margin-top: 10px; }
-                .toc-row.active-heading { color: var(--grey-5); }
+                .toc-row.active-heading { transition: color 0.25s; color: var(--grey-5); }
                 .toc-row.h1 { margin-left: 0; max-width: calc(var(--toc-width) - 20px); }
                 .toc-row.h2 { margin-left: 20px; max-width: calc(var(--toc-width) - 40px); }
                 .toc-row.h3 { margin-left: 40px; max-width: calc(var(--toc-width) - 60px); }
