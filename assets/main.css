@@ -308,7 +308,7 @@
                 #article .image-span + .image-span { margin-top: 8px; }
                     #article .image-span img { cursor: pointer; width: inherit; max-width: 100%; max-height: 100%; display: block; object-fit: contain; }
 
-                #article .image-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; overflow: hidden; }
+                #article .image-grid { display: flex; flex-wrap: wrap; gap: 5px; overflow: hidden; justify-content: space-evenly; }
                     #article .image-grid figure { display: flex; flex-direction: column; align-items: center; padding: 5px; }
                         #article .image-grid div { width: var(--image-grid-square-size); height: var(--image-grid-square-size); border: 1px solid var(--grey-a); background-color: var(--grey-f); display: flex; align-items: center; justify-content: center; }
                             #article .image-grid img { max-width: var(--image-grid-square-size); max-height: var(--image-grid-square-size); }
@@ -336,10 +336,10 @@
         body.lightbox #c1 { overflow: hidden; }
         #lb-container { min-width: 350px; font-family: var(--ff-lightbox); z-index: 3; width: 100%; height: 100vh; background-color: #000c; position: fixed; left: 0; top: 0; display: none; align-items: center; justify-content: center; }
             #lb-top-left { color: grey; position: fixed; height: var(--nav-height); top: 0; display: flex; align-items: center; box-sizing: border-box; padding: 0 12px; width: 100%; padding-bottom: 2px; }
-            #lb-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; height: calc(100% - var(--nav-height) - 80px); position: fixed; left: 0; top: var(--nav-height); }
+            #lb-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; height: calc(100% - var(--nav-height) - 113px); position: fixed; left: 0; top: var(--nav-height); }
                 #lightbox { object-fit: contain; max-width: 96%; max-height: 92%; z-index: 4; }
-            #lb-bottom-panel { background: black; overflow: hidden; scrollbar-width: thin; box-sizing: border-box; display: flex; justify-content: center; align-items: center; height: 80px; width: 100%; position: fixed; left: 0; bottom: 0; }
-                #lb-bottom-panel div { max-width: var(--content-width); text-overflow: ellipsis; overflow: hidden; color: grey; margin: 4px 8px 8px; }
+            #lb-bottom-panel { background: black; overflow: hidden; scrollbar-width: thin; box-sizing: border-box; display: flex; justify-content: center; align-items: center; height: 113px; width: 100%; position: fixed; left: 0; bottom: 0; }
+                #lb-bottom-panel div { font-style: italic; max-width: var(--content-width); text-overflow: ellipsis; overflow: hidden; color: grey; margin: 4px 8px 8px; }
 
         .page-bottom {
             height: var(--page-bottom-height);
