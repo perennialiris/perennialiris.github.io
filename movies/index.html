@@ -282,7 +282,7 @@ The movies I hated most:
 <script src="../assets/site.js"></script>
 <script>
 window.addEventListener("load", function() {
-    let table = document.getElementsByTagName("tbody")[0];
+    let table = document.querySelector(".auto-table tbody");
     let rows = Array.from(table.rows);
     document.getElementById("movie-count").innerHTML = rows.length;
 
