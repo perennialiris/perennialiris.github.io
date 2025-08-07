@@ -2,10 +2,7 @@
 "use strict"
 
 window.addEventListener("load", function() {
-    if (localStorage.getItem("brightness") != "light") { document.body.classList.add(localStorage.getItem("brightness")); }
-    else { localStorage.setItem("brightness", "light"); }
-    if (localStorage.getItem("bodyFont") != "Georgia") { document.body.classList.add(localStorage.getItem("bodyFont")); }
-    else { localStorage.setItem("bodyFont", "Georgia"); }
+    setBrightness(localStorage.getItem("brightness"));
     
     document.body.innerHTML =
     `<header id="header"></header>
@@ -34,7 +31,6 @@ window.addEventListener("load", function() {
                             <select class="menu-select" id="fontswitch">
                                 <option value="Georgia">Georgia</option>
                                 <option value="Roboto">Roboto</option>
-                                <option value="Trebuchet MS">Trebuchet MS</option>
                             </select>
                         </div>
                     </div>
@@ -51,9 +47,10 @@ window.addEventListener("load", function() {
     <div class="page-bottom"></div>
     <div id="lb-container">
         <div id="lb-top-left"></div>
-        <div id="lb-bottom-panel"><div id="lb-caption"></div></div>
         <div id="lb-wrapper"><img id="lightbox"></div>
-    </div>`;
+        <div class="lb-bottom-panel"><div id="lb-caption"></div></div>
+    </div>
+    <style id="custom-style"></style>`;
     
     const article = document.getElementById("article");
     interpreter(article);
@@ -104,9 +101,10 @@ window.addEventListener("load", function() {
 
     let fontswitch = document.getElementById("fontswitch");
     fontswitch.addEventListener("change", function() {
-        setFont(fontswitch.value);
+        setBodyFont(fontswitch.value);
         fontswitch.value = localStorage.getItem("bodyFont");
     });
+    setBodyFont(localStorage.getItem("bodyFont"));
     fontswitch.value = localStorage.getItem("bodyFont");
     
     /* ---- ---- ---- ---- ---- ---- ---- table of contents ---- ---- ---- ---- ---- ---- ---- ---- ---- */
@@ -165,17 +163,6 @@ window.addEventListener("load", function() {
         window.addEventListener("resize", tocWidthCheck);
         window.addEventListener("scroll", tocHighlighter);
         setTimeout(() => { tocWidthCheck(); tocHighlighter(); }, 100);
-        function scrollerHandler() {
-            if (toc.scrollHeight == toc.offsetHeight || toc.scrollHeight - toc.scrollTop <= toc.clientHeight + 20) {
-                toc.classList.add("hide-mask");
-            }
-            else {
-                toc.classList.remove("hide-mask");
-            }
-        }
-        // toc.addEventListener("scroll", scrollerHandler);
-        // toc.addEventListener("resize", scrollerHandler);
-        // scrollerHandler();
         document.getElementById("to-top-button").addEventListener("click", () => {
             toc.scrollTo({ behavior: 'smooth', top: 0 });
             window.scrollTo({ behavior: 'smooth', top: 0 });
@@ -184,7 +171,6 @@ window.addEventListener("load", function() {
     }
     else {
         document.getElementById("to-top-button").addEventListener("click", () => {
-            toc.scrollTo({ behavior: 'smooth', top: 0 });
             window.scrollTo({ behavior: 'smooth', top: 0 });
             history.replaceState(null, '', window.location.pathname + window.location.search);
         });
@@ -231,32 +217,29 @@ function setLightbox(action) {
         if (action.alt == "") {
             lbCaption.innerHTML = "";
         } else {
-            lbCaption.innerHTML = action.alt.split("/").slice(-1);
+            lbCaption.innerHTML = action.alt;
         }
     }
 }
 
 function setBrightness(setValue) {
+    if (setValue == null) { setValue = "light"; }
     document.body.classList.remove("dark");
     document.body.classList.remove("darker");
-    if (setValue == "dark" || setValue == "darker") {
+    if (setValue != "light") {
         document.body.classList.add(setValue);
     }
-    if (setValue == "") { setValue = "light"; }
     localStorage.setItem("brightness", setValue);
 }
-function setFont(fontName) {
-    if (fontName == null) {
-        localStorage.setItem("bodyFont", "Georgia");
-        return;
+
+function setBodyFont(fontName) {
+    if (fontName == null) { fontName == "Georgia"; }
+    
+    let fontValue = "";
+    if (fontName != "Georgia") {
+        fontValue = `#article { --ff-article: ${ fontName },sans-serif; --ff-digit: ${ fontName },sans-serif; --ff-h4: ${ fontName },sans-serif; }`;
     }
-    if (!fontName) { return; }
-    let f = fontName.toLowerCase().replaceAll(" ", "-");
-    document.body.classList.remove("trebuchet-ms");
-    document.body.classList.remove("roboto");
-    if (f == "roboto" || f == "trebuchet-ms") {
-        document.body.classList.add(f)
-    }
+    document.getElementById("custom-style").innerHTML = fontValue;
     localStorage.setItem("bodyFont", fontName);
 }
 
@@ -404,7 +387,7 @@ function interpreter(targetElement, externalLinks) {
         
         /* link to section on this page: */
         chunk = chunk.replace(/\[\[(.+?)\]\]/g, (match, displayText) => {
-            return `<a class="section-link" title="Jump to section" href="#${ displayText.replaceAll(" ", "_") }">${ displayText }</a>`
+            return `<a class="internal section-link" title="Jump to section" href="#${ displayText.replaceAll(" ", "_") }">${ displayText }</a>`
         });
 
         /* ------------------------------------- table ------------------------------------- */
@@ -470,16 +453,6 @@ function interpreter(targetElement, externalLinks) {
             return list;
         }
         
-        if ( chunk.startsWith("-- ")) {
-            const lines = chunk.split("\n").map( line => {
-                if (line.startsWith("-- ")) {
-                    line = line.substring(3).trim();
-                }
-                return `<li>${ formatting(line) }</li>`;
-            })
-            return `<ul class="condensed">${ lines.join("") }</ul>`;
-        }
-
         /* ----------------------------------- headings ----------------------------------- */
         if (/^\#{1,4} /.test(chunk)) {
             const headingTag = "h" + chunk.indexOf(" ");
@@ -558,14 +531,14 @@ function rplc(input_string) {
     /* curly quotes: */
     if (input_string.indexOf("'") != -1 || input_string.indexOf("\"") != -1) {
         
-        input_string = input_string.replaceAll(/(^| )'/g, "$1&lsquo;")
-            .replaceAll(/(\*|>)'(\w)/g, "$1&lsquo;$2")
+        input_string = input_string
+            .replaceAll(/(^| |\()'/g, "$1&lsquo;")
+            .replaceAll(/(\*|>|-)'(\w)/g, "$1&lsquo;$2")
             .replaceAll(/'/g, "&rsquo;")
 
-            .replaceAll(/(^| )"/g, "$1&ldquo;")
-            .replaceAll(/(\*|>)"(\w)/g, "$1&ldquo;$2")
-            .replaceAll(/"/g, "&rdquo;")
-            
+            .replaceAll(/(^| |\()"/g, "$1&ldquo;")
+            .replaceAll(/(\*|>|-)"(\w)/g, "$1&ldquo;$2")
+            .replaceAll(/"/g, "&rdquo;");
     }
     /* dashes */
     input_string = input_string.replaceAll("---", "<span class='mdash'>&mdash;</span>")
