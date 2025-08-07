@@ -2,55 +2,73 @@
 "use strict"
 
 window.addEventListener("load", function() {
-    setBrightness(localStorage.getItem("brightness"));
-    
     document.body.innerHTML =
-    `<header id="header"></header>
+    `<header class="main-header">
+        <div class="header-gradient center align-center no-select">
+        </div>
+    </header>
+    <div class="ribbon"></div>
     <nav class="nav-wrapper">
-        <div id="nav">
-            <div>
+        <div class="main-nav stretch space-between">
+            <div class="align-center">
                 <div id="page-name-display"><div><a href="../index.html">Index</a> &#47; ${ document.title || "This Page" }</div></div>
             </div>
-            <div>
+            <div class="align-center">
                 <div id="to-top-button">Jump to Top</div>
-                <button id="hamburger" class="icon"></button>
-                <div id="menu" class="hidden">
-                    <div class="menu-row">
-                        <span>Brightness:</span>
-                        <div>
-                            <select class="menu-select" id="brightswitch">
+                <button class="hamburger icon"></button>
+            </div>
+        </div>
+    </nav>
+    <div class="menu-wrapper1 center">
+        <div class="menu-wrapper2">
+            <div class="menu hidden">
+                <table>
+                    <tr>
+                        <td>Brightness:</td>
+                        <td>
+                            <select class="menu-select" id="brightness-select">
                                 <option value="light">Light</option>
                                 <option value="dark">Dark</option>
                                 <option value="darker">Darker</option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="menu-row">
-                        <span>Body font:</span>
-                        <div>
-                            <select class="menu-select" id="fontswitch">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Body font:</td>
+                        <td>
+                            <select class="menu-select" id="bodyfont-select">
                                 <option value="Georgia">Georgia</option>
+                                <option value="Palatino Linotype">Palatino Linotype</option>
                                 <option value="Roboto">Roboto</option>
+                                <option value="Segoe UI">Segoe UI</option>
                             </select>
-                        </div>
-                    </div>
-                </div>
+                        </td>
+                    <tr>
+                    <tr>
+                        <td colspan="2">
+                            <span style="font-style: italic; color: var(--grey-8);">These options are saved in session storage, not cookies, so they'll be discarded when your close your browser.</span>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
-    </nav>
-    <div id="c1">
-        <div id="c2">
+    </div>
+    <div class="c1 align-start">
+        <div class="c2">
             <div id="article">${ document.body.innerHTML }</div>
-            <footer id="article-footer"></footer>
+            <footer class="article-footer column"></footer>
         </div>
     </div>
     <div class="page-bottom"></div>
-    <div id="lb-container">
+    <div class="lb-container stretch column space-between">
         <div id="lb-top-left"></div>
-        <div id="lb-wrapper"><img id="lightbox"></div>
-        <div class="lb-bottom-panel"><div id="lb-caption"></div></div>
+        <div class="lb-wrapper center align-center"><img id="lightbox"></div>
+        <div class="lb-bottom-panel center align-center"><div id="lb-caption"></div></div>
     </div>
     <style id="custom-style"></style>`;
+
+    setBrightness();
+    setBodyFont();
     
     const article_ = document.getElementById("article");
     interpreter(article_);
@@ -58,12 +76,12 @@ window.addEventListener("load", function() {
     Array.from(article_.getElementsByTagName("p")).forEach(e => wrapDigits(e));
     Array.from(article_.getElementsByTagName("li")).forEach(e => wrapDigits(e));
     
-    document.getElementById("lb-container").addEventListener("click", () => { setLightbox("close") });
+    document.querySelector(".lb-container").addEventListener("click", () => { setLightbox("close") });
     
     /* ---------------------- setting up menu: ---------------------- */
     
-    const hamburger = document.getElementById("hamburger");
-    const menu = document.getElementById("menu");
+    const hamburger = document.querySelector(".hamburger");
+    const menu = document.querySelector(".menu");
     
     function menuToggle(option) {
         if (option == "open")
@@ -92,35 +110,39 @@ window.addEventListener("load", function() {
         }
     })
     
-    let brightswitch = document.getElementById("brightswitch");
-    brightswitch.addEventListener("change", function() {
-        setBrightness(brightswitch.value);
-        brightswitch.value = localStorage.getItem("brightness");
+    let brightness_select = document.getElementById("brightness-select");
+    brightness_select.addEventListener("change", function() {
+        setBrightness(brightness-select.value);
     });
-    brightswitch.value = localStorage.getItem("brightness");
 
-    let fontswitch = document.getElementById("fontswitch");
-    fontswitch.addEventListener("change", function() {
-        setBodyFont(fontswitch.value);
-        fontswitch.value = localStorage.getItem("bodyFont");
+    let bodyfont_select = document.getElementById("bodyfont-select");
+    bodyfont_select.addEventListener("change", function() {
+        setBodyFont(bodyfont-select.value);
     });
-    setBodyFont(localStorage.getItem("bodyFont"));
-    fontswitch.value = localStorage.getItem("bodyFont");
+    console.log("localStorage.getItem bodyFont: " + localStorage.getItem("bodyFont"))
+    bodyfont_select.value = localStorage.getItem("bodyFont");
     
     /* ---- ---- ---- ---- ---- ---- ---- table of contents ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     if (document.body.classList.contains("toc")) {
-        const toc = document.getElementById("c1").insertBefore(document.createElement("nav"), document.getElementById("c2"));
+        const toc = document.querySelector(".c1").insertBefore(document.createElement("nav"), document.querySelector(".c2"));
         toc.id = "toc";
         const headings = Array.from(document.getElementById("article").getElementsByClassName("toc-include"));
         toc.innerHTML = `<a class="toc-row" href="#">(Top)</a>` + headings.slice(1).map ( heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ heading.id }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
 
         const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
         let lastHeading = -1;
-        let canTocHighlighter = true;
-        function tocHighlighter() {
-            if (!canTocHighlighter) { return; }
-            canTocHighlighter = false;
-            setTimeout(() => { canTocHighlighter = true; }, 300);
+        
+        let canTocUpdate = true;
+        function tocUpdateAttempt() {
+            if (!canTocUpdate) { return; }
+            canTocUpdate = false;
+            setTimeout(() => {
+                canTocUpdate = true;
+                tocUpdate();
+            }, 500);
+            tocUpdate();
+        }
+        function tocUpdate() {
             let currentHeading = -1;
             for (let i = 0; i < headings.length; i += 1) {
                 if (pageYOffset > headings[i].offsetTop - (0.5 * window.innerHeight)) {
@@ -153,19 +175,26 @@ window.addEventListener("load", function() {
             }
             lastHeading = currentHeading;
         }
-        let canTocWidthCheck = true;
         let tocWidth = window.getComputedStyle(toc).getPropertyValue("max-width").replace(/\D/g,"");
         let articleWidth = window.getComputedStyle(article_).getPropertyValue("max-width").replace(/\D/g, "");
         let pageCheckWidth = parseInt(tocWidth) + parseInt(articleWidth) - 100;
-        function tocWidthCheck() {
-            if (!canTocWidthCheck) { return; }
-            canTocWidthCheck = false;
-            setTimeout(() => { canTocWidthCheck = true; }, 300);
-            toc.style.display = (parseInt(window.innerWidth) > pageCheckWidth) ? "block" : "none";
+        
+        let canTocCheck = true;
+        function tocCheckAttempt() {
+            if (!canTocCheck) { return; }
+            canTocCheck = false;
+            setTimeout(() => {
+                canTocCheck = true;
+                tocCheck();
+            }, 500);
+            tocCheck();
         }
-        window.addEventListener("resize", tocWidthCheck);
-        window.addEventListener("scroll", tocHighlighter);
-        setTimeout(() => { tocWidthCheck(); tocHighlighter(); }, 100);
+        function tocCheck() {
+            document.body.classList.toggle("toc", parseInt(window.innerWidth) > pageCheckWidth);
+        }
+        window.addEventListener("resize", tocCheckAttempt);
+        window.addEventListener("scroll", tocUpdateAttempt);
+        setTimeout(() => { tocCheckAttempt(); tocUpdateAttempt(); }, 100);
         document.getElementById("to-top-button").addEventListener("click", () => {
             toc.scrollTo({ behavior: 'smooth', top: 0 });
             window.scrollTo({ behavior: 'smooth', top: 0 });
@@ -180,7 +209,7 @@ window.addEventListener("load", function() {
     }
 
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    let canNavStickyCheck = true, mainNav = document.getElementById("nav");
+    let canNavStickyCheck = true, mainNav = document.querySelector(".main-nav");
     function navStickyCheck() {
         if (!canNavStickyCheck || !mainNav) { return; }
         canNavStickyCheck = false;
@@ -225,25 +254,34 @@ function setLightbox(action) {
     }
 }
 
-function setBrightness(setValue) {
-    if (setValue == null) { setValue = "light"; }
-    document.body.classList.remove("dark");
-    document.body.classList.remove("darker");
-    if (setValue != "light") {
-        document.body.classList.add(setValue);
+function setBrightness(brightness) {
+    if (brightness == "") { brightness = localStorage.getItem("brightness"); }
+    
+    let select_ = document.getElementById("brightness-select");
+    let options_ = Array.from(select_.getElementsByTagName("option")).map(o => o.value);
+    if (!options_.includes(brightness)) {
+        brightness = options_[0];
     }
-    localStorage.setItem("brightness", setValue);
+    options_ = options_.filter(o => o != brightness);
+    document.body.classList.remove(...options_);
+    document.body.classList.add(brightness);
+    select_.value = brightness;
+    localStorage.setItem("brightness", brightness);
 }
 
-function setBodyFont(fontName) {
-    if (fontName == null) { fontName == "Georgia"; }
+function setBodyFont(bodyFont) {
+    if (bodyFont == "") { bodyFont = localStorage.getItem("bodyFont"); }
     
-    let fontValue = "";
-    if (fontName != "Georgia") {
-        fontValue = `#article { --ff-article: ${ fontName },sans-serif; --ff-digit: ${ fontName },sans-serif; --ff-h4: ${ fontName },sans-serif; }`;
+    let select_ = document.getElementById("bodyfont-select");
+    let fonts_ = Array.from(select_.getElementsByTagName("option")).map(o => o.value);
+    if (!fonts_.includes(bodyFont)) {
+        bodyFont = fonts_[0];
     }
-    document.getElementById("custom-style").innerHTML = fontValue;
-    localStorage.setItem("bodyFont", fontName);
+    
+    document.getElementById("custom-style").innerHTML = bodyFont == "Georgia" ? "" : `#article { --ff-article: ${ bodyFont },sans-serif; --ff-digit: ${ bodyFont },sans-serif; --ff-h4: ${ bodyFont },sans-serif; }`;
+    
+    select_.value = bodyFont;
+    localStorage.setItem("bodyFont", bodyFont);
 }
 
 function interpreter(targetElement, externalLinks) {
@@ -282,7 +320,7 @@ function interpreter(targetElement, externalLinks) {
                 let altText = formatting(parts[1].trim().replace(/"/g,"&quot;"));
                 return `<div><img style="max-height: ${homeRow || 300}px;" onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></div>`;
             });
-            return `<div class="image-span">${ galleryFigures.join("") }</div>`;
+            return `<div class="image-span align-center space-evenly">${ galleryFigures.join("") }</div>`;
         }
         
         if (chunk.startsWith("||image-float")) {
@@ -317,9 +355,9 @@ function interpreter(targetElement, externalLinks) {
                 let altText = formatting(parts[2].trim().replace(/"/g,"&quot;"));
                 if (figCaption) { figCaption = `<figcaption>${ figCaption }</figcaption>`; }
                 
-                return `<figure><div><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></div>${ figCaption }</figure>`;
+                return `<figure><div class="center align-center"><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></div>${ figCaption }</figure>`;
             });
-            return `<div class="image-grid">${ lines.join("") }</div>`;
+            return `<div class="image-grid space-evenly">${ lines.join("") }</div>`;
         }
         
         /* ------------------------------------ video ------------------------------------ */
@@ -467,7 +505,7 @@ function interpreter(targetElement, externalLinks) {
 
         /* ----------------------------------- see also ----------------------------------- */
         if (chunk.startsWith("||see-also")) {
-            document.getElementById("article-footer").appendChild(document.createElement("div")).innerHTML
+            document.querySelector(".article-footer").appendChild(document.createElement("div")).innerHTML
                 = "<div class='see-also'><div>This content was also posted here:</div>" + chunk.split("\n").slice(1)
                     .map( line => {
                         const url = line

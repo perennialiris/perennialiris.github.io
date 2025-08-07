@@ -79,8 +79,12 @@
     let tTry = 0;
     function t() {
         let p = document.getElementById("page-name-display");
+        let h = document.getElementById("homelink");
         tTry += 0;
-        if (p) { p.innerHTML = "Front, page list"; }
+        if (p && h) {
+            p.innerHTML = "Front, page list";
+            h.href = "";
+        }
         else { if (tTry < 50) { setTimeout(t, 50); } }
     }
 }
