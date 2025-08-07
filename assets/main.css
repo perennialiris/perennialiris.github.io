@@ -190,6 +190,8 @@
                 display: none;
                 max-height: calc(100vh - var(--nav-height) - 67px);
                 min-width: var(--toc-width);
+                width: var(--toc-width);
+                max-width: var(--toc-width);
                 position: sticky;
                 overflow: hidden;
                 padding: 30px 0 35px;
@@ -396,7 +398,7 @@
 
     body.darker {
         --nav-bg: #0a0a0a;
-        --link-color: #55402b;
+        --link-color: #55412c;
         --internal-link-color: #404634;
         --fine-link-color: #44382c;
         --fine-internal-link-color: #35392b;

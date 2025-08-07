@@ -52,11 +52,11 @@ window.addEventListener("load", function() {
     </div>
     <style id="custom-style"></style>`;
     
-    const article = document.getElementById("article");
-    interpreter(article);
+    const article_ = document.getElementById("article");
+    interpreter(article_);
     
-    Array.from(article.getElementsByTagName("p")).forEach(e => wrapDigits(e));
-    Array.from(article.getElementsByTagName("li")).forEach(e => wrapDigits(e));
+    Array.from(article_.getElementsByTagName("p")).forEach(e => wrapDigits(e));
+    Array.from(article_.getElementsByTagName("li")).forEach(e => wrapDigits(e));
     
     document.getElementById("lb-container").addEventListener("click", () => { setLightbox("close") });
     
@@ -120,7 +120,7 @@ window.addEventListener("load", function() {
         function tocHighlighter() {
             if (!canTocHighlighter) { return; }
             canTocHighlighter = false;
-            setTimeout(() => { canTocHighlighter = true; tocHighlighter(); }, 200);
+            setTimeout(() => { canTocHighlighter = true; }, 300);
             let currentHeading = -1;
             for (let i = 0; i < headings.length; i += 1) {
                 if (pageYOffset > headings[i].offsetTop - (0.5 * window.innerHeight)) {
@@ -154,11 +154,14 @@ window.addEventListener("load", function() {
             lastHeading = currentHeading;
         }
         let canTocWidthCheck = true;
+        let tocWidth = window.getComputedStyle(toc).getPropertyValue("max-width").replace(/\D/g,"");
+        let articleWidth = window.getComputedStyle(article_).getPropertyValue("max-width").replace(/\D/g, "");
+        let pageCheckWidth = parseInt(tocWidth) + parseInt(articleWidth) - 100;
         function tocWidthCheck() {
             if (!canTocWidthCheck) { return; }
             canTocWidthCheck = false;
-            setTimeout(() => { canTocWidthCheck = true; tocWidthCheck(); }, 300);
-            toc.style.display = (parseInt(window.innerWidth) > 840) ? "block" : "none";
+            setTimeout(() => { canTocWidthCheck = true; }, 300);
+            toc.style.display = (parseInt(window.innerWidth) > pageCheckWidth) ? "block" : "none";
         }
         window.addEventListener("resize", tocWidthCheck);
         window.addEventListener("scroll", tocHighlighter);
