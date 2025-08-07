@@ -111,7 +111,7 @@
     }
         body.wide { --content-width: 740px; }
         body.narrow {
-            --content-width: 512px;
+            --content-width: 548px;
             --lh-article: 1.7;
         }
 
