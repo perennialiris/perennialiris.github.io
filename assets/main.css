@@ -247,7 +247,7 @@
                     line-height: var(--lh-article-heading);
                     clear: both;
                     color: var(--grey-2);
-                    margin-block: 1.1em 0.5rem;
+                    margin-block: 1.1em 1rem;
                 }
                 #article h1 { font-family: var(--ff-h1); font-size: var(--fs-h1); }
                 #article h2 { font-family: var(--ff-h2); font-size: var(--fs-h2); }
@@ -291,6 +291,9 @@
                             margin-top: 0.333em;
                             list-style-type: none;
                         }
+                #article .auto-list.short li {
+                    margin-top: 0.333em !important;
+                }
 
                 #article hr { margin: 2em 0; border: none; height: 1px; width: 100%; background-color: var(--grey-a);  }
 

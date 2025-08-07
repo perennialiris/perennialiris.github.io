@@ -494,6 +494,10 @@ function interpreter(targetElement, externalLinks) {
             return list;
         }
         
+        if ( chunk.startsWith("-- ")) {
+            return `<ul class="auto-list short">${ chunk.split("\n").map(li => `<li>${ li.substring(2).trim() }</li>`).join("") }</ul>`;
+        }
+        
         /* ----------------------------------- headings ----------------------------------- */
         if (/^\#{1,4} /.test(chunk)) {
             const headingTag = "h" + chunk.indexOf(" ");
