@@ -257,6 +257,7 @@ The Twilight Saga: New Moon | 2009
 The Twilight Saga: Eclipse | 2010
 One Flew Over the Cuckoo's Nest | 1975
 Captain Phillips | 2013
+Captain Phillips | 2013
 The Hunchback of Notre Dame | 1996
 Frozen | 2013
 Space Jam | 1996
@@ -276,8 +277,8 @@ I don't want to do a complex rating thing, but some of my favourites are:
 
 The movies I hated most:
 
-* **Whiplash**. This movie is actually just dumb as hell. I sort of understand why people like it for the idea that it's *trying* to convey about becoming great under pressure, but the way it tried to convey that was not good, the teacher was just an idiot, I'd have laughed in his face and been like dude what are you doing? I don't know how people took it seriously.
 * **Star Trek: Section 31**. This was shockingly bad. *Star Trek* already didn't translate that well into movies anyway---the TNG movies had some good moments but were overall badly written---but this one somehow blew all previous attempts away. They shouldn't have even released it.
+* **Whiplash**. This movie is actually just dumb as hell. I sort of understand why people like it for the idea that it's *trying* to convey about becoming great under pressure, but the way it tried to convey that was not good, the teacher was just an idiot, I'd have laughed in his face and been like dude what are you doing? I don't know how people took it seriously.
 
 <script src="../assets/site.js"></script>
 <script>
@@ -286,11 +287,7 @@ window.addEventListener("load", function() {
     let rows = Array.from(table.rows);
     document.getElementById("movie-count").innerHTML = rows.length;
 
-    rows.sort((a, b) => {
-      let a_ = parseFloat(a.cells[1].textContent) || 0;
-      let b_ = parseFloat(b.cells[1].textContent) || 0;
-      return a_ - b_;
-    });
+    rows.sort((a, b) => Number(a.cells[1].textContent) - Number(b.cells[1].textContent));
     rows.forEach(row => table.appendChild(row));
 });
 </script>
