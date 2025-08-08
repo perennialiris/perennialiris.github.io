@@ -539,7 +539,7 @@ function interpreterAux(argValue) {
                 = "<div class='see-also'><div>This content was also posted here:</div>" + chunk.split("\n").slice(1)
                     .map( line => {
                         const url = line
-                            .replace(/substack\|(\w+)/, "https://northofqueen.substack.com/p/$1")
+                            .replace(/substack\|(\w+)/, "https://perennialiris.substack.com/p/$1")
                             .replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1");
                         return `<div><a href="${ url }" target="_blank">${ url }</a></div>`;
                     }).join("") + "</div>";

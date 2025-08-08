@@ -85,7 +85,7 @@
         --selection-bg: #d0dfff;
         --grey-1: #131313;
         --grey-2: #222222;
-        --grey-3: #383838; /* main text */
+        --grey-3: #393939; /* main text */
         --grey-5: #585858; /* figcaption */
         --grey-8: #7a7a7a;
         --grey-9: #999999;
@@ -110,7 +110,6 @@
     }
         body.wide { --content-width: 740px; }
         body.narrow {
-            --fs-article: 17px;
             --content-width: 548px;
             --lh-article: 1.7;
         }
