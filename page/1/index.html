@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>News list</title>
+    <link rel="stylesheet" href="../../assets/main.css">
+    <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+    <style>
+    .auto-table td { border: 1px solid var(--grey-a); }
+    .col-1 { background-color: var(--grey-e); }
+    .reverse-order-button {
+        cursor: pointer;
+        padding: 1px 8px 3px;
+        border: 1px solid var(--grey-a);
+        background-color: var(--grey-f);
+        color: var(--grey-22);
+    }
+    .reverse-order-button:active { opacity: 0.8; }
+    </style>
+</head>
+<body class="wide">
+# News (international)
+
+\<div style="text-align: right"><button onclick="reverseOrder()" class="reverse-order-button">reverse order <span style="vertical-align: 2px">↑↓</span></button></div>
+
+||table
+2024-06-04 | United Kingdom --- In their general election, the opposition Labour Party won a landslide victory, resulting in a majority with 411 of 650 seats, and Labour leader Keir Starmer and the new Prime Minister.[](https://www.bbc.com/news/election/2024/uk/results)
+2024-11-05 | United States --- Donald Trump is elected US president.[](https://www.nbcnews.com/politics/2024-elections/president-results)
+2025-04-21 | Vatican City -- Pope Francis has died of heart failure, age 88.[](https://apnews.com/article/vatican-pope-francis-dead-01ca7d73c3c48d25fd1504ba076e2e2a)
+2025-04-22 | India, Pakistan --- A deadly terrorist attack in Kashmir (the disputed region that is nominally independent but effectively split between India and Pakistan) has triggered conflict between India and Pakistan. The attack took place in Pahalgam, a town in the Indian-controlled part of Kashmir, and killed 26 civilian tourists.[](https://www.reuters.com/world/india/attack-tourists-indian-kashmir-kills-26-people-injures-17-police-say-2025-04-23/)[](https://www.cnn.com/2025/04/22/asia/gunmen-open-fire-jammu-kashmir-intl/) The Indian Armed Forces blamed an Islamic terrorist group called [The Resistance Front (TRF)](https://en.wikipedia.org/wiki/The_Resistance_Front), one of several organizations like it dedicated to conquering Kashmir for Pakistan. In response, India launched missiles into Pakistan-controlled Kashmir and later into Pakistan itself (2025-05-07), saying it was targetting terrorist organizations. Pakistan alleged they were targeting civilian areas, including mosques, and retaliated. Things escalated back and forth until both nation's militaries were striking each other, causing international concern and US involvement. A ceasefire was reported on 2025-05-10. The details of this conflict are more complex than I should try to summarize here. [See the conflict's page on Wikipedia.](https://en.wikipedia.org/wiki/2025_India%E2%80%93Pakistan_conflict)
+2025-04-28 | Canada --- In their federal election, the Liberal Party of Canada maintained its status as the governing party, securing the Prime Ministership for incumbent Mark Carney. [](https://newsinteractives.cbc.ca/elections/federal/2025/results/)
+2025-05-09 | Vatican City --- A new Pope: Robert Francis Prevost, 69, to be known as Leo XIV.[](https://www.bbc.com/news/articles/c0ln80lzk7ko)
+2025-05-27 | Canada --- King Charles III delivers throne speech to open the Canadian 45th Parliament.[](https://www.cbc.ca/news/politics/king-charles-delivers-throne-speech-1.7544242)[](https://www.youtube.com/watch?v=NLITlkmyqRs)
+2025-06-09 | Greta Thunberg was part of the "Gaza Freedom Flotilla", a fleet of ships that tried to sail into Gaza.[](https://www.reuters.com/world/middle-east/freedom-flotilla-coalition-says-alarm-sounded-its-gaza-bound-ship-2025-06-08/) The Israeli military intercepted them. Thunberg and others were put on flights back to Europe.[](https://www.bbc.com/news/articles/c5y264x3nnno)
+2025-06-12 | Israel launches dozens of preëmptive strikes against Iran, targetting military instalments and nuclear facilities. An Israeli military official said Iran was on the verge of developing nuclear weapons within days, meaning the attack was urgent and couldn't be delayed any longer. Israel declared a state of emergency, closing major airports, and will continue their assault for several days, or however long is necessary for the threat to be neutralized. In addition to launching air strikes, the Mossad (Israel's intelligence agency) has activated various covert operations inside Iran. The United States reportedly had no involvement.[](https://abcnews.go.com/International/story?id=122776202)[](https://www.theguardian.com/world/2025/jun/13/israel-strikes-iran-what-we-know-so-far)[](https://www.reuters.com/world/middle-east/israel-says-it-strikes-iran-amid-nuclear-tensions-2025-06-13/)
+
+<script src="../../assets/layout.js"></script>
+<script>
+function reverseOrder() {
+    let table = document.getElementsByTagName("tbody")[0];
+    table.innerHTML = Array.from(table.rows).reverse().map(c => `<tr>${c.innerHTML}</tr>`).join('');
+}
+window.addEventListener("load", function() {
+
+    reverseOrder();
+});
+</script>
+</body></html>
+
+
