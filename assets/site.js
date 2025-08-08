@@ -46,7 +46,7 @@ window.addEventListener("load", function() {
                     <tr>
                     <tr>
                         <td colspan="2">
-                            <span style="font-style: italic; color: var(--grey-8);">These options are saved in session storage, not cookies, so they'll be discarded when your close your browser.</span>
+                            <span class="no-select" style="font-style: italic; color: var(--grey-8);">These options are saved in session storage, not cookies, so they'll be discarded when your close your browser.</span>
                         </td>
                     </tr>
                 </table>
@@ -56,7 +56,22 @@ window.addEventListener("load", function() {
     <div class="c1 align-start">
         <div class="c2">
             <div id="article">${ document.body.innerHTML }</div>
-            <footer class="article-footer column"></footer>
+            <footer class="article-footer column">
+            <div class="about-me align-center">
+                <div><img style="border: 1px solid var(--grey-a);" src="../assets/grandchamp.png" width="100" height"100"></div>
+                <div style="padding: 8px; font-family: Georgia; line-height: 1.7;">
+                    <div style="color: var(--grey-5);">perennialiris</div>
+                    <div style="font-family: var(--ff-ui);">${
+                        interpreter(`
+                            [This Repo](https://github.com/perennialiris) |
+                            [Bluesky](https://bsky.app/profile/perennialiris.bsky.social) |
+                            [Tumblr](https://perennialiris.tumblr.com/) |
+                            [YouTube](https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA) |
+                            [Discord](https://discord.gg/fGdV7x5dk2)`)
+                    }</div>
+                </div>
+            </div>
+            </footer>
         </div>
     </div>
     <div class="page-bottom"></div>
@@ -65,7 +80,7 @@ window.addEventListener("load", function() {
         <div class="lb-wrapper center align-center"><img id="lightbox"></div>
         <div class="lb-bottom-panel center align-center"><div id="lb-caption"></div></div>
     </div>
-    <style id="custom-style"></style>`;
+    <style id="style-pref"></style>`;
 
     setBrightness();
     setBodyFont();
@@ -110,17 +125,15 @@ window.addEventListener("load", function() {
         }
     })
     
-    let brightness_select = document.getElementById("brightness-select");
-    brightness_select.addEventListener("change", function() {
-        setBrightness(brightness-select.value);
+    let brightnessSelect = document.getElementById("brightness-select");
+    brightnessSelect.addEventListener("change", function() {
+        setBrightness(brightnessSelect.value);
     });
 
-    let bodyfont_select = document.getElementById("bodyfont-select");
-    bodyfont_select.addEventListener("change", function() {
-        setBodyFont(bodyfont-select.value);
+    let bodyfontSelect = document.getElementById("bodyfont-select");
+    bodyfontSelect.addEventListener("change", function() {
+        setBodyFont(bodyfontSelect.value);
     });
-    console.log("localStorage.getItem bodyFont: " + localStorage.getItem("bodyFont"))
-    bodyfont_select.value = localStorage.getItem("bodyFont");
     
     /* ---- ---- ---- ---- ---- ---- ---- table of contents ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     if (document.body.classList.contains("toc")) {
@@ -228,6 +241,8 @@ window.addEventListener("load", function() {
     if (document.title == "") {
         document.title = "Perennial Iris";
     }
+    
+    document.body.classList.add("layout");
 })
 
 function setLightbox(action) {
@@ -278,15 +293,26 @@ function setBodyFont(bodyFont) {
         bodyFont = fonts_[0];
     }
     
-    document.getElementById("custom-style").innerHTML = bodyFont == "Georgia" ? "" : `#article { --ff-article: ${ bodyFont },sans-serif; --ff-digit: ${ bodyFont },sans-serif; --ff-h4: ${ bodyFont },sans-serif; }`;
+    document.getElementById("style-pref").innerHTML = "";
+    if (bodyFont != "Georgia") {
+        document.getElementById("style-pref").innerHTML = ` #article { font-family: ${ bodyFont },var(--ff-article); } #article h4 { font-family: ${ bodyFont },var(--ff-h4); } #article ol > li::marker, #article .digit { font-family: ${ bodyFont },var(--ff-digit); } `;
+    }
     
     select_.value = bodyFont;
     localStorage.setItem("bodyFont", bodyFont);
 }
 
-function interpreter(targetElement, externalLinks) {
-    let input = targetElement.innerHTML
-        .replace(/\n\n+/g, "\n\n")
+function interpreter(elementOrString) {
+    if (elementOrString instanceof Node) {
+        elementOrString.innerHTML = interpreterAux(elementOrString.innerHTML);
+    }
+    else {
+        return interpreterAux(elementOrString);
+    }
+}
+
+function interpreterAux(argValue) {
+    let input = argValue.replace(/\n\n+/g, "\n\n")
         .replace(/\r/g, "") /* for safety, probably no effect */
         .trim()
         .split("\n\n");
@@ -535,7 +561,7 @@ function interpreter(targetElement, externalLinks) {
         return `<p>${ chunk }</p>`;
     })
     
-    targetElement.innerHTML = input.join("");
+    return input.join("");
 }
 
 function formatting(input_string) {
@@ -575,8 +601,8 @@ function rplc(input_string) {
 
     /* curly quotes: */
     if (input_string.indexOf("'") != -1 || input_string.indexOf("\"") != -1) {
-        
         input_string = input_string
+            .replaceAll(/ '(\d{2}\D)/g, " &rsquo;$1")
             .replaceAll(/(^| |\()'/g, "$1&lsquo;")
             .replaceAll(/(\*|>|-)'(\w)/g, "$1&lsquo;$2")
             .replaceAll(/'/g, "&rsquo;")
