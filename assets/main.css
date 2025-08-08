@@ -74,6 +74,7 @@
         --fs-h3: 18px;
         --fs-h4: inherit;
         --fs-lb-caption: 16.4px;
+        --fs-footer: 14.4px;
         /* color */
         --header-bg: #000;
         --nav-bg: #212121;
@@ -110,16 +111,27 @@
     }
         body.wide { --content-width: 740px; }
         body.narrow {
-            --content-width: 548px;
+            --content-width: 620px;
             --lh-article: 1.7;
+            --fs-h1: 28px;
+            --fs-h2: 24px;
+            --fs-h3: 22px;
+            --fs-article: 18px;
+            --fs-footer: 16px;
         }
-
+        body.light.narrow {
+            --grey-2: #303030;
+            --grey-3: #404040;
+        }
         body.full-width {
             --right-offset-spacing: 1rem;
-            --content-width: 100vw;
+            --content-width: 100%;
         }
         body.full-width .c1 {
             padding-inline: 30px;
+        }
+        body.full-width .menu {
+            margin-right: 0;
         }
 
     /* default resets that I use: */
@@ -147,12 +159,15 @@
 
     html { scroll-padding-top: calc(var(--nav-height) + 30px); font-size: var(--fs-ui); scrollbar-color: #666 #ddd; }
     body:not(.layout) {
-        white-space: pre-wrap;
+        white-space: preserve-breaks;
         padding: 100px;
         font-size: 15px;
         font-family: monospace;
         line-height: 1.5;
     }
+    body:not(.layout) .main-header,
+    body:not(.layout) .ribbon,
+    body:not(.layout) .nav-wrapper { display: none; }
 
     body.layout { padding: 0; min-width: 350px; color: var(--grey-3); min-height: 100vh; line-height: var(--lh-ui); background-color: var(--white); font-family: var(--ff-ui); }
 
@@ -193,7 +208,7 @@
                     color: var(--grey-3);
                     z-index: 2;
                     margin-right: -1rem;
-                    max-width: calc(0.5 * var(--content-width));
+                    max-width: min(600px, calc(0.5 * var(--content-width)));
                 }
                     .menu table { width: 100%; padding: 4px 8px; }
                     .menu td { padding: 4px 5px; }

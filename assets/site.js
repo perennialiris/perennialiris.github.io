@@ -23,18 +23,15 @@ window.addEventListener("load", function() {
         <div class="menu-wrapper2">
             <div class="menu hidden">
                 <table>
-                    <tr>
-                        <td>Brightness:</td>
+                    <tr><td>Brightness:</td>
                         <td>
                             <select class="menu-select" id="brightness-select">
                                 <option value="light">Light</option>
                                 <option value="dark">Dark</option>
                                 <option value="darker">Darker</option>
                             </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Body font:</td>
+                    </td></tr>
+                    <tr><td>Body font:</td>
                         <td>
                             <select class="menu-select" id="bodyfont-select">
                                 <option value="Georgia">Georgia</option>
@@ -42,13 +39,19 @@ window.addEventListener("load", function() {
                                 <option value="Roboto">Roboto</option>
                                 <option value="Segoe UI">Segoe UI</option>
                             </select>
-                        </td>
-                    <tr>
-                    <tr>
-                        <td colspan="2">
-                            <span class="no-select" style="font-style: italic; color: var(--grey-8);">These options are saved in session storage, not cookies, so they'll be discarded when your close your browser.</span>
-                        </td>
-                    </tr>
+                    </td></tr>
+                    <tr><td>View mode:</td>
+                        <td>
+                            <select class="menu-select" id="viewmode-select">
+                                <option value="normal">Normal</option>
+                                <option value="full-width">Full width</option>
+                            </select>
+                    </td></tr>
+                    <tr><td colspan="2">
+                            <span class="no-select" style="font-style: italic; color: var(--grey-8);">
+                                <span>These options are saved in session storage, not cookies, so they'll be discarded when your close your browser.</span>
+                            </span>
+                    </td></tr>
                 </table>
             </div>
         </div>
@@ -62,12 +65,7 @@ window.addEventListener("load", function() {
                 <div style="padding: 8px; font-family: Georgia; line-height: 1.7;">
                     <div style="color: var(--grey-5);">perennialiris</div>
                     <div style="font-family: var(--ff-ui);">${
-                        interpreter(`
-                            [This Repo](https://github.com/perennialiris) |
-                            [Bluesky](https://bsky.app/profile/perennialiris.bsky.social) |
-                            [Tumblr](https://perennialiris.tumblr.com/) |
-                            [YouTube](https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA) |
-                            [Discord](https://discord.gg/fGdV7x5dk2)`)
+                        interpreter(`[This Repo](https://github.com/perennialiris) | [Bluesky](https://bsky.app/profile/perennialiris.bsky.social) | [Tumblr](https://perennialiris.tumblr.com/) | [YouTube](https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA) | [Discord](https://discord.gg/fGdV7x5dk2)`)
                     }</div>
                 </div>
             </div>
@@ -117,7 +115,6 @@ window.addEventListener("load", function() {
             menuToggle("close");
         }
     });
-    
     window.addEventListener("keydown", function(e) {
         if (e.key === 'Escape') {
             setLightbox("close");
@@ -125,14 +122,18 @@ window.addEventListener("load", function() {
         }
     })
     
+    /* ---------------------- setting up preferences: ---------------------- */
     let brightnessSelect = document.getElementById("brightness-select");
     brightnessSelect.addEventListener("change", function() {
         setBrightness(brightnessSelect.value);
     });
-
     let bodyfontSelect = document.getElementById("bodyfont-select");
     bodyfontSelect.addEventListener("change", function() {
         setBodyFont(bodyfontSelect.value);
+    });
+    let viewmodeSelect = document.getElementById("viewmode-select");
+    viewmodeSelect.addEventListener("change", function() {
+        setViewmode(viewmodeSelect.value);
     });
     
     /* ---- ---- ---- ---- ---- ---- ---- table of contents ---- ---- ---- ---- ---- ---- ---- ---- ---- */
@@ -269,9 +270,9 @@ function setLightbox(action) {
     }
 }
 
+/* -------------------------------- menu preference setters -------------------------------- */
 function setBrightness(brightness) {
     if (brightness == "") { brightness = localStorage.getItem("brightness"); }
-    
     let select_ = document.getElementById("brightness-select");
     let options_ = Array.from(select_.getElementsByTagName("option")).map(o => o.value);
     if (!options_.includes(brightness)) {
@@ -279,29 +280,39 @@ function setBrightness(brightness) {
     }
     options_ = options_.filter(o => o != brightness);
     document.body.classList.remove(...options_);
-    document.body.classList.add(brightness);
+    document.body.classList.add(brightness.replace(/ /g, "-"));
     select_.value = brightness;
     localStorage.setItem("brightness", brightness);
 }
-
 function setBodyFont(bodyFont) {
     if (bodyFont == "") { bodyFont = localStorage.getItem("bodyFont"); }
-    
     let select_ = document.getElementById("bodyfont-select");
     let fonts_ = Array.from(select_.getElementsByTagName("option")).map(o => o.value);
     if (!fonts_.includes(bodyFont)) {
         bodyFont = fonts_[0];
     }
-    
     document.getElementById("style-pref").innerHTML = "";
     if (bodyFont != "Georgia") {
         document.getElementById("style-pref").innerHTML = ` #article { font-family: ${ bodyFont },var(--ff-article); } #article h4 { font-family: ${ bodyFont },var(--ff-h4); } #article ol > li::marker, #article .digit { font-family: ${ bodyFont },var(--ff-digit); } `;
     }
-    
     select_.value = bodyFont;
     localStorage.setItem("bodyFont", bodyFont);
 }
+function setViewmode(viewmode) {
+    if (viewmode == "") { viewmode = localStorage.getItem("viewmode"); }
+    let select_ = document.getElementById("viewmode-select");
+    let options_ = Array.from(select_.getElementsByTagName("option")).map(o => o.value);
+    if (!options_.includes(viewmode)) {
+        viewmode = options_[0];
+    }
+    options_ = options_.filter(o => o != viewmode);
+    document.body.classList.remove(...options_);
+    document.body.classList.add(viewmode);
+    select_.value = viewmode;
+    localStorage.setItem("viewmode", viewmode);
+}
 
+/* ------------------------------- main interpreter for article content ------------------------------- */
 function interpreter(argValue) {
     if (argValue instanceof Node) {
         argValue.innerHTML = interpreter(argValue.innerHTML);
