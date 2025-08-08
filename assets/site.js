@@ -302,16 +302,11 @@ function setBodyFont(bodyFont) {
     localStorage.setItem("bodyFont", bodyFont);
 }
 
-function interpreter(elementOrString) {
-    if (elementOrString instanceof Node) {
-        elementOrString.innerHTML = interpreterAux(elementOrString.innerHTML);
+function interpreter(argValue) {
+    if (argValue instanceof Node) {
+        argValue.innerHTML = interpreter(argValue.innerHTML);
+        return;
     }
-    else {
-        return interpreterAux(elementOrString);
-    }
-}
-
-function interpreterAux(argValue) {
     let input = argValue.replace(/\n\n+/g, "\n\n")
         .replace(/\r/g, "") /* for safety, probably no effect */
         .trim()
