@@ -111,7 +111,7 @@
     }
         body.wide { --content-width: 756px; }
         body.narrow {
-            --content-width: 620px;
+            --content-width: 648px;
             --lh-article: 1.7;
             --fs-article: 16.4px;
             --fs-h1: 28px;
