@@ -36,8 +36,8 @@
 <script src="../../assets/layout.js"></script>
 <script>
 function reverseOrder() {
-    let table = document.getElementsByTagName("tbody")[0];
-    table.innerHTML = Array.from(table.rows).reverse().map(c => `<tr>${c.innerHTML}</tr>`).join('');
+    let table = document.querySelector(".auto-table tbody");
+    table.innerHTML = Array.from(table.rows).reverse().map(c => `<tr>${c.innerHTML}</tr>`).join("");
 }
 window.addEventListener("load", function() {
 
@@ -45,5 +45,4 @@ window.addEventListener("load", function() {
 });
 </script>
 </body></html>
-
 

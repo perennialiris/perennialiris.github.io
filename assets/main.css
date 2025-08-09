@@ -36,7 +36,7 @@
         --nav-height: 39px;
         --main-gap: 46px;
         --toc-width: 210px;
-        --content-width: 648px;
+        --content-width: 640px;
         --page-bottom-height: 126px;
         --hamburger-size: 24px;
         --float-image-width: 200px;
@@ -92,7 +92,7 @@
         --grey-9: #999999;
         --grey-a: #aaaaaa; /* borders, hr */
         --grey-c: #cccccc;
-        --grey-e: #e5e5e5;
+        --grey-e: #eaeaea;
         --grey-f: #f2f2f2; /* code, quote, figure bg color */
         --white: #ffffff;
         /* line-height */
@@ -113,11 +113,11 @@
         body.narrow {
             --content-width: 620px;
             --lh-article: 1.7;
-            --fs-article: 17px;
+            --fs-article: 16.4px;
             --fs-h1: 28px;
             --fs-h2: 24px;
             --fs-h3: 22px;
-            --fs-h3: 17px;
+            --fs-h4: 17px;
             --fs-footer: 16px;
         }
         body.light.narrow {
@@ -177,7 +177,7 @@
         .ribbon { background-color: var(--header-bg); height: var(--ribbon-height); background-image: url(swirl.png); background-repeat: repeat-x; background-position: center bottom; }
         .nav-wrapper { font-family: var(--ff-nav); background-color: var(--nav-bg); color: #606060; position: sticky; top: -1px; height: var(--nav-height); z-index: 2; }
             .main-nav { max-width: var(--content-width); padding: 0 1rem; margin: 0 auto; height: var(--nav-height);  }
-                .main-nav > div { gap: 10px; }
+                .main-nav .align-center { gap: 10px; }
                 #page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; padding-right: 10px; }
                 #to-top-button { opacity: 0; pointer-events: none; transition: opacity 1s; }
                 .sticky-active #to-top-button { cursor: pointer; opacity: 1; pointer-events: auto; }
@@ -271,7 +271,7 @@
                     line-height: var(--lh-article-heading);
                     clear: both;
                     color: var(--grey-2);
-                    margin-block: 1.1em 1rem;
+                    margin-top: 1.1em;
                 }
                 #article h1 { font-family: var(--ff-h1); font-size: var(--fs-h1); }
                 #article h2 { font-family: var(--ff-h2); font-size: var(--fs-h2); }
@@ -280,11 +280,17 @@
 
                 #article p b,
                 #article h4 { color: var(--grey-2); letter-spacing: var(--ls-article-bold); }
+                #article p.drop-cap::first-letter {
+                    font-size: 3em;
+                    float: left;
+                    padding: 0.15em 0.2em 0.1em
+                }
 
                 #article sup { vertical-align: super; line-height: 1; font-size: var(--fs-cite); }
 
                 #article a { color: var(--link-color); }
-                #article a:not(.citeref) { text-underline-offset: 3px; border-bottom: 1px dotted currentcolor; }
+                #article p a:not(.citeref),
+                #article li a:not(.citeref) { text-underline-offset: 3px; border-bottom: 1px dotted currentcolor; }
                 #article a:not(.citeref):hover { border-bottom: none; }
                 #article a.section-link::before { content: "["; }
                 #article a.section-link::after { content: "]"; }
@@ -360,12 +366,12 @@
 
             .article-footer {
                 color: var(--grey-9);
-                margin-top: 25px;
                 line-height: var(--lh-article-footer);
-                gap: 25px;
+                margin-top: 30px;
             }
-                .about-me a { font-family: var(--ff-ui); }
-                
+            .article-footer > div + div { margin-top: 30px; }
+
+            .plugs a { color: var(--grey-8); }
 
         body.lightbox { overflow: hidden; }
         .lightbox .lb-container { display: flex; }

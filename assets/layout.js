@@ -4,7 +4,7 @@
 window.addEventListener("load", function() {
     document.body.innerHTML =
     `<header class="main-header">
-        <div class="header-gradient center align-center no-select">
+        <div class="header-gradient">
         </div>
     </header>
     <div class="ribbon"></div>
@@ -40,7 +40,7 @@ window.addEventListener("load", function() {
                                 <option value="Segoe UI">Segoe UI</option>
                             </select>
                     </td></tr>
-                    <tr><td>View mode:</td>
+                    <tr><td>Page span:</td>
                         <td>
                             <select class="menu-select" id="viewmode-select">
                                 <option value="normal">Normal</option>
@@ -59,13 +59,20 @@ window.addEventListener("load", function() {
     <div class="c1 align-start">
         <div class="c2">
             <div id="article">${ document.body.innerHTML }</div>
-            <footer class="article-footer column">
-            <div class="about-me align-center">
-                <div><img style="border: 1px solid var(--grey-a);" src="../../assets/grandchamp.png" width="100" height"100"></div>
-                <div style="padding: 8px 8px 13px; font-family: Georgia;">
-                    ${ interpreter(`<span style="color: var(--grey-5);">perennialiris</span>\n\n[This Repo](https://github.com/perennialiris/perennialiris.github.io) | [Bluesky](https://bsky.app/profile/perennialiris.bsky.social) | [Tumblr](https://perennialiris.tumblr.com/) | [YouTube](https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA) | [Discord](https://discord.gg/fGdV7x5dk2)`) }
+            <footer class="article-footer">
+                <div class="align-center">
+                    <img style="margin-right: 10px; border: 1px solid var(--grey-a);" src="../../assets/grandchamp.png" width="100" height"100">
+                    <div>
+                        <div style="color: var(--grey-5); font-family: var(--ff-article);">@perennialiris</div>
+                        <div class="plugs">
+                            <a href="https://github.com/perennialiris/perennialiris.github.io">This Repo</a> |
+                            <a href="https://bsky.app/profile/perennialiris.bsky.social">Bluesky</a> |
+                            <a href="https://perennialiris.tumblr.com/">Tumblr</a> |
+                            <a href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA">YouTube</a> |
+                            <a href="https://discord.gg/fGdV7x5dk2">Discord</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
             </footer>
         </div>
     </div>
@@ -269,7 +276,7 @@ function setLightbox(action) {
 
 /* -------------------------------- menu preference setters -------------------------------- */
 function setBrightness(brightness) {
-    if (brightness == "") { brightness = localStorage.getItem("brightness"); }
+    if (brightness == "" || brightness == null) { brightness = localStorage.getItem("brightness"); }
     let select_ = document.getElementById("brightness-select");
     let options_ = Array.from(select_.getElementsByTagName("option")).map(o => o.value);
     if (!options_.includes(brightness)) {
@@ -282,7 +289,7 @@ function setBrightness(brightness) {
     localStorage.setItem("brightness", brightness);
 }
 function setBodyFont(bodyFont) {
-    if (bodyFont == "") { bodyFont = localStorage.getItem("bodyFont"); }
+    if (bodyFont == "" || bodyFont == null) { bodyFont = localStorage.getItem("bodyFont"); }
     let select_ = document.getElementById("bodyfont-select");
     let fonts_ = Array.from(select_.getElementsByTagName("option")).map(o => o.value);
     if (!fonts_.includes(bodyFont)) {
@@ -296,7 +303,7 @@ function setBodyFont(bodyFont) {
     localStorage.setItem("bodyFont", bodyFont);
 }
 function setViewmode(viewmode) {
-    if (viewmode == "") { viewmode = localStorage.getItem("viewmode"); }
+    if (viewmode == "" || viewmode == null) { viewmode = localStorage.getItem("viewmode"); }
     let select_ = document.getElementById("viewmode-select");
     let options_ = Array.from(select_.getElementsByTagName("option")).map(o => o.value);
     if (!options_.includes(viewmode)) {
@@ -366,7 +373,7 @@ function interpreter(argValue) {
                 
                 return `<figure><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }">${ figCaption }</figure>`;
             });
-            return `<div class="image-float">${ lines.join("") }</div>`;
+            return `<div class="image-float column">${ lines.join("") }</div>`;
         }
         
         if (chunk.startsWith("||image-grid")) {
@@ -420,12 +427,21 @@ function interpreter(argValue) {
                     .replaceAll("\n", "<br>") }</code>`;
         });
         
-        let small = "";
+        
+        let pStyle = [];
+        
         if (chunk.startsWith("^")) {
-            chunk = chunk.slice(1).trim();
-            small = "small";
+            chunk = chunk.slice(1);
+            pStyle.push("small");
+        } else if (firstParagraph) {
+            pStyle.push("first-paragraph")
         }
-
+        
+        if (chunk.startsWith("$")) {
+            chunk = chunk.slice(1);
+            pStyle.push("drop-cap");
+        }
+        
         /* ------------------------------------- links ------------------------------------- */
         /*  \[(  [^\]]*  )[^\\]?\]\((  [^\s]+?[^\\]  )\)
             [text to be displayed](https://perennialiris.github.io/)
@@ -462,15 +478,18 @@ function interpreter(argValue) {
 
         /* ------------------------------------- table ------------------------------------- */
         if (chunk.startsWith("||table")) {
-            let rows = chunk.split("\n").slice(1);
+            let rows = chunk.split("\n");
+            let homeRow = rows.shift().substring("||table".length).trim();
+            let tableWidth = 1;
             for (let row = 0; row < rows.length; row += 1) {
                 let cells = rows[row].split("|");
                 for (let cell = 0; cell < cells.length; cell += 1) {
                     cells[cell] = `<td class="col-${cell + 1}">${ formatting(cells[cell].trim()) }</td>`;
+                    if (cell + 1 > tableWidth) { tableWidth = cell + 1; }
                 }
                 rows[row] = `<tr class="row-${row + 1}">${ cells.join("") }</tr>`;
             }
-            return `<table class="auto-table auto-table-${tableNum++}"><tbody>${rows.join("")}</tbody></table>`;
+            return `<table class="auto-table auto-table-${tableNum++}">${ (homeRow.length > 0) ? `<thead><th colspan=${ tableWidth }>${ homeRow }</th></thead>` : "" }<tbody>${rows.join("")}</tbody></table>`;
         }
 
         /* ---------------------------------- blockquote ---------------------------------- */
@@ -480,7 +499,7 @@ function interpreter(argValue) {
                     return `<p class="attribution">${line}</p>`;
                 }
                 if (line.startsWith("^")) {
-                    return `<div class="small">${line.substring(1)}</div>`;
+                    return `<div class="small">${ line.substring(1) }</div>`;
                 }
                 return `<p>${line}</p>`;
             })
@@ -517,8 +536,8 @@ function interpreter(argValue) {
                 list += ` start="${startNumber}"`;
             }
             list += `>${lines.join("")}</${listTag}>`;
-            if (small) {
-                list = `<div class="small">${list}</div>`;
+            if (pStyle.includes("small")) {
+                list = `<div class="small">${ list }</div>`;
             }
             return list;
         }
@@ -553,14 +572,13 @@ function interpreter(argValue) {
         
         chunk = formatting(chunk);
         
-        if (small) {
-            return `<div class='small'>${ chunk.replaceAll("\n", "<br>") }</div>`;
-        }
-        if (firstParagraph) {
-            firstParagraph = false;
-            return `<p class='first-paragraph'>${ chunk }</p>`;
+        if (pStyle.includes("small")) {
+            chunk = chunk.replaceAll("\n", "<br>");
         }
         
+        if (pStyle.length > 0) {
+            return `<p class="${ pStyle.join(' ') }">${ chunk }</p>`;
+        }
         return `<p>${ chunk }</p>`;
     })
     

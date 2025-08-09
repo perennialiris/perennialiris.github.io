@@ -131,7 +131,7 @@
 <script src="../../assets/layout.js"></script>
 <script>
 function reverseOrder() {
-    let table = document.getElementsByTagName("tbody")[0];
+    let table = document.querySelector(".auto-table tbody");
     table.innerHTML = Array.from(table.rows).reverse().map(c => `<tr>${c.innerHTML}</tr>`).join('');
 }
 window.addEventListener("load", function() {
