@@ -109,7 +109,7 @@
         --ls-article-bold: -0.24px;
         --ls-citeref: -0.5px;
     }
-        body.wide { --content-width: 740px; }
+        body.wide { --content-width: 756px; }
         body.narrow {
             --content-width: 620px;
             --lh-article: 1.7;

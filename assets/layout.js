@@ -40,13 +40,6 @@ window.addEventListener("load", function() {
                                 <option value="Segoe UI">Segoe UI</option>
                             </select>
                     </td></tr>
-                    <tr><td>Page span:</td>
-                        <td>
-                            <select class="menu-select" id="viewmode-select">
-                                <option value="normal">Normal</option>
-                                <option value="full-width">Full width</option>
-                            </select>
-                    </td></tr>
                     <tr><td colspan="2">
                             <span class="no-select" style="font-style: italic; color: var(--grey-8);">
                                 <span>These options are saved in session storage, not cookies, so they'll be discarded when your close your browser.</span>
@@ -134,10 +127,6 @@ window.addEventListener("load", function() {
     let bodyfontSelect = document.getElementById("bodyfont-select");
     bodyfontSelect.addEventListener("change", function() {
         setBodyFont(bodyfontSelect.value);
-    });
-    let viewmodeSelect = document.getElementById("viewmode-select");
-    viewmodeSelect.addEventListener("change", function() {
-        setViewmode(viewmodeSelect.value);
     });
     
     /* ---- ---- ---- ---- ---- ---- ---- table of contents ---- ---- ---- ---- ---- ---- ---- ---- ---- */
@@ -301,19 +290,6 @@ function setBodyFont(bodyFont) {
     }
     select_.value = bodyFont;
     localStorage.setItem("bodyFont", bodyFont);
-}
-function setViewmode(viewmode) {
-    if (viewmode == "" || viewmode == null) { viewmode = localStorage.getItem("viewmode"); }
-    let select_ = document.getElementById("viewmode-select");
-    let options_ = Array.from(select_.getElementsByTagName("option")).map(o => o.value);
-    if (!options_.includes(viewmode)) {
-        viewmode = options_[0];
-    }
-    options_ = options_.filter(o => o != viewmode);
-    document.body.classList.remove(...options_);
-    document.body.classList.add(viewmode);
-    select_.value = viewmode;
-    localStorage.setItem("viewmode", viewmode);
 }
 
 /* ------------------------------- main interpreter for article content ------------------------------- */
