@@ -65,7 +65,7 @@
         --ff-cite-table: Verdana, Tahoma, var(--ff-monospace);
         /* font-size */
         --fs-ui: 14px;
-        --fs-first-heading: 3em;
+        --fs-first-heading: 30px;
         --fs-article: 15.4px;
         --fs-small: 14.4px;
         --fs-cite: 11px;
@@ -323,7 +323,7 @@
             #article code { background-color: #ececee; vertical-align: 1px; line-height: 1; padding: 0 1px; font-family: var(--ff-monospace); }
             #article .codeblock { background-color: var(--grey-f); white-space: pre-wrap; font-family: var(--ff-monospace); padding: 6px 10px; }
 
-            #article blockquote { line-height: var(--lh-blockquote); margin-inline: 1px; padding: 15px 18px; border-left: 3px solid var(--grey-a); background-color: var(--grey-f); border-radius: 4px 0 0 4px; }
+            #article blockquote { line-height: var(--lh-blockquote); margin-inline: 1px; padding: 15px 18px; border-left: 3px solid var(--grey-a); background-color: var(--grey-f); border-radius: 2px 0 0 2px; }
                 #article blockquote > :nth-child(n+2) { margin-top: 0.5em; }
                 #article blockquote .attribution { text-align: right; color: var(--grey-8); }
 

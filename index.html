@@ -11,22 +11,18 @@
         display: none !important;
     }
     .auto-table a { color: inherit !important; }
-    .auto-table .col-2 {
-        color: var(--grey-9) !important;
-        padding: 5px 16px 4px !important;
-    }
+    .auto-table .col-2 { color: var(--grey-9) !important; }
     .auto-table a {
         text-decoration: none !important;
         border-bottom: none !important;
     }
     .auto-table a:hover {
         text-decoration: underline !important;
-        text-underline-offset: 4px !important;
         color: var(--link-color) !important;
     }
     .heading span { color: #5a53ac !important; }
-    .dark .heading span { color: #5c55a8 !important; }
-    .darker .heading span { color: #433e86 !important; }
+    .dark .heading span { color: #656199 !important; }
+    .darker .heading span { color: #39356a !important; }
     
     </style>
 </head>
@@ -59,14 +55,12 @@
 [The trans prison stats argument](page/9/index.html)    | 2024-10-19
 [Every movie I've ever seen](page/8/index.html)
 
-
-
 <div id="index"></div>
 <script src="assets/layout.js"></script>
 <script>
 
 window.onload = function() {
-    document.getElementById("page-name-display").innerHTML = "Front, page list";
+    document.getElementById("page-name-display").innerHTML = "Page directory";
 
     let table = document.querySelector(".auto-table tbody");
     let rows = Array.from(table.rows);
