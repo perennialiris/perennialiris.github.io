@@ -39,7 +39,8 @@
 [Canadian news](page/3/index.html)
 [Sex, gender, & transsexuals](page/4/index.html)
 [Politics fundamentals](page/5/index.html)
-[Israel–Palestine](page/6/index.html)
+[Israel–Palestine](page/6/index.html)                   | 2025-07-27
+[The Trump appeal](page/18/index.html)                  | 2024-12-03
 [Pierre Poilievre](page/27/index.html)                  | 2025-03-15
 [Trump and Russia](page/26/index.html)                  | 2025-03-06
 [Ilhan Omar and Somalia](page/25/index.html)            | 2025-02-12
@@ -49,34 +50,43 @@
 [A beauty holding a bird](page/21/index.html)           | 2024-12-17
 [Mark Robinson](page/20/index.html)                     | 2024-12-15
 [Dehumanization](page/7/index.html)                     | 2024-12-12
-[The Trump appeal](page/18/index.html)                  | 2024-12-03
 [The standard relationship model](page/19/index.html)   | 2024-12-08
-[The default politician](page/14/index.html)                         | 2024-11-26
+[The default politician](page/14/index.html)            | 2024-11-26
 [Fetishism & politics](page/13/index.html)              | 2024-11-14
 [Types of masculinity](page/12/index.html)              | 2024-11-08
 [My anime reviews](page/11/index.html)                  | 2024-11-02
-[Poor things (2023 film)](page/10/index.html)            | 2024-10-31
-[The trans prison stats argument](page/9/index.html)   | 2024-10-19
+[Poor things (2023 film)](page/10/index.html)           | 2024-10-31
+[The trans prison stats argument](page/9/index.html)    | 2024-10-19
 [Every movie I've ever seen](page/8/index.html)
+
 
 
 <div id="index"></div>
 <script src="assets/layout.js"></script>
 <script>
-{
-    let tTry = 0;
-    function t() {
-        let p = document.getElementById("page-name-display");
-        let h = document.getElementById("homelink");
-        tTry += 0;
-        if (p && h) {
-            p.innerHTML = "Front, page list";
-            h.href = "";
+
+window.onload = function() {
+    document.getElementById("page-name-display").innerHTML = "Front, page list";
+
+    let table = document.querySelector(".auto-table tbody");
+    let rows = Array.from(table.rows);
+    
+    rows.sort((a, b) => {
+        
+        if (a.cells.length >= 2) {
+            a = parseInt(a.cells[1].textContent.replace(/\D/g, ""));
         }
-        else { if (tTry < 50) { setTimeout(t, 50); } }
-    }
+        
+        if (b.cells.length >= 2) {
+            b = parseInt(b.cells[1].textContent.replace(/\D/g, ""));
+        }
+        
+        return b - a;
+    });
+    rows.forEach(row => table.appendChild(row));
+
 }
-window.onload = t;
+
 </script>
 </body></html>
 

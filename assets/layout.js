@@ -1,13 +1,11 @@
 
 "use strict"
 
+const html = document.documentElement;
+
 window.addEventListener("load", function() {
     document.body.innerHTML =
-    `<header class="main-header">
-        <div class="header-gradient">
-        </div>
-    </header>
-    <div class="ribbon"></div>
+    `<header class="main-header"></header>
     <nav class="nav-wrapper">
         <div class="main-nav stretch space-between">
             <div class="align-center">
@@ -19,34 +17,28 @@ window.addEventListener("load", function() {
             </div>
         </div>
     </nav>
-    <div class="m1 center">
-        <div class="m2">
-            <div class="menu hidden">
-                <table>
+    <div class="menu-line center">
+        <div class="m-align">
+            <table class="menu hidden"><tbody>
                     <tr><td>Brightness:</td>
-                        <td>
-                            <select class="menu-select" id="brightness-select">
+                        <td><select class="menu-select" id="brightness-select">
                                 <option value="light">Light</option>
                                 <option value="dark">Dark</option>
                                 <option value="darker">Darker</option>
                             </select>
                     </td></tr>
                     <tr><td>Body font:</td>
-                        <td>
-                            <select class="menu-select" id="bodyfont-select">
+                        <td><select class="menu-select" id="bodyfont-select">
                                 <option value="Georgia">Georgia</option>
                                 <option value="Palatino Linotype">Palatino Linotype</option>
                                 <option value="Roboto">Roboto</option>
                                 <option value="Segoe UI">Segoe UI</option>
+                                <option value="Trebuchet MS">Trebuchet MS</option>
                             </select>
                     </td></tr>
-                    <tr><td colspan="2">
-                            <span class="no-select" style="font-style: italic; color: var(--grey-8);">
-                                <span>These options are saved in session storage, not cookies, so they'll be discarded when your close your browser.</span>
-                            </span>
-                    </td></tr>
-                </table>
-            </div>
+                    <tr><td colspan="2"><span class="no-select" style="font-style: italic; color: var(--grey-8);"><span>These options are saved in session storage, not cookies, so they'll be discarded when your close your browser.</span></span></td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="c1 align-start">
@@ -86,7 +78,7 @@ window.addEventListener("load", function() {
     Array.from(article_.getElementsByTagName("p")).forEach(e => wrapDigits(e));
     Array.from(article_.getElementsByTagName("li")).forEach(e => wrapDigits(e));
     
-    document.querySelector(".lb-container").addEventListener("click", () => { setLightbox("close") });
+    document.querySelector(".lb-wrapper").addEventListener("click", () => { setLightbox("close") });
     
     /* ---------------------- setting up menu: ---------------------- */
     
@@ -130,7 +122,7 @@ window.addEventListener("load", function() {
     });
     
     /* ---- ---- ---- ---- ---- ---- ---- table of contents ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    if (document.body.classList.contains("toc")) {
+    if (document.documentElement.classList.contains("toc")) {
         const toc = document.querySelector(".c1").insertBefore(document.createElement("nav"), document.querySelector(".c2"));
         toc.id = "toc";
         const headings = Array.from(document.getElementById("article").getElementsByClassName("toc-include"));
@@ -197,7 +189,7 @@ window.addEventListener("load", function() {
             tocCheck();
         }
         function tocCheck() {
-            document.body.classList.toggle("toc", parseInt(window.innerWidth) > pageCheckWidth);
+            document.documentElement.classList.toggle("toc", parseInt(window.innerWidth) > pageCheckWidth);
         }
         window.addEventListener("resize", tocCheckAttempt);
         window.addEventListener("scroll", tocUpdateAttempt);
@@ -236,7 +228,7 @@ window.addEventListener("load", function() {
         document.title = "Perennial Iris";
     }
     
-    document.body.classList.add("layout");
+    document.documentElement.classList.add("layout");
 })
 
 function setLightbox(action) {
@@ -247,12 +239,12 @@ function setLightbox(action) {
     if (action == "close") {
         lightbox.src = "";
         lightbox.alt = "";
-        document.body.classList.remove("lightbox");
+        document.documentElement.classList.remove("lightbox");
     }
     else {
         lightbox.src = action.src;
         lightbox.alt = action.alt;
-        document.body.classList.add("lightbox");
+        document.documentElement.classList.add("lightbox");
         
         lbTopLeft.innerHTML = `<a href="${ action.src }">${ action.src.split("/").slice(-1) }</a>`;
         if (action.alt == "") {
@@ -272,8 +264,8 @@ function setBrightness(brightness) {
         brightness = options_[0];
     }
     options_ = options_.filter(o => o != brightness);
-    document.body.classList.remove(...options_);
-    document.body.classList.add(brightness.replace(/ /g, "-"));
+    document.documentElement.classList.remove(...options_);
+    document.documentElement.classList.add(brightness.replace(/ /g, "-"));
     select_.value = brightness;
     localStorage.setItem("brightness", brightness);
 }
@@ -403,14 +395,15 @@ function interpreter(argValue) {
                     .replaceAll("\n", "<br>") }</code>`;
         });
         
-        
         let pStyle = [];
         
         if (chunk.startsWith("^")) {
             chunk = chunk.slice(1);
             pStyle.push("small");
-        } else if (firstParagraph) {
-            pStyle.push("first-paragraph")
+        } /*  first-paragraph = first that's not small */
+        else if (firstParagraph) {
+            pStyle.push("first-paragraph");
+            firstParagraph = false;
         }
         
         if (chunk.startsWith("$")) {
@@ -457,13 +450,13 @@ function interpreter(argValue) {
             let rows = chunk.split("\n");
             let homeRow = rows.shift().substring("||table".length).trim();
             let tableWidth = 1;
-            for (let row = 0; row < rows.length; row += 1) {
-                let cells = rows[row].split("|");
-                for (let cell = 0; cell < cells.length; cell += 1) {
-                    cells[cell] = `<td class="col-${cell + 1}">${ formatting(cells[cell].trim()) }</td>`;
-                    if (cell + 1 > tableWidth) { tableWidth = cell + 1; }
+            for (let r = 0; r < rows.length; r += 1) {
+                let cells = rows[r].split("|");
+                for (let c = 0; c < cells.length; c += 1) {
+                    cells[c] = `<td class="col-${c + 1}">${ formatting(cells[c].trim()) }</td>`;
+                    if (c + 1 > tableWidth) { tableWidth = c + 1; }
                 }
-                rows[row] = `<tr class="row-${row + 1}">${ cells.join("") }</tr>`;
+                rows[r] = `<tr>${ cells.join("") }</tr>`;
             }
             return `<table class="auto-table auto-table-${tableNum++}">${ (homeRow.length > 0) ? `<thead><th colspan=${ tableWidth }>${ homeRow }</th></thead>` : "" }<tbody>${rows.join("")}</tbody></table>`;
         }
