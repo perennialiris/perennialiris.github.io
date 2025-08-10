@@ -47,7 +47,7 @@ window.addEventListener("load", function() {
             <footer class="article-footer">
                 <div class="align-center">
                     <img style="margin-right: 10px; border: 1px solid var(--grey-a);" src="../../assets/grandchamp.png" width="100" height"100">
-                    <div>
+                    <div style="padding-bottom: 5px;">
                         <div style="color: var(--grey-5); font-family: var(--ff-article);">@perennialiris</div>
                         <div class="plugs">
                             <a href="https://github.com/perennialiris/perennialiris.github.io">This Repo</a> |
