@@ -154,11 +154,9 @@
         white-space: preserve-breaks;
         padding: 100px;
         font-size: 15px;
-        font-family: monospace;
         line-height: 1.5;
     }
     html:not(.layout) .main-header,
-    html:not(.layout) .ribbon,
     html:not(.layout) .nav-wrapper { display: none; }
     
     .nav-wrapper, .menu-line { z-index: 2; }
