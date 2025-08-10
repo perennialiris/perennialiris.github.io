@@ -12,8 +12,8 @@ window.addEventListener("load", function() {
                 <div id="page-name-display"><div><a href="../../index.html">Index</a> &#47; ${ document.title || "This Page" }</div></div>
             </div>
             <div class="align-center">
-                <div id="to-top-button">Jump to Top</div>
-                <button class="hamburger icon"></button>
+                <a id="to-top-button">Jump to Top</a>
+                <a class="hamburger icon"></a>
             </div>
         </div>
     </nav>
@@ -47,7 +47,7 @@ window.addEventListener("load", function() {
             <footer class="article-footer">
                 <div class="align-center">
                     <img style="margin-right: 10px; border: 1px solid var(--grey-a);" src="../../assets/grandchamp.png" width="100" height"100">
-                    <div style="padding-bottom: 5px;">
+                    <div style="padding-bottom: 6px;">
                         <div style="color: var(--grey-5); font-family: var(--ff-article);">@perennialiris</div>
                         <div class="plugs">
                             <a href="https://github.com/perennialiris/perennialiris.github.io">This Repo</a> |

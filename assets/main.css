@@ -173,11 +173,9 @@
             #page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; padding-right: 10px; }
             #to-top-button { opacity: 0; pointer-events: none; transition: opacity 1s; }
             .sticky-active #to-top-button { cursor: pointer; opacity: 1; pointer-events: auto; }
-            .sticky-active #to-top-button:hover { color: #808080; }
-            .main-nav a:hover { color: #808080; }
+            .main-nav a:hover { filter: brightness(1.25); }
 
             .hamburger { cursor: pointer; opacity: 0.6; height: var(--hamburger-size); width: calc(1.25 * var(--hamburger-size)); background-image: url(icon-hamburger.png); border: none; background-color: #0000; }
-            .hamburger:hover { opacity: 0.8; }
 
     .toc .m-align {
         max-width: calc(var(--content-width) + var(--main-gap) + var(--toc-width));
