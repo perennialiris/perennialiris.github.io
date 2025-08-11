@@ -6,10 +6,10 @@ const html = document.documentElement;
 window.addEventListener("load", function() {
     document.body.innerHTML =
     `<header class="main-header"></header>
-    <nav class="nav-wrapper">
+    <nav class="nav-wrapper no-select">
         <div class="main-nav stretch space-between">
             <div class="align-center">
-                <div id="page-name-display"><div><a href="../../index.html">Index</a> &#47; ${ document.title || "This Page" }</div></div>
+                <div class="page-name-display text-select"><div><a href="../../index.html">Index</a> &#47; ${ document.title || "This Page" }</div></div>
             </div>
             <div class="align-center">
                 <a id="to-top-button">Jump to Top</a>
@@ -42,8 +42,9 @@ window.addEventListener("load", function() {
         </div>
     </div>
     <div class="c1 align-start">
-        <div class="c2">
-            <div id="article">${ document.body.innerHTML }</div>
+        <nav class="table-of-contents"></nav>
+        <main class="c2">
+            <article id="article">${ document.body.innerHTML }</article>
             <footer class="article-footer">
                 <div class="align-center">
                     <img style="margin-right: 10px; border: 1px solid var(--grey-a);" src="../../assets/grandchamp.png" width="100" height"100">
@@ -59,7 +60,7 @@ window.addEventListener("load", function() {
                     </div>
                 </div>
             </footer>
-        </div>
+        </main>
     </div>
     <div class="page-bottom"></div>
     <div class="lb-container stretch column space-between">
@@ -69,6 +70,7 @@ window.addEventListener("load", function() {
     </div>
     <style id="style-pref"></style>`;
 
+    document.documentElement.classList.add("layout");
     setBrightness();
     setBodyFont();
     
@@ -86,16 +88,14 @@ window.addEventListener("load", function() {
     const menu = document.querySelector(".menu");
     
     function menuToggle(option) {
-        if (option == "open")
-            menu.classList.remove("hidden")
-        else if (option == "close")
-            menu.classList.add("hidden")
+        if (option == "close") {
+            menu.classList.add("hidden");
+        }
+        else if (option == "open") {
+            menu.classList.remove("hidden");
+        }
         else {
-            if (menu.classList.contains("hidden")) {
-                menu.classList.remove("hidden");
-            } else {
-                menu.classList.add("hidden");
-            }
+            menu.classList.toggle("hidden", !menu.classList.contains("hidden"));
         }
     }
     hamburger.addEventListener("click", menuToggle);
@@ -105,13 +105,13 @@ window.addEventListener("load", function() {
         }
     });
     window.addEventListener("keydown", function(e) {
-        if (e.key === 'Escape') {
-            setLightbox("close");
+        if (e.key === "Escape") {
             menuToggle("close");
+            setLightbox("close");
         }
-    })
-    
-    /* ---------------------- setting up preferences: ---------------------- */
+    });
+
+    /* ---- ---- ---- ---- ---- ---- ---- setting up menu items: ---- ---- ---- ---- ---- ---- ---- */
     let brightnessSelect = document.getElementById("brightness-select");
     brightnessSelect.addEventListener("change", function() {
         setBrightness(brightnessSelect.value);
@@ -120,28 +120,27 @@ window.addEventListener("load", function() {
     bodyfontSelect.addEventListener("change", function() {
         setBodyFont(bodyfontSelect.value);
     });
-    
+
     /* ---- ---- ---- ---- ---- ---- ---- table of contents ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     if (document.documentElement.classList.contains("toc")) {
-        const toc = document.querySelector(".c1").insertBefore(document.createElement("nav"), document.querySelector(".c2"));
-        toc.id = "toc";
+        const toc = document.querySelector(".table-of-contents");
         const headings = Array.from(document.getElementById("article").getElementsByClassName("toc-include"));
-        toc.innerHTML = `<a class="toc-row" href="#">(Top)</a>` + headings.slice(1).map ( heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ heading.id }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
+        toc.innerHTML = `<a class="toc-row" onclick="scrollToTop()" style="cursor: pointer;">(Top)</a>` + headings.slice(1).map ( heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ heading.id }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
 
         const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
         let lastHeading = -1;
         
-        let canTocUpdate = true;
-        function tocUpdateAttempt() {
-            if (!canTocUpdate) { return; }
-            canTocUpdate = false;
+        let canTocHighlightUpdate = true;
+        function tocHighlightUpdateAttempt() {
+            if (!canTocHighlightUpdate) { return; }
+            canTocHighlightUpdate = false;
             setTimeout(() => {
-                canTocUpdate = true;
-                tocUpdate();
+                canTocHighlightUpdate = true;
+                tocHighlightUpdate();
             }, 500);
-            tocUpdate();
+            tocHighlightUpdate();
         }
-        function tocUpdate() {
+        function tocHighlightUpdate() {
             let currentHeading = -1;
             for (let i = 0; i < headings.length; i += 1) {
                 if (pageYOffset > headings[i].offsetTop - (0.5 * window.innerHeight)) {
@@ -157,15 +156,19 @@ window.addEventListener("load", function() {
                         row.classList.add("active-heading");
                         let rRect = row.getBoundingClientRect();
                         let tRect = toc.getBoundingClientRect();
-                        if (rRect.bottom > tRect.bottom) {
+                        if (rRect.bottom + 20> tRect.bottom) {
                             toc.scrollTo(
-                                { top: row.offsetTop + row.offsetHeight - toc.clientHeight, behavior: "smooth" }
+                                { top: row.offsetTop + row.offsetHeight - toc.clientHeight + 20, behavior: "smooth" }
                             );
-                        } else if (rRect.top < tRect.top) {
+                        }
+                        /* To make it also scroll up: */
+                        /*
+                        else if (rRect.top < tRect.top) {
                             toc.scrollTo(
                                 { top: row.offsetTop, behavior: "smooth" }
                             );
                         }
+                        */
                     }
                     else {
                         row.classList.remove("active-heading");
@@ -174,50 +177,83 @@ window.addEventListener("load", function() {
             }
             lastHeading = currentHeading;
         }
-        let tocWidth = window.getComputedStyle(toc).getPropertyValue("max-width").replace(/\D/g,"");
+        let tocWidth = 200;
         let articleWidth = window.getComputedStyle(article_).getPropertyValue("max-width").replace(/\D/g, "");
         let pageCheckWidth = parseInt(tocWidth) + parseInt(articleWidth) - 100;
-        
-        let canTocCheck = true;
-        function tocCheckAttempt() {
-            if (!canTocCheck) { return; }
-            canTocCheck = false;
+
+        let canTocWidthCheck = true;
+        function tocWidthCheck() {
+            if (!canTocWidthCheck) {
+                return;
+            }
+            canTocWidthCheck = false;
             setTimeout(() => {
-                canTocCheck = true;
-                tocCheck();
-            }, 500);
-            tocCheck();
-        }
-        function tocCheck() {
+                canTocWidthCheck = true;
+                document.documentElement.classList.toggle("toc", parseInt(window.innerWidth) > pageCheckWidth);
+            }, 333);
             document.documentElement.classList.toggle("toc", parseInt(window.innerWidth) > pageCheckWidth);
         }
-        window.addEventListener("resize", tocCheckAttempt);
-        window.addEventListener("scroll", tocUpdateAttempt);
-        setTimeout(() => { tocCheckAttempt(); tocUpdateAttempt(); }, 100);
-        document.getElementById("to-top-button").addEventListener("click", () => {
-            toc.scrollTo({ behavior: 'smooth', top: 0 });
-            window.scrollTo({ behavior: 'smooth', top: 0 });
-            history.replaceState(null, '', window.location.pathname + window.location.search);
-        });
-    }
-    else {
-        document.getElementById("to-top-button").addEventListener("click", () => {
-            window.scrollTo({ behavior: 'smooth', top: 0 });
-            history.replaceState(null, '', window.location.pathname + window.location.search);
-        });
-    }
-
-    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    let canNavStickyCheck = true, mainNav = document.querySelector(".main-nav");
-    function navStickyCheck() {
-        if (!canNavStickyCheck || !mainNav) { return; }
-        canNavStickyCheck = false;
-        setTimeout(() => { canNavStickyCheck = true; navStickyCheck() }, 500);
-        if (pageYOffset > 180) {
-            mainNav.classList.add("sticky-active");
+        window.addEventListener("resize", tocWidthCheck);
+        window.addEventListener("scroll", tocHighlightUpdateAttempt);
+        setTimeout(() => {
+            tocWidthCheck();
+            tocHighlightUpdateAttempt();
+        }, 100);
+        
+        /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
+        let canTocHeightCheck = true;
+        function tocHeightCheckAttempt() {
+            if (canTocHeightCheck) {
+                canTocHeightCheck = false;
+                setTimeout(() => {
+                    canTocHeightCheck = true;
+                    tocHeightCheck()
+                }, 50);
+                tocHeightCheck();
+            }
         }
-        else {
-            mainNav.classList.remove("sticky-active");
+        let tocVerticalSpace = 250;
+        function tocHeightCheck() {
+            let adjustedSpace = Math.max(127, 253 - pageYOffset);
+            /*
+                127, 280 = min and max values for #toc { height: 100vh - ___px; }
+            */
+            if (adjustedSpace != tocVerticalSpace) {
+                toc.style.height = `calc(100vh - ${ adjustedSpace }px)`;
+                tocVerticalSpace = adjustedSpace;
+            }
+        }
+        tocHeightCheckAttempt();
+        window.addEventListener("scroll", tocHeightCheckAttempt);
+        
+        let canTocFadeCheck = true;
+        function tocFadeCheck() {
+            if (canTocFadeCheck) {
+                canTocFadeCheck = false;
+                setTimeout(() => {
+                    canTocFadeCheck = true;
+                    toc.classList.toggle("hide-mask", (toc.scrollTop + 30 > toc.scrollHeight - toc.offsetHeight));
+                }, 250);
+                toc.classList.toggle("hide-mask", (toc.scrollTop + 30 > toc.scrollHeight - toc.offsetHeight));
+            }
+        }
+        toc.addEventListener("scroll", tocFadeCheck);
+        toc.addEventListener("resize", tocFadeCheck);
+    }
+    /* ---- ---- ---- ---- ---- / table of contents ---- ---- ---- ---- ---- ---- ---- */
+
+    document.getElementById("to-top-button").addEventListener("click", scrollToTop);
+    /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
+    const mainNav = document.querySelector(".main-nav");
+    let canNavStickyCheck = true;
+    function navStickyCheck() {
+        if (canNavStickyCheck) {
+            canNavStickyCheck = false;
+            setTimeout(() => {
+                canNavStickyCheck = true;
+                mainNav.classList.toggle("sticky-active", pageYOffset > 180);
+            }, 333);
+            mainNav.classList.toggle("sticky-active", pageYOffset > 180);
         }
     }
     navStickyCheck();
@@ -227,21 +263,28 @@ window.addEventListener("load", function() {
     if (document.title == "") {
         document.title = "Perennial Iris";
     }
-    
-    document.documentElement.classList.add("layout");
 })
+
+function scrollToTop() {
+    window.scrollTo({ behavior: "instant", top: 0 });
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+    let toc = document.getElementById("toc");
+    if (toc) {
+        toc.scrollTo({ behavior: "instant", top: 0 });
+    }
+}
 
 function setLightbox(action) {
     let lightbox = document.getElementById("lightbox");
-    let lbTopLeft = document.getElementById("lb-top-left");
-    let lbCaption = document.getElementById("lb-caption");
-    
     if (action == "close") {
         lightbox.src = "";
         lightbox.alt = "";
         document.documentElement.classList.remove("lightbox");
     }
     else {
+        let lbTopLeft = document.getElementById("lb-top-left");
+        let lbCaption = document.getElementById("lb-caption");
+
         lightbox.src = action.src;
         lightbox.alt = action.alt;
         document.documentElement.classList.add("lightbox");
