@@ -177,9 +177,9 @@ window.addEventListener("load", function() {
             }
             lastHeading = currentHeading;
         }
-        let tocWidth = 200;
+        let tocMinWidth = 200;
         let articleWidth = window.getComputedStyle(article_).getPropertyValue("max-width").replace(/\D/g, "");
-        let pageCheckWidth = parseInt(tocWidth) + parseInt(articleWidth) - 100;
+        let pageCheckWidth = tocMinWidth + parseInt(articleWidth) - 100;
 
         let canTocWidthCheck = true;
         function tocWidthCheck() {
@@ -440,7 +440,7 @@ function interpreter(argValue) {
         
         let pStyle = [];
         
-        if (chunk.startsWith("^")) {
+        if (chunk.startsWith(".")) {
             chunk = chunk.slice(1);
             pStyle.push("small");
         } /*  first-paragraph = first that's not small */
@@ -510,7 +510,7 @@ function interpreter(argValue) {
                 if (line.startsWith("---")) {
                     return `<p class="attribution">${line}</p>`;
                 }
-                if (line.startsWith("^")) {
+                if (line.startsWith(".")) {
                     return `<div class="small">${ line.substring(1) }</div>`;
                 }
                 return `<p>${line}</p>`;

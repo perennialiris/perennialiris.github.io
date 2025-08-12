@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html class="toc" lang="en">
+<head>
+    <title>Data structures & algorithms</title>
+    <link rel="stylesheet" href="../../assets/main.css">
+    <link rel="icon" type="image/x-icon" href="../../afavicon.ico">
+</head>
+<body>
+# Data structures & algorithms
+
+# Big-O notation
+
+Big-O notation is used to describe the time complexity of an algorithm – i.e., how many operations it may take in order to run to completion, as measured in relation to N, or the size of the data set. In the context of computer science, big-O notation usually refers to *worst-case time complexity*, but not necessarily so – the same notation *could* be used to describe average or best-case complexity. But for most algorithms, the theoretical worst-case is what we're interested in.
+
+. O stands for *order*, as the extent to which a function grows in relation to the size of its input used to be called the order of that function.  N just stands for number, which isn't always capitalized.
+
+Common big-O values and their meaning:
+
+O(1) | Runs the same number of operations no matter the size of the data (does not scale).
+O(N) | Runs once per N (linear scaling).
+O(N2) | Runs N operations N times.  Consider a loop that runs for the length of the passed array (N), in which there is another loop that also runs for the length of the array (N).  The number of operations will thus be (N)(N).<br>O(N3) would be three loops, and so on.
+O(LOG2N) | This performs operations up to the logarithm the number to which 2 must be raised to reach N.  For an array of, say, 7800 items, an O(log N) algorithm runs at most 13 times, as 13 is the lowest power of 2 that exceeds N (213 is 8192).  A common example of an O(log N) algorithm is an algorithm called binary search, which starts by scanning the whole array (N), but with each pass halves the size of the section it scans.
+O(n log n) | This does LOG2N operations N times.  The simplest case would be O(LOG2N) logic nested in a loop that runs N times.  A common example of this is a merge sort.
+O(2N)
+The inverse of O(LOG2N).  The number of operations grows exponentially as N increases.  This is horrible but can happen with recursion.  A function that determines fibonacci numbers, a common example of a recursive function, runs at O(2N).
+O(N!)
+A nightmare.
+
+
+
+
+<script src="../../assets/layout.js"></script>
+</body></html>
+
+
