@@ -3,31 +3,1196 @@
 <head>
     <title>Data structures & algorithms</title>
     <link rel="stylesheet" href="../../assets/main.css">
-    <link rel="icon" type="image/x-icon" href="../../afavicon.ico">
+    <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+    <style>
+    .info { padding: 4px 7px; background-color: var(--c-pale-green); border: 1px solid var(--grey-a); }
+    .dark .info { border-color: #5a734e; }
+    .darker .info { border-color: #132013; }
+    </style>
 </head>
 <body>
 # Data structures & algorithms
 
+These are notes I took back when I was studying software design. This was a class most people in my program found particularly difficult, so I wrote everything out very explicitly for the purpose of helping the people around me, and then at some point later I just threw it online as well.
+
+The code samples are usually in either C++ or C# because those are the languages I was working with at that time.
+
 # Big-O notation
 
-Big-O notation is used to describe the time complexity of an algorithm – i.e., how many operations it may take in order to run to completion, as measured in relation to N, or the size of the data set. In the context of computer science, big-O notation usually refers to *worst-case time complexity*, but not necessarily so – the same notation *could* be used to describe average or best-case complexity. But for most algorithms, the theoretical worst-case is what we're interested in.
+Big-O notation is used to describe the time complexity of an algorithm---i.e., how many operations it may take in order to run to completion, as measured in relation to N, or the size of the data set. In the context of computer science, big-O notation usually refers to *worst-case time complexity*, but not necessarily so---the same notation *could* be used to describe average or best-case complexity. But for most algorithms, the theoretical worst-case is what we're interested in.
 
-. O stands for *order*, as the extent to which a function grows in relation to the size of its input used to be called the order of that function.  N just stands for number, which isn't always capitalized.
+!O stands for *order*, as the extent to which a function grows in relation to the size of its input used to be called the order of that function. N just stands for number, which isn't always capitalized.
 
 Common big-O values and their meaning:
 
+||table this .col-1 { background: var(--c-pale-blue); white-space: nowrap; }
 O(1) | Runs the same number of operations no matter the size of the data (does not scale).
 O(N) | Runs once per N (linear scaling).
-O(N2) | Runs N operations N times.  Consider a loop that runs for the length of the passed array (N), in which there is another loop that also runs for the length of the array (N).  The number of operations will thus be (N)(N).<br>O(N3) would be three loops, and so on.
-O(LOG2N) | This performs operations up to the logarithm the number to which 2 must be raised to reach N.  For an array of, say, 7800 items, an O(log N) algorithm runs at most 13 times, as 13 is the lowest power of 2 that exceeds N (213 is 8192).  A common example of an O(log N) algorithm is an algorithm called binary search, which starts by scanning the whole array (N), but with each pass halves the size of the section it scans.
-O(n log n) | This does LOG2N operations N times.  The simplest case would be O(LOG2N) logic nested in a loop that runs N times.  A common example of this is a merge sort.
-O(2N)
-The inverse of O(LOG2N).  The number of operations grows exponentially as N increases.  This is horrible but can happen with recursion.  A function that determines fibonacci numbers, a common example of a recursive function, runs at O(2N).
-O(N!)
-A nightmare.
+O(N<sup>2</sup>) | Runs N operations N times. Consider a loop that runs for the length of the passed array (N), in which there is another loop that also runs for the length of the array (N). The number of operations will thus be (N)(N).<br>O(N3) would be three loops, and so on.
+O(LOG<sub>2</sub>N) | This performs operations up to the logarithm the number to which 2 must be raised to reach N. For an array of, say, 7800 items, an O(log N) algorithm runs at most 13 times, as 13 is the lowest power of 2 that exceeds N (2<sup>13</sup> is 8192). A common example of an O(log N) algorithm is an algorithm called binary search, which starts by scanning the whole array (N), but with each pass halves the size of the section it scans.
+O(n log n) | This does LOG<sub>2</sub>N operations N times. The simplest case would be O(LOG<sub>2</sub>N) logic nested in a loop that runs N times. A common example of this is a merge sort.
+O(2<sup>N</sup>) | The inverse of O(LOG<sub>2</sub>N). The number of operations grows exponentially as N increases. This is horrible but can happen with recursion. A function that determines fibonacci numbers, a common example of a recursive function, runs at O(2<sup>N</sup>).
+O(N!) | A nightmare.
+
+!As the purpose of big-O is to *briefly summarize* how an algorithm *scales* with increases to N, anything other than the most significant term (i.e. the thing that increases the fastest as N increases) can be omitted. For example, an algorithm with an order of N<sub>3</sub> + 70N<sup>2</sup> + 50 is reduced simply to O(N<sup>3</sup>).
+
+Quick visualization of common big-O values:
+
+||image-span
+big-o-graph.png
+
+The big-O values of some common algorithms:
+
+||table this { margin-inline: auto; } this .col-1 { background: var(--c-pale-blue); }
+bubble sort | O(N<sup>2</sup>)
+selection sort | O(N<sup>2</sup>)*
+insertion sort | O(N<sup>2</sup>)
+merge sort | O(n log n)*
+quick sort | O(n<sup>2</sup>)**
+linear search | O(N)
+binary search | O(log N)
+
+.\* **Merge sort** and **selection sort** have no variation in their complexity. In other words, there is technically no difference between their worst-case, average, or best-case scenarios, as they cannot possibly finish early.
+
+.\** **Quick sort** almost never performs its theoretical worst-case, and this big-O value is thus particularly misleading compared to the others listed. Its average performance is closer to O(N log N).
+
+Big-O doesn't tell us everything. Just because two algorithms have the same big-O value doesn't make them identical or equivalent. Insertion sort, selection sort, and bubble sort are each O(N2), and are therefore in a different class of algorithm (in terms of scaling) from something like merge sort, but in terms of their average performance we may still say bubble tends to be worse than selection, and selection tends to be worse than insertion. It's just their theoretical worst-case performance, and the extent to which they scale with N, that is the same.
+
+# Bitwise operations
+
+It's possible in nearly every programming language to interact with our data at the binary level. This can result in more efficient operations in some cases because your CPU can do bitwise operations faster than the equivalent decimal math, though these days the real-world applications are admittedly limited. It's mostly just neat to learn about because it gives you a better appreciation for how your code works behind the scenes.
+
+* Where it's utilized: especially operation-heavy or resource-light environments, like graphics engines or embedded systems, albeit this is often done by the engine itself and not by you as the coder.
+* If you work with the SpriteKit physics engine in Swift, you'll use bit-masking for collision checks.
+
+## Basic operators
+
+These accept 2 values and return 1 value:
+
+||table this .col-1 { background:var(--c-pale-blue); }
+`&` (AND) | Each bit of the result is a 1 only if **both** input values also had a 1 in that position.
+`\|` (OR) | Each bit of the result is a 1 if **either** of the input values had a 1 in that position.
+`^` (XOR) | Each bit of the result is a 1 if the input values have a **different** bit in that position.
+
+There's also a `NOT` operator (~), which accepts only 1 value:
+
+||table this .col-1 { background: var(--c-pale-blue); }
+`~` (NOT) | Each bit of the result is a 1 only if the input value has a 0 in that position (it *inverses* the bits).
+
+Examples of each operator in action:
+
+||table this { margin-inline: auto; font-family: var(--ff-monospace); } this .col-1 { text-align: center; background: var(--c-pale-blue); }
+(1110 & 0101) | = 0100
+(1010 \| 0111) | = 1111
+(1100 ^ 1010) | = 0110
+~100110 | = 011001
+
+#### More about the NOT operator:
+
+||codeblock c
+int a = 10 | 7;
+int b = ~a;
+
+What is the value of `b` here? `10 | 7` makes 15, so what's `~15`? The answer is -16. Why? The rule is when you flip a signed number using the bitwise `~` operator, it ends up being one less than the equivalent negative number.
+
+This is because a signed number (like the default int data-type, a 32-bit signed integer) uses the first bit to represent whether the number is positive or negative (0 and 1 respectively). The `NOT` operator (~) doesn't know that, because it doesn't see the data-type of its argument, it only sees a string of bits, ergo it indiscriminately flips the sign bit along with the others. This changes how the whole number is interpreted, because negative and positive numbers are stored in binary differently:
+
+* They represent value with 0s instead of 1s. It's as though what's being stored is "the difference between this number and the absolute smallest value the data-type can hold" (in this case, -2,147,483,648).
+* There is no 'negative zero', so instead the binary string that would have been the negative equivalent of zero (a string of all 1s) is interpreted as -1. The positive and negative values are thus misaligned by one position (i.e., the largest value of a standard integer is 2<sup>31</sup>-1, but the smallest value is just -(2<sup>31</sup>).
+
+This can be observed clearly by tracking the binary representation of an int as it crosses the zero line:
+
+||table this { margin-inline: auto; } this .col-1 { background: var(--c-pale-blue); text-align: center; }
+2 | 0000000000000000000000000000<mark>0010</mark>
+1 | 0000000000000000000000000000<mark>0001</mark>
+0 | 0000000000000000000000000000<mark>0000</mark>
+-1 | 1111111111111111111111111111<mark>1111</mark>
+-2 | 1111111111111111111111111111<mark>1110</mark>
+-3 | 1111111111111111111111111111<mark>1101</mark>
+
+Try an unsigned int instead:
+
+||codeblock c
+unsigned int a = 10 | 7;
+unsigned int b = ~a;
+
+In this case the value doesn't flip to negative---but you might be expecting a low output, because `a` is only storing a value of 15, but it's being stored in a 4-byte wide integer, meaning the binary value in that space ends up being not `1111`, but `00000000000000000000000000001111`.
+
+The `~` operator flips all those digits and returns `11111111111111111111111111110000`, which is 4294967280, precisely 15 less than the maximum value an unsigned int can hold.
+
+Try a smaller data-type, like `uint8_t` in C++ or `byte` in C#:
+
+||codeblock c
+// C++:
+uint8_t a = 10 | 7;
+uint8_t b = ~a;
+std::cout << (int)b;  // prints 240
+// C#:
+byte k = (byte)~(158 & 214);  // prints 105
+
+.The conversions are because std::cout tries to read uint8_t as char, and ~ in C# tries to cast to int.
+
+## Bit-shifting
+
+||codeblock c
+int q = 7 >> 1;
+int k = q << 2;
+
+||image-float
+left-bitshift-example.png|a left bitshift|a left bitshift
+
+These operators return a number with their bits shifted in the direction specified, by the places specified.
+
+The long story short is that shifting to the left will double the value of a number while shifting to the right halves it (and rounds down odd number results, because the last bit just falls off).
+
+||table this { text-align: center; width: 100%; } this td:nth-child(2n) { vertical-align: middle; } this span { color: var(--c-blue); }
+<span>94</span><br>01011110 | >> | <span>47</span><br>00101111 | >> | <span>23</span><br>00010111
+
+Shifting multiple places, it's the same as doubling or halving that many times. This means a shift is the same as dividing or multiplying by 2 to the power of the places shifted by.
+
+\<div class="align-center space-between">
+
+||table this tr:nth-child(n+2) { font-family: var(--ff-monospace); } this .col-1 { background: var(--c-pale-blue); }
+||th shifting by x places | is the same as multiplying
+<< 1 | * 2
+<< 2 | * 2<sup>2</sup> (i.e. \*2\*2)
+<< 3 | * 2<sup>3</sup> (i.e. \*2\*2\*2)
+
+||table this tr:nth-child(n+2) { font-family: var(--ff-monospace); } this .col-1 { background: var(--c-pale-blue); }
+||th shifting by x places | is the same as multiplying
+>> 1 | / 2
+>> 2 | / 2<sup>2</sup> (i.e. \*2\*2)
+>> 3 | / 2<sup>3</sup> (i.e. \*2\*2\*2)
+
+\</div>
+
+Note that the bitshift operator doesn't automatically change the original value.
+
+||codeblock c
+int q = 5;
+q << 2;
+print(q); // prints 5
+
+To get 20, you'd need to actually say `q = q << 2`;
+
+# Search algorithms
+
+The two main search algorithms are simply linear or binary search. They both look through an array and return the index of the found item, or -1 if not found.
+
+||table this .col-1 { background:var(--c-pale-blue); }
+||th Terminology:
+key | the item the algorithm is searching for
+
+## Linear search
+
+This is what we're forced to use if the data isn't sorted. Just check each item one by one. It's rudimentary, but at least it's only O(N). It could be worse.
+
+||codeblock c
+int @linearSearch@(int[] arr, int leng, int key) {
+    for (int i = 0; i < leng; i += 1) {
+        if (arr[i] == key) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+## Binary search
+
+If the array is sorted, we can use the superior binary search. This narrows down where the key could be by comparing it with the middle item of the selection.
+
+It's called binary search because we repeatedly split the array in half (conceptually) while trying to find the target value.
+
+||codeblock c
+int @binarySearch@(int[] arr, int len, int key) {
+    int low = 0, high = len - 1;
+ 
+    while (low <= high) {
+        int mid = (low + high) / 2;
+ 
+        if (arr[mid] == key) {
+            return mid;
+        }
+        if (key < arr[mid]) {
+            high = mid - 1;
+        }
+        else {
+            low = mid + 1;
+        }
+    }
+    return -1;
+}
+
+If the key is less than the middle item, then logically it could only be in the first half of the array, so everything else can be ruled out and the next pass can check only that section.
+
+For example, think about trying to find the value 32 in this array:
+
+\<div style="font-family: var(--ff-ui); text-align: center; display: block;">[ <mark>3, 5, 12, 15, 18, 21, 26, 27, 30, <b>32</b>, 44, 46, 51, 57, 58, 60, 67, 69, 73, 75, 79, 82, 95</mark> ]</div>
+
+It's an odd-number array (23 items), so we'd split that in half (rounding the mid-point down) into 11 and 12 items. 32 is lower than the middle value, so we refocus around the left half.
+
+\<div style="font-family: var(--ff-ui); text-align: center; display: block;">[ <mark>3, 5, 12, 15, 18, 21, 26, 27, 30, <b>32</b>, 44,</mark> 46, 51, 57, 58, 60, 67, 69, 73, 75, 79, 82, 95 ]</div>
+
+Then 32 is higher than the middle value (23), so you refocus around the right half of *that* subarray.
+
+\<div style="font-family: var(--ff-ui); text-align: center; display: block;">[ 3, 5, 12, 15, 18, 21, <mark>26, 27, 30, <b>32</b>, 44,</mark> 46, 51, 57, 58, 60, 67, 69, 73, 75, 79, 82, 95 ]</div>
+
+\<div style="font-family: var(--ff-ui); text-align: center; display: block;">[ 3, 5, 12, 15, 18, 21, 26, 27, 30, <mark><b>32</b>, 44,</mark> 46, 51, 57, 58, 60, 67, 69, 73, 75, 79, 82, 95 ]</div>
+
+This logically repeats until either your mid-point value matches your key, or (in the worst case scenario) you only have one item remaining in the array (which is the only way to verify if your key is absent from the array).
+
+This is an O(log n) algorithm. To search a 10,000,000-length array with linear search would require comparing the key value to, at most, all **10,000,000** items (in the event your key is the last item or absent from the array). For binary search it takes, at most, **24** comparisons. This shows the power of having sorted data.
+
+# Sorting algorithms
+
+This section covers the following:
+
+||table this { margin-inline: auto; } this th { background: var(--c-pale-blue); } this tr:nth-child(n+4) .col-1 { border: none; } this td { padding-inline: 20px; }
+||th basic sorts | more advanced
+bubble sort | merge sort
+selection sort | quick sort
+insertion sort | radix sort
+|shell sort
+|heap sort
+
+The last few algorithms covered (radix, shell, and heap) were practically made obsolete by quick sort. Not all data structure classes will even bother covering them, as it's fine to just use quicksort and merge sort for everything. I'm including them here because they're interesting. They're unlikely to be on testing material.
+
+## Selection sort
+
+||image-float
+selection-sort.png|selection sort visualization
+
+This is arguably the simplest sort algorithm. Look through the array to find the smallest element. Swap it into the first index. Then find the next smallest. Swap it into the second index. And so on, until the array is sorted.
+
+||codeblock c
+void @selectionSort@(int[] arr, int len) {
+    for (int i = 0; i < len - 1; i += 1) {
+        int lowest = i; // start with first item in unsorted section
+ 
+        // start from one after that item to compare
+        for (int j = (i + 1); j < length; j += 1) {
+            if (arr[j] < arr[lowest])
+                lowest = j;
+                // ends up with index of lowest item
+        }
+        // swap lowest item into new home:
+        int temp = arr[i];
+        arr[i] = arr[lowest];
+        arr[lowest] = temp;
+    }
+}
+
+## Bubble sort
+
+||image-float
+bubble-sort.png|bubble sort visualization
+
+This inefficient sort method sweeps through the array and swaps each pair of items that are out of order, i.e. if the item on the left should come first. By doing this repeatedly, everything eventually falls into place.
+
+The loop could just go to the length of the array, but it's possible for it to finish early, so some implementations will keep a count of the number of swaps and break early if it's ever zero.
+
+||codeblock c
+void @bubbleSort@(int[] arr, int len) {
+    for (int i = 0; i < len - 1; i += 1) {
+        int count = 0;
+        for (int j = 0; j < len - 1; j += 1) {
+            if (arr[j] > arr[j + 1]) {
+                // items are out of place - swap them
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j 1 1] = temp;
+ 
+                count += 1;
+            }
+        }
+        if (count == 0) break; // if no swaps happened, array is sorted
+    }
+}
+
+The condition for the nested loop is important. The first loop compares its iterator to the length of the array minus one because the final loop iteration is always unnecessary. If you get this wrong by setting its condition to compare to the length of the array, without the minus one, the difference is trivial. If you make that mistake for the nested loop, however, the program will crash when the next line tries to access the array at index j+1.
+
+## Insertion sort
+
+In this algorithm, each item is shifted rightward while it's greater than the item to its left.
+
+To visualize this, many people suggest imagining the array is split into two parts, divided at the iterator: the left side is effectively an ordered subarray, into which we're inserting the items from the right---hence the name.
+
+||image-float
+insertion-sort.png|insertion sort visualization
+
+||codeblock c
+void @insertionSort@(int arr[], int len) {
+    for (int i = 1; i < len; i += 1) {
+        int key = arr[i]; // hold this
+        int j = i; // iterator for this item
+ 
+        // search left until you hit arr[0] or an item not less than key
+        while (j > 0 && key < arr[j - 1]) {
+            arr[j] = arr[j - 1];
+            j -= 1;
+        }
+ 
+        // place item in its new home:
+        arr[j] = key;
+    }
+}
+
+## Inserting into sorted arrays
+
+To keep an array sorted as new items are inserted, use a logic similar to insertion sort to move all other items forward until you get to the place where the new item would be inserted.
+
+||codeblock c
+struct @SortedArray@ {
+    int* arr;
+    int size, numItems;
+ 
+    @SortedArray@(int len) {
+        arr = new int[len];
+        size = len;
+        numItems = 0;
+    }
+    ~@SortedArray@() { delete[] arr; }
+    bool push(int x) {
+        if (numItems >= size) return false;
+ 
+        int i = numItems;
+        while (i > 0 && arr[i - 1] >= x) {
+            arr[i] = arr[i - 1];
+            i -= 1;
+        }
+ 
+        arr[i] = x;
+        numItems += 1;
+        return true;
+    }
+}
+
+## Merging sorted arrays
+
+To merge two arrays together that are already sorted, you would iterate through them both simultaneously, but only taking from (and incrementing the iterator of) the array whose current item is less than the other.
+
+So, this would do:
+
+||codeblock c
+int* @mergeArrays@(int a[], int a_length, int b[], int b_length) {
+    int* result = new int[a_length + b_length];
+    int index = 0; // keeps track of result insertion
+ 
+    int i = 0, k = 0; // iterators
+ 
+    while (i < a_length && k < b_length) {
+        if (a[i] < b[k]) {
+            result[index] = a[i];
+            i += 1;
+        }
+        else {
+            result[index] = b[k];
+            k += 1;
+        }
+        // either way:
+        index += 1;
+    }
+ 
+    // only one of these loops will ever run:
+    while (i < a_length) {
+        result[index] = a[i];
+        index += 1;
+        i += 1;
+    }
+    while (k < b_length) {
+        result[index] = b[k];
+        index += 1;
+        k += 1;
+    }
+    return result;
+}
+
+Want to condense this?
+
+||codeblock c
+int* @mergeArrays@(int a[], int a_length, int b[], int b_length) {
+    int* result = new int[a_length + b_length];
+    int index = 0, i = 0, k = 0;
+    while (i < a_length && k < b_length) {
+        result[index++] = (a[i] < b[k]) ? a[i++] : b[k++];
+    }
+    while (i < a_length) { result[index++] = a[i++]; }
+    while (k < b_length) { result[index++] = b[k++]; }
+    return result;
+}
+
+## Merge sort
+
+This recursively splits an array in half until the resulting halves are only one element long. Then it puts them back together, using a similar logic as the above, to keep things sorted while merging.
+
+But there's no actual splitting or merging. That's all conceptual. We're really just defining the bounds of a bunch of imaginary subarrays, like in an insertion sort, or the bounds of a binary search.
+
+||image-span
+merge-sort.png|Merge sort visualization|Merge sort visualization
+
+This runs faster than insertion sort and has a complexity of O(N<sup>2</sup>). However, it uses some extra memory, because it allocates a parallel array in which to log the sorted data until it's complete.
+
+The terminology for this disadvantage is that merge sort is not **in-place**. An *in-place* algorithm is one that works by sorting the data directly without allocating any additional memory (beyond a few auxiliary variables, like the integers used to iterate through an array, whose memory footprint doesn't scale with the size of N).
+
+The easiest implementation is using recursion, splitting the process into three parts:
+
+* **mergeSort** --- The main caller, this creates a temporary array in which to store the results.  It passes that array, along with the array that's actually being sorted, along to splitUp.
+* **splitUp** --- This function accepts a section of the array (defined by a left and right bound), and theoretically splits it in half along the mid point, passing the selection to the left and to the right to itself to be split up until these halves are only one element long. Then it starts passing things to merge.
+* **merge** --- The final action, this accepts a selection of the array that's understood to be two adjacent, sorted sections that need to be merged together into an equivalent sorted selection in the results array.
+
+In many implementations, what I'm here calling splitUp is instead an overloaded function also called MergeSort. I'm just giving it a more descriptive name to make the process clearer.
+
+||codeblock c
+void @merge@(int arr[], int tmpArr[], int left, int mid, int right) {
+    int i = left;  // left-side iterator
+    int j = mid + 1; // and right-side
+    int index = 0; // for inserting to temp arr
+ 
+    while (i <= mid && j <= right) {
+        if (arr[i] < arr[j]) {
+            tmpArr[index] = arr[i];
+            i += 1;
+        } else {
+            tmpArr[index] = arr[j];
+            j += 1;
+        }
+        index += 1;
+    }
+ 
+    while (i <= mid) {
+        tmpArr[index] = arr[i];
+        index += 1;
+        i += 1;
+    }
+    while (j <= right) {
+        tmpArr[index] = arr[j];
+        index += 1;
+        j += 1;
+    }
+ 
+    // finally, put the sorted result into main array:
+    for (int k = 0; k < (right - left + 1); k += 1) {
+        arr[left + k] = tmpArr[k];
+    }
+}
+ 
+void @splitUp@(int arr[], int tmpArr[], int left, int right ) {
+    if (left >= right) return;
+ 
+    int mid = (left + right) / 2;
+    @splitUp@(arr, tmpArr, left, mid); // repeat for left half
+    @splitUp@(arr, tmpArr, mid + 1, right); // and right half
+ 
+    @merge@(arr, tmpArr, left, mid, right);
+}
+ 
+void @mergeSort@(int arr[], int len) {
+    int* tmpArr[] = new arr[len];
+    @splitUp@(arr, tmpArr, 0, len - 1);
+}
+
+### How this code actually executes
+
+The merge call is what's happening in each sorting step in the process diagram:
+
+||image-span
+merge-sort-expl-1.png
+
+For any given splitUp instance, the first splitUp call, including all further recursion that occurs inside it, must finish before the second one even begins. This means in the process diagram, the entire left side reaches the end before the entire right side even begins.
+
+||image-span
+merge-sort-expl-2.png
+
+This can be manually tracked by printing the array inside the merge function. Half-way through the algorithm, the left side has been sorted while the right side is still the same as it was at the very start.
+
+Starting array: [ 21, 4, 32, 7, 13, 25, 19, 32, 9, 4, 15, 17, 5 ]
+
+||codeblock
+Merge: 4, 21, 32, 7, 13, 25, 19, 32, 9, 4, 15, 17, 5
+Merge: 4, 21, 7, 32, 13, 25, 19, 32, 9, 4, 15, 17, 5
+Merge: 4, 7, 21, 32, 13, 25, 19, 32, 9, 4, 15, 17, 5
+Merge: 4, 7, 21, 32, 13, 25, 19, 32, 9, 4, 15, 17, 5
+Merge: 4, 7, 21, 32, 13, 19, 25, 32, 9, 4, 15, 17, 5
+<mark>Merge: 4, 7, 13, 19, 21, 25, 32,</mark> 32, 9, 4, 15, 17, 5
+Merge: 4, 7, 13, 19, 21, 25, 32, 9, 32, 4, 15, 17, 5
+Merge: 4, 7, 13, 19, 21, 25, 32, 4, 9, 32, 15, 17, 5
+Merge: 4, 7, 13, 19, 21, 25, 32, 4, 9, 32, 15, 17, 5
+Merge: 4, 7, 13, 19, 21, 25, 32, 4, 9, 32, 5, 15, 17
+Merge: 4, 7, 13, 19, 21, 25, 32, 4, 5, 9, 15, 17, 32
+Merge: 4, 4, 5, 7, 9, 13, 15, 17, 19, 21, 25, 32, 32
+
+In the lines after the one highlighted, you can track as it sorts the right side until merging them together in the final line.
+
+The way this algorithm runs is less linear than some visualizations can make it appear, as it doesn't create the 'sorted' array from left to right in the way most other algorithms do, but flows down the left side until the selection only has one item, like so:
+
+||image-span
+merge-sort-expl-3.png
+
+Then it snaps back to the previous split call that still had other children and continues from there:
+
+||image-span
+merge-sort-expl-4.png
+
+A full roadmap of the actual function calls to bring us from the initial array state to the sorted array at the end would thus look like this:
+
+||image-span
+merge-sort-expl-5.png
+
+## Quick sort
+
+.(or quick-sort, or quicksort, or qsort)
+
+A quick sort works by repeating one fundamental action, called **partitioning**. An item from the array is designated to be the pivot, and all other items are shuffled around depending on how they compare with the **pivot**. This recurs for both resulting sections until they're only one item long, indicating the array is sorted.
+
+There's been many quick sort variations over the years and the code to implement it thus varies widely compared with the other algorithms here. If well written, a quick sort can outperform merge sort while offering the advantage of being in-place. The potential disadvantage is it's not stable, and if not well written for how it's being used the performance can vary widely.
+
+* **IN PLACE?** --- An algorithm is described as "in-place" if it transforms some input directly, not requiring additional memory to be allocated (outside of small storage for, say, a few variables). Merge sort is not in-place because to sort the array it allocates an entire parallel array in which to temporarily store the sorted values. Therefore, a quick sort requires less memory to sort the same data.
+* **NOT STABLE?** --- This means the algorithm doesn't maintain the relative order of equal items. If a quicksort is used to sort customers in a database by surname, then, if two customers with the same surname were in a particular order (e.g. because one registered before the other), the quicksort may swap them around in the final result. (Merge sort and insertion sort are examples of 'stable sorts', meaning they maintain the relative order of equally valued items while sorting.)
+
+A popular approach to implement the concept in teaching material is the Lomuto partition scheme. It simply uses a for-loop to scan the array left to right, and when it finds a value greater than the pivot it pushes that value to the left side. It's not the most optimized method, but it was used because of how easy it is to follow.
+
+||image-span
+quicksort-lomuto.png|A visualization of the Lomuto quicksort scheme
+
+The original quicksort described by Tony Hoare used a more complex but ultimately superior method that runs two iterators through the array in opposite directions. They pause when they find a value that doesn't belong on their side (i.e. if the left value is greater than the pivot or the right value is less than it), and when they're both paused their values are swapped. This repeats until the iterators collide, at which point partitioning is done.
+
+||image-span
+quicksort-hoare.png|A visualization of the Hoare quicksort scheme
+
+||codeblock c
+// instead of writing this out each time just assume I have this:
+void @swap@( int arr[], int x, int y ) {
+    int tmp = arr[x];
+    arr[x] = arr[y];
+    arr[y] = tmp;
+}
+
+||codeblock c
+// Lomuto version:
+int @partition@(int arr[], int left, int right) {
+    int pivot = array[right];
+    int i = left; // index for placing items on the left
+ 
+    for (int j = left; j < right; j += 1) {
+        if (array[j] < pivot) {
+            @swap@(arr, j, i);
+            i += 1;
+        }
+    }
+    // swap pivot into spot between partitions
+    @swap@(arr, i, right);
+ 
+    return i; // return index where pivot value was placed
+}
+ 
+void @quickSort@(int arr[], int left, int right) {
+    if (left < right) {
+        int pivotIndex = @partition@(arr, left, right);
+        @quickSort@(arr, left, pivotIndex - 1);
+        @quickSort@(arr, pivotIndex + 1, right);
+    }
+}
+ 
+void @quickSort@(int arr[], int len) {
+    @quickSort@(arr, 0, len - 1);
+}
+
+||codeblock c
+// Hoare version:
+int @partition@(int arr[], int left, int right) {
+    int pivot = array[right];
+    while (true) {
+        while (arr[left] < pivot) left += 1;
+        while (arr[right] > pivot) right -= 1;
+ 
+        if (left >= right) // partitioning is done
+            return left;
+ 
+        // otherwise:
+        @swap@(arr, left, right);
+        left += 1;
+        right -= 1;
+        // iterators are moved a step inward because those
+        // indices don't need to be checked again
+    }
+}
+ 
+void @quickSort@(int arr[], int len) {
+    @quickSort@(arr, 0, len - 1);
+}
+ 
+void @quickSort@(int arr[], int left, int right) {
+    if (left < right) {
+        int pivotIndex = @partition@(arr, left, right);
+        @quickSort@(arr, left, pivotIndex - 1);
+        @quickSort@(arr, pivotIndex, right);
+    }
+}
+
+It's popular now to use the last item for the pivot, but the original Hoare quicksort actually used the first item. I could modify the above code to use the first item like so:
+
+||codeblock c
+int @partition@(int arr[], int left, int right) {
+<mark>    int pivot = array[left];</mark>
+ 
+    while (true) {
+        while (arr[left] < pivot) left += 1;
+        while (arr[right] > pivot) right -= 1;
+ 
+        if (left >= right) {
+<mark>            return right;</mark>
+        }
+        swap(arr, left++, right--);
+        left += 1;
+        right -= 1;
+    }
+}
+void @quickSort@(int arr[], int left, int right) {
+    if (left < right) {
+        int pivotIndex = @partition@(arr, left, right);
+<mark>        @quickSort@(arr, left, pivotIndex);</mark>
+<mark>        @quickSort@(arr, pivotIndex + 1, right);</mark>
+    }
+}
+
+In either case, notice how this Hoare code doesn't actually sort the pivot item at the end of the function by doing a final swap to place it between the partitions?  That final swap is popular to include, but the algorithm runs fine without it, and it was indeed lacking from the original.
+
+What are the implications of this?
+
+The popular way to visualize a partition step shows the pivot being moved between partitions:
+
+||image-span
+qsort-step-1.png
+
+But here, that's not really what's happening. The array is only being *mostly* partitioned, except for the pivot value and any of its duplicates, which temporarily appear out of place (until they're sorted by the subsequent, recursive partition calls).
+
+What the code would actually do is this:
+
+||image-span
+qsort-step-2.png
+
+That could make it seem like we're partitioning around pivot+1, or that the rule changed to placing any item less than or equal to the pivot on the left---but not quite, as any additional instances of the pivot value would always be swapped to end up opposite the side they started on.
+
+||image-span
+qsort-step-3.png
+
+It works out in the end because any instance of the pivot value that ends up on the left will be the highest value in that section and thus be pushed to the right when it's partitioned (and vice versa).
+
+||image-span
+qsort-step-4.png
+
+A modified version that does include the final swap:
+
+||codeblock c
+int @partition@(int arr[], int left, int right) {
+    int pivot = right--;
+    // This pivot variable takes the index of the last item, not its value.
+    // We need to keep track of its index for the swap.
+    // The right pointer is meanwhile decremented, to exclude the pivot item
+    // itself from being swapped around (until the end).
+ 
+    while (true) {
+        while (arr[left] < pivot) left += 1;
+        while (arr[right] > pivot) right -= 1;
+ 
+        if (left >= right) break;
+ 
+        @swap@(arr, left++, right--);
+        left += 1;
+        right -= 1;
+    }
+    @swap@(arr, left, pivot);
+    return left;
+}
+ 
+void @quickSort@(int arr[], int left, int right) {
+    if (left < right) {
+        int pivotIndex = @partition@(arr, left, right);
+        @quickSort@(arr, left, pivotIndex - 1);
+        @quickSort@(arr, pivotIndex + 1, right);
+        // the index is offset in both lines to exclude the placed pivot
+    }
+}
+
+#### Does the algorithm run better with that final swap in each pass or without it?
+
+I tested that versions as thoroughly as I could on three different computers, timing how long it'd take to fully sort 1000 different arrays that each had a billion randomly-generated values, taking averages of those times, trying it with different data types---and the result was that if one did perform better, the difference was always at most very slight, basically unnoticeable. It was consistently about the same. I started just not including the final swap because it makes other things easier to modiy since the code doesn't need to track the index.
+
+#### Optimizing for sorted data
+
+A sorting algorithm doesn't only need to sort totally random data. A common use-case for sorting algorithms is handling data that's already partially in order, with just some items out of place. Sometimes, the data might even be fully sorted already unbeknownst to us. (This is part of why insertion sort is better than selection.)
+
+That's a problem for the quicksort implementations above. They grab a pivot value from the end, which isn't bad for random data, but if the array is mostly in order then an item from the end is likely to belong near the end once the sorting is finished. Taking a *better* pivot value could save a lot of extra work.
+
+The ideal pivot value is, of course, one that just so happens to belong in the middle of the array. There's a few different methods to get a value more likely, than random chance, to fit this criterion.
+
+* The simplest solution is to take the middle index as the pivot. In a quicksort that normally takes the first item, you can accomplish that simply by changing the pivot variable assignment from your left value to the middle position, i.e. (left + right) / 2. For a version that uses the last item, we could (left + right + 1) / 2 for the same effect.
+* A computer scientist named Robert Sedgewick later proposed the strategy of using the middle of three items from the array, which came to be known as taking the median of three. It could just be three random items, but the easiest indices to access are the left, right, and middle---and if we're already comparing these items to determine which is the middle value, then we may as well sort them in place while we're at it.
+
+||codeblock c
+// taking the middle index:
+int @partition@(int arr[], int left, int right) {
+    int pivot = array[ (left + right) / 2 ];
+ 
+    while (true) {
+        while (arr[left] < pivot) left += 1;
+        while (arr[right] > pivot) right -= 1;
+ 
+        if (left >= right) {
+            return right;
+        }
+        @swap@(arr, left, right);
+        left += 1;
+        right -= 1;
+    }
+}
+void @quickSort@(int arr[], int left, int right) {
+    if (left < right) {
+        int pivotIndex = @partition@(arr, left, right);
+        @quickSort@(arr, left, pivotIndex);
+        @quickSort@(arr, pivotIndex + 1, right);
+    }
+void @quickSort@(int arr[], int len) {
+    @quickSort@(arr, 0, len - 1);
+}
 
 
+||codeblock c
+// median of three version:
+int @takeMedian@(int arr[], int left, int right) {
+    int mid = (left + right) / 2;
+    if (arr[left] > arr[mid]) { @swap@(arr, left, mid); }
+    if (arr[left] > arr[right]) { @swap@(arr, left, right); }
+    if (arr[mid] > arr[right]) { @swap@(arr, mid, right); }
+    return arr[mid];
+}
+int @partition@(int arr[], int left, int right) {
+    int pivot = @takeMedian@(arr, left, right);
+ 
+    while (true) {
+        do left += 1; while (arr[left] < pivot);
+        do right -= 1; while (arr[right] > pivot);
+ 
+        if (left >= right) return left;
+        @swap@(arr, left, right);
+    }
+}
+void @quickSort@(int arr[], int left, int right) {
+    if (left < right) {
+        int pivotIndex = @partition@(arr, left, right);
+        @quickSort@(arr, left, pivotIndex - 1);
+        @quickSort@(arr, pivotIndex, right);
+    }
+}
+void @quickSort@(int arr[], int len) {
+    @quickSort@(arr, 0, len - 1);
+}
 
+The `takeMedian` function ensures the left and right indices are sorted relative to the pivot value, so they can't need to be swapped and can be skipped over for comparison.
+
+There's also an infinite recursion problem to be avoided here, which arises due to how the median is calculated. There's a few different ways to avoid it, but I like using the do-while loops, because how often do you see those?
+
+The median of two values always ends up being the left value because the integer division used to get a "middle index" rounds down. So the median of (4, 7) is the same as the median of (4, 4, 7).
+
+This means once `quickSort` calls the range (0, 1), as it must do eventually, the partition function will swap those items if necessary, but always return the left index, 0, to become the pivotIndex variable. The first recursive quickSort call will be for the range (left, pivotIndex - 1), or (0, -1), which closes that stack. The second recursive call will be for (pivotIndex, right), which is (0, 1) again, thus repeating this process. Your program gets a stack overflow and dies.
+
+You could also just increment `left` and decrement `right` once that condition is reached, skipping over a small bit of unnecessary work. The fix that requires the least change from the previous code would be adding a line that moves the iterators inward one step after the `takeMedian` call, like this:
+
+||codeblock c
+int @partition@(int arr[], int left, int right) {
+    int pivot = @takeMedian@(arr, left, right);
+<mark>    left += 1; right -= 1;</mark>
+    while (true) {
+        while (arr[left] < pivot) left += 1;
+        while (arr[right] > pivot) right -= 1;
+ 
+        if (left >= right) return left;
+        @swap@(arr, left, right);
+        left += 1;
+        right -= 1;
+    }
+}
+
+This is literally the same as what a `do while` loop does, though.
+
+A different solution was to rework the function to return right instead of left, but that requires also changing the ranges that are passed in the `quickSort` function.
+
+||codeblock c
+int @partition@(int arr[], int left, int right) {
+    int pivot = @takeMedian@(arr, left, right);
+ 
+    while (true) {
+        while (arr[left] < pivot) { left += 1; }
+        while (arr[right] > pivot) { right -= 1; }
+ 
+        if (left >= right) {
+<mark>            return right;</mark>
+        }
+        @swap@(arr, left, right);
+        left += 1;
+        right -= 1;
+    }
+}
+void @quickSort@(int arr[], int left, int right) {
+    if (left < right) {
+        int pivotIndex = @partition@(arr, left, right);
+<mark>        @quickSort@(arr, left, pivotIndex);</mark>
+<mark>        @quickSort@(arr, pivotIndex + 1, right);</mark>
+    }
+}
+
+However you do it, the difference made by not just taking the pivot value from the end is very significant when trying to handle sorted or mostly-sorted data.
+
+In my testing, the unoptimized versions couldn't even handle 50,000 items before getting a stack overflow, while these optimized versions could handle 50,000,000, a thousand times larger, without issue.
+
+The cut-off was around 10,000 items, for which the average runtime (with perfectly sorted data) was around 200 times longer for the unoptimized version than the optimized version.
+
+This difference rapidly decreases the more items in the array are out of order. Even doing just 10 random swaps in a 10,000-length array cut the average unoptimized runtime by over a third.
+
+#### Defer to insertion sort
+
+Though quicksort is excellent at handling large arrays due to how well the partitioning logic scales, it's not better than other sorts for smaller arrays, and below a certain threshold is outperformed by insertion sort.
+
+So a quicksort can be made even more efficient if it defers to an insertion sort logic instead of passing to the partition function when the section of the array it's handling is below a certain length.
+
+The ideal cutoff surely varies, but in my testing a good value seemed to be around 30 items.
+
+||codeblock c
+void @insertionForQsort@(int arr[], int left, int right) {
+    for (int i = left; i < right + 1; i += 1) {
+        int key = arr[i], j = i;
+        while (j > 0 && key < arr[j - 1]) {
+            arr[j] = arr[j - 1];
+            j -= 1;
+        }
+    }
+}
+void @quickSort@(int[] arr, int left, int right) {
+    if (right - left < 30) {
+        @insertionForQsort@(arr, left, right);
+    }
+    else {
+        int pivotIndex = partition(arr, left, right);
+        @quickSort@(arr, left, pivotIndex - 1);
+        @quickSort@(arr, pivotIndex, right);
+    }
+}
+
+This resulted in the best-performing quicksort that I wrote while studying quicksorts.
+
+There are ways to optimize it even further, but that's enough detail for this. There are versions that use a pseudo-median of nine, and there are modern versions that use multiple pivot values simultaneously somehow instead of just the one, and probably other strategies I haven't heard of before. Quicksort is a deceptively complex algorithm if you really get into it. Robert Sedgewick wrote his PhD thesis just about this one algorithm.
+
+## Radix sort
+
+This is an interesting algorithm that sorts values without ever directly comparing them. Instead, it groups each value into a list from 0 to 9 depending on its rightmost digit.  Then it recurs for each digit leftward until the array is fully sorted.
+
+To be sure, you'll probably never use this. I'm just including it for fun.
+
+Let's take this example array and throw it into a bucket based on the rightmost digit:<br>51, 45, 9, 37, 48, 72, 19, 16, 7, 88, 92, 12, 30, 36, 3, 42, 96, 25
+
+||table this { margin-inline: auto; } this td { min-width: 20px; text-align: right; font-family: var(--ff-monospace); min-width: 28px; border-top: none; border-bottom: none; padding: 3px 8px 0; }
+||th 0|1|2|3|4|5|6|7|8|9
+30|51|72|3||45|16|37|48|9
+||92|||25|36|7|88|19
+||12|||||||96
+||42
+
+Then you just grab those numbers in order, and repeat for the next column (leftward):<br>30, 51, 72, 92, 12, 42, 3, 45, 25, 16, 36, 37, 7, 48, 88, 9, 19, 96
+
+||table this { margin-inline: auto; } this td { min-width: 20px; text-align: right; font-family: var(--ff-monospace); min-width: 28px; border-top: none; border-bottom: none; padding: 3px 8px 0; }
+||th 0_|1_|2_|3_|4_|5_|6_|7_|8_|9_
+3|12|25|30|42|51||72|88|92
+7|16||36|45|||||96
+9|19||37|48|||||
+
+Then, since there aren't any numbers wider than 2 digits, the array is sorted if you just take these values in order.
+
+It works because the values with the same digit for any given column were already in relative order from the previous pass. If there were any greater than 99, it would've takne a third pass to sort fully. The algorithm could scan once at the start to determine the widest value, or you could set it up to be told directly by the user.
+
+The big-O value of radix sort is unusual. I've seen it described as O(kw), where *k* is the number of possible key values (for sorting numbers, that'll mean 0 to 9) and *w* is the longest value width (for the example I just did: 2). I've read that if well optimized, it runs similar to O(n log n).
+
+Though a radix sort can outperform other sorts in some scenarios, its ideal use-cases were too specific to see widespread implementation and it wasn't included in many built-in libraries.
+
+||codeblock c
+#include &lt;deque&gt;
+void @radixSort@(int arr[], int length, int width) {
+    int base = 10;
+    int index = 0;
+    std::deque<int> qList[10];
+ 
+    // b = base index, base factor
+    for (int baseIndex = 1, factor = 1; b <= width; factor *= base, b += 1)
+    {
+        // r = radixIndex
+        for (int r = 0; r < length; r += 1) {
+            index = (arr[r] / factor) % base;
+            qList[index].push_back(arr[r]);
+        }
+ 
+        // i = insertion counter
+        for (int r = 0, i = 0; r < base; r += 1) {
+            while (!qList[r].empty()) {
+                arr[i] = qList[r].front();
+                qList[r].pop_front();
+                i += 1;
+            }
+        }
+    }
+}
+
+## Shell sort
+
+A shell sort is often thought of as a modification of insertion sort. Instead of comparing items that are next to each other, it compares items a set distance apart. The distance is called the gap value.
+
+In simple implementations, the gap value is often set to be half the array size. The Knuth method (used below, named for the legendary computer scientist Donald Knuth) is to start with 1, and repeatedly multiple that value by 3 and add 1 until doing so would exceed the array size.
+
+In any case, the gap is gradually decreased until it reaches 1, at which point what results is identical to a regular insertion sort. It's the steps before this, while the gap is larger, that it gains an advantage over insertion sort.
+
+||codeblock c
+void @shellSort@(int arr[], int len) {
+    int gap = 1;
+    while (gap <= len / 3) gap = gap * 3 + 1;
+ 
+    while (gap > 0) {
+        for (int k = gap; k < len; k += 1) {
+            int key = arr[k];
+ 
+            int i = k;
+            while (i >= gap && key < arr[i - gap]) {
+                arr[i] = arr[i - gap];
+                i -= 1;
+            }
+            arr[i] = key;
+        }
+        gap = (gap - 1) / 3;
+    }
+}
+
+## Sorting strings
+
+To compare two strings, compare their first letter.  If one comes before the other, that's the word that comes first, and the job is done. If their first letter is the same, try their second letter, and so on until a difference is found.  If the end of either string is reached before a difference is found (as in comparing pod and podium), the shorter word should be considered to come first.
+
+To compare letters, reference their ASCII values. [https://www.w3schools.com/charsets/ref_html_ascii.asp](https://www.w3schools.com/charsets/ref_html_ascii.asp) The important ones are: numbers are 48--57, the uppercase alphabet is 65--90, the lowercase alphabet is 97--122.  Everything in between are symbols, like !$@#^[<.
+
+Sorting by pure ASCII value creates a pseudo-alphabetization, like ABCDabcd.  If you use case normalization (comparing not the strings directly, but the return value of the strings being passed to a method like ToUpper), you achieve a regular---albeit case insensitive---alphabetization, like AabBCcDd.
+
+#### String comparison methods
+
+Practically every language has some kind of built-in string comparison function for you:
+
+||table this .col-1 { background: var(--grey-e); }
+C | `strcomp(string1, string2)`
+Java | `string1.compareTo(string2)`
+C++ | `string1.compare(string2)`
+C# | `string1.CompareTo(string2)`
+JavaScript | `string1.localeCompare(string2)`
+PHP | `strcmp(string1, string2)`
+Python | `string1 > string2`
+Ruby | `string1 <=> string2`
+
+In most cases, the return value is an integer, which indicates the relationship between string1 and string2:
+
+||table
+0 | strings are identical
+-1 | string1 comes first
+1 | string2 comes first
+
+Exceptions:
+
+* Java's `compareTo`, which returns the whole ASCII difference, not just 1 or 0 (e.g. "a".compareTo("f") returns -5)
+* Python, which has no distinct string comparison method because this functionality is built directly into its comparison operators (as such, it only returns True or False)
+
+Here's some code to recreate the logic of C++'s string compare:
+
+||codeblock c
+public static int @stringCompare@(std::string a, std::string b)
+{
+    if (a == b) return 0;
+ 
+    for (int i = 0; i < a.length() && i < b.length(); i += 1)
+    {
+        if (a.at(i) == b.at(i)) continue;
+        else return (a.at(i) > b.at(i)) ? 1 : -1;
+    }
+    return a.length() > b.length() ? 1 : -1;
+}
+
+There are some methods, like C#'s `CompareTo` and JavaScript's `localeCompare`, that contain additional logic in effort to help you handle case differences.
+
+These functions both ignore case, except when case is the only difference between the two strings, in which case they consider the lowercase version to come first (despite being lower in ASCII value).
+
+They also contain some logic to make special characters, like `]`, always precede letters, again going against their ASCII value, though for some reason they both order these special characters differently:
+
+||table
+sorted by ASCII | ` !"#$%&'()*+,-./123:;&lt;=&gt;?@ABC[\]^_\`abc{\|}~`
+CompareTo | `'- !"#$%&()*,./:;?@[\]^_\`{\|}~+&lt;=&gt;123aAbBcC`
+localeCompare | ` _-,;:!?.'"()[]{}@*/\&#%\`^+&lt;=&gt;\|~$123aAbBcC`
+
+Here, I'll try to recreate the StringCompare from C# (without the symbol handling):
+
+||codeblock c
+public static int @StringCompare@(string a, string b) {
+    if (a == b) return 0; // strings are identical
+ 
+    // does normalizing case make strings identical?
+    if (a.ToUpper() == b.ToUpper()) {
+        // if so, case is the only difference between strings
+        for (int i = 0; i < a.Length && i < b.Length; i += 1) {
+            if (a[i] == b[i]) continue;
+            // else: a difference is found,
+            // but we know this is only a difference in case.
+            // if a[i] is 'F', then b[i] must be 'f', etc.
+            // so, just check: is a[i] lowercase? if so -1, else 1
+            return a[i] >= 97 && a[i] <= 122 ? -1 : 1;
+        }
+    }
+    // else: ignore case handling
+    a = a.ToUpper();
+    b = b.ToUpper();
+    for (int i = 0; i < a.Length && i < b.Length; i += 1)
+    {
+        if (a[i] == b[i]) continue;
+        // return -1 if a comes first, else 1
+        return (a[i] < b[i]) ? -1 : 1;
+    }
+    // only difference is length
+    // is a shorter? if so -1, else 1
+    return a.Length < b.Length ? -1 : 1;
+    // pretty sure this works (not that you ever need
+    // to bother coding this logic yourself)
+}
+
+#### Making a string sort function
+
+Just use any sorting algorithm, but use the string comparison method to compare the items.
+
+An example using Java and insertion sort:
+
+||codeblock c
+void @stringSort@(String[] arr) {
+    for (int i = 1; i < arr.length; i += 1)
+    {
+        String key = arr[i];
+        int j = i;
+ 
+        while (j > 0)
+        {
+            String keystr = key.toUpperCase();
+            String temp = arr[j - 1].toUpperCase();
+ 
+            if (keystr.compareTo(temp) > 0) break;
+            arr[j] = arr[j];
+            j -= 1;
+        }
+        arr[j] = key;
+    }
+}
+
+# Memoization
+
+.(Not memorization – albeit that name sort of makes sense too.)
+(Also called ‘tabling’ in some contexts.)
+
+This means: saving the results of an operation so that future code that wants the results of that operation doesn't need to repeat it to get that result.
+
+Consider this:
+
+||codeblock c
+// in Java for some reason
+static int fib(int n) {
+    if (n < 2) return n;
+    return fib(n - 1) + fib(n - 2);
+}
+static void main(String[] args) {
+    System.out.println(fib(41));
+    System.out.println(fib(42));
+}
+
+This code runs, but almost all the work your computer does for the second operation was already done in the first.  It could have worked much faster if your program could "remember" all the values that it worked to calculate to return `fib(30)` when it starts to calculate `fib(31)`.
+
+That's what a memoization table does: it logs the results of the function, allowing your program to remember the return values for any previous inputs.  When you run fibonacci(20), it makes a note saying the return of 20 was 6765.  Then, before doing any given calculation, it checks whether a previous call to that function has already been recorded for the value you've input.  If so, it simply returns that value, and only if not does it proceed with the calculation.
+
+Memoization refers to the loose concept of storing returned values for future use, not to any specific implementation.  This code is one way we could implement it for the fibonacci function above:
+
+||codeblock c
+static int fibMemoized(int n, int[] memoTable) {
+    if (n < 2) return n;
+    // is this value already in the table?
+    if (memoTable[n] != 0) return memoTable[n];
+    // if not, add it to the table, then
+    // return what was just added:
+    memoTable[n] = fibMemoized(n - 1, memoTable) + fibMemoized(n - 2, memoTable);
+    return memoTable[n];
+}
+static void main(String[] args) {
+    int[] memoTable = new int[200];
+    System.out.println(fibMemoized(41, memoTable));
+    System.out.println(fibMemoized(42, memoTable));
+}
+
+# Linked Lists
+
+.(Not link list, linked list. It's a list of things linked together, not a list of links.)
+
+To review: an array is a contiguous reservation in memory. Each item is stored one after the next. To traverse an array therefore means increasing the memory location of our pointer by the size of the array's type. For example, a standard integer is 32 bits, or 4 bytes wide, which means the second item is 4 bytes after the first, and so on.
+
+This calculation is done for us by the standard bracket notation, `arr[i]`. The index value we provide is multiplied by the array's type and added to arr, which is really just a pointer to the first item. That's why array indices in C++ can also be written as `*(arr + n)`, and why arrays are naturally zero-indexed (you don't need to add anything to get to the first element, because that's where you already are---the first item is simply `*arr`).
+
+A linked list, by contrast, is a **noncontiguous** reservation in memory. The items aren't right next to each other, so we can't get from one to the next by adding to our pointer's memory location. Instead, each item is wrapped in a container that holds a pointer to the next item in the list (and possibly to the previous item as well). This container is called a **node**, and a linked list is really just an object that holds and manages a chain of nodes.
+
+||image-span
+linked-list-vs-array.png|An attempt at conceptualizing the difference between arrays and a linked list
+
+A linked list is like a book that says "to continue the story, go to x page and carry on" at the end of each page, while an array is just like a normal book where you always turn to the next page.
+
+* The main **advantage** of a linked list is it's dynamically sized. This means it can be expanded infinitely and is never full. We don't need to know, or care, how many items it's going to store ahead of time.
+ By extension, linked lists tend to be more memory efficient than arrays, despite spending more memory on the node container, because they don't take up any more space than they need (as arrays usually do).
+* The main **disadvantage** of a linked list is its lack of random access. If you want the 57th item in a list, the only way to get there is the link held by the 56th, and the only way to the 56th is the link held by the 55th, etc. You can't just quickly reference `list[517]` as you could with an array.
+
+Linked lists are often just preferred whenever random access doesn't matter, but it depends on the environment and what language or framework you're using.
+
+## Types of linked lists
+
+We conceptualize lists as being **stacks** or **queues**. These are called *abstract data types*, which can be a confusing term for programmers because they're neither abstract (as in a base class that you can't substantiate before extending it) nor an actual data type (at least, not usually). It's another way of design a **design pattern**---or mostly broadly, you could just call it a concept.
+
+||image-span
+stack-vs-queue.png|A linked list that's organized as a stack vs. a queue
+
+A **stack** is like setting things on top of each other. Items are taken from the same side they're added.
+
+A **queue** is like people standing in line. Items are taken from the opposite side from where new items are added.
+
+#### FILO and FIFO
+
+A stack is sometimes described as last-in/first-out, or LIFO, which is logically the same as calling it first-in/last-out, or FILO. A queue could then be called first-in/first-out (FIFO) or, less commonly, last-in/last-out (LILO). The main purpose of these terms is probably to test your understanding and see if you get thrown on an exam, so if that made sense to you then you should be fine.
+
+---
+
+The other major distinction to consider is whether the nodes are **singly-linked**, meaning each node holds just one pointer (to the next item), or **doubly-linked**, meaning they also have a pointer to the previous item.
+
+And in both contexts, the word "linked" is referring to the fact the list has links, so if the nodes in a linked list are singly-linked then we call that a **singly-linked list**---not a "singly-linked linked list".
+
+||image-span
+singly-doubly-linked.png|A visualization of singly- and doubly-linked lists.
+
+Although the directions are only conceptual, the convention is to always name the pointer 'next' for a singly-linked list.  The name 'previous' should be reserved for doubly-linked lists.
+
+The 'next' pointer should lead away from the access point.  This means in a stack, it points away from the top of the stack, and in a queue, it points toward the back (i.e. where the items are inserted).
+
+#### Double-ended linked lists
+
+Linked lists can also be made **double-ended**, meaning they have two "entry points" from which to access their chain of nodes instead of just one (single-ended).
+
+A list can also be made **circular**, meaning the last node points back to the first, instead of just pointing to null (and vice versa for in a doubly-linked list).
+
+||image-span
+circular-linked-list.png|A circular doubly-linked list
+
+
+unfinished
+
+
+---
 
 <script src="../../assets/layout.js"></script>
 </body></html>

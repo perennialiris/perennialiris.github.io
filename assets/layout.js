@@ -341,6 +341,7 @@ function interpreter(argValue) {
     let tableNum = 1;
     let galleryNum = 1;
     let linkNum = 1;
+    let infoNum = 1;
     let firstParagraph = true;
     
     input = input.map( chunk => {
@@ -350,6 +351,9 @@ function interpreter(argValue) {
         }
         if (chunk == "---") {
             return "<hr>";
+        }
+        if (chunk.startsWith("!")) {
+            return `<p class="info info-${infoNum++}">${ formatting(chunk.slice(1)) }</p>`;
         }
 
         /* ------------------------------------ images ------------------------------------ */
@@ -420,9 +424,23 @@ function interpreter(argValue) {
             return `<div class="auto-video"><video controls height="${maxHeight}"><source src="media/${fileUrl}" type="video/${fileType}"></video></div>`;
         }
 
+        chunk = chunk.replaceAll("\\`", "&#96;");
         /* ------------------------------------- code ------------------------------------- */
         if (chunk.startsWith("||codeblock")) {
-            return `<div class="codeblock">${ chunk.split("\n").slice(1).join("<br>") }</div>`;
+            let lines = chunk.split("\n");
+            let syntax = lines.shift().substring("||codeblock".length);
+            
+            if (syntax) {
+                lines = lines.map(
+                    line => line.replace(/(^| |\(|-|\[)(\d+)($|;|\]|,|\)| )/g, "$1<span class=\"code-orange\">$2</span>$3")
+                        .replace(/(false|if|do|int|for|struct|System|println|public|string|String|true|continue|static|unsigned|uint8_t|byte|break|return|delete|bool|while|else|void)(\)|\*| |\]|\[|;|\.|\()/g, "<span class=\"code-blue\">$1</span>$2")
+                        .replace(/@(.+?)@/g, "<span class=\"code-purple\">$1</span>")
+                        .replace(/(\/\/.*)/, "<span class=\"comment\">$1</span>")
+                        .replace(/(#.*)/, "<span class=\"macro\">$1</span>")
+                        
+                )
+            }
+            return `<div class="codeblock ${syntax}">${ lines.map(l => `<div>${ l }</div>`).join("") }</div>`;
         }
         
         chunk = chunk.replace(/`(.+?)`/g, (match, captured) => {
@@ -491,17 +509,41 @@ function interpreter(argValue) {
         /* ------------------------------------- table ------------------------------------- */
         if (chunk.startsWith("||table")) {
             let rows = chunk.split("\n");
-            let homeRow = rows.shift().substring("||table".length).trim();
+            let firstRow = rows.shift().substring("||table".length).trim();
+            let thead = "";
+            let style = "";
+            if (rows[0].startsWith("||th")) {
+                thead = rows.shift().substring("||th".length).trim();
+            }
+            /* make tbody cells */
             let tableWidth = 1;
             for (let r = 0; r < rows.length; r += 1) {
-                let cells = rows[r].split("|");
+                let cells = rows[r].replace(/\\\|/g, "&verbar;").split("|");
                 for (let c = 0; c < cells.length; c += 1) {
                     cells[c] = `<td class="col-${c + 1}">${ formatting(cells[c].trim()) }</td>`;
                     if (c + 1 > tableWidth) { tableWidth = c + 1; }
                 }
                 rows[r] = `<tr>${ cells.join("") }</tr>`;
             }
-            return `<table class="auto-table auto-table-${tableNum++}">${ (homeRow.length > 0) ? `<thead><th colspan=${ tableWidth }>${ homeRow }</th></thead>` : "" }<tbody>${rows.join("")}</tbody></table>`;
+            /* if thead was included, construct it here: */
+            if (thead) {
+                thead = thead.replace(/\\\|/g, "&verbar;").split("|");
+                if (thead.length == 1) {
+                    thead = `<thead><th colspan="${ tableWidth }">${ thead[0] }</th></thead>`;
+                }
+                else {
+                    thead = `<thead>${ thead.map(c => `<th>${ c }</th>`).join("") }</thead>`;
+                }
+            }
+            /* if ||table declaration had styling included: */
+            if (firstRow.length > 1) {
+                style = `<style>${ firstRow.replace(/;/g, " !important;").replace(/this/g, ".auto-table-"+tableNum) }</style>`;
+            }
+            
+            let table = `${ style }<table class="auto-table auto-table-${ tableNum }">${ thead }<tbody>${ rows.join("") }</tbody></table>`;
+            
+            tableNum += 1;
+            return table;
         }
 
         /* ---------------------------------- blockquote ---------------------------------- */
@@ -618,13 +660,18 @@ function formatting(input_string) {
             // prevent recursion while testing
     }
     
-    return (output + rplc(input_string)).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\*(.+?)\*/g, "<i>$1</i>");
+    return (output + rplc(input_string))
+        .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
+        .replace(/\*(.+?)\*/g, "<i>$1</i>");
 }
 
 function rplc(input_string) {
     if (input_string == "") { return input_string; }
     /* escaped symbols */
     input_string = input_string.replaceAll("\\*", "&ast;")
+        .replaceAll('\\"', "&quot;")
+        .replaceAll("\\'", "&apos;")
+        .replaceAll("\|", "&verbar;")
         .replaceAll("\\(", "&lpar;")
         .replaceAll("\\)", "&rpar;")
         .replaceAll("\\[", "&lbrack;")
@@ -635,7 +682,7 @@ function rplc(input_string) {
     /* curly quotes: */
     if (input_string.indexOf("'") != -1 || input_string.indexOf("\"") != -1) {
         input_string = input_string
-            .replaceAll(/ '(\d{2}\D)/g, " &rsquo;$1")
+            .replaceAll(/ '(\d{2}\D)/g, " &rsquo;$1") /* like for saying '95 to indicate a year */
             .replaceAll(/(^| |\()'/g, "$1&lsquo;")
             .replaceAll(/(\*|>|-)'(\w)/g, "$1&lsquo;$2")
             .replaceAll(/'/g, "&rsquo;")
