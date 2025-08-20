@@ -10,7 +10,10 @@
     .article-footer {
         display: none !important;
     }
+    
+    .auto-table { margin-top: 0.5em !important; }
     .auto-table td { border: none !important; }
+    .auto-table tr { border-left: 1px solid var(--grey-a); }
     .auto-table a {
         color: inherit !important;
         text-decoration: none !important;
@@ -20,6 +23,9 @@
         text-decoration: underline !important;
         color: var(--link-color) !important;
     }
+        .auto-table .col-1 {
+            padding-left: 11px !important;
+        }
         .auto-table .col-2 {
             color: var(--grey-9) !important;
             padding-left: 20px !important;
@@ -34,31 +40,39 @@
 <body>
 # perennial<span>iris</span>&#47;documents
 
+Unique content I only maintain here:
+
 ||table
-[International news](page/1/index.html)
 [US news](page/2/index.html)
-[Canadian news](page/3/index.html)
 [Sex, gender, & transsexuals](page/4/index.html)
 [Politics fundamentals](page/5/index.html)
-[Israel–Palestine](page/6/index.html)                   | 2025-07-27
+[Israel–Palestine](page/6/index.html)
+
+Copies of things I wrote and posted to other websites:
+
+||table
 [The Trump appeal](page/18/index.html)                  | 2024-12-03
-[Pierre Poilievre](page/27/index.html)                  | 2025-03-15
+[The problems with Pierre Poilievre](page/27/index.html)                  | 2025-03-15
 [Trump and Russia](page/26/index.html)                  | 2025-03-06
-[Ilhan Omar and Somalia](page/25/index.html)            | 2025-02-12
+[Ilhan Omar and her comments about Somalia](page/25/index.html)            | 2025-02-12
 [Why get bottom surgery?](page/24/index.html)           | 2025-02-09
 [The Nazi Salute](page/23/index.html)                   | 2025-01-24
-[Enduring falsehoods](page/22/index.html)               | 2024-12-19
-[A beauty holding a bird](page/21/index.html)           | 2024-12-17
+[Enduring falsehoods about Elizabeth Warren and Hillary Clinton](page/22/index.html)               | 2024-12-19
 [Mark Robinson](page/20/index.html)                     | 2024-12-15
 [Dehumanization](page/7/index.html)                     | 2024-12-12
 [The standard relationship model](page/19/index.html)   | 2024-12-08
-[The default politician](page/14/index.html)            | 2024-11-26
+[The default politician is a white guy with a normal name](page/14/index.html)            | 2024-11-26
 [Fetishism & politics](page/13/index.html)              | 2024-11-14
 [Types of masculinity](page/12/index.html)              | 2024-11-08
-[My anime reviews](page/11/index.html)                  | 2024-11-02
 [Poor things (2023 film)](page/10/index.html)           | 2024-10-31
 [The trans prison stats argument](page/9/index.html)    | 2024-10-19
+
+Other:
+
+||table
 [Every movie I've ever seen](page/8/index.html)
+[Anime reviews](page/11/index.html)                  | 2024-11-02
+[A beauty holding a bird](page/21/index.html)           | 2024-12-17
 
 <div id="index"></div>
 <script src="assets/layout.js"></script>
@@ -66,24 +80,19 @@
 
 window.onload = function() {
     document.querySelector(".page-name-display").innerHTML = "Page directory";
-
-    let table = document.querySelector(".auto-table tbody");
-    let rows = Array.from(table.rows);
     
-    rows.sort((a, b) => {
-        
-        if (a.cells.length >= 2) {
-            a = parseInt(a.cells[1].textContent.replace(/\D/g, ""));
-        }
-        
-        if (b.cells.length >= 2) {
-            b = parseInt(b.cells[1].textContent.replace(/\D/g, ""));
-        }
-        
-        return b - a;
+    let tables = Array.from(document.getElementsByClassName("auto-table"));
+    
+    tables.forEach( table => {
+        let tbody = table.querySelector("tbody");
+        let rows = Array.from(tbody.rows);
+        rows.sort( (a, b) => {
+            if (a.cells.length >= 2) { a = parseInt(a.cells[1].textContent.replace(/\D/g, "")); }
+            if (b.cells.length >= 2) { b = parseInt(b.cells[1].textContent.replace(/\D/g, "")); }
+            return b - a;
+        });
+        rows.forEach(row => tbody.appendChild(row));
     });
-    rows.forEach(row => table.appendChild(row));
-
 }
 
 </script>

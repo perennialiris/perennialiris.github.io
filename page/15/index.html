@@ -5,9 +5,9 @@
     <link rel="stylesheet" href="../../assets/main.css">
     <link rel="icon" type="image/x-icon" href="../../favicon.ico">
     <style>
-    .info { padding: 4px 7px; background-color: var(--c-pale-green); border: 1px solid var(--grey-a); }
-    .dark .info { border-color: #5a734e; }
-    .darker .info { border-color: #132013; }
+    .info { padding: 4px 7px; background-color: #edfeec; border: 1px solid var(--grey-a); font-size: var(--fs-small); font-family: var(--ff-ui); }
+    .dark .info { background-color: #515d4f; border-color: #515d4f; }
+    .darker .info { background-color: #030b03; border-color: #051605; }
     </style>
 </head>
 <body>
@@ -89,16 +89,16 @@ Examples of each operator in action:
 
 #### More about the NOT operator:
 
-||codeblock c
+||codeblock cpp
 int a = 10 | 7;
 int b = ~a;
 
-What is the value of `b` here? `10 | 7` makes 15, so what's `~15`? The answer is -16. Why? The rule is when you flip a signed number using the bitwise `~` operator, it ends up being one less than the equivalent negative number.
+What is the value of `b` here? `10 | 7` makes 15, so what's `~15`? The answer (in theory) should actually be -16. Why? When you flip a signed number using the bitwise `~` operator, it always ends up being one less than the equivalent negative number.
 
-This is because a signed number (like the default int data-type, a 32-bit signed integer) uses the first bit to represent whether the number is positive or negative (0 and 1 respectively). The `NOT` operator (~) doesn't know that, because it doesn't see the data-type of its argument, it only sees a string of bits, ergo it indiscriminately flips the sign bit along with the others. This changes how the whole number is interpreted, because negative and positive numbers are stored in binary differently:
+This is because a signed number (like the default `int` data-type, a 32-bit signed integer) uses its first bit to represent whether the number is positive or negative (0 and 1 respectively). That's why the max value is 2<sup>31</sup>-1 instead of 2<sup>32</sup>-1 (but an *unsigned* int does go to 2<sup>32</sup>). The `NOT` operator (`~`) doesn't know what your data represents, because it doesn't see the data-type of its argument, it only sees a string of bits, ergo it indiscriminately flips everything, including the sign bit. This changes how the whole number is interpreted, because negative and positive numbers are stored in binary differently.
 
-* They represent value with 0s instead of 1s. It's as though what's being stored is "the difference between this number and the absolute smallest value the data-type can hold" (in this case, -2,147,483,648).
-* There is no 'negative zero', so instead the binary string that would have been the negative equivalent of zero (a string of all 1s) is interpreted as -1. The positive and negative values are thus misaligned by one position (i.e., the largest value of a standard integer is 2<sup>31</sup>-1, but the smallest value is just -(2<sup>31</sup>).
+* For whatever reason, instead of just having a different sign, a negative number represents value with 0s instead of 1s. It's as though what's being stored is "the difference between this number and the absolute smallest value the data-type can hold" (in this case, -2,147,483,648).
+* There is no 'negative zero', so instead, the binary string that would've been the negative equivalent of zero (a string of all 1s) is interpreted as -1. The positive and negative values are thus misaligned by one position (i.e., the largest value of a standard integer is 2<sup>31</sup>-1, but the smallest value is just -(2<sup>31</sup>).
 
 This can be observed clearly by tracking the binary representation of an int as it crosses the zero line:
 
@@ -112,7 +112,7 @@ This can be observed clearly by tracking the binary representation of an int as 
 
 Try an unsigned int instead:
 
-||codeblock c
+||codeblock cpp
 unsigned int a = 10 | 7;
 unsigned int b = ~a;
 
@@ -122,7 +122,7 @@ The `~` operator flips all those digits and returns `111111111111111111111111111
 
 Try a smaller data-type, like `uint8_t` in C++ or `byte` in C#:
 
-||codeblock c
+||codeblock cpp
 // C++:
 uint8_t a = 10 | 7;
 uint8_t b = ~a;
@@ -134,7 +134,7 @@ byte k = (byte)~(158 & 214);  // prints 105
 
 ## Bit-shifting
 
-||codeblock c
+||codeblock cpp
 int q = 7 >> 1;
 int k = q << 2;
 
@@ -148,9 +148,9 @@ The long story short is that shifting to the left will double the value of a num
 ||table this { text-align: center; width: 100%; } this td:nth-child(2n) { vertical-align: middle; } this span { color: var(--c-blue); }
 <span>94</span><br>01011110 | >> | <span>47</span><br>00101111 | >> | <span>23</span><br>00010111
 
-Shifting multiple places, it's the same as doubling or halving that many times. This means a shift is the same as dividing or multiplying by 2 to the power of the places shifted by.
+Shifting by multiple places is the same as doubling or halving that many times. This means a shift is the same as dividing or multiplying by 2 to the power of the places shifted by.
 
-\<div class="align-center space-between">
+\<div class="align-center space-evenly">
 
 ||table this tr:nth-child(n+2) { font-family: var(--ff-monospace); } this .col-1 { background: var(--c-pale-blue); }
 ||th shifting by x places | is the same as multiplying
@@ -168,7 +168,7 @@ Shifting multiple places, it's the same as doubling or halving that many times. 
 
 Note that the bitshift operator doesn't automatically change the original value.
 
-||codeblock c
+||codeblock cpp
 int q = 5;
 q << 2;
 print(q); // prints 5
@@ -187,8 +187,8 @@ key | the item the algorithm is searching for
 
 This is what we're forced to use if the data isn't sorted. Just check each item one by one. It's rudimentary, but at least it's only O(N). It could be worse.
 
-||codeblock c
-int @linearSearch@(int[] arr, int leng, int key) {
+||codeblock cpp
+int linearSearch(int[] arr, int leng, int key) {
     for (int i = 0; i < leng; i += 1) {
         if (arr[i] == key) {
             return i;
@@ -203,8 +203,8 @@ If the array is sorted, we can use the superior binary search. This narrows down
 
 It's called binary search because we repeatedly split the array in half (conceptually) while trying to find the target value.
 
-||codeblock c
-int @binarySearch@(int[] arr, int len, int key) {
+||codeblock cpp
+int binarySearch(int[] arr, int len, int key) {
     int low = 0, high = len - 1;
  
     while (low <= high) {
@@ -264,8 +264,8 @@ selection-sort.png|selection sort visualization
 
 This is arguably the simplest sort algorithm. Look through the array to find the smallest element. Swap it into the first index. Then find the next smallest. Swap it into the second index. And so on, until the array is sorted.
 
-||codeblock c
-void @selectionSort@(int[] arr, int len) {
+||codeblock cpp
+void selectionSort(int[] arr, int len) {
     for (int i = 0; i < len - 1; i += 1) {
         int lowest = i; // start with first item in unsorted section
  
@@ -291,8 +291,8 @@ This inefficient sort method sweeps through the array and swaps each pair of ite
 
 The loop could just go to the length of the array, but it's possible for it to finish early, so some implementations will keep a count of the number of swaps and break early if it's ever zero.
 
-||codeblock c
-void @bubbleSort@(int[] arr, int len) {
+||codeblock cpp
+void bubbleSort(int[] arr, int len) {
     for (int i = 0; i < len - 1; i += 1) {
         int count = 0;
         for (int j = 0; j < len - 1; j += 1) {
@@ -320,8 +320,8 @@ To visualize this, many people suggest imagining the array is split into two par
 ||image-float
 insertion-sort.png|insertion sort visualization
 
-||codeblock c
-void @insertionSort@(int arr[], int len) {
+||codeblock cpp
+void insertionSort(int arr[], int len) {
     for (int i = 1; i < len; i += 1) {
         int key = arr[i]; // hold this
         int j = i; // iterator for this item
@@ -341,17 +341,17 @@ void @insertionSort@(int arr[], int len) {
 
 To keep an array sorted as new items are inserted, use a logic similar to insertion sort to move all other items forward until you get to the place where the new item would be inserted.
 
-||codeblock c
-struct @SortedArray@ {
+||codeblock cpp
+struct SortedArray {
     int* arr;
     int size, numItems;
  
-    @SortedArray@(int len) {
+    SortedArray(int len) {
         arr = new int[len];
         size = len;
         numItems = 0;
     }
-    ~@SortedArray@() { delete[] arr; }
+    ~SortedArray() { delete[] arr; }
     bool push(int x) {
         if (numItems >= size) return false;
  
@@ -373,8 +373,8 @@ To merge two arrays together that are already sorted, you would iterate through 
 
 So, this would do:
 
-||codeblock c
-int* @mergeArrays@(int a[], int a_length, int b[], int b_length) {
+||codeblock cpp
+int* mergeArrays(int a[], int a_length, int b[], int b_length) {
     int* result = new int[a_length + b_length];
     int index = 0; // keeps track of result insertion
  
@@ -409,8 +409,8 @@ int* @mergeArrays@(int a[], int a_length, int b[], int b_length) {
 
 Want to condense this?
 
-||codeblock c
-int* @mergeArrays@(int a[], int a_length, int b[], int b_length) {
+||codeblock cpp
+int* mergeArrays(int a[], int a_length, int b[], int b_length) {
     int* result = new int[a_length + b_length];
     int index = 0, i = 0, k = 0;
     while (i < a_length && k < b_length) {
@@ -436,14 +436,14 @@ The terminology for this disadvantage is that merge sort is not **in-place**. An
 
 The easiest implementation is using recursion, splitting the process into three parts:
 
-* **mergeSort** --- The main caller, this creates a temporary array in which to store the results.  It passes that array, along with the array that's actually being sorted, along to splitUp.
+* **mergeSort** --- The main caller, this creates a temporary array in which to store the results. It passes that array, along with the array that's actually being sorted, along to splitUp.
 * **splitUp** --- This function accepts a section of the array (defined by a left and right bound), and theoretically splits it in half along the mid point, passing the selection to the left and to the right to itself to be split up until these halves are only one element long. Then it starts passing things to merge.
 * **merge** --- The final action, this accepts a selection of the array that's understood to be two adjacent, sorted sections that need to be merged together into an equivalent sorted selection in the results array.
 
 In many implementations, what I'm here calling splitUp is instead an overloaded function also called MergeSort. I'm just giving it a more descriptive name to make the process clearer.
 
-||codeblock c
-void @merge@(int arr[], int tmpArr[], int left, int mid, int right) {
+||codeblock cpp
+void merge(int arr[], int tmpArr[], int left, int mid, int right) {
     int i = left;  // left-side iterator
     int j = mid + 1; // and right-side
     int index = 0; // for inserting to temp arr
@@ -476,19 +476,19 @@ void @merge@(int arr[], int tmpArr[], int left, int mid, int right) {
     }
 }
  
-void @splitUp@(int arr[], int tmpArr[], int left, int right ) {
+void splitUp(int arr[], int tmpArr[], int left, int right ) {
     if (left >= right) return;
  
     int mid = (left + right) / 2;
-    @splitUp@(arr, tmpArr, left, mid); // repeat for left half
-    @splitUp@(arr, tmpArr, mid + 1, right); // and right half
+    splitUp(arr, tmpArr, left, mid); // repeat for left half
+    splitUp(arr, tmpArr, mid + 1, right); // and right half
  
-    @merge@(arr, tmpArr, left, mid, right);
+    merge(arr, tmpArr, left, mid, right);
 }
  
-void @mergeSort@(int arr[], int len) {
+void mergeSort(int arr[], int len) {
     int* tmpArr[] = new arr[len];
-    @splitUp@(arr, tmpArr, 0, len - 1);
+    splitUp(arr, tmpArr, 0, len - 1);
 }
 
 ### How this code actually executes
@@ -559,47 +559,47 @@ The original quicksort described by Tony Hoare used a more complex but ultimatel
 ||image-span
 quicksort-hoare.png|A visualization of the Hoare quicksort scheme
 
-||codeblock c
+||codeblock cpp
 // instead of writing this out each time just assume I have this:
-void @swap@( int arr[], int x, int y ) {
+void swap( int arr[], int x, int y ) {
     int tmp = arr[x];
     arr[x] = arr[y];
     arr[y] = tmp;
 }
 
-||codeblock c
+||codeblock cpp
 // Lomuto version:
-int @partition@(int arr[], int left, int right) {
+int partition(int arr[], int left, int right) {
     int pivot = array[right];
     int i = left; // index for placing items on the left
  
     for (int j = left; j < right; j += 1) {
         if (array[j] < pivot) {
-            @swap@(arr, j, i);
+            swap(arr, j, i);
             i += 1;
         }
     }
     // swap pivot into spot between partitions
-    @swap@(arr, i, right);
+    swap(arr, i, right);
  
     return i; // return index where pivot value was placed
 }
  
-void @quickSort@(int arr[], int left, int right) {
+void quickSort(int arr[], int left, int right) {
     if (left < right) {
-        int pivotIndex = @partition@(arr, left, right);
-        @quickSort@(arr, left, pivotIndex - 1);
-        @quickSort@(arr, pivotIndex + 1, right);
+        int pivotIndex = partition(arr, left, right);
+        quickSort(arr, left, pivotIndex - 1);
+        quickSort(arr, pivotIndex + 1, right);
     }
 }
  
-void @quickSort@(int arr[], int len) {
-    @quickSort@(arr, 0, len - 1);
+void quickSort(int arr[], int len) {
+    quickSort(arr, 0, len - 1);
 }
 
-||codeblock c
+||codeblock cpp
 // Hoare version:
-int @partition@(int arr[], int left, int right) {
+int partition(int arr[], int left, int right) {
     int pivot = array[right];
     while (true) {
         while (arr[left] < pivot) left += 1;
@@ -609,7 +609,7 @@ int @partition@(int arr[], int left, int right) {
             return left;
  
         // otherwise:
-        @swap@(arr, left, right);
+        swap(arr, left, right);
         left += 1;
         right -= 1;
         // iterators are moved a step inward because those
@@ -617,22 +617,22 @@ int @partition@(int arr[], int left, int right) {
     }
 }
  
-void @quickSort@(int arr[], int len) {
-    @quickSort@(arr, 0, len - 1);
+void quickSort(int arr[], int len) {
+    quickSort(arr, 0, len - 1);
 }
  
-void @quickSort@(int arr[], int left, int right) {
+void quickSort(int arr[], int left, int right) {
     if (left < right) {
-        int pivotIndex = @partition@(arr, left, right);
-        @quickSort@(arr, left, pivotIndex - 1);
-        @quickSort@(arr, pivotIndex, right);
+        int pivotIndex = partition(arr, left, right);
+        quickSort(arr, left, pivotIndex - 1);
+        quickSort(arr, pivotIndex, right);
     }
 }
 
 It's popular now to use the last item for the pivot, but the original Hoare quicksort actually used the first item. I could modify the above code to use the first item like so:
 
-||codeblock c
-int @partition@(int arr[], int left, int right) {
+||codeblock cpp
+int partition(int arr[], int left, int right) {
 <mark>    int pivot = array[left];</mark>
  
     while (true) {
@@ -647,11 +647,11 @@ int @partition@(int arr[], int left, int right) {
         right -= 1;
     }
 }
-void @quickSort@(int arr[], int left, int right) {
+void quickSort(int arr[], int left, int right) {
     if (left < right) {
-        int pivotIndex = @partition@(arr, left, right);
-<mark>        @quickSort@(arr, left, pivotIndex);</mark>
-<mark>        @quickSort@(arr, pivotIndex + 1, right);</mark>
+        int pivotIndex = partition(arr, left, right);
+<mark>        quickSort(arr, left, pivotIndex);</mark>
+<mark>        quickSort(arr, pivotIndex + 1, right);</mark>
     }
 }
 
@@ -683,8 +683,8 @@ qsort-step-4.png
 
 A modified version that does include the final swap:
 
-||codeblock c
-int @partition@(int arr[], int left, int right) {
+||codeblock cpp
+int partition(int arr[], int left, int right) {
     int pivot = right--;
     // This pivot variable takes the index of the last item, not its value.
     // We need to keep track of its index for the swap.
@@ -697,19 +697,19 @@ int @partition@(int arr[], int left, int right) {
  
         if (left >= right) break;
  
-        @swap@(arr, left++, right--);
+        swap(arr, left++, right--);
         left += 1;
         right -= 1;
     }
-    @swap@(arr, left, pivot);
+    swap(arr, left, pivot);
     return left;
 }
  
-void @quickSort@(int arr[], int left, int right) {
+void quickSort(int arr[], int left, int right) {
     if (left < right) {
-        int pivotIndex = @partition@(arr, left, right);
-        @quickSort@(arr, left, pivotIndex - 1);
-        @quickSort@(arr, pivotIndex + 1, right);
+        int pivotIndex = partition(arr, left, right);
+        quickSort(arr, left, pivotIndex - 1);
+        quickSort(arr, pivotIndex + 1, right);
         // the index is offset in both lines to exclude the placed pivot
     }
 }
@@ -729,9 +729,9 @@ The ideal pivot value is, of course, one that just so happens to belong in the m
 * The simplest solution is to take the middle index as the pivot. In a quicksort that normally takes the first item, you can accomplish that simply by changing the pivot variable assignment from your left value to the middle position, i.e. (left + right) / 2. For a version that uses the last item, we could (left + right + 1) / 2 for the same effect.
 * A computer scientist named Robert Sedgewick later proposed the strategy of using the middle of three items from the array, which came to be known as taking the median of three. It could just be three random items, but the easiest indices to access are the left, right, and middle---and if we're already comparing these items to determine which is the middle value, then we may as well sort them in place while we're at it.
 
-||codeblock c
+||codeblock cpp
 // taking the middle index:
-int @partition@(int arr[], int left, int right) {
+int partition(int arr[], int left, int right) {
     int pivot = array[ (left + right) / 2 ];
  
     while (true) {
@@ -741,51 +741,50 @@ int @partition@(int arr[], int left, int right) {
         if (left >= right) {
             return right;
         }
-        @swap@(arr, left, right);
+        swap(arr, left, right);
         left += 1;
         right -= 1;
     }
 }
-void @quickSort@(int arr[], int left, int right) {
+void quickSort(int arr[], int left, int right) {
     if (left < right) {
-        int pivotIndex = @partition@(arr, left, right);
-        @quickSort@(arr, left, pivotIndex);
-        @quickSort@(arr, pivotIndex + 1, right);
+        int pivotIndex = partition(arr, left, right);
+        quickSort(arr, left, pivotIndex);
+        quickSort(arr, pivotIndex + 1, right);
     }
-void @quickSort@(int arr[], int len) {
-    @quickSort@(arr, 0, len - 1);
+void quickSort(int arr[], int len) {
+    quickSort(arr, 0, len - 1);
 }
 
-
-||codeblock c
+||codeblock cpp
 // median of three version:
-int @takeMedian@(int arr[], int left, int right) {
+int takeMedian(int arr[], int left, int right) {
     int mid = (left + right) / 2;
-    if (arr[left] > arr[mid]) { @swap@(arr, left, mid); }
-    if (arr[left] > arr[right]) { @swap@(arr, left, right); }
-    if (arr[mid] > arr[right]) { @swap@(arr, mid, right); }
+    if (arr[left] > arr[mid]) { swap(arr, left, mid); }
+    if (arr[left] > arr[right]) { swap(arr, left, right); }
+    if (arr[mid] > arr[right]) { swap(arr, mid, right); }
     return arr[mid];
 }
-int @partition@(int arr[], int left, int right) {
-    int pivot = @takeMedian@(arr, left, right);
+int partition(int arr[], int left, int right) {
+    int pivot = takeMedian(arr, left, right);
  
     while (true) {
         do left += 1; while (arr[left] < pivot);
         do right -= 1; while (arr[right] > pivot);
  
         if (left >= right) return left;
-        @swap@(arr, left, right);
+        swap(arr, left, right);
     }
 }
-void @quickSort@(int arr[], int left, int right) {
+void quickSort(int arr[], int left, int right) {
     if (left < right) {
-        int pivotIndex = @partition@(arr, left, right);
-        @quickSort@(arr, left, pivotIndex - 1);
-        @quickSort@(arr, pivotIndex, right);
+        int pivotIndex = partition(arr, left, right);
+        quickSort(arr, left, pivotIndex - 1);
+        quickSort(arr, pivotIndex, right);
     }
 }
-void @quickSort@(int arr[], int len) {
-    @quickSort@(arr, 0, len - 1);
+void quickSort(int arr[], int len) {
+    quickSort(arr, 0, len - 1);
 }
 
 The `takeMedian` function ensures the left and right indices are sorted relative to the pivot value, so they can't need to be swapped and can be skipped over for comparison.
@@ -798,16 +797,16 @@ This means once `quickSort` calls the range (0, 1), as it must do eventually, th
 
 You could also just increment `left` and decrement `right` once that condition is reached, skipping over a small bit of unnecessary work. The fix that requires the least change from the previous code would be adding a line that moves the iterators inward one step after the `takeMedian` call, like this:
 
-||codeblock c
-int @partition@(int arr[], int left, int right) {
-    int pivot = @takeMedian@(arr, left, right);
+||codeblock cpp
+int partition(int arr[], int left, int right) {
+    int pivot = takeMedian(arr, left, right);
 <mark>    left += 1; right -= 1;</mark>
     while (true) {
         while (arr[left] < pivot) left += 1;
         while (arr[right] > pivot) right -= 1;
  
         if (left >= right) return left;
-        @swap@(arr, left, right);
+        swap(arr, left, right);
         left += 1;
         right -= 1;
     }
@@ -817,9 +816,9 @@ This is literally the same as what a `do while` loop does, though.
 
 A different solution was to rework the function to return right instead of left, but that requires also changing the ranges that are passed in the `quickSort` function.
 
-||codeblock c
-int @partition@(int arr[], int left, int right) {
-    int pivot = @takeMedian@(arr, left, right);
+||codeblock cpp
+int partition(int arr[], int left, int right) {
+    int pivot = takeMedian(arr, left, right);
  
     while (true) {
         while (arr[left] < pivot) { left += 1; }
@@ -828,16 +827,16 @@ int @partition@(int arr[], int left, int right) {
         if (left >= right) {
 <mark>            return right;</mark>
         }
-        @swap@(arr, left, right);
+        swap(arr, left, right);
         left += 1;
         right -= 1;
     }
 }
-void @quickSort@(int arr[], int left, int right) {
+void quickSort(int arr[], int left, int right) {
     if (left < right) {
-        int pivotIndex = @partition@(arr, left, right);
-<mark>        @quickSort@(arr, left, pivotIndex);</mark>
-<mark>        @quickSort@(arr, pivotIndex + 1, right);</mark>
+        int pivotIndex = partition(arr, left, right);
+<mark>        quickSort(arr, left, pivotIndex);</mark>
+<mark>        quickSort(arr, pivotIndex + 1, right);</mark>
     }
 }
 
@@ -857,8 +856,8 @@ So a quicksort can be made even more efficient if it defers to an insertion sort
 
 The ideal cutoff surely varies, but in my testing a good value seemed to be around 30 items.
 
-||codeblock c
-void @insertionForQsort@(int arr[], int left, int right) {
+||codeblock cpp
+void insertionForQsort(int arr[], int left, int right) {
     for (int i = left; i < right + 1; i += 1) {
         int key = arr[i], j = i;
         while (j > 0 && key < arr[j - 1]) {
@@ -867,14 +866,14 @@ void @insertionForQsort@(int arr[], int left, int right) {
         }
     }
 }
-void @quickSort@(int[] arr, int left, int right) {
+void quickSort(int[] arr, int left, int right) {
     if (right - left < 30) {
-        @insertionForQsort@(arr, left, right);
+        insertionForQsort(arr, left, right);
     }
     else {
         int pivotIndex = partition(arr, left, right);
-        @quickSort@(arr, left, pivotIndex - 1);
-        @quickSort@(arr, pivotIndex, right);
+        quickSort(arr, left, pivotIndex - 1);
+        quickSort(arr, pivotIndex, right);
     }
 }
 
@@ -884,7 +883,7 @@ There are ways to optimize it even further, but that's enough detail for this. T
 
 ## Radix sort
 
-This is an interesting algorithm that sorts values without ever directly comparing them. Instead, it groups each value into a list from 0 to 9 depending on its rightmost digit.  Then it recurs for each digit leftward until the array is fully sorted.
+This is an interesting algorithm that sorts values without ever directly comparing them. Instead, it groups each value into a list from 0 to 9 depending on its rightmost digit. Then it recurs for each digit leftward until the array is fully sorted.
 
 To be sure, you'll probably never use this. I'm just including it for fun.
 
@@ -913,9 +912,9 @@ The big-O value of radix sort is unusual. I've seen it described as O(kw), where
 
 Though a radix sort can outperform other sorts in some scenarios, its ideal use-cases were too specific to see widespread implementation and it wasn't included in many built-in libraries.
 
-||codeblock c
+||codeblock cpp
 #include &lt;deque&gt;
-void @radixSort@(int arr[], int length, int width) {
+void radixSort(int arr[], int length, int width) {
     int base = 10;
     int index = 0;
     std::deque<int> qList[10];
@@ -948,8 +947,8 @@ In simple implementations, the gap value is often set to be half the array size.
 
 In any case, the gap is gradually decreased until it reaches 1, at which point what results is identical to a regular insertion sort. It's the steps before this, while the gap is larger, that it gains an advantage over insertion sort.
 
-||codeblock c
-void @shellSort@(int arr[], int len) {
+||codeblock cpp
+void shellSort(int arr[], int len) {
     int gap = 1;
     while (gap <= len / 3) gap = gap * 3 + 1;
  
@@ -970,11 +969,11 @@ void @shellSort@(int arr[], int len) {
 
 ## Sorting strings
 
-To compare two strings, compare their first letter.  If one comes before the other, that's the word that comes first, and the job is done. If their first letter is the same, try their second letter, and so on until a difference is found.  If the end of either string is reached before a difference is found (as in comparing pod and podium), the shorter word should be considered to come first.
+To compare two strings, compare their first letter. If one comes before the other, that's the word that comes first, and the job is done. If their first letter is the same, try their second letter, and so on until a difference is found. If the end of either string is reached before a difference is found (as in comparing pod and podium), the shorter word should be considered to come first.
 
-To compare letters, reference their ASCII values. [https://www.w3schools.com/charsets/ref_html_ascii.asp](https://www.w3schools.com/charsets/ref_html_ascii.asp) The important ones are: numbers are 48--57, the uppercase alphabet is 65--90, the lowercase alphabet is 97--122.  Everything in between are symbols, like !$@#^[<.
+To compare letters, reference their ASCII values. [https://www.w3schools.com/charsets/ref_html_ascii.asp](https://www.w3schools.com/charsets/ref_html_ascii.asp) The important ones are: numbers are 48--57, the uppercase alphabet is 65--90, the lowercase alphabet is 97--122. Everything in between are symbols, like !$#^[<.
 
-Sorting by pure ASCII value creates a pseudo-alphabetization, like ABCDabcd.  If you use case normalization (comparing not the strings directly, but the return value of the strings being passed to a method like ToUpper), you achieve a regular---albeit case insensitive---alphabetization, like AabBCcDd.
+Sorting by pure ASCII value creates a pseudo-alphabetization, like ABCDabcd. If you use case normalization (comparing not the strings directly, but the return value of the strings being passed to a method like ToUpper), you achieve a regular---albeit case insensitive---alphabetization, like AabBCcDd.
 
 #### String comparison methods
 
@@ -1004,8 +1003,8 @@ Exceptions:
 
 Here's some code to recreate the logic of C++'s string compare:
 
-||codeblock c
-public static int @stringCompare@(std::string a, std::string b)
+||codeblock cpp
+public static int stringCompare(std::string a, std::string b)
 {
     if (a == b) return 0;
  
@@ -1024,14 +1023,14 @@ These functions both ignore case, except when case is the only difference betwee
 They also contain some logic to make special characters, like `]`, always precede letters, again going against their ASCII value, though for some reason they both order these special characters differently:
 
 ||table
-sorted by ASCII | ` !"#$%&'()*+,-./123:;&lt;=&gt;?@ABC[\]^_\`abc{\|}~`
-CompareTo | `'- !"#$%&()*,./:;?@[\]^_\`{\|}~+&lt;=&gt;123aAbBcC`
-localeCompare | ` _-,;:!?.'"()[]{}@*/\&#%\`^+&lt;=&gt;\|~$123aAbBcC`
+sorted by ASCII | ` !"#$%&'()*+,-./123:;&lt;=&gt;?ABC[\]^_\`abc{\|}~`
+CompareTo | `'- !"#$%&()*,./:;?[\]^_\`{\|}~+&lt;=&gt;123aAbBcC`
+localeCompare | ` _-,;:!?.'"()[]{}*/\&#%\`^+&lt;=&gt;\|~$123aAbBcC`
 
 Here, I'll try to recreate the StringCompare from C# (without the symbol handling):
 
-||codeblock c
-public static int @StringCompare@(string a, string b) {
+||codeblock cs
+public static int StringCompare(string a, string b) {
     if (a == b) return 0; // strings are identical
  
     // does normalizing case make strings identical?
@@ -1068,15 +1067,14 @@ Just use any sorting algorithm, but use the string comparison method to compare 
 
 An example using Java and insertion sort:
 
-||codeblock c
-void @stringSort@(String[] arr) {
+||codeblock java
+void stringSort(String[] arr) {
     for (int i = 1; i < arr.length; i += 1)
     {
         String key = arr[i];
         int j = i;
  
-        while (j > 0)
-        {
+        while (j > 0) {
             String keystr = key.toUpperCase();
             String temp = arr[j - 1].toUpperCase();
  
@@ -1091,15 +1089,15 @@ void @stringSort@(String[] arr) {
 # Memoization
 
 .(Not memorization – albeit that name sort of makes sense too.)
-(Also called ‘tabling’ in some contexts.)
+(Also called 'tabling' in some contexts.)
 
 This means: saving the results of an operation so that future code that wants the results of that operation doesn't need to repeat it to get that result.
 
 Consider this:
 
-||codeblock c
-// in Java for some reason
-static int fib(int n) {
+||codeblock java
+// did this in Java for some reason
+static int (int n) {
     if (n < 2) return n;
     return fib(n - 1) + fib(n - 2);
 }
@@ -1108,13 +1106,13 @@ static void main(String[] args) {
     System.out.println(fib(42));
 }
 
-This code runs, but almost all the work your computer does for the second operation was already done in the first.  It could have worked much faster if your program could "remember" all the values that it worked to calculate to return `fib(30)` when it starts to calculate `fib(31)`.
+This code runs, but almost all the work your computer does for the second operation was already done in the first. It could have worked much faster if your program could "remember" all the values that it worked to calculate to return `fib(30)` when it starts to calculate `fib(31)`.
 
-That's what a memoization table does: it logs the results of the function, allowing your program to remember the return values for any previous inputs.  When you run fibonacci(20), it makes a note saying the return of 20 was 6765.  Then, before doing any given calculation, it checks whether a previous call to that function has already been recorded for the value you've input.  If so, it simply returns that value, and only if not does it proceed with the calculation.
+That's what a memoization table does: it logs the results of the function, allowing your program to remember the return values for any previous inputs. When you run fibonacci(20), it makes a note saying the return of 20 was 6765. Then, before doing any given calculation, it checks whether a previous call to that function has already been recorded for the value you've input. If so, it simply returns that value, and only if not does it proceed with the calculation.
 
-Memoization refers to the loose concept of storing returned values for future use, not to any specific implementation.  This code is one way we could implement it for the fibonacci function above:
+Memoization refers to the loose concept of storing returned values for future use, not to any specific implementation. This code is one way we could implement it for the fibonacci function above:
 
-||codeblock c
+||codeblock cpp
 static int fibMemoized(int n, int[] memoTable) {
     if (n < 2) return n;
     // is this value already in the table?
@@ -1149,7 +1147,7 @@ A linked list is like a book that says "to continue the story, go to x page and 
  By extension, linked lists tend to be more memory efficient than arrays, despite spending more memory on the node container, because they don't take up any more space than they need (as arrays usually do).
 * The main **disadvantage** of a linked list is its lack of random access. If you want the 57th item in a list, the only way to get there is the link held by the 56th, and the only way to the 56th is the link held by the 55th, etc. You can't just quickly reference `list[517]` as you could with an array.
 
-Linked lists are often just preferred whenever random access doesn't matter, but it depends on the environment and what language or framework you're using.
+Linked lists are often just preferred whenever random access doesn't matter, but it depends on the environment and what language or framework you're using. If you want to write your own program and performance is important, it's not that hard to write your own custom-made linked list that does exactly what you need it to do and nothing more.
 
 ## Types of linked lists
 
@@ -1158,26 +1156,31 @@ We conceptualize lists as being **stacks** or **queues**. These are called *abst
 ||image-span
 stack-vs-queue.png|A linked list that's organized as a stack vs. a queue
 
-A **stack** is like setting things on top of each other. Items are taken from the same side they're added.
+A **stack** is like setting items on top of each other in a literal stack of paper. When you add a new item to the list, you place it on top. And when you want to remove an item from the list, you take it from the top as well. We refer to this access point as the **top**, because that name fits with the metaphor.
 
-A **queue** is like people standing in line. Items are taken from the opposite side from where new items are added.
+A **queue** is like people standing in line to get into a building. When you add a new item to the list, you place it on one side, and when you want to remove an item from the list, you take it from the opposite side. We could therefore call these the **back** (where the item is placed) and **front** (access point where items are removed) respectively to fit with the metaphor of people standing in line, but another common way of referring to them that became popular is the **head** (front, where you take items from) and **tail** (back, where new items are added).
 
-#### FILO and FIFO
+The first node in a stack is called its **root node** (the actual node object used is the same as all your other nodes; its designation as such is conceptual). It's the first node added, at the 'bottom' of the stack. In a queue, the "root node" would just be the front or head, and therefore which node in the root changes each time you dequeue an item. The term often isn't applied to queues, though.
 
-A stack is sometimes described as last-in/first-out, or LIFO, which is logically the same as calling it first-in/last-out, or FILO. A queue could then be called first-in/first-out (FIFO) or, less commonly, last-in/last-out (LILO). The main purpose of these terms is probably to test your understanding and see if you get thrown on an exam, so if that made sense to you then you should be fine.
+#### LIFO and FIFO
 
----
+The logic of stacks and queues can be described as:
 
-The other major distinction to consider is whether the nodes are **singly-linked**, meaning each node holds just one pointer (to the next item), or **doubly-linked**, meaning they also have a pointer to the previous item.
+* **stack**: the **last** item added will be the **first** item removed (last in/first out, or **LIFO**)
+* **queue**: the **first** item added to be the **first** item removed (first in/first out, or **FIFO**)
 
-And in both contexts, the word "linked" is referring to the fact the list has links, so if the nodes in a linked list are singly-linked then we call that a **singly-linked list**---not a "singly-linked linked list".
+These terms could've been any of their logical equivalents. "Last in, first out" is logically the same as "first in, last out", and could've been swapped in order and ended up "LOFI". But the terms LIFO and FIFO was the pair that stuck as conventional, partially because it makes more sense to focus on what item is removed first because that's what you'll get if you pop or dequeue from the list.
+
+The other major distinction to consider is whether the nodes are **singly-linked**, meaning each node holds just one pointer (to the next item), or **doubly-linked**, meaning the nodes hold two pointers (to both the next and previous nodes), allowing two-way traversal. This often isn't needed, though, so you'll commonly just be using singly-linked lists, and that's what a lot of material focuses on.
+
+!In both cases, the word 'linked' is an adjective describing 'list', whereas 'singly' and 'doubly' are adverbs describing how the list is linked. I see some students refer to a "singly-linked linked list", but this is redundant. We can just say "singly-linked list".
 
 ||image-span
 singly-doubly-linked.png|A visualization of singly- and doubly-linked lists.
 
-Although the directions are only conceptual, the convention is to always name the pointer 'next' for a singly-linked list.  The name 'previous' should be reserved for doubly-linked lists.
+Although the directions are only conceptual, the convention is to always name the pointer 'next' for a singly-linked list. The name 'previous' should be reserved for doubly-linked lists.
 
-The 'next' pointer should lead away from the access point.  This means in a stack, it points away from the top of the stack, and in a queue, it points toward the back (i.e. where the items are inserted).
+The 'next' pointer should lead away from the access point. This means in a stack, it points away from the top of the stack, and in a queue, it points toward the back (i.e. where the items are inserted).
 
 #### Double-ended linked lists
 
@@ -1188,8 +1191,237 @@ A list can also be made **circular**, meaning the last node points back to the f
 ||image-span
 circular-linked-list.png|A circular doubly-linked list
 
+||table this .col-1 { background:var(--c-pale-blue); }
+||th Terminology:
+linked list | an allocation of data that's dynamically sized because it's not stored contiguously
+stack | a linked list that behaves as first-in, last-out
+queue | a linked list that behaves as first-in, first-out
 
-unfinished
+#### Coding some linked lists
+
+||codeblock cpp
+class Stack {
+private:
+    struct LinkNode {
+        int data;
+        LinkNode* next;
+        LinkNode(int d, LinkNode* n) : data(d), next(n) { }
+    };
+    LinkNode* top;
+public:
+    Stack() :top(0) { }
+    void push(int value) {
+        // create new linknode whose .next is current top,
+        // and set that as the new top
+        LinkNode* n = new LinkNode(value, this->top);
+        this->top = n;
+    }
+    bool pop() {
+        if (!this->top) return false; //empty
+ 
+        LinkNode* n = this->top;
+        this->top = this->top->next;
+        delete n;
+        return true;
+    }
+    ~Stack() {
+        while (this->top) { this->pop(); }
+    }
+};
+
+If you want it to hold an object instead and repurpose the pop method to return the object of the node being removed (or null if the list is empty) instead of a boolean:
+
+||codeblock cpp
+class Thing { // example class
+};
+ 
+class Stack {
+private:
+    struct LinkNode {
+        Thing* data;
+        LinkNode* next;
+        LinkNode(Thing* d, LinkNode* n) : data(d), next(n) { }
+    };
+    LinkNode* top;
+public:
+    Stack() :top(0) { }
+    void push(Thing* value) {
+        // create new linknode whose .next is current top,
+        // and set that as the new top
+        LinkNode* n = new LinkNode(value, this->top);
+        this->top = n;
+    }
+    Thing* pop() {
+        if (!this->top) return 0; //empty
+ 
+        Thing* t = this->top->data;
+ 
+        LinkNode* n = this->top;
+        this->top = this->top->next;
+        delete n;
+ 
+        return t;
+    }
+    ~Stack() {
+        while (this->top) this->pop();
+    }
+};
+
+And of course, remember that you're responsible for deleting the pointer to the object the list returns when you're done with it.
+
+#### Queue
+
+Similar code, but pop is replaced with 'dequeue', which takes from the other side.
+
+||codeblock cpp
+class Thing { // example class
+};
+ 
+class Queue {
+private:
+    struct LinkNode {
+        Thing* data;
+        LinkNode* next;
+        LinkNode(Thing* d) : data(d), next(0) { }
+    };
+    LinkNode* front, * back;
+public:
+    Queue() :front(0), back(0) { }
+    void enqueue(Thing* value) {
+        LinkNode* n = new LinkNode(value);
+ 
+        if (!this->back) {
+            // empty list, n is first node
+            this->front = this->back = n;
+        }
+        else {
+            // set current back's next to n,
+            // then set n to new back
+            this->back->next = n;
+            this->back = n;
+        }
+    }
+    Thing* dequeue() {
+        if (!this->front) return 0; //empty
+ 
+        Thing* t = this->front->data;
+ 
+        LinkNode* n = this->front;
+        this->front = this->front->next;
+ 
+        // did this just delete the last node?
+        // if so, set back to null too
+        if (!this->front)
+            this->back = 0;
+ 
+        delete n;
+        return t;
+    }
+    ~Queue() {
+        while (this->front) this->dequeue();
+    }
+};
+
+Notice how in a stack, the first node (your root node) has a null `.next` pointer, and then each time you push a new node, you have that node's `.next` point to the node under it (with the root node's `.next` always remaining null, since there's never a node under it).
+
+In a queue, the root node's `.next` starts null. Then when you add a second node, you make it the target of your root's `.next` pointer, and leave node-2's `.next` null. Then when you add node-3, you point `node-2.next` at node-3 and leave node-3's `.next` null.
+
+So `next` always means pointing away from your access point (top in a stack, front in a queue). And in a stack, `next` leads away from the root node, whereas in a queue `next` goes towards it.
+
+||captioned-gallery
+stack-structure.png|A stack structure with four nodes
+stack-push.png|Adding a node to a stack
+stack-structure.png|A stack structure with four nodes
+queue-enqueue.png|Adding a node to a queue
+
+#### Testing some code
+
+||image-float
+code-test-1.png
+
+||codeblock cpp
+int main()
+{
+    Stack stack;
+    int x[] = { 15, 48, 59, 26, 35, 68, 57, 24 };
+    for (int i = 0; i < 8; i += 1) {
+        stack.push(new Thing(x[i]));
+    }
+ 
+    for (int i = 0; i < 8; i += 1) {
+        auto t = stack.pop();
+        std::cout << t->id << std::endl;
+        delete t; //delete the Thing object
+    }
+
+||image-float
+code-test-1.png
+
+||codeblock cpp
+int main()
+{
+    Queue q;
+    int x[] = { 15, 48, 59, 26, 35, 68, 57, 24 };
+    for (int i = 0; i < 8; i += 1) {
+        q.enqueue(new Thing(x[i]));
+    }
+ 
+    for (int i = 0; i < 8; i += 1) {
+        auto t = q.dequeue();
+        std::cout << t->id << std::endl;
+        delete t;
+    }
+
+## Traversing a list
+
+One way to go through the items of a list is to pop or dequeue them all, but sometimes you want to search through a list without doing that. Take a pointer to the starting node and move it forward by reässigning it to its own `next` property until it comes back null.
+
+!If you change the entry node-pointer held by the list itself, all data in the list is effectively lost.
+
+||codeblock cpp
+class Stack {
+// a temporary solution for this demo:
+// just add a public method that returns the top node
+public:
+    LinkNode* getTop() { return this-> top; }
+    //...
+}
+ 
+int main()
+{
+    Stack stack;
+ 
+    int x[] = { 15, 48, 59, 26, 35, 68, 57, 24 };
+    for (int i = 0; i < 8; i += 1) {
+        stack.push(new Thing(x[i]));
+    }
+ 
+    auto node = stack.getTop();
+ 
+    while (node) {
+        std::cout << node-> data-> id;
+        node = node-> next;
+    }
+}
+
+||image-span
+code-test-1.png
+
+Same printout as before, but this time the list is still intact afterwards.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---

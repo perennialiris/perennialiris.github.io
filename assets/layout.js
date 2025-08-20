@@ -18,20 +18,20 @@ window.addEventListener("load", function() {
         </div>
     </nav>
     <div class="menu-line center">
-        <div class="m-align">
+        <div class="menu-aligner">
             <table class="menu hidden"><tbody>
                     <tr><td>Brightness:</td>
                         <td><select class="menu-select" id="brightness-select">
                                 <option value="light">Light</option>
                                 <option value="dark">Dark</option>
-                                <option value="darker">Darker</option>
+                                <option value="darker">Very dark</option>
                             </select>
                     </td></tr>
                     <tr><td>Body font:</td>
                         <td><select class="menu-select" id="bodyfont-select">
                                 <option value="Georgia">Georgia</option>
-                                <option value="Palatino Linotype">Palatino Linotype</option>
                                 <option value="Roboto">Roboto</option>
+                                <option value="Palatino Linotype">Palatino Linotype</option>
                                 <option value="Segoe UI">Segoe UI</option>
                                 <option value="Trebuchet MS">Trebuchet MS</option>
                             </select>
@@ -41,32 +41,34 @@ window.addEventListener("load", function() {
             </table>
         </div>
     </div>
-    <div class="c1 align-start">
+    <div class="c1">
         <nav class="table-of-contents"></nav>
         <main class="c2">
-            <article id="article">${ document.body.innerHTML }</article>
-            <footer class="article-footer">
-                <div class="align-center">
-                    <img style="margin-right: 10px; border: 1px solid var(--grey-a);" src="../../assets/grandchamp.png" width="100" height"100">
-                    <div style="padding-bottom: 6px;">
-                        <div style="color: var(--grey-5); font-family: var(--ff-article);">@perennialiris</div>
-                        <div class="plugs">
-                            <a href="https://github.com/perennialiris/perennialiris.github.io">This Repo</a> |
-                            <a href="https://bsky.app/profile/perennialiris.bsky.social">Bluesky</a> |
-                            <a href="https://perennialiris.tumblr.com/">Tumblr</a> |
-                            <a href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA">YouTube</a> |
-                            <a href="https://discord.gg/fGdV7x5dk2">Discord</a>
+            <div class="c3">
+                <article id="article">${ document.body.innerHTML }</article>
+                <footer class="article-footer">
+                    <div class="align-center">
+                        <img alt="Theme painting ('A Beauty Holding a Bird' by Louis Emile Pinel de Grandchamp)" style="margin-right: 10px; border: 1px solid var(--grey-a);" src="../../assets/grandchamp.png" width="100" height"100">
+                        <div style="padding-bottom: 6px;">
+                            <div style="color: var(--grey-5); font-family: var(--ff-article);">@perennialiris</div>
+                            <div class="plugs">
+                                <a href="https://github.com/perennialiris/perennialiris.github.io">This Repo</a> |
+                                <a href="https://bsky.app/profile/perennialiris.bsky.social">Bluesky</a> |
+                                <a href="https://perennialiris.tumblr.com/">Tumblr</a> |
+                                <a href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA">YouTube</a> |
+                                <a href="https://discord.gg/fGdV7x5dk2">Discord</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </footer>
+                </footer>
+            </div>
         </main>
     </div>
     <div class="page-bottom"></div>
-    <div class="lb-container stretch column space-between">
+    <div class="lb-container">
         <div id="lb-top-left"></div>
-        <div class="lb-wrapper center align-center"><img id="lightbox"></div>
-        <div class="lb-bottom-panel center align-center"><div id="lb-caption"></div></div>
+        <div class="lb-wrapper"><img id="lightbox"></div>
+        <div class="lb-bottom-panel"><div id="lb-caption"></div></div>
     </div>
     <style id="style-pref"></style>`;
 
@@ -83,16 +85,12 @@ window.addEventListener("load", function() {
     document.querySelector(".lb-wrapper").addEventListener("click", () => { setLightbox("close") });
     
     /* ---------------------- setting up menu: ---------------------- */
-    
     const hamburger = document.querySelector(".hamburger");
     const menu = document.querySelector(".menu");
     
     function menuToggle(option) {
-        if (option == "close") {
-            menu.classList.add("hidden");
-        }
-        else if (option == "open") {
-            menu.classList.remove("hidden");
+        if (option == "close" || option == "open") {
+            menu.classList.toggle("hidden", option == "close");
         }
         else {
             menu.classList.toggle("hidden", !menu.classList.contains("hidden"));
@@ -321,7 +319,7 @@ function setBodyFont(bodyFont) {
     }
     document.getElementById("style-pref").innerHTML = "";
     if (bodyFont != "Georgia") {
-        document.getElementById("style-pref").innerHTML = ` #article { font-family: ${ bodyFont },var(--ff-article); } #article h4 { font-family: ${ bodyFont },var(--ff-h4); } #article ol > li::marker, #article .digit { font-family: ${ bodyFont },var(--ff-digit); } `;
+        document.getElementById("style-pref").innerHTML = ` #article { font-family: ${ bodyFont },var(--ff-article); } #article h4 { font-family: ${ bodyFont },var(--ff-h4); } #article ol > li::marker, #article .digit { font-family: ${ bodyFont },var(--ff-digit); } #article .heading { font-family: ${ bodyFont },serif; } `;
     }
     select_.value = bodyFont;
     localStorage.setItem("bodyFont", bodyFont);
@@ -353,7 +351,7 @@ function interpreter(argValue) {
             return "<hr>";
         }
         if (chunk.startsWith("!")) {
-            return `<p class="info info-${infoNum++}">${ formatting(chunk.slice(1)) }</p>`;
+            return `<p class="info info-${infoNum++}">${ format_(chunk.slice(1)) }</p>`;
         }
 
         /* ------------------------------------ images ------------------------------------ */
@@ -362,18 +360,18 @@ function interpreter(argValue) {
             /* imgUrl | alt-text/title */
             const rows = chunk.split("\n");
             let homeRow = rows.shift().substring("||image-span".length).trim();
-            const galleryFigures = chunk.split("\n").slice(1).map( line => {
+            const galleryFigures = rows.map( line => {
                 const parts = line.split("|");
                 while (parts.length < 2) {
                     parts.push("");
                 }
                 let imgUrl = "media/" + parts[0].trim();
-                let altText = formatting(parts[1].trim().replace(/"/g,"&quot;"));
+                let altText = format_(parts[1].trim().replace(/"/g,"&quot;"));
                 return `<div><img style="max-height: ${homeRow || 300}px;" onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></div>`;
             });
             return `<div class="image-span align-center space-evenly">${ galleryFigures.join("") }</div>`;
         }
-        
+
         if (chunk.startsWith("||image-float")) {
             /* imgUrl | caption | alt-text/title */
             const lines = chunk.split("\n").slice(1).map( line => {
@@ -382,17 +380,35 @@ function interpreter(argValue) {
                     parts.push("");
                 }
                 const imgUrl = "media/" + parts[0].trim();
-                let figCaption = formatting(parts[1].trim());
-                let altText = formatting(parts[2].trim().replace(/"/g,"&quot;"));
+                let figCaption = format_(parts[1].trim());
+                let altText = format_(parts[2].trim().replace(/"/g,"&quot;"));
                 if (figCaption) { figCaption = `<figcaption>${ figCaption }</figcaption>`; }
                 
                 return `<figure><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }">${ figCaption }</figure>`;
             });
-            return `<div class="image-float column">${ lines.join("") }</div>`;
+            return `<div class="image-float">${ lines.join("") }</div>`;
+        }
+
+        if (chunk.startsWith("||captioned-gallery")) {
+            /* ||image-span maxHeight */
+            /* imgUrl | caption | alt-text/title */
+            const rows = chunk.split("\n");
+            let homeRow = rows.shift().substring("||gallery".length).trim();
+            let galleryFigures = rows.map( line => {
+                const parts = line.split("|");
+                while (parts.length < 3) {
+                    parts.push("");
+                }
+                let imgUrl = "media/" + parts[0].trim();
+                let caption = format_(parts[1].trim());
+                let altText = format_(parts[2].trim().replace(/"/g,"&quot;"));
+                return `<figure><img style="max-height: ${ homeRow || 300 }px;" onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"><figcaption>${ caption }</figcaption></figure>`;
+            });
+            return `<div class="captioned-gallery">${ galleryFigures.join("") }</div>`;
         }
         
-        if (chunk.startsWith("||image-grid")) {
-            /* ||image-grid gridWidth */
+        if (chunk.startsWith("||square-gallery")) {
+            /* ||square-gallery gridHeight */
             /* imgUrl | alt-text/title */
             const rows = chunk.split("\n");
             let homeRow = rows.shift().substring("||image-span".length).trim();
@@ -402,13 +418,13 @@ function interpreter(argValue) {
                     parts.push("");
                 }
                 const imgUrl = "media/" + parts[0].trim();
-                let figCaption = formatting(parts[1].trim());
-                let altText = formatting(parts[2].trim().replace(/"/g,"&quot;"));
+                let figCaption = format_(parts[1].trim());
+                let altText = format_(parts[2].trim().replace(/"/g,"&quot;"));
                 if (figCaption) { figCaption = `<figcaption>${ figCaption }</figcaption>`; }
                 
                 return `<figure><div class="center align-center"><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></div>${ figCaption }</figure>`;
             });
-            return `<div class="image-grid space-evenly">${ lines.join("") }</div>`;
+            return `<div class="square-gallery">${ lines.join("") }</div>`;
         }
         
         /* ------------------------------------ video ------------------------------------ */
@@ -428,32 +444,26 @@ function interpreter(argValue) {
         /* ------------------------------------- code ------------------------------------- */
         if (chunk.startsWith("||codeblock")) {
             let lines = chunk.split("\n");
-            let syntax = lines.shift().substring("||codeblock".length);
-            
-            if (syntax) {
-                lines = lines.map(
-                    line => line.replace(/(^| |\(|-|\[)(\d+)($|;|\]|,|\)| )/g, "$1<span class=\"code-orange\">$2</span>$3")
-                        .replace(/(false|if|do|int|for|struct|System|println|public|string|String|true|continue|static|unsigned|uint8_t|byte|break|return|delete|bool|while|else|void)(\)|\*| |\]|\[|;|\.|\()/g, "<span class=\"code-blue\">$1</span>$2")
-                        .replace(/@(.+?)@/g, "<span class=\"code-purple\">$1</span>")
-                        .replace(/(\/\/.*)/, "<span class=\"comment\">$1</span>")
-                        .replace(/(#.*)/, "<span class=\"macro\">$1</span>")
-                        
-                )
+            let syntaxClass = lines.shift().substring("||codeblock".length).trim();
+            let divClass = "codeblock";
+            if (syntaxClass) {
+                divClass += " " + syntaxClass;
+                lines = lines.map(line => syntaxHighlight(line, syntaxClass));
             }
-            return `<div class="codeblock ${syntax}">${ lines.map(l => `<div>${ l }</div>`).join("") }</div>`;
+            
+            return `<div class="${divClass}">${ lines.map(line => `<div>${ line }</div>`).join("") }</div>`;
         }
         
         chunk = chunk.replace(/`(.+?)`/g, (match, captured) => {
-            return `<code>${
-                captured.replaceAll("\"", "&quot;")
-                    .replaceAll("'", "&apos;")
-                    .replaceAll("-", "&hyphen;")
-                    .replaceAll("(", "&lpar;")
-                    .replaceAll(")", "&rpar;")
-                    .replaceAll("[", "&lbrack;")
-                    .replaceAll("]", "&rbrack;")
-                    .replaceAll("*", "&ast;")
-                    .replaceAll("\n", "<br>") }</code>`;
+            return `<code>${ captured.replaceAll("\"", "&quot;")
+                .replaceAll("'", "&apos;")
+                .replaceAll("-", "&hyphen;")
+                .replaceAll("(", "&lpar;")
+                .replaceAll(")", "&rpar;")
+                .replaceAll("[", "&lbrack;")
+                .replaceAll("]", "&rbrack;")
+                .replaceAll("*", "&ast;")
+                .replaceAll("\n", "<br>") }</code>`;
         });
         
         let pStyle = [];
@@ -490,7 +500,7 @@ function interpreter(argValue) {
             }
             else {
                 if (displayText == "") {
-                    a = `<sup><a href="${ address }" class="citeref">[${ linkNum }]</a></sup>`;
+                    a = `<a href="${ address }" class="citeref">[${ linkNum }]</a>`;
                 }
                 else {
                     a = `<a href="${ address }">${ displayText }</a>`;
@@ -510,40 +520,47 @@ function interpreter(argValue) {
         if (chunk.startsWith("||table")) {
             let rows = chunk.split("\n");
             let firstRow = rows.shift().substring("||table".length).trim();
-            let thead = "";
-            let style = "";
+            let tableHead = "";
             if (rows[0].startsWith("||th")) {
-                thead = rows.shift().substring("||th".length).trim();
+                tableHead = rows.shift().substring("||th".length).trim();
             }
             /* make tbody cells */
             let tableWidth = 1;
             for (let r = 0; r < rows.length; r += 1) {
                 let cells = rows[r].replace(/\\\|/g, "&verbar;").split("|");
                 for (let c = 0; c < cells.length; c += 1) {
-                    cells[c] = `<td class="col-${c + 1}">${ formatting(cells[c].trim()) }</td>`;
+                    cells[c] = `<td class="col-${ c + 1 }">${ format_(cells[c].trim()) }</td>`;
                     if (c + 1 > tableWidth) { tableWidth = c + 1; }
                 }
                 rows[r] = `<tr>${ cells.join("") }</tr>`;
             }
             /* if thead was included, construct it here: */
-            if (thead) {
-                thead = thead.replace(/\\\|/g, "&verbar;").split("|");
-                if (thead.length == 1) {
-                    thead = `<thead><th colspan="${ tableWidth }">${ thead[0] }</th></thead>`;
-                }
-                else {
-                    thead = `<thead>${ thead.map(c => `<th>${ c }</th>`).join("") }</thead>`;
+            if (tableHead) {
+                tableHead = tableHead.replace(/\\\|/g, "&verbar;").split("|");
+                if (tableHead.length == 1) {
+                    tableHead = `<thead><th colspan="${ tableWidth }">${ tableHead[0] }</th></thead>`;
+                } else {
+                    tableHead = `<thead>${ tableHead.map(c => `<th>${ c }</th>`).join("") }</thead>`;
                 }
             }
             /* if ||table declaration had styling included: */
+            let customTableStyle = "";
             if (firstRow.length > 1) {
-                style = `<style>${ firstRow.replace(/;/g, " !important;").replace(/this/g, ".auto-table-"+tableNum) }</style>`;
+                customTableStyle = `<style>${ firstRow.replace(/;/g, " !important;").replace(/this/g, ".auto-table-"+tableNum) }</style>`;
             }
             
-            let table = `${ style }<table class="auto-table auto-table-${ tableNum }">${ thead }<tbody>${ rows.join("") }</tbody></table>`;
+            let table = `${ customTableStyle }<table class="auto-table auto-table-${ tableNum }">${ tableHead }<tbody>${ rows.join("") }</tbody></table>`;
             
             tableNum += 1;
             return table;
+        }
+        
+        if (chunk.startsWith("||iso-table")) {
+            return `<table class="auto-table auto-table-${ tableNum }">${chunk.split("----").slice(1).map( item => {
+                item = item.trim();
+                let c = item.indexOf(":");
+                return `<tr><td class="col-1">${ item.substring(0, c) }</td><td class="col-2">${ format_(item.substring(c + 1).trimStart().split("\n").map(div => `<div>${ div }</div>`).join("")) }</td></tr>`;
+            }).join("")}</table>`;
         }
 
         /* ---------------------------------- blockquote ---------------------------------- */
@@ -558,7 +575,7 @@ function interpreter(argValue) {
                 return `<p>${line}</p>`;
             })
 
-            return `<blockquote>${ formatting(lines.join("")) }</blockquote>`;
+            return `<blockquote>${ format_(lines.join("")) }</blockquote>`;
         }
 
         /* ------------------------------------- lists ------------------------------------- */
@@ -583,7 +600,7 @@ function interpreter(argValue) {
                 else {
                     li_ += ` class="no-marker"`;
                 }
-                return li_ + `>${formatting(line)}</li>`;
+                return li_ + `>${ format_(line) }</li>`;
             })
             let list = `<${listTag} class="auto-list"`;
             if (startNumber) {
@@ -606,7 +623,7 @@ function interpreter(argValue) {
             chunk = chunk.slice(chunk.indexOf(" ") + 1);
             const headingId = chunk.replaceAll(" ", "_").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;").replaceAll("*" ,"");
             const headingClass = (headingTag == "h4") ? "heading" : "heading toc-include";
-            return `<${headingTag} id="${headingId}" class="${headingClass}">${ formatting(chunk) }</${headingTag}>`;
+            return `<${headingTag} id="${headingId}" class="${headingClass}">${ format_(chunk) }</${headingTag}>`;
         }
 
         /* ----------------------------------- see also ----------------------------------- */
@@ -614,8 +631,7 @@ function interpreter(argValue) {
             document.querySelector(".article-footer").appendChild(document.createElement("div")).innerHTML
                 = "<div class='see-also'><div>This content was also posted here:</div>" + chunk.split("\n").slice(1)
                     .map( line => {
-                        const url = line
-                            .replace(/substack\|(\w+)/, "https://perennialiris.substack.com/p/$1")
+                        const url = line .replace(/substack\|(\w+)/, "https://perennialiris.substack.com/p/$1")
                             .replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1");
                         return `<div><a href="${ url }" target="_blank">${ url }</a></div>`;
                     }).join("") + "</div>";
@@ -624,7 +640,7 @@ function interpreter(argValue) {
 
         /* ------------------------ finalizing (normal paragraphs) ------------------------ */
         
-        chunk = formatting(chunk);
+        chunk = format_(chunk);
         
         if (pStyle.includes("small")) {
             chunk = chunk.replaceAll("\n", "<br>");
@@ -639,7 +655,7 @@ function interpreter(argValue) {
     return input.join("");
 }
 
-function formatting(input_string) {
+function format_(input_string) {
     input_string = input_string.trim();
     if (input_string == "") { return input_string; }
     
@@ -647,25 +663,24 @@ function formatting(input_string) {
     
     /* first: replacements that shouldn't affect inside of tags */
     let left = 0;
-    let k = 0;
+    let overflow_check = 0;
     while (true) {
         /* the logic here is funky because it makes curly quotes easier (see wrapDigits for alternative logic) */
         let openTag = input_string.indexOf("<"),
             closeTag = openTag + input_string.substring(openTag).indexOf(">");
         if (openTag == -1 || closeTag == -1) { break; }
-        output += rplc(input_string.substring(0, openTag + 1)) + input_string.substring(openTag + 1, closeTag);
+        output += replacements_(input_string.substring(0, openTag + 1)) + input_string.substring(openTag + 1, closeTag);
         input_string = input_string.substring(closeTag);
         
-        if (k++ > 50) { break; }
+        if (overflow_check++ > 99) { break; }
             // prevent recursion while testing
     }
-    
-    return (output + rplc(input_string))
+    return (output + replacements_(input_string))
         .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
         .replace(/\*(.+?)\*/g, "<i>$1</i>");
 }
 
-function rplc(input_string) {
+function replacements_(input_string) {
     if (input_string == "") { return input_string; }
     /* escaped symbols */
     input_string = input_string.replaceAll("\\*", "&ast;")
@@ -703,18 +718,17 @@ function wrapDigits(arg) {
         arg.innerHTML = wrapDigits(arg.innerHTML);
     }
     else {
-        let k = 0;
         let output = "";
         while (true) {
             const openTag = arg.indexOf("<");
             const closeTag = arg.indexOf(">");
             if (openTag == -1 || closeTag == -1) { break; }
             
-            let not_between_tags = arg.substring(0, openTag);
-            let between_tags = arg.substring(openTag, closeTag + 1);
+            let display_text = arg.substring(0, openTag);
+            let tag_and_attributes = arg.substring(openTag, closeTag + 1);
             
-            output += not_between_tags.replace(/(\d+)/g, "<span class='digit'>$1</span>");
-            output += between_tags;
+            output += display_text.replace(/(\d+)/g, "<span class='digit'>$1</span>");
+            output += tag_and_attributes;
             
             arg = arg.substring(closeTag + 1);
         }
@@ -723,6 +737,74 @@ function wrapDigits(arg) {
     }
 }
 
+function tokenizeByWordChar(stringData) {
+    let overflow_check = 0;
+    
+    const result = [];
+    while (stringData.length > 0) {
+        let point = stringData.search( /[a-zA-Z0-9_$]/.test(stringData[0]) ? /[^a-zA-Z0-9_$]/ : /[a-zA-Z0-9_$]/ );
+        if (point == -1) {
+            result.push(stringData);
+            break;
+        }
+        result.push(stringData.substring(0, point));
+        stringData = stringData.substring(point);
+        
+        if (overflow_check++ > 99) break;
+            // prevent recursion while testing
+    }
+    return result;
+}
+
+function colorizeKeywords(stringInput, syntaxClass, customKeywords) {
+    return tokenizeByWordChar(stringInput).map(word => {
+        if (KEYWORDS[syntaxClass] && KEYWORDS[syntaxClass].includes(word)) {
+            return `<span style="color: var(--c-code-blue)">${ word }</span>`;
+        }
+        else if (customKeywords && customKeywords.includes(word)) {
+            return `<span style="color: var(--c-code-purple)">${ word }</span>`;
+        }
+        else if (/^\d+$/.test(word)) {
+            return `<span style="color: var(--c-code-orange)">${ word }</span>`;
+        }
+        return word;
+    }).join("");
+}
+
+
+const KEYWORDS = {
+    cpp: "alignas alignof and and_eq asm auto bitand bitor bool break case catch char char16_t char32_t char8_t class co_await co_return co_yield compl concept const const_cast consteval constexpr constinit continue decltype default delete do double dynamic_cast else enum explicit export extern false final float for friend goto if inline int long mutable namespace new noexcept not not_eq nullptr operator or or_eq private protected public register reinterpret_cast requires return short signed sizeof static static_assert static_cast struct switch template this thread_local throw true try typedef typeid typename union unsigned using virtual void volatile wchar_t while xor xor_eq".split(" "),
+    cs: "abstract add alias allows and args as ascending async await base bool break by byte case catch char checked class const continue decimal default delegate descending do double dynamic else enum equals event explicit extension extern false field file finally fixed float for foreach from get global goto group if implicit in init int interface internal into is join let lock long managed nameof namespace new nint not notnull nuint null object on operator or orderby out override params partial partial private protected public readonly record ref remove required return sbyte scoped sealed select set short sizeof stackalloc static string struct switch this throw true try typeof uint ulong unchecked unmanaged unmanaged unsafe ushort using value var virtual void volatile when where where while with yield".split(" "),
+    java: "abstract continue for new switch assert default goto package synchronized boolean do if private this break double implements protected throw byte else import public throws case enum instanceof return transient catch extends int short try char final interface static void class finally long strictfp volatile const float native super while".split(" ")
+};
+
+function syntaxHighlight(stringInput, syntaxClass) {
+    let output = "";
+    let overflow_check = 0;
+    while (true) {
+        const openTag = stringInput.indexOf("<");
+        const closeTag = stringInput.indexOf(">");
+        if (openTag == -1 || closeTag == -1) {
+            break;
+        }
+
+        let display_text = stringInput.substring(0, openTag);
+        let tag_and_attributes = stringInput.substring(openTag, closeTag + 1);
+
+        output += colorizeKeywords(display_text, syntaxClass);
+        output += tag_and_attributes;
+
+        stringInput = stringInput.substring(closeTag + 1);
+        if (overflow_check++ > 99) break;
+            // prevent recursion while testing
+    }
+    output += colorizeKeywords(stringInput, syntaxClass);
+
+    output = output.replace(/(\/\/.*)/, "<span class=\"code-commented\">$1</span>")
+        .replace(/(#.*)/, "<span class=\"code-macro\">$1</span>");
+
+    return output;
+}
 
 
 
