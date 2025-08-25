@@ -65,7 +65,7 @@
         /* font-size */
         --fs-ui: 14px; /* nav and menu */
         --fs-article: 17px; /* main text for #article -- define other pieces around this */
-        --fs-blockquote: 15.4em;
+        --fs-blockquote: 15.4px;
         --fs-small: 14.4px;
         --fs-first-heading: 40px;
         --fs-h1: 24px;
