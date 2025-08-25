@@ -64,9 +64,9 @@
         --ff-lb-caption: Roboto, sans-serif;
         /* font-size */
         --fs-ui: 14px; /* nav and menu */
-        --fs-article: 16px; /* main text for #article -- define other pieces around this */
-        --fs-blockquote: 0.99em;
-        --fs-small: 0.9em;
+        --fs-article: 17px; /* main text for #article -- define other pieces around this */
+        --fs-blockquote: 15.4em;
+        --fs-small: 14.4px;
         --fs-first-heading: 40px;
         --fs-h1: 24px;
         --fs-h2: 20px;
@@ -94,7 +94,7 @@
         --grey-8: #7c7c7c;
         --grey-9: #999999;
         --grey-a: #aaaaaa; /* borders, hr */
-        --grey-c: #cccccc;
+        --grey-c: #dddddd;
         --grey-e: #e8e8e8;
         --grey-f: #f7f8f9; /* code, quote, figure bg color */
         --c-white: #ffffff;
@@ -283,8 +283,9 @@
             display: none; /* hidden until parent has .toc */
             position: sticky;
             
+            --toc-gutter: 20px;
             top: calc(20px + var(--nav-height));
-            padding: 10px 20px 20px;
+            padding: 10px var(--toc-gutter) 20px;
             
             box-sizing: border-box;
             overflow: hidden;
@@ -306,9 +307,9 @@
             .toc-row { color: var(--grey-9); display: block; max-width: calc(var(--toc-width) - 20px); }
             .toc-row + .toc-row { margin-top: 10px; }
             .toc-row.active-heading { transition: color 0.25s; color: var(--grey-3); }
-            .toc-row.h1 { margin-left: 0; max-width: calc(var(--toc-width) - 20px); }
-            .toc-row.h2 { margin-left: 20px; max-width: calc(var(--toc-width) - 40px); }
-            .toc-row.h3 { margin-left: 40px; max-width: calc(var(--toc-width) - 60px); }
+            .toc-row.h1 { margin-left: 0; max-width: calc(var(--toc-width) - calc(2 * var(--toc-gutter)) - 20px); }
+            .toc-row.h2 { margin-left: 20px; max-width: calc(var(--toc-width) - calc(2 * var(--toc-gutter)) - 40px); }
+            .toc-row.h3 { margin-left: 40px; max-width: calc(var(--toc-width) - calc(2 * var(--toc-gutter)) - 60px); }
 
     .main-nav { max-width: var(--main-width); }
     .toc .main-nav {
@@ -342,7 +343,7 @@
                 color: var(--grey-2);
                 font-family: var(--ff-heading);
             }
-            #article h1 { font-size: var(--fs-h1); font-weight: 600; }
+            #article h1 { font-size: var(--fs-h1); font-weight: 700; }
             #article h2 { font-size: var(--fs-h2); font-weight: 600; }
             #article h3 { font-size: var(--fs-h3); font-weight: 700; }
             #article h4 { font-size: var(--fs-h4); font-weight: 700; }
@@ -356,7 +357,7 @@
                 padding: 0.15em 0.2em 0.1em
             }
 
-            #article sup { vertical-align: super; line-height: 1; }
+            #article sup { vertical-align: text-top; line-height: 1; }
             #article sub { vertical-align: sub; line-height: 1; }
 
             #article a { color: var(--link-color); }

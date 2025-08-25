@@ -319,8 +319,10 @@ function setBodyFont(bodyFont) {
     }
     document.getElementById("style-pref").innerHTML = "";
     if (bodyFont != "Georgia") {
-        document.getElementById("style-pref").innerHTML = ` body { --ff-article: ${ bodyFont },system-ui,sans-serif; --ff-digit: inherit; --ff-first-heading: ${ bodyFont },system-ui,sans-serif; --ff-heading: ${ bodyFont },system-ui,sans-serif; } `;
-        
+        document.getElementById("style-pref").innerHTML = ` body { --ff-article: ${ bodyFont },system-ui,sans-serif; --ff-digit: ${ bodyFont },system-ui,sans-serif; --ff-first-heading: ${ bodyFont },system-ui,sans-serif; --ff-heading: ${ bodyFont },system-ui,sans-serif; } `;
+        if (bodyFont == "Trebuchet MS") {
+            document.getElementById("style-pref").innerHTML += ` body { --fs-article: 16.4px; }`;
+        }
     }
     select_.value = bodyFont;
     localStorage.setItem("bodyFont", bodyFont);
@@ -705,6 +707,7 @@ function replacements_(input_string) {
 
             .replaceAll(/(^| |\()"/g, "$1&ldquo;")
             .replaceAll(/(\*|>|-)"(\w)/g, "$1&ldquo;$2")
+            .replaceAll(/"(,|\.)/g, "<span style='margin-right:-2px'>&rdquo;</span>$1")
             .replaceAll(/"/g, "&rdquo;");
     }
     /* dashes */
