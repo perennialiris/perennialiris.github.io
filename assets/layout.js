@@ -13,7 +13,7 @@ window.addEventListener("load", function() {
             </div>
             <div class="align-center">
                 <a id="to-top-button">Jump to Top</a>
-                <a class="hamburger icon"></a>
+                <a class="hamburger icon"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6H20 M4 12H20 M4 18H20" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
             </div>
         </div>
     </nav>
@@ -24,7 +24,7 @@ window.addEventListener("load", function() {
                         <td><select class="menu-select" id="brightness-select">
                                 <option value="light">Light</option>
                                 <option value="dark">Dark</option>
-                                <option value="darker">Very dark</option>
+                                <option value="darker">Super dark</option>
                             </select>
                     </td></tr>
                     <tr><td>Body font:</td>
@@ -66,9 +66,9 @@ window.addEventListener("load", function() {
     </div>
     <div class="page-bottom"></div>
     <div class="lb-container">
-        <div id="lb-top-left"></div>
-        <div class="lb-wrapper"><img id="lightbox"></div>
-        <div class="lb-bottom-panel"><div id="lb-caption"></div></div>
+        <div id="lightbox-top-left"></div>
+        <div class="lightbox-wrapper"><img id="lightbox"></div>
+        <div class="lightbox-bottom-panel"><div id="lightbox-caption"></div></div>
     </div>
     <style id="style-pref"></style>`;
 
@@ -78,11 +78,10 @@ window.addEventListener("load", function() {
     
     const article_ = document.getElementById("article");
     interpreter(article_);
-    
     Array.from(article_.getElementsByTagName("p")).forEach(e => wrapDigits(e));
     Array.from(article_.getElementsByTagName("li")).forEach(e => wrapDigits(e));
     
-    document.querySelector(".lb-wrapper").addEventListener("click", () => { setLightbox("close") });
+    document.querySelector(".lightbox-wrapper").addEventListener("click", () => { setLightbox("close") });
     
     /* ---------------------- setting up menu: ---------------------- */
     const hamburger = document.querySelector(".hamburger");
@@ -175,9 +174,10 @@ window.addEventListener("load", function() {
             }
             lastHeading = currentHeading;
         }
-        let tocMinWidth = 200;
-        let articleWidth = window.getComputedStyle(article_).getPropertyValue("max-width").replace(/\D/g, "");
-        let pageCheckWidth = tocMinWidth + parseInt(articleWidth) - 100;
+
+        let tocWidth = getComputedStyle(html).getPropertyValue("--toc-width").replace(/\D/g, "");
+        let mainWidth = getComputedStyle(html).getPropertyValue("--main-width").replace(/\D/g, "");
+        let pageCheckWidth = parseInt(tocWidth) + parseInt(mainWidth) - 50;
 
         let canTocWidthCheck = true;
         function tocWidthCheck() {
@@ -280,8 +280,8 @@ function setLightbox(action) {
         document.documentElement.classList.remove("lightbox");
     }
     else {
-        let lbTopLeft = document.getElementById("lb-top-left");
-        let lbCaption = document.getElementById("lb-caption");
+        let lbTopLeft = document.getElementById("lightbox-top-left");
+        let lbCaption = document.getElementById("lightbox-caption");
 
         lightbox.src = action.src;
         lightbox.alt = action.alt;
@@ -319,7 +319,8 @@ function setBodyFont(bodyFont) {
     }
     document.getElementById("style-pref").innerHTML = "";
     if (bodyFont != "Georgia") {
-        document.getElementById("style-pref").innerHTML = ` #article { font-family: ${ bodyFont },var(--ff-article); } #article h4 { font-family: ${ bodyFont },var(--ff-h4); } #article ol > li::marker, #article .digit { font-family: ${ bodyFont },var(--ff-digit); } #article .heading { font-family: ${ bodyFont },serif; } `;
+        document.getElementById("style-pref").innerHTML = ` body { --ff-article: ${ bodyFont },system-ui,sans-serif; --ff-digit: inherit; --ff-first-heading: ${ bodyFont },system-ui,sans-serif; --ff-heading: ${ bodyFont },system-ui,sans-serif; } `;
+        
     }
     select_.value = bodyFont;
     localStorage.setItem("bodyFont", bodyFont);
@@ -355,23 +356,6 @@ function interpreter(argValue) {
         }
 
         /* ------------------------------------ images ------------------------------------ */
-        if (chunk.startsWith("||image-span")) {
-            /* ||image-span maxHeight */
-            /* imgUrl | alt-text/title */
-            const rows = chunk.split("\n");
-            let homeRow = rows.shift().substring("||image-span".length).trim();
-            const galleryFigures = rows.map( line => {
-                const parts = line.split("|");
-                while (parts.length < 2) {
-                    parts.push("");
-                }
-                let imgUrl = "media/" + parts[0].trim();
-                let altText = format_(parts[1].trim().replace(/"/g,"&quot;"));
-                return `<div><img style="max-height: ${homeRow || 300}px;" onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></div>`;
-            });
-            return `<div class="image-span align-center space-evenly">${ galleryFigures.join("") }</div>`;
-        }
-
         if (chunk.startsWith("||image-float")) {
             /* imgUrl | caption | alt-text/title */
             const lines = chunk.split("\n").slice(1).map( line => {
@@ -387,6 +371,23 @@ function interpreter(argValue) {
                 return `<figure><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }">${ figCaption }</figure>`;
             });
             return `<div class="image-float">${ lines.join("") }</div>`;
+        }
+
+        if (chunk.startsWith("||image-span")) {
+            /* ||image-span maxHeight */
+            /* imgUrl | alt-text/title */
+            const rows = chunk.split("\n");
+            let homeRow = rows.shift().substring("||image-span".length).trim();
+            const galleryFigures = rows.map( line => {
+                const parts = line.split("|");
+                while (parts.length < 2) {
+                    parts.push("");
+                }
+                let imgUrl = "media/" + parts[0].trim();
+                let altText = format_(parts[1].trim().replace(/"/g,"&quot;"));
+                return `<div><img style="max-height: ${homeRow || 300}px;" onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></div>`;
+            });
+            return `<div class="image-span align-center space-evenly">${ galleryFigures.join("") }</div>`;
         }
 
         if (chunk.startsWith("||captioned-gallery")) {
@@ -623,7 +624,7 @@ function interpreter(argValue) {
             chunk = chunk.slice(chunk.indexOf(" ") + 1);
             const headingId = chunk.replaceAll(" ", "_").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;").replaceAll("*" ,"");
             const headingClass = (headingTag == "h4") ? "heading" : "heading toc-include";
-            return `<${headingTag} id="${headingId}" class="${headingClass}">${ format_(chunk) }</${headingTag}>`;
+            return `<${ headingTag } id="${ headingId }" class="${ headingClass }">${ format_(chunk) }</${ headingTag }>`;
         }
 
         /* ----------------------------------- see also ----------------------------------- */
@@ -770,7 +771,6 @@ function colorizeKeywords(stringInput, syntaxClass, customKeywords) {
         return word;
     }).join("");
 }
-
 
 const KEYWORDS = {
     cpp: "alignas alignof and and_eq asm auto bitand bitor bool break case catch char char16_t char32_t char8_t class co_await co_return co_yield compl concept const const_cast consteval constexpr constinit continue decltype default delete do double dynamic_cast else enum explicit export extern false final float for friend goto if inline int long mutable namespace new noexcept not not_eq nullptr operator or or_eq private protected public register reinterpret_cast requires return short signed sizeof static static_assert static_cast struct switch template this thread_local throw true try typedef typeid typename union unsigned using virtual void volatile wchar_t while xor xor_eq".split(" "),
