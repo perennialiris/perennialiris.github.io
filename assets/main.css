@@ -400,6 +400,7 @@
                     }
             
             .auto-list.short li {
+                margin-top: 0.3em;
                 line-height: var(--lh-short-list);
             }
 
