@@ -63,9 +63,14 @@ window.addEventListener("load", function() {
                 <footer class="article-footer">
                     <div class="align-center">
                         <img alt="Theme painting ('A Beauty Holding a Bird' by Louis Emile Pinel de Grandchamp)" style="margin-right: 10px; border: 1px solid var(--grey-a);" src="${ themePainting }" width="100" height"100">
-                        <div style="padding-bottom: 6px;">
-                            <div style="color: var(--grey-5); font-family: var(--ff-article);">@perennialiris</div>
-                            <div class="plugs"><a href="https://github.com/perennialiris/perennialiris.github.io">${ githubLogoSvg } This Repo</a> | <a href="https://bsky.app/profile/perennialiris.bsky.social">${ blueskyLogoSvg } Bluesky</a> | <a href="https://perennialiris.tumblr.com/">${ tumblrLogoSvg } Tumblr</a> | <a href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA">${ youtubeLogoSvg } YouTube</a> | <a href="https://discord.gg/fGdV7x5dk2">${ discordLogoSvg } Discord</a> | <a href="https://perennialiris.substack.com">${ substackLogoSvg } Substack</a></div><!-- | <a href="https://x.com/perennialforces">${ twitterLogoSvg } Twitter(X)</a></div> -->
+                        <div style="display:flex; flex-wrap:wrap;">
+                            <div><a class="plug" href="https://github.com/perennialiris/perennialiris.github.io">${ githubLogoSvg } <span>This Repo</span></a></div>
+                            <div><a class="plug" href="https://bsky.app/profile/perennialforces.bsky.social">${ blueskyLogoSvg } <span>Bluesky</span></a></div>
+                            <div><a class="plug" href="https://perennialiris.tumblr.com/">${ tumblrLogoSvg } <span>Tumblr</span></a></div>
+                            <div><a class="plug" href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA">${ youtubeLogoSvg } <span>YouTube</span></a></div>
+                            <div><a class="plug" href="https://discord.gg/fGdV7x5dk2">${ discordLogoSvg } <span>Discord</span></a></div>
+                            <div><a class="plug" href="https://perennialiris.substack.com">${ substackLogoSvg } <span>Substack</span></a></div>
+                            <div><a class="plug" href="https://x.com/perennialforces">${ twitterLogoSvg } <span>Twitter(X)</span></a></div>
                         </div>
                     </div>
                 </footer>
