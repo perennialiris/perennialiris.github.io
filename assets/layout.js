@@ -4,19 +4,20 @@
 const html = document.documentElement;
 
 const githubLogoSvg = `<svg class="inline-logo github-logo" role="img" xmlns="http://www.w3.org/2000/svg" height="18" width="18" viewBox="0 0 24 24"><path d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path></svg>`;
-const blueskyLogoSvg = `<svg class="inline-logo bluesky-logo" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 57" width="18" height="18"><path d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z"></path></svg>`;
-const tumblrLogoSvg = `<svg class="inline-logo tumblr-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 540 540"><path d="M260,0 C403.1,0 520,116.9 520,260 C520,403.1 403.1,520 260,520 C116.9,520 0,403.1 0,260 C0,116.9 116.9,0 260,0 Z"/><path d="M222.5 113.9h55.8v71.1h48.3v55.8h-48.3v91.5c0 24.1 13.6 31.6 32.2 31.6 9.5 0 20.6-1.4 28.5-3.9v51.9c-9.9 4.7-27.8 9.4-47.3 9.4-47.6 0-78.5-29.3-78.5-82.7V240.8h-38.9v-55.8h38.9v-71.1z"/></svg>`;
-const substackLogoSvg = `<svg class="inline-logo substack-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 64 64"><path d="M8 10 H56 V16 H8 Z" /><path d="M8 22 H56 V28 H8 Z" /><path d="M8 34 H56 V62 L32 50 L8 62 Z" /></svg>`;
 const youtubeLogoSvg = `<svg class="inline-logo youtube-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 30 30"><path d="M29.2 8.6c-.3-1.6-1.6-2.8-3.2-3C23 5.2 15 5.2 15 5.2s-8 0-11 .4c-1.6.2-2.9 1.4-3.2 3C.4 11.6.4 15 .4 15s0 3.4 .4 6.4c.3 1.6 1.6 2.8 3.2 3C7 24.8 15 24.8 15 24.8s8 0 11-.4c1.6-.2 2.9-1.4 3.2-3 .4-3 .4-6.4 .4-6.4s0-3.4-.4-6.4z"/><path d="M12 19.2V10.8l7.8 4.2-7.8 4.2z"/></svg>`;
-const twitterLogoSvg = `<svg class="inline-logo twitter-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg>`;
+const tumblrLogoSvg = `<svg class="inline-logo tumblr-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 530 530"><path d="M260,0 C403.1,0 520,116.9 520,260 C520,403.1 403.1,520 260,520 C116.9,520 0,403.1 0,260 C0,116.9 116.9,0 260,0 Z"/><path d="M222.5 113.9h55.8v71.1h48.3v55.8h-48.3v91.5c0 24.1 13.6 31.6 32.2 31.6 9.5 0 20.6-1.4 28.5-3.9v51.9c-9.9 4.7-27.8 9.4-47.3 9.4-47.6 0-78.5-29.3-78.5-82.7V240.8h-38.9v-55.8h38.9v-71.1z"/></svg>`;
+const twitterLogoSvg = `<svg class="inline-logo twitter-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="-1 -1 25 25"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg>`;
+const blueskyLogoSvg = `<svg class="inline-logo bluesky-logo" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 57" width="18" height="18"><path d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z"></path></svg>`;
 const discordLogoSvg = `<svg class="inline-logo discord-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16"><path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/></svg>`;
+const substackLogoSvg = `<svg class="inline-logo substack-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 64 64"><path d="M8 10 H56 V16 H8 Z" /><path d="M8 22 H56 V28 H8 Z" /><path d="M8 34 H56 V62 L32 50 L8 62 Z" /></svg>`;
+const socialLinksdata = `<div title="This github repo"><a class="plug" href="https://github.com/perennialiris/perennialiris.github.io">${ githubLogoSvg }</a></div><div title="My YouTube channel"><a class="plug" href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA">${ youtubeLogoSvg }</a></div><div title="My tumblr account"><a class="plug" href="https://perennialiris.tumblr.com/">${ tumblrLogoSvg }</a></div><div title="Twitter"><a class="plug" href="https://x.com/perennialforces">${ twitterLogoSvg }</a></div><div title="Bluesky"><a class="plug" href="https://bsky.app/profile/perennialforces.bsky.social">${ blueskyLogoSvg }</a></div><div title="Invite to my Discord server"><a class="plug" href="https://discord.gg/fGdV7x5dk2">${ discordLogoSvg }</a></div><div title="My account on Substack"><a class="plug" href="https://perennialiris.substack.com">${ substackLogoSvg }</a></div>`;
 
 const homeLink = document.getElementById("index") ? "" : "../../index.html";
 const themePainting = document.getElementById("index") ? "assets/grandchamp.png" : "../../assets/grandchamp.png";
 
 window.addEventListener("load", function() {
     document.body.innerHTML =
-    `<header class="main-header center align-center"><div><a href="${ homeLink }" style="color: var(--header-color); font-family: Constantia,Georgia,serif; font-size: 28px;">perennial<span style="color: var(--header-color-2); margin-left: 1px;">iris</span></a></div></header>
+    `<header class="main-header center align-center"><div style="transform: translateY(6px);"><a href="${ homeLink }" class="header-title">Perennial<span style="color: var(--header-color-2); margin-left: 1px;">Iris</span></a></div></header>
     <nav class="nav-wrapper no-select">
         <div class="main-nav stretch space-between">
             <div class="align-center">
@@ -35,11 +36,11 @@ window.addEventListener("load", function() {
                         <td><select class="menu-select" id="brightness-select">
                                 <option value="light">Light</option>
                                 <option value="dark">Dark</option>
-                                <option value="darker">Very dark</option>
+                                <option value="darker">Extra dark</option>
                             </select>
                     </td></tr>
                     <tr><td class="no-select">Body font:</td>
-                        <td><select class="menu-select" id="bodyfont-select">
+                        <td><select class="menu-select" id="pageFont-select">
                                 <option value="Georgia">Georgia</option>
                                 <option value="Palatino Linotype">Palatino Linotype</option>
                                 <option value="Inter">Inter</option>
@@ -61,18 +62,8 @@ window.addEventListener("load", function() {
             <div class="c3">
                 <article id="article">${ document.body.innerHTML }</article>
                 <footer class="article-footer">
-                    <div class="align-center">
-                        <img alt="Theme painting ('A Beauty Holding a Bird' by Louis Emile Pinel de Grandchamp)" style="margin-right: 10px; border: 1px solid var(--grey-a);" src="${ themePainting }" width="100" height"100">
-                        <div style="display:flex; flex-wrap:wrap;">
-                            <div><a class="plug" href="https://github.com/perennialiris/perennialiris.github.io">${ githubLogoSvg } <span>This Repo</span></a></div>
-                            <div><a class="plug" href="https://bsky.app/profile/perennialforces.bsky.social">${ blueskyLogoSvg } <span>Bluesky</span></a></div>
-                            <div><a class="plug" href="https://perennialiris.tumblr.com/">${ tumblrLogoSvg } <span>Tumblr</span></a></div>
-                            <div><a class="plug" href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA">${ youtubeLogoSvg } <span>YouTube</span></a></div>
-                            <div><a class="plug" href="https://discord.gg/fGdV7x5dk2">${ discordLogoSvg } <span>Discord</span></a></div>
-                            <div><a class="plug" href="https://perennialiris.substack.com">${ substackLogoSvg } <span>Substack</span></a></div>
-                            <div><a class="plug" href="https://x.com/perennialforces">${ twitterLogoSvg } <span>Twitter(X)</span></a></div>
-                        </div>
-                    </div>
+                    <img alt="Theme painting ('A Beauty Holding a Bird' by Louis Emile Pinel de Grandchamp)" src="${ themePainting }" width="100" height"100">
+                    <div class="social-links"><div class="profile-name">Perennial Iris</div>${ socialLinksdata }</div>
                 </footer>
             </div>
         </main>
@@ -87,7 +78,7 @@ window.addEventListener("load", function() {
 
     document.documentElement.classList.add("layout");
     setBrightness();
-    setBodyFont();
+    setPageFont();
     
     const article_ = document.getElementById("article");
     interpreter(article_);
@@ -127,9 +118,9 @@ window.addEventListener("load", function() {
     brightnessSelect.addEventListener("change", function() {
         setBrightness(brightnessSelect.value);
     });
-    let bodyfontSelect = document.getElementById("bodyfont-select");
-    bodyfontSelect.addEventListener("change", function() {
-        setBodyFont(bodyfontSelect.value);
+    let pageFontSelect = document.getElementById("pageFont-select");
+    pageFontSelect.addEventListener("change", function() {
+        setPageFont(pageFontSelect.value);
     });
 
     /* ---- ---- ---- ---- ---- ---- ---- table of contents ---- ---- ---- ---- ---- ---- ---- ---- ---- */
@@ -167,7 +158,7 @@ window.addEventListener("load", function() {
                         row.classList.add("active-heading");
                         let rRect = row.getBoundingClientRect();
                         let tRect = toc.getBoundingClientRect();
-                        if (rRect.bottom + 20> tRect.bottom) {
+                        if (rRect.bottom + 20 > tRect.bottom) {
                             toc.scrollTo(
                                 { top: row.offsetTop + row.offsetHeight - toc.clientHeight + 20, behavior: "smooth" }
                             );
@@ -324,17 +315,17 @@ function setBrightness(brightness) {
     select_.value = brightness;
     localStorage.setItem("brightness", brightness);
 }
-function setBodyFont(bodyFont) {
-    if (bodyFont == "" || bodyFont == null) {
-        bodyFont = localStorage.getItem("bodyFont");
+function setPageFont(pageFont) {
+    if (pageFont == "" || pageFont == null) {
+        pageFont = localStorage.getItem("pageFont");
     }
-    let select_ = document.getElementById("bodyfont-select");
+    let select_ = document.getElementById("pageFont-select");
     let fonts_ = Array.from(select_.getElementsByTagName("option")).map(o => o.value);
-    if (!fonts_.includes(bodyFont)) {
-        bodyFont = fonts_[0];
+    if (!fonts_.includes(pageFont)) {
+        pageFont = fonts_[0];
     }
-    let setStyle = "", numberFont = bodyFont;
-    switch (bodyFont) {
+    let setStyle = "", numberFont = pageFont;
+    switch (pageFont) {
         case "Georgia":
             break; // if georgia, leave element blank, let css default
         case "Times":
@@ -345,14 +336,16 @@ function setBodyFont(bodyFont) {
         case "Constantia":
         case "Nunito Sans":
             setStyle += "--fs-article: 17px;";
+        case "Faculty Glyphic":
+            setStyle += "--lh-article: 1.775;"
         default:
-            setStyle += `--ff-article: ${ bodyFont },system-ui,sans-serif; --ff-number: ${ numberFont },system-ui,sans-serif; --ff-first-heading: ${ bodyFont },system-ui,sans-serif; --ff-heading: ${ bodyFont },system-ui,sans-serif;`;
+            setStyle += `--ff-article: ${ pageFont },system-ui,sans-serif; --ff-number: ${ numberFont },system-ui,sans-serif; --ff-heading: ${ pageFont },system-ui,sans-serif;`;
     }
     
     document.getElementById("style-pref").innerHTML = `body { ${ setStyle } }`;
     
-    select_.value = bodyFont;
-    localStorage.setItem("bodyFont", bodyFont);
+    select_.value = pageFont;
+    localStorage.setItem("pageFont", pageFont);
 }
 
 /* ------------------------------- main interpreter for article content ------------------------------- */
@@ -371,6 +364,7 @@ function interpreter(argValue) {
     let linkNum = 1;
     let infoNum = 1;
     let firstParagraph = true;
+    let firstHeading = true;
     
     input = input.map( chunk => {
     
@@ -451,7 +445,9 @@ function interpreter(argValue) {
                 const imgUrl = "media/" + parts[0].trim();
                 let figCaption = format_(parts[1].trim());
                 let altText = format_(parts[2].trim().replace(/"/g,"&quot;"));
-                if (figCaption) { figCaption = `<figcaption>${ figCaption }</figcaption>`; }
+                if (figCaption) {
+                    figCaption = `<figcaption>${ figCaption }</figcaption>`;
+                }
                 
                 return `<figure><div class="center align-center"><img onclick="setLightbox(this)" src="${ imgUrl }" title="${ altText }" alt="${ altText }"></div>${ figCaption }</figure>`;
             });
@@ -471,7 +467,47 @@ function interpreter(argValue) {
             return `<div class="auto-video"><video controls height="${maxHeight}"><source src="media/${fileUrl}" type="video/${fileType}"></video></div>`;
         }
 
+        if (chunk.startsWith("||yt-gallery")) {
+            let rows = chunk.split("\n");
+            let galleryInfo = rows.shift().substring("||yt-gallery".length);
+            let sortInput = galleryInfo.includes("sort");
+            let numToInclude = parseInt(galleryInfo.replace(/\D/g, "")) || 6;
+            
+            rows = rows.map(row => {
+                row = row.replace(/\\\|/g, "&verbar;").split("|").map(d => d.trim());
+                while (row.length < 3) {
+                    row.push("");
+                }
+                return row;
+            });
+            if (sortInput) {
+                rows.sort((a, b) => (parseInt(b[2].replace(/\D/g, "")) || 0) - (parseInt(a[2].replace(/\D/g, "")) || 0) );
+            }
+            rows = rows.slice(0, numToInclude).map( row => {
+                let title = row[0];
+                let videoCode = row[1];
+                let date = row[2];
+                
+                while (videoCode.charAt(videoCode.length - 1) == "/") {
+                    videoCode = videoCode.substring(0, videoCode.length - 1);
+                }
+                videoCode = videoCode.split("/").slice(-1);
+                
+                let videoUrl = `https://www.youtube.com/watch?v=${ videoCode }`;
+                let thumbUrl = `https://i.ytimg.com/vi/${ videoCode }/hqdefault.jpg`;
+                
+                let videoLink = `<a href="${ videoUrl }"><img src="${ thumbUrl }"></a>`;
+                
+                return `<figure>
+                    <div>${ videoLink }</div>
+                    <figcaption><span class="yt-title"><a href="${ videoUrl }">${ title }</a></span> <span class="yt-date">${ date }</span></figcaption>
+                </figure>`;
+            });
+            return `<div class="yt-gallery">${ rows.join("") }</div>`;
+        }
+
         chunk = chunk.replaceAll("\\`", "&#96;");
+
         /* ------------------------------------- code ------------------------------------- */
         if (chunk.startsWith("||codeblock")) {
             let lines = chunk.split("\n");
@@ -523,10 +559,10 @@ function interpreter(argValue) {
             let a;
             if (!address.startsWith("http")) {
                 if (displayText == "") {
-                    a = `<a class="internal" href="${ address }>[internal]</a>`;
+                    a = `<a href="${ address }>[internal]</a>`;
                 }
                 else {
-                    a = `<a class="internal" href=${ address }>${ displayText }</a>`
+                    a = `<a href=${ address }>${ displayText }</a>`
                 }
             }
             else {
@@ -544,7 +580,7 @@ function interpreter(argValue) {
         
         /* link to section on this page: */
         chunk = chunk.replace(/\[\[(.+?)\]\]/g, (match, displayText) => {
-            return `<a class="internal section-link" title="Jump to section" href="#${ displayText.replaceAll(" ", "_") }">${ displayText }</a>`
+            return `<a title="Jump to section" href="#${ displayText.replaceAll(" ", "_") }">${ displayText }</a>`
         });
 
         /* ------------------------------------- table ------------------------------------- */
@@ -561,7 +597,9 @@ function interpreter(argValue) {
                 let cells = rows[r].replace(/\\\|/g, "&verbar;").split("|");
                 for (let c = 0; c < cells.length; c += 1) {
                     cells[c] = `<td class="col-${ c + 1 }">${ format_(cells[c].trim()) }</td>`;
-                    if (c + 1 > tableWidth) { tableWidth = c + 1; }
+                    if (c + 1 > tableWidth) {
+                        tableWidth = c + 1;
+                    }
                 }
                 rows[r] = `<tr>${ cells.join("") }</tr>`;
             }
@@ -577,21 +615,37 @@ function interpreter(argValue) {
             /* if ||table declaration had styling included: */
             let customTableStyle = "";
             if (firstRow.length > 1) {
-                customTableStyle = `<style>${ firstRow.replace(/;/g, " !important;").replace(/this/g, ".table-"+tableNum) }</style>`;
+                customTableStyle = `<style>${ firstRow.replace(/;/g, " !important;").replace(/this/g, ".auto-table-"+tableNum) }</style>`;
             }
-            
-            let table = `${ customTableStyle }<div class="table-wrapper"><table class="table table-${ tableNum }">${ tableHead }<tbody>${ rows.join("") }</tbody></table></div>`;
-            
+
+            let table = `${ customTableStyle }<div class="table-wrapper"><table class="auto-table auto-table-${ tableNum }">${ tableHead }<tbody>${ rows.join("") }</tbody></table></div>`;
             tableNum += 1;
+
             return table;
         }
-        
+        /* -------- different format, for a 2-width dated table -------- */
         if (chunk.startsWith("||iso-table")) {
-            return `<table class="table table-${ tableNum }">${chunk.split("----").slice(1).map( item => {
+            let rows = chunk.split("----").slice(1).map( item => {
                 item = item.trim();
-                let c = item.indexOf(":");
-                return `<tr><td class="col-1">${ item.substring(0, c) }</td><td class="col-2">${ format_(item.substring(c + 1).trimStart().split("\n").map(div => `<div>${ div }</div>`).join("")) }</td></tr>`;
-            }).join("")}</table>`;
+                let colon = item.indexOf(":");
+                return `<tr><td class="col-1">${ item.substring(0, colon) }</td><td class="col-2">${ format_(item.substring(colon + 1).trimStart().split("\n").map(div => `<div>${ div }</div>`).join(""))}</td></tr>`;
+            })
+            
+            return `<table class="auto-table auto-table-${ tableNum++ }">${ rows.join("") }</table>`;
+        }
+
+        /* -------- technically not a table -------- */
+        if (chunk.startsWith("||rows")) {
+            let rows = chunk.split("\n").slice(1);
+            for (let i = 0; i < rows.length; i += 1) {
+                rows[i] = rows[i].replace(/\\\|/g, "&verbar;");
+                let cells = rows[i].split("|");
+                for (let j = 0; j < cells.length; j += 1) {
+                    cells[j] = `<div class="cell col-${ j+1 }">${ format_(cells[j]) }</div>`;
+                }
+                rows[i] = `<div class="row row-${ i+1 }">${ cells.join("") }</div>`;
+            }
+            return `<div class="table-wrapper"><div class="auto-flex-table auto-table-${ tableNum++ }">${ rows.join("") }</div></div>`;
         }
 
         /* ---------------------------------- blockquote ---------------------------------- */
@@ -653,19 +707,22 @@ function interpreter(argValue) {
             const headingTag = "h" + chunk.indexOf(" ");
             chunk = chunk.slice(chunk.indexOf(" ") + 1);
             const headingId = chunk.replaceAll(" ", "_").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;").replaceAll("*" ,"");
-            const headingClass = (headingTag == "h4") ? "heading" : "heading toc-include";
+            let headingClass = (headingTag == "h4") ? "heading" : "heading toc-include";
+            if (firstHeading) {
+                headingClass += " first-heading";
+                firstHeading = false;
+            }
             return `<${ headingTag } id="${ headingId }" class="${ headingClass }">${ format_(chunk) }</${ headingTag }>`;
         }
 
         /* ----------------------------------- see also ----------------------------------- */
         if (chunk.startsWith("||see-also")) {
-            document.querySelector(".article-footer").appendChild(document.createElement("div")).innerHTML
-                = "<div class='see-also'><div>This content was also posted here:</div>" + chunk.split("\n").slice(1)
-                    .map( line => {
-                        const url = line .replace(/substack\|(\w+)/, "https://perennialiris.substack.com/p/$1")
-                            .replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1");
-                        return `<div><a href="${ url }" target="_blank">${ url }</a></div>`;
-                    }).join("") + "</div>";
+            document.getElementById("article").parentNode.appendChild(document.createElement("div")).innerHTML = "<div class=\"see-also\"><div>This content was also posted here:</div>" + chunk.split("\n").slice(1)
+                .map( line => {
+                    const url = line .replace(/substack\|(\w+)/, "https://perennialiris.substack.com/p/$1")
+                        .replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1");
+                    return `<div><a href="${ url }" target="_blank">${ url }</a></div>`;
+                }).join("") + "</div>";
             return;
         }
 

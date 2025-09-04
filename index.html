@@ -5,91 +5,81 @@
     <link rel="stylesheet" href="assets/main.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
-    #to-top-button,
-    .article-footer,
-    #page-name-display {
-        display: none !important;
-    }
-    .table td,
-    .table th {
-        border: none !important;
-        background-color: transparent !important;
-    }
-    .table tr {
-        border-left: 1px solid var(--link-color);
-    }
-    .table tr + tr {
-        border-top: 1px dotted var(--grey-8);
-    }
-    .table-wrapper {
-        margin-inline: 1em;
-    }
-    .table,
-    .col-1 {
-        width: 100%;
-    }
-    .col-2 {
-        color: var(--grey-9) !important;
-    }
-    .table a {
-        color: var(--link-color) !important;
-        text-decoration: none !important;
-        border-bottom: none !important;
-    }
-    .table a:hover {
-        text-decoration: underline !important;
-        color: var(--link-color) !important;
-    }
     
-    .standalone-plugs {
-        color: var(--grey-8);
-        display: flex;
-        justify-content: center;
-        line-height: 1.5;
-        padding: 9px 2px;
-        border-block: 1px solid var(--grey-c);
-        flex-wrap: wrap;
-    }
-        .standalone-plugs a {
-            color: var(--grey-5);
-            font-family: var(--ff-ui);
-            letter-spacing: 0px;
-            font-size: 15.4px;
-            padding: 0 5px 1px 4px;
-            border-radius: 6px;
-            white-space: nowrap;
-            margin-inline: 10px;
+        .article-footer,
+        #to-top-button,
+        #page-name-display {
+            display: none !important;
         }
-        .standalone-plugs a:hover {
-            background-color: var(--grey-f);
-            outline: 2px solid var(--grey-f);
+    
+    /* ---- unique .rows for front index: ---- */
+    
+        .table-wrapper {
+            margin-inline: 1em;
+            margin-top: 0.5em !important;
+            border-left: 1px solid var(--link-color);
         }
-            .standalone-plugs a svg {
-                margin-right: 4px;
-            }
-    
-    .inline-logo {
-        vertical-align: text-bottom; opacity: 0.88;
-        height: 20px;
-        width: 20px;
-    }
-    
+        .auto-flex-table .row + .row {
+            border-top: 1px dotted var(--grey-9);
+        }
+        .col-2 {
+            color: var(--grey-9) !important;
+        }
+        .table a {
+            color: var(--link-color) !important;
+            text-decoration: none !important;
+            border-bottom: none !important;
+        }
+        .table a:hover {
+            text-decoration: underline !important;
+            color: var(--link-color) !important;
+        }
+        
+        .yt-gallery {
+            margin-inline: 1em;
+            margin-top: 0.5em !important;
+            border-left: 1px solid var(--link-color);
+        }
+        
     </style>
 </head>
 <body>
-\<div class="standalone-plugs"><a href="https://github.com/perennialiris/perennialiris.github.io"><svg class="inline-logo github-logo" role="img" xmlns="http://www.w3.org/2000/svg" height="18" width="18" viewBox="0 0 24 24"><path d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path></svg>This Repo</a> | <a href="https://bsky.app/profile/perennialiris.bsky.social"><svg class="inline-logo bluesky-logo" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 57" width="18" height="18"><path d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z"></path></svg>Bluesky</a> | <a href="https://perennialiris.tumblr.com/"><svg class="inline-logo tumblr-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 540 540"><path d="M260,0 C403.1,0 520,116.9 520,260 C520,403.1 403.1,520 260,520 C116.9,520 0,403.1 0,260 C0,116.9 116.9,0 260,0 Z"></path><path d="M222.5 113.9h55.8v71.1h48.3v55.8h-48.3v91.5c0 24.1 13.6 31.6 32.2 31.6 9.5 0 20.6-1.4 28.5-3.9v51.9c-9.9 4.7-27.8 9.4-47.3 9.4-47.6 0-78.5-29.3-78.5-82.7V240.8h-38.9v-55.8h38.9v-71.1z"></path></svg>Tumblr</a> | <a href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA"><svg class="inline-logo youtube-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 30 30"><path d="M29.2 8.6c-.3-1.6-1.6-2.8-3.2-3C23 5.2 15 5.2 15 5.2s-8 0-11 .4c-1.6.2-2.9 1.4-3.2 3C.4 11.6.4 15 .4 15s0 3.4 .4 6.4c.3 1.6 1.6 2.8 3.2 3C7 24.8 15 24.8 15 24.8s8 0 11-.4c1.6-.2 2.9-1.4 3.2-3 .4-3 .4-6.4 .4-6.4s0-3.4-.4-6.4z"></path><path d="M12 19.2V10.8l7.8 4.2-7.8 4.2z"></path></svg>YouTube</a> | <a href="https://discord.gg/fGdV7x5dk2"><svg class="inline-logo discord-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16"><path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"></path></svg>Discord</a> | <a href="https://perennialiris.substack.com"><svg class="inline-logo substack-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 64 64"><path d="M8 10 H56 V16 H8 Z"></path><path d="M8 22 H56 V28 H8 Z"></path><path d="M8 34 H56 V62 L32 50 L8 62 Z"></path></svg>Substack</a></div>
+\<div class="social-links"></div>
 
-Pages I maintain on this repo uniquely:
+Key pages:
 
-||table
+||rows
 [US news](page/us-news/index.html) -- trying to keep track of things happening in America
 [Sex, gender, & transsexuals](page/4/index.html)
 [Israel–Palestine](page/israel-palestine/index.html)
 [Politics fundamentals](page/5/index.html)
 
-Things I've posted on other websites:
+Recent YouTube uploads:
 
-||table
+||yt-gallery sort3
+How to fix America in a few simple steps | iFHmA32NZAs | 2025-08-22
+Unpacking lies about Ilhan Omar | zgE4L-e9yg0 | 2025-09-03
+What just happened? News recap \| Jan 20 to July 4 | n355Q15CX8g | 2025-08-18
+Canada's Conservative Populist \| An Overview of Pierre Poilievre | BZ-ztjpRchE | 2025-07-11
+The default politician is a normal white guy | GDjIBEq16zY | 2025-03-29
+Do I pass? \| Transsexual diaries | tCh_wJz9M-E | 2025-03-20
+What is with Trump and Russia? | G-sLZaP7oOA | 2025-03-18
+Pride 2025 in Toronto | PL3u9OOGxew | 2025-06-05
+Fireworks | tzJEv4jjKHM | 2025-06-23
+Rorschach tests | K3A1g1274Kc | 2024-08-20
+Are trans people more likely to be sex offenders? | ZKglpuBen-w | 2025-07-12
+Are trans people delusional? | amzwAmae4vQ | 2025-06-28
+Trans fetishism & politics | vk57rvM1zWo | 2025-04-02
+Sex, gender, & transsexuals | _bCO2o1Z0sE | 2025-05-29
+Lies people still believe \| Donald Trump, Elizabeth Warren, Hillary Clinton | LPQD6sxlWOs | 2025-04-09
+Bernie Sanders and the military industrial complex | yt6O0OMdIT0 | 2025-03-22
+Types of masculinity | lOQSqMhjwZY | 2025-06-12
+
+\<div style="text-align: right; margin-top: 0;"><span><a href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA/videos">Link to video list on my channel &rarr;</a></span></div>
+
+Text posts:
+
+||rows
 [The Trump appeal](page/18/index.html) | 2024-12-03
 [Pierre Poilievre](page/pierre-poilievre/index.html) | 2025-03-15
 [Trump and Russia](page/26/index.html) | 2025-03-06
@@ -105,29 +95,16 @@ Things I've posted on other websites:
 [Poor things (2023 film)](page/poor-things/index.html) | 2024-10-31
 [The trans prison stats argument](page/9/index.html) | 2024-10-19
 
-YouTube videos, many based on writings above:
+Other:
 
-||table
-[How to fix America](page/video/index.html?v=iFHmA32NZAs) | 2025-08-22
-[The default politician is a normal white guy](page/video/index.html?v=GDjIBEq16zY) | 2025-03-29
-[Do I pass? \| Transsexual diaries](page/video/index.html?v=tCh_wJz9M-E) | 2025-03-20
-[What is with Trump and Russia?](page/video/index.html?v=G-sLZaP7oOA) | 2025-03-18
-[What just happened? News recap \| Jan 20 to July 4](page/video/index.html?v=n355Q15CX8g) | 2025-08-18
-[Pride 2025](page/video/index.html?v=PL3u9OOGxew) | 2025-06-05
-[Fireworks](page/video/index.html?v=tzJEv4jjKHM) | 2025-06-23
-[Canada's Conservative Populist \| An Overview of Pierre Poilievre](page/video/index.html?v=BZ-ztjpRchE) | 2025-07-11
-[Trans fetishism & politics](page/video/index.html?v=vk57rvM1zWo) | 2025-04-02
-[Sex, gender, & transsexuals](page/video/index.html?v=_bCO2o1Z0sE) | 2025-05-29
-[Lies people still believe \| Donald Trump, Elizabeth Warren, Hillary Clinton](page/video/index.html?v=LPQD6sxlWOs) | 2025-04-09
-[Bernie Sanders and the military industrial complex](page/video/index.html?v=yt6O0OMdIT0) | 2025-03-22
-[Types of masculinity](page/video/index.html?v=lOQSqMhjwZY) | 2025-06-12
-
-A few other things:
-
-||table
-[Every movie I've ever seen](page/movie-list/index.html)
-[A beauty holding a bird](page/21/index.html)           | 2024-12-17
-[Anime reviews](page/11/index.html)                  | 2024-11-02
+||rows
+[Contact info](page/contact/index.html)
+[A beauty holding a bird](page/21/index.html) | 2024-12-17
+[Anime reviews](page/11/index.html) | 2024-11-02
+[List of every movie I've ever seen](page/movie-list/index.html)
+[Text: McMahon–Hussein correspondence](page/israel-palestine/mcmahon-hussein-correspondence.html)
+[Inflammatory Trump statements](page/trump-statements/index.html)
+[Transcript: Mark Robinson speech (2024-06-30)](mark-keith-robinson-2024-06-30-transcript)
 
 <div id="index"></div>
 <script src="assets/layout.js"></script>
@@ -136,7 +113,7 @@ A few other things:
 const tableStates = { };
 
 function orderTable(table_, col_) {
-    let tbody = table_.querySelector("tbody");
+    let tbody = table_.getElementsByClassName("row");
     let rows = Array.from(tbody.rows);
     let col = parseInt(col_) - 1;
     let direction = "descending";
@@ -153,6 +130,7 @@ function orderTable(table_, col_) {
     } else {
         tableStates[tableNum] = direction;
     }
+    
     rows.sort( (a, b) => {
         if (a.cells.length > col) {
             a = parseInt(a.cells[col].textContent.replace(/\D/g, ""));
@@ -165,10 +143,47 @@ function orderTable(table_, col_) {
     rows.forEach(row => tbody.appendChild(row));
 }
 
-window.onload = function() {
-    let tables = Array.from(document.getElementsByClassName("table"));
+function orderFlexTable(flexTable_, col_) {
+    let rows = Array.from(flexTable_.getElementsByClassName("row"));
+    let col = parseInt(col_) - 1;
+    let direction = "descending";
     
+    let tableNum = flexTable_.className.replace(/\D/g, "");
+    
+    if (tableNum in tableStates) {
+        if (tableStates[tableNum] == "ascending") {
+            tableStates[tableNum] = "descending";
+        } else {
+            tableStates[tableNum] = "ascending";
+        }
+        direction = tableStates[tableNum];
+    } else {
+        tableStates[tableNum] = direction;
+    }
+    
+    rows.sort( (a, b) => {
+        if (a.children.length > col) {
+            a = parseInt(a.children[1].innerHTML.replace(/\D/g, ""));
+        }
+        if (b.children.length > col) {
+            b = parseInt(b.children[1].innerHTML.replace(/\D/g, ""));
+        }
+        //return (direction == "descending") ? b-a : a-b;
+        return b-a;
+    })
+    rows.forEach(row => flexTable_.appendChild(row));
+}
+
+window.onload = function() {
+    let tables = Array.from(document.getElementsByClassName("auto-table"));
     tables.forEach( table => orderTable(table, 2) );
+    
+    let flexTables = Array.from(document.getElementsByClassName("auto-flex-table"));
+    
+    orderFlexTable(flexTables[1], 2); // articles
+    orderFlexTable(flexTables[2], 2); // youtube
+    
+    document.querySelector(".social-links").innerHTML = socialLinksdata; /* element from layout.js */
 }
 
 </script>
