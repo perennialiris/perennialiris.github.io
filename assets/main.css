@@ -1,6 +1,4 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
-
     @font-face { font-family: "Georgia Pro"; src: url(fonts/georgia-pro-regular.ttf) format("truetype"); font-weight: 400; font-style: normal; }
     @font-face { font-family: "Georgia Pro"; src: url(fonts/georgia-pro-italic.ttf) format("truetype"); font-weight: 400; font-style: italic; }
     @font-face { font-family: "Georgia Pro"; src: url(fonts/georgia-pro-bold.ttf) format("truetype"); font-weight: 700; font-style: normal; }
@@ -15,6 +13,7 @@
     @font-face { font-family: "Roboto"; src: url(fonts/roboto-italic.woff2) format("woff2"); font-weight: 400 700; font-style: italic; }
     @font-face { font-family: "Open Sans"; src: url(fonts/open-sans-regular.woff2) format("woff2"); font-weight: 400 700; font-style: normal; }
     @font-face { font-family: "Open Sans"; src: url(fonts/open-sans-italic.woff2) format("woff2"); font-weight: 400 700; font-style: italic; }
+    @font-face { font-family: "Sacramento"; src: url(fonts/sacramento.woff2) format("woff2"); font-weight: 400 700; font-style: normal; }
     @font-face { font-family: "Ubuntu"; src: url(fonts/ubuntu-regular.woff2) format("woff2"); font-weight: 400; font-style: normal; }
     @font-face { font-family: "Ubuntu"; src: url(fonts/ubuntu-bold.woff2) format("woff2"); font-weight: 700; font-style: normal; }
     @font-face { font-family: "Ubuntu"; src: url(fonts/ubuntu-italic.woff2) format("woff2"); font-weight: 400; font-style: italic; }
@@ -81,7 +80,7 @@
         --fs-footer: 14.4px;
         --fs-cite: 0.85em;
         /* color */
-        --header-bg: #3c3c40;
+        --header-bg: #29292d;
         --header-color: #d2d2d2;
         --header-color-2: #7763c8;
         --nav-bg: #fff;
@@ -119,7 +118,7 @@
         --youtube-white: #fff;
         --twitter-color: #111;
         --discord-color: #6d75cc;
-        --substack-color: #dd834c;
+        --substack-color: #dd7c4c;
         /* line-height */
         --lh-ui: 1.3;
         --lh-toc: 1.25;
@@ -286,7 +285,7 @@
 
     .main-header { height: 100px; background-color: var(--header-bg); }
         .header-title { letter-spacing: 0.5px; color: var(--header-color); font-family: var(--ff-header-title); font-size: var(--fs-header-title); line-height: 1; }
-            .header-title::after { content: ""; left: 0; height: 2px; bottom: 5px; width: 100%; background-color: var(--header-color); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; position: relative; display: block; }
+            .header-title::after { content: ""; left: 0; height: 2px; bottom: 6px; width: 100%; background-color: var(--header-color); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; position: relative; display: block; }
             .header-title:hover { text-decoration: none; }
             .header-title:hover::after { transform: scaleX(1); }
 
@@ -370,7 +369,7 @@
             #article img { cursor: pointer; }
 
             #article > * {
-                margin-top: 1rem;
+                margin-top: 1em;
             }
 
             #article .heading {
@@ -402,8 +401,6 @@
             #article li a:not(.citeref) { text-underline-offset: 3px; border-bottom: 1px dotted currentcolor; }
             #article a:not(.citeref):not(.plug):hover { border-bottom: none; }
             
-            #article .auto-table a:not(.citeref) { text-underline-offset: 3px; border-bottom: 1px dotted currentcolor; }
-
             #article a.citeref { line-height: 1; margin-left: 1px; text-decoration: none; font-family: var(--ff-cite); font-size: var(--fs-cite); vertical-align: text-top; }
             #article a.citeref:hover { text-decoration: underline; }
                 #article a.citeref * { font-size: inherit; font-family: inherit; }
@@ -464,8 +461,7 @@
             .auto-table { border-collapse: collapse; }
                 .auto-table td div + div { margin-top: 0.5em; }
                 .auto-table th,
-                .auto-table td { padding: 5px 8px 4px; vertical-align: top; border: 1px solid var(--grey-a); font-size: var(--fs-table); font-family: var(--ff-table); line-height: var(--lh-table); }
-                .auto-table th { background-size: cover; background-position: center; }
+                .auto-table td { padding: 5px 8px 4px; vertical-align: top; font-size: var(--fs-table); font-family: var(--ff-table); line-height: var(--lh-table); }
 
             .auto-flex-table .row { display: flex; justify-content: space-between; }
             .auto-flex-table .cell { padding: 5px 9px 3px; font-family: var(--ff-table); line-height: var(--lh-table); font-size: var(--fs-table); }
@@ -475,10 +471,9 @@
 
             .yt-gallery {
                 display: flex;
-                flex-wrap: wrap;
-                max-width: var(--max-width);
-                line-height: var(--lh-table);
                 justify-content: space-between;
+                flex-wrap: wrap;
+                line-height: var(--lh-table);
                 padding: 1rem;
             }
                 .yt-gallery figure {
