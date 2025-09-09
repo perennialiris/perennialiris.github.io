@@ -5,59 +5,39 @@
     <link rel="stylesheet" href="assets/main.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
-    
+
         .article-footer,
         #to-top-button,
         #page-name-display {
             display: none !important;
         }
-    
+
         /* ---- unique for front index: ---- */
-    
+
         .table-wrapper {
-            margin-inline: 1rem;
             margin-top: 0.5em !important;
-            border-left: 1px solid var(--link-color);
         }
-        .auto-flex-table .row + .row {
+        .rows .row + .row {
             border-top: 1px dotted var(--grey-9);
         }
         .col-2 {
             color: var(--grey-9) !important;
         }
-        .table a {
-            color: var(--link-color) !important;
-            text-decoration: none !important;
+        .rows a {
+            color: var(--grey-5) !important;
             border-bottom: none !important;
+            text-decoration: none !important;
         }
-        .table a:hover {
+        .rows a:hover {
             text-decoration: underline !important;
-            color: var(--link-color) !important;
+            color: var(--grey-3) !important;
         }
         
-        .yt-date { display: none; }
-        
-        #link-to-youtube {
-            text-align: right;
-            margin-top: 0;
-            margin-inline: 1rem;
-        }
-
     </style>
 </head>
 <body>
 
 \<div class="social-links"></div>
-
-Pages:
-
-||rows
-[US News](page/us-news/index.html)
-[Sex, gender, & transsexuals](page/4/index.html)
-[Politics fundamentals](page/5/index.html)
-[Notes on Israel–Palestine](page/israel-palestine/index.html)
-
-Recent YouTube uploads:
 
 ||yt-gallery sort3
 How to fix America in a few simple steps | iFHmA32NZAs | 2025-08-22
@@ -78,9 +58,12 @@ Lies people still believe \| Donald Trump, Elizabeth Warren, Hillary Clinton | L
 Bernie Sanders and the military industrial complex | yt6O0OMdIT0 | 2025-03-22
 Types of masculinity | lOQSqMhjwZY | 2025-06-12
 
-Text posts:
-
 ||rows
+[US News](page/us-news/index.html)
+[Sex, gender, & transsexuals](page/4/index.html)
+[Politics fundamentals](page/5/index.html)
+[Notes on Israel–Palestine](page/israel-palestine/index.html)
+[Ilhan Omar](page/ilhan-omar/index.html) | 2025-08-25
 [The Trump appeal](page/18/index.html) | 2024-12-03
 [Pierre Poilievre](page/pierre-poilievre/index.html) | 2025-03-15
 [Trump and Russia](page/26/index.html) | 2025-03-06
@@ -96,57 +79,47 @@ Text posts:
 [My anime reviews](page/11/index.html) | 2024-11-02
 [Poor things (2023 film)](page/poor-things/index.html) | 2024-10-31
 [The trans prison stats argument](page/9/index.html) | 2024-10-19
-
-Other resources:
-
-||rows
-[Contact info](page/contact/index.html)
 [A beauty holding a bird](page/21/index.html)
-[Running list of every movie I've ever seen](page/movie-list/index.html)
+[A running list of every movie I've ever seen](page/movie-list/index.html)
 [Public figures record](page/27/index.html)
 [Bluesky user directory](page/bluesky-listing/index.html)
 [Transcript: McMahon–Hussein correspondence (1915--1916)](page/israel-palestine/mcmahon-hussein-correspondence.html)
-[Inflammatory Trump statements](page/trump-statements/index.html)
 [Transcript: Mark Robinson speech (2024-06-30)](mark-keith-robinson-2024-06-30-transcript)
+[Contact info](page/contact/index.html)
 
 <div id="index"></div>
 <script src="assets/layout.js"></script>
 <script>
-function orderFlexTable(flexTable_, col_) {
-    let rows = Array.from(flexTable_.getElementsByClassName("row"));
-    let col = parseInt(col_) - 1;
-    let direction = "descending";
-    
-    let tableNum = flexTable_.className.replace(/\D/g, "");
-    
-    rows.sort( (a, b) => {
-        if (a.children.length > col) {
-            a = parseInt(a.children[1].innerHTML.replace(/\D/g, ""));
+function sortAux(y, col_) {
+    if (y.children.length >= col_) {
+        y = y.children[col_].innerHTML;
+        y = y.replace(/\D/g, "");
+        if (!isNaN(y)) {
+            y = Number(y);
+            return y;
         }
-        if (b.children.length > col) {
-            b = parseInt(b.children[1].innerHTML.replace(/\D/g, ""));
-        }
-        //return (direction == "descending") ? b-a : a-b;
-        return b-a;
-    })
-    rows.forEach(row => flexTable_.appendChild(row));
+    }
+    return 0;
 }
-
+function sortRows(rowsElement, columnToSortBy) {
+    let rows = Array.from(rowsElement.getElementsByClassName("row"));
+    rows.sort((a, b) => sortAux(b, columnToSortBy) - sortAux(a, columnToSortBy));
+    rows.forEach(r => rowsElement.appendChild(r));
+}
 window.onload = function() {
-
-    let flexTables = Array.from(document.getElementsByClassName("auto-flex-table"));
-    orderFlexTable(flexTables[1], 2); // "Text posts"
-    
     document.querySelector(".social-links").innerHTML = socialLinksdata; /* element from layout.js */
     
-    document.querySelector(".yt-gallery").parentNode.innerHTML += `<div id="link-to-youtube"><span><a href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA/videos">Link to all videos →</a></span></div>`;
+    Array.from(document.getElementsByClassName("rows")).forEach(r => sortRows(r));
+    
+    document.querySelector(".yt-gallery").parentNode.innerHTML += `<div style="text-align: right; margin-top: 0; margin-inline: 1rem;"><span><a href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA/videos">Link to all videos →</a></span></div>`;
 }
 
 </script>
 </body></html>
 
 
-<!-- [Ilhan Omar](page/ilhan-omar/index.html) | 2025-08-25 -->
+
+
 
 
 

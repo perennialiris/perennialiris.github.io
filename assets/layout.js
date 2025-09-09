@@ -1,8 +1,5 @@
-
 "use strict"
-
-const html = document.documentElement;
-
+const HTML = document.documentElement;
 const githubLogoSvg = `<svg class="inline-logo github-logo" role="img" xmlns="http://www.w3.org/2000/svg" height="18" width="18" viewBox="0 0 24 24"><path d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path></svg>`;
 const youtubeLogoSvg = `<svg class="inline-logo youtube-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 30 30"><path d="M29.2 8.6c-.3-1.6-1.6-2.8-3.2-3C23 5.2 15 5.2 15 5.2s-8 0-11 .4c-1.6.2-2.9 1.4-3.2 3C.4 11.6.4 15 .4 15s0 3.4 .4 6.4c.3 1.6 1.6 2.8 3.2 3C7 24.8 15 24.8 15 24.8s8 0 11-.4c1.6-.2 2.9-1.4 3.2-3 .4-3 .4-6.4 .4-6.4s0-3.4-.4-6.4z"/><path d="M12 19.2V10.8l7.8 4.2-7.8 4.2z"/></svg>`;
 const tumblrLogoSvg = `<svg class="inline-logo tumblr-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 530 530"><path d="M260,0 C403.1,0 520,116.9 520,260 C520,403.1 403.1,520 260,520 C116.9,520 0,403.1 0,260 C0,116.9 116.9,0 260,0 Z"/><path d="M222.5 113.9h55.8v71.1h48.3v55.8h-48.3v91.5c0 24.1 13.6 31.6 32.2 31.6 9.5 0 20.6-1.4 28.5-3.9v51.9c-9.9 4.7-27.8 9.4-47.3 9.4-47.6 0-78.5-29.3-78.5-82.7V240.8h-38.9v-55.8h38.9v-71.1z"/></svg>`;
@@ -17,13 +14,16 @@ const socialLinksdata = `<div title="This github repo"><a class="plug" href="htt
 <div title="Bluesky"><a class="plug" href="https://bsky.app/profile/perennialforces.bsky.social">${ blueskyLogoSvg }</a></div>
 <div title="Invite to my Discord server"><a class="plug" href="https://discord.gg/fGdV7x5dk2">${ discordLogoSvg }</a></div>
 <div title="My account on Substack"><a class="plug" href="https://perennialiris.substack.com">${ substackLogoSvg }</a></div>`;
-
+const xButtonSvg = `<svg id="toc-x-button" width="15" height="15" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 16 L60 60 M60 16 L16 60" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter"/></svg>`;
+const hamburgerIconSvg = `<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6H20 M4 12H20 M4 18H20" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const homeLink = document.getElementById("index") ? "" : "../../index.html";
 const themePainting = document.getElementById("index") ? "assets/grandchamp.png" : "../../assets/grandchamp.png";
 
 window.addEventListener("load", function() {
     document.body.innerHTML =
-    `<header class="main-header center align-center"><div style="transform: translateY(9px);"><a href="${ homeLink }" class="header-title">Perennial<span style="color: var(--header-color-2); margin-left: 1px;">Iris</span></a></div></header>
+    `<header class="main-header center align-center">
+        <div class="title-container"><a href="${ homeLink }" class="header-title">Perennial<span style="color: var(--header-color-2); margin-left: 1px;">Iris</span></a></div>
+    </header>
     <nav class="nav-wrapper no-select">
         <div class="main-nav stretch space-between">
             <div class="align-center">
@@ -31,40 +31,98 @@ window.addEventListener("load", function() {
             </div>
             <div class="align-center">
                 <a id="to-top-button">Jump to Top</a>
-                <a class="hamburger icon"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6H20 M4 12H20 M4 18H20" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <a class="hamburger icon">${ hamburgerIconSvg }</a>
             </div>
         </div>
     </nav>
     <div class="menu-line center">
         <div class="menu-aligner">
-            <table class="menu hidden"><tbody>
-                    <tr><td class="no-select">Brightness:</td>
-                        <td><select class="menu-select" id="brightness-select">
-                                <option value="light">Light</option>
-                                <option value="dark">Dark</option>
-                                <option value="darker">Extra dark</option>
-                            </select>
-                    </td></tr>
-                    <tr><td class="no-select">Body font:</td>
-                        <td><select class="menu-select" id="pageFont-select">
-                                <option value="Georgia">Georgia</option>
-                                <option value="Palatino Linotype">Palatino Linotype</option>
-                                <option value="Inter">Inter</option>
-                                <option value="Roboto">Roboto</option>
-                                <option value="Faculty Glyphic">Faculty Glyphic</option>
-                                <option value="Segoe UI">Segoe UI</option>
-                                <option value="Ubuntu">Ubuntu</option>
-                                <option value="Trebuchet MS">Trebuchet MS</option>
-                            </select>
-                    </td></tr>
-                    <tr><td colspan="2"><span class="no-select" style="font-style: italic; color: var(--grey-8);"><span>These options are saved in session storage, not cookies, so they'll be discarded when your close your browser.</span></span></td></tr>
-                </tbody>
-            </table>
+            <div class="menu hidden">
+                <div class="align-center gap-8">
+                    <span><b>Theme:</b></span>
+                    <select class="menu-select" id="brightness-select" style="padding-right:10px">
+                        <option value="light">Light</option>
+                        <option value="medium">High contrast</option>
+                        <option value="dark">Dark</option>
+                        <option value="darker">Extra dark</option>
+                    </select>
+                </div>
+                <div>
+                    <div><b>Fonts:</b></div>
+                    <div>
+                        <table class="font-options">
+                            <tbody>
+                                <tr>
+                                    <td>Headings:</td>
+                                    <td>
+                                        <select class="menu-select" id="heading-font-select">
+                                            <option value="Arial">Arial</option>
+                                            <option value="Faculty Glyphic">Faculty Glyphic</option>
+                                            <option value="Georgia">Georgia</option>
+                                            <option value="Inter">Inter</option>
+                                            <option value="Lora">Lora</option>
+                                            <option value="Merriweather">Merriweather</option>
+                                            <option value="Open Sans">Open Sans</option>
+                                            <option value="Palatino Linotype">Palatino Linotype</option>
+                                            <option value="Roboto">Roboto</option>
+                                            <option value="Roboto Slab">Roboto Slab</option>
+                                            <option value="Segoe UI">Segoe UI</option>
+                                            <option value="Times New Roman">Times New Roman</option>
+                                            <option value="Trebuchet MS">Trebuchet MS</option>
+                                            <option value="Ubuntu">Ubuntu</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Body:</td>
+                                    <td>
+                                        <select class="menu-select" id="body-font-select">
+                                            <option value="Arial">Arial</option>
+                                            <option value="Faculty Glyphic">Faculty Glyphic</option>
+                                            <option value="Georgia">Georgia</option>
+                                            <option value="Inter">Inter</option>
+                                            <option value="Palatino Linotype">Palatino Linotype</option>
+                                            <option value="Roboto">Roboto</option>
+                                            <option value="Segoe UI">Segoe UI</option>
+                                            <option value="Times New Roman">Times New Roman</option>
+                                            <option value="Trebuchet MS">Trebuchet MS</option>
+                                            <option value="Ubuntu">Ubuntu</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tables:</td>
+                                    <td>
+                                        <select class="menu-select" id="table-font-select">
+                                            <option value="Arial">Arial</option>
+                                            <option value="Faculty Glyphic">Faculty Glyphic</option>
+                                            <option value="Georgia">Georgia</option>
+                                            <option value="Inter">Inter</option>
+                                            <option value="Palatino Linotype">Palatino Linotype</option>
+                                            <option value="Roboto">Roboto</option>
+                                            <option value="Segoe UI">Segoe UI</option>
+                                            <option value="Trebuchet MS">Trebuchet MS</option>
+                                            <option value="Ubuntu">Ubuntu</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="text-align:right; color:var(--grey-8); padding:3px 0;"><span class="pseudo-link" onclick="menuRestoreDefaults()">restore defaults</span></div>
+                </div>
+                    ${ HTML.classList.contains("toc") ?
+                        `<div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; color:var(--grey-5);"><div class="align-center"><label for="page-full-width">Full page width:</label><input type="checkbox" class="menu-checkbox" id="page-full-width"></div><div class="align-center"><label for="show-toc">Show table of contents:</label><input type="checkbox" class="menu-checkbox" checked id="show-toc"></div></div>`
+                        : ""
+                    }
+            </div>
         </div>
     </div>
     <div class="c1">
-        <nav class="table-of-contents"></nav>
-        <main class="c2">
+        <div style="padding-top:40px">
+            <nav id="table-of-contents"></nav>
+        </div>
+        <div class="c2">
             <div class="c3">
                 <article id="article">${ document.body.innerHTML }</article>
                 <footer class="article-footer">
@@ -75,7 +133,7 @@ window.addEventListener("load", function() {
                     </div>
                 </footer>
             </div>
-        </main>
+        </div>
     </div>
     <div class="page-bottom"></div>
     <div class="lb-container">
@@ -83,17 +141,17 @@ window.addEventListener("load", function() {
         <div class="lightbox-wrapper"><img id="lightbox"></div>
         <div class="lightbox-bottom-panel"><div id="lightbox-caption"></div></div>
     </div>
-    <style id="style-pref"></style>`;
+    <style id="--custom-style"></style>`;
 
-    document.documentElement.classList.add("layout");
-    setBrightness();
-    setPageFont();
+    HTML.classList.add("layout");
+    Array.from(document.querySelector(".font-options").getElementsByTagName("option")).forEach(o => o.style.fontFamily = `"${ o.value }",system-ui` );
     
     const article_ = document.getElementById("article");
     interpreter(article_);
-    Array.from(article_.getElementsByTagName("p")).forEach(e => wrapDigits(e));
-    Array.from(article_.getElementsByTagName("li")).forEach(e => wrapDigits(e));
-    Array.from(article_.getElementsByClassName("heading")).forEach(e => wrapDigits(e));
+    Array.from(article_.getElementsByTagName("p")).forEach(e => wrapDigits(e, "digit"));
+    Array.from(article_.getElementsByTagName("li")).forEach(e => wrapDigits(e, "digit"));
+    Array.from(article_.getElementsByTagName("td")).forEach(e => wrapDigits(e, "table-number"));
+    Array.from(article_.getElementsByClassName("heading")).forEach(e => wrapDigits(e, "heading-number"));
     
     document.querySelector(".lightbox-wrapper").addEventListener("click", () => { setLightbox("close") });
     
@@ -122,21 +180,48 @@ window.addEventListener("load", function() {
         }
     });
 
-    /* ---- ---- ---- ---- ---- ---- ---- setting up menu items: ---- ---- ---- ---- ---- ---- ---- */
-    let brightnessSelect = document.getElementById("brightness-select");
-    brightnessSelect.addEventListener("change", function() {
-        setBrightness(brightnessSelect.value);
+    /* ---- ---- ---- ---- ---- ---- ---- set-up for menu items: ---- ---- ---- ---- ---- ---- ---- */
+    setBrightness();
+    document.getElementById("brightness-select").addEventListener("change", function() {
+        setBrightness(this.value);
     });
-    let pageFontSelect = document.getElementById("pageFont-select");
-    pageFontSelect.addEventListener("change", function() {
-        setPageFont(pageFontSelect.value);
+    updateFonts();
+    document.getElementById("heading-font-select").addEventListener("change", function() {
+        localStorage.setItem("headingFont", this.value);
+        updateFonts();
     });
-
+    document.getElementById("body-font-select").addEventListener("change", function() {
+        localStorage.setItem("bodyFont", this.value);
+        updateFonts();
+    });
+    document.getElementById("table-font-select").addEventListener("change", function() {
+        localStorage.setItem("tableFont", this.value);
+        updateFonts();
+    });
+    if (localStorage.getItem(window.location.href + "-full-width") == "true") {
+        HTML.classList.add("full-width");
+        document.getElementById("page-full-width").checked = true;
+    }
+    document.getElementById("page-full-width").addEventListener("change", function() {
+        HTML.classList.toggle("full-width", this.checked);
+        localStorage.setItem(window.location.href + "-full-width", this.checked ? "true" : "false");
+    });
+    document.getElementById("show-toc").addEventListener("change", function() {
+        if (this.checked) {
+            HTML.classList.add("toc");
+            window.addEventListener("resize", tocWidthCheck);
+            window.addEventListener("scroll", tocHighlightUpdateAttempt);
+        } else {
+            HTML.classList.remove("toc");
+            window.removeEventListener("resize", tocWidthCheck);
+            window.removeEventListener("scroll", tocHighlightUpdateAttempt);
+        }
+    });
     /* ---- ---- ---- ---- ---- ---- ---- table of contents ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-    if (document.documentElement.classList.contains("toc")) {
-        const toc = document.querySelector(".table-of-contents");
+    if (HTML.classList.contains("toc")) {
+        const toc = document.getElementById("table-of-contents");
         const headings = Array.from(document.getElementById("article").getElementsByClassName("toc-include"));
-        toc.innerHTML = `<a class="toc-row" onclick="scrollToTop()" style="cursor: pointer;">(Top)</a>` + headings.slice(1).map ( heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ heading.id }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
+        toc.innerHTML = `<div class="toc-row"><div class="align-center space-between"><a class="toc-row" onclick="scrollToTop()" style="cursor: pointer;">(Top)</a>${ xButtonSvg }</div></div>` + headings.slice(1).map ( heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ heading.id }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
 
         const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
         let lastHeading = -1;
@@ -188,11 +273,7 @@ window.addEventListener("load", function() {
             }
             lastHeading = currentHeading;
         }
-
-        let tocWidth = getComputedStyle(html).getPropertyValue("--toc-width").replace(/\D/g, "");
-        let mainWidth = getComputedStyle(html).getPropertyValue("--main-width").replace(/\D/g, "");
-        let pageCheckWidth = parseInt(tocWidth) + parseInt(mainWidth) - 50;
-
+        
         let canTocWidthCheck = true;
         function tocWidthCheck() {
             if (!canTocWidthCheck) {
@@ -201,43 +282,19 @@ window.addEventListener("load", function() {
             canTocWidthCheck = false;
             setTimeout(() => {
                 canTocWidthCheck = true;
-                document.documentElement.classList.toggle("toc", parseInt(window.innerWidth) > pageCheckWidth);
+                HTML.classList.toggle("toc", window.innerWidth > 850);
             }, 333);
-            document.documentElement.classList.toggle("toc", parseInt(window.innerWidth) > pageCheckWidth);
+            HTML.classList.toggle("toc", window.innerWidth > 850);
         }
         window.addEventListener("resize", tocWidthCheck);
         window.addEventListener("scroll", tocHighlightUpdateAttempt);
+        
         setTimeout(() => {
             tocWidthCheck();
             tocHighlightUpdateAttempt();
         }, 100);
         
         /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
-        let canTocHeightCheck = true;
-        function tocHeightCheckAttempt() {
-            if (canTocHeightCheck) {
-                canTocHeightCheck = false;
-                setTimeout(() => {
-                    canTocHeightCheck = true;
-                    tocHeightCheck()
-                }, 50);
-                tocHeightCheck();
-            }
-        }
-        let tocVerticalSpace = 250;
-        function tocHeightCheck() {
-            let adjustedSpace = Math.max(127, 253 - pageYOffset);
-            /*
-                127, 280 = min and max values for #toc { height: 100vh - ___px; }
-            */
-            if (adjustedSpace != tocVerticalSpace) {
-                toc.style.height = `calc(100vh - ${ adjustedSpace }px)`;
-                tocVerticalSpace = adjustedSpace;
-            }
-        }
-        tocHeightCheckAttempt();
-        window.addEventListener("scroll", tocHeightCheckAttempt);
-        
         let canTocFadeCheck = true;
         function tocFadeCheck() {
             if (canTocFadeCheck) {
@@ -251,6 +308,13 @@ window.addEventListener("load", function() {
         }
         toc.addEventListener("scroll", tocFadeCheck);
         toc.addEventListener("resize", tocFadeCheck);
+        
+        document.getElementById("toc-x-button").addEventListener("click", () => {
+            document.getElementById("show-toc").checked = false;
+            HTML.classList.remove("toc");
+            window.removeEventListener("resize", tocWidthCheck);
+            window.removeEventListener("scroll", tocHighlightUpdateAttempt);
+        });
     }
     /* ---- ---- ---- ---- ---- / table of contents ---- ---- ---- ---- ---- ---- ---- */
 
@@ -280,7 +344,7 @@ window.addEventListener("load", function() {
 function scrollToTop() {
     window.scrollTo({ behavior: "instant", top: 0 });
     history.replaceState(null, "", window.location.pathname + window.location.search);
-    let toc = document.getElementById("toc");
+    let toc = document.getElementById("table-of-contents");
     if (toc) {
         toc.scrollTo({ behavior: "instant", top: 0 });
     }
@@ -291,16 +355,14 @@ function setLightbox(action) {
     if (action == "close") {
         lightbox.src = "";
         lightbox.alt = "";
-        document.documentElement.classList.remove("lightbox");
+        HTML.classList.remove("lightbox");
     }
     else {
         let lbTopLeft = document.getElementById("lightbox-top-left");
         let lbCaption = document.getElementById("lightbox-caption");
-
         lightbox.src = action.src;
         lightbox.alt = action.alt;
-        document.documentElement.classList.add("lightbox");
-        
+        HTML.classList.add("lightbox");
         lbTopLeft.innerHTML = `<a href="${ action.src }">${ action.src.split("/").slice(-1) }</a>`;
         if (action.alt == "") {
             lbCaption.innerHTML = "";
@@ -311,52 +373,45 @@ function setLightbox(action) {
 }
 
 /* -------------------------------- menu preference setters -------------------------------- */
-function setBrightness(brightness) {
-    if (brightness == "" || brightness == null) { brightness = localStorage.getItem("brightness"); }
-    let select_ = document.getElementById("brightness-select");
-    let options_ = Array.from(select_.getElementsByTagName("option")).map(o => o.value);
-    if (!options_.includes(brightness)) {
-        brightness = options_[0];
-    }
-    options_ = options_.filter(o => o != brightness);
-    document.documentElement.classList.remove(...options_);
-    document.documentElement.classList.add(brightness.replace(/ /g, "-"));
-    select_.value = brightness;
+function setBrightness(setValue) {
+    let brightness = setValue || localStorage.getItem("brightness") || "light";
+    HTML.classList.remove(...Array.from(document.getElementById("brightness-select").children).map(o => o.value).filter(o => o != brightness));
+    HTML.classList.add(brightness);
     localStorage.setItem("brightness", brightness);
+    document.getElementById("brightness-select").value = brightness;
 }
-function setPageFont(pageFont) {
-    if (pageFont == "" || pageFont == null) {
-        pageFont = localStorage.getItem("pageFont");
+function updateFonts() {
+    let headingFont = localStorage.getItem("headingFont") || "Inter";
+    let bodyFont = localStorage.getItem("bodyFont") || "Georgia";
+    let tableFont = localStorage.getItem("tableFont") || "Roboto";
+    document.getElementById("heading-font-select").value = headingFont;
+    document.getElementById("body-font-select").value = bodyFont;
+    document.getElementById("table-font-select").value = tableFont;
+    let numberFont = bodyFont;
+    if (numberFont == "Georgia") {
+        numberFont = "Georgia Pro";
     }
-    let select_ = document.getElementById("pageFont-select");
-    let fonts_ = Array.from(select_.getElementsByTagName("option")).map(o => o.value);
-    if (!fonts_.includes(pageFont)) {
-        pageFont = fonts_[0];
+    if (headingFont == "Georgia") {
+        headingFont = "Georgia Pro";
     }
-    let setStyle = "", numberFont = pageFont;
-    switch (pageFont) {
-        case "Georgia":
-            break; // if georgia, leave element blank, let css default
-        case "Times":
-        case "Times New Roman":
-            setStyle += "--fs-article: 18px;"
-        case "Constantia":
-            numberFont = "Georgia Pro"
-        case "Constantia":
-        case "Nunito Sans":
-            setStyle += "--fs-article: 17px;";
-        case "Faculty Glyphic":
-            setStyle += "--lh-article: 1.775;"
-        default:
-            setStyle += `--ff-article: ${ pageFont },system-ui,sans-serif; --ff-number: ${ numberFont },system-ui,sans-serif; --ff-heading: ${ pageFont },system-ui,sans-serif;`;
+    document.getElementById("--custom-style").innerHTML = ` body {
+        --ff-heading: ${ headingFont },sans-serif;
+        --ff-heading-number: ${ headingFont == "Georgia" ? "Georgia Pro" : headingFont },sans-serif;
+        --ff-article: ${ bodyFont },Georgia,sans-serif;
+        --ff-number: ${ numberFont=="Georgia" ? "Georgia Pro":numberFont },Tahoma,sans-serif;
+        --ff-table: ${ tableFont },sans-serif;
+        --ff-table-number
+        ${ tableFont == "Georgia" ? "#article .auto-table .digit { font-family: Georgia Pro,sans-serif }" : "" }
+        ${ (bodyFont == "Times" || bodyFont == "Times New Roman") ? "--fs-article: 17px;" : "" }
     }
-    
-    document.getElementById("style-pref").innerHTML = `body { ${ setStyle } }`;
-    
-    select_.value = pageFont;
-    localStorage.setItem("pageFont", pageFont);
+    ${ headingFont == "Georgia" ? " #article h1, #article h2 { font-weight: 600; } " : "" }`;
 }
-
+function menuRestoreDefaults() {
+    localStorage.setItem("headingFont", "Inter");
+    localStorage.setItem("bodyFont", "Georgia");
+    localStorage.setItem("tableFont", "Roboto");
+    updateFonts();
+}
 /* ------------------------------- main interpreter for article content ------------------------------- */
 function interpreter(argValue) {
     if (argValue instanceof Node) {
@@ -509,7 +564,7 @@ function interpreter(argValue) {
                 
                 return `<figure>
                     <div>${ videoLink }</div>
-                    <figcaption><span class="yt-title"><a href="${ videoUrl }">${ title }</a></span> <span class="yt-date">${ date }</span></figcaption>
+                    <figcaption><span class="yt-title"><a href="${ videoUrl }">${ title }</a></span> <span class="yt-date">${ wrapDigits(date, "table-digit") }</span></figcaption>
                 </figure>`;
             });
             return `<div class="table-wrapper"><div class="yt-gallery">${ rows.join("") }</div></div>`;
@@ -603,14 +658,16 @@ function interpreter(argValue) {
             /* make tbody cells */
             let tableWidth = 1;
             for (let r = 0; r < rows.length; r += 1) {
+                let rowNum = r + 1;
                 let cells = rows[r].replace(/\\\|/g, "&verbar;").split("|");
                 for (let c = 0; c < cells.length; c += 1) {
-                    cells[c] = `<td class="col-${ c + 1 }">${ format_(cells[c].trim()) }</td>`;
+                    let cellNum = c + 1;
+                    cells[c] = `<td class="col-${ cellNum + " col-" + ((cellNum % 2 == 1) ? "odd" : "even") }">${ format_(cells[c].trim()) }</td>`;
                     if (c + 1 > tableWidth) {
                         tableWidth = c + 1;
                     }
                 }
-                rows[r] = `<tr>${ cells.join("") }</tr>`;
+                rows[r] = `<tr class="row-${ rowNum + " row-" + ((rowNum % 2 == 1) ? "odd" : "even") }">${ cells.join("") }</tr>`;
             }
             /* if thead was included, construct it here: */
             if (tableHead) {
@@ -632,16 +689,6 @@ function interpreter(argValue) {
 
             return table;
         }
-        /* -------- different format, for a 2-width dated table -------- */
-        if (chunk.startsWith("||iso-table")) {
-            let rows = chunk.split("----").slice(1).map( item => {
-                item = item.trim();
-                let colon = item.indexOf(":");
-                return `<tr><td class="col-1">${ item.substring(0, colon) }</td><td class="col-2">${ format_(item.substring(colon + 1).trimStart().split("\n").map(div => `<div>${ div }</div>`).join(""))}</td></tr>`;
-            })
-            
-            return `<table class="auto-table auto-table-${ tableNum++ }">${ rows.join("") }</table>`;
-        }
 
         /* -------- technically not a table -------- */
         if (chunk.startsWith("||rows")) {
@@ -649,12 +696,13 @@ function interpreter(argValue) {
             for (let i = 0; i < rows.length; i += 1) {
                 rows[i] = rows[i].replace(/\\\|/g, "&verbar;");
                 let cells = rows[i].split("|");
+                if (cells.length == 1) { cells.push(""); }
                 for (let j = 0; j < cells.length; j += 1) {
                     cells[j] = `<div class="cell col-${ j+1 }">${ format_(cells[j]) }</div>`;
                 }
                 rows[i] = `<div class="row row-${ i+1 }">${ cells.join("") }</div>`;
             }
-            return `<div class="table-wrapper"><div class="auto-flex-table auto-table-${ tableNum++ }">${ rows.join("") }</div></div>`;
+            return `<div class="table-wrapper"><div class="rows auto-table-${ tableNum++ }">${ rows.join("") }</div></div>`;
         }
 
         /* ---------------------------------- blockquote ---------------------------------- */
@@ -716,12 +764,15 @@ function interpreter(argValue) {
             const headingTag = "h" + chunk.indexOf(" ");
             chunk = chunk.slice(chunk.indexOf(" ") + 1);
             const headingId = chunk.replaceAll(" ", "_").replaceAll("---", "&mdash;").replaceAll("--", "&ndash;").replaceAll("*" ,"");
-            let headingClass = (headingTag == "h4") ? "heading" : "heading toc-include";
-            if (firstHeading) {
-                headingClass += " first-heading";
-                firstHeading = false;
+            
+            if (headingTag == "h4") {
+                return `<h4 id="${ headingId }" class="heading">${ format_(chunk) }</h4>`;
             }
-            return `<${ headingTag } id="${ headingId }" class="${ headingClass }">${ format_(chunk) }</${ headingTag }>`;
+            if (headingTag == "h1" && firstHeading) {
+                firstHeading = false;
+                return `<h1 id="${ headingId }" class="heading toc-include first-heading">${ format_(chunk) }</h1>`;
+            }
+            return `<${ headingTag } id="${ headingId }" class="heading toc-include">${ format_(chunk) }</${ headingTag }>`;
         }
 
         /* ----------------------------------- see also ----------------------------------- */
@@ -812,12 +863,16 @@ function replacements_(input_string) {
     return input_string;
 }
 
-function wrapDigits(arg) {
+function wrapDigits(arg, targetClass) {
     if (typeof arg != "string") {
-        arg.innerHTML = wrapDigits(arg.innerHTML);
+        arg.innerHTML = wrapDigits(arg.innerHTML, targetClass);
     }
     else {
         let output = "";
+        if (!targetClass) {
+            targetClass = "digit";
+        }
+        
         while (true) {
             const openTag = arg.indexOf("<");
             const closeTag = arg.indexOf(">");
@@ -826,12 +881,12 @@ function wrapDigits(arg) {
             let display_text = arg.substring(0, openTag);
             let tag_and_attributes = arg.substring(openTag, closeTag + 1);
             
-            output += display_text.replace(/(\d+)/g, "<span class='digit'>$1</span>");
+            output += display_text.replace(/(\d+)/g, `<span class="${targetClass}">$1</span>`);
             output += tag_and_attributes;
             
             arg = arg.substring(closeTag + 1);
         }
-        output += arg.replace(/(\d+)/g, "<span class='digit'>$1</span>");
+        output += arg.replace(/(\d+)/g, `<span class="${targetClass}">$1</span>`);
         return output;
     }
 }
