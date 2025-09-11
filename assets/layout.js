@@ -15,6 +15,7 @@ const socialLinksdata = `<div title="This github repo"><a class="plug" href="htt
 <div title="Invite to my Discord server"><a class="plug" href="https://discord.gg/fGdV7x5dk2">${ discordLogoSvg }</a></div>
 <div title="My account on Substack"><a class="plug" href="https://perennialiris.substack.com">${ substackLogoSvg }</a></div>`;
 const xButtonSvg = `<svg id="toc-x-button" width="15" height="15" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 16 L60 60 M60 16 L16 60" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter"/></svg>`;
+const citerefIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" role="img"><path fill="currentcolor" d="M6 1h5v5L8.86 3.85 4.7 8 4 7.3l4.15-4.16z M2 3h2v1H2v6h6V8h1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1"/></svg>`;
 const hamburgerIconSvg = `<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6H20 M4 12H20 M4 18H20" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const homeLink = document.getElementById("index") ? "" : "../../index.html";
 const themePainting = document.getElementById("index") ? "assets/grandchamp.png" : "../../assets/grandchamp.png";
@@ -43,6 +44,7 @@ window.addEventListener("load", function() {
                     <select class="menu-select" id="brightness-select" style="padding-right:10px">
                         <option value="light">Light</option>
                         <option value="medium">High contrast</option>
+                        <option value="red">Light (Red)</option>
                         <option value="dark">Dark</option>
                         <option value="darker">Extra dark</option>
                     </select>
@@ -111,10 +113,12 @@ window.addEventListener("load", function() {
                     </div>
                     <div style="text-align:right; color:var(--grey-8); padding:3px 0;"><span class="pseudo-link" onclick="menuRestoreDefaults()">restore defaults</span></div>
                 </div>
+                    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; color:var(--grey-5);"><div class="align-center"><label class="no-select" for="page-full-width">Full page width:</label><input type="checkbox" class="menu-checkbox" id="page-full-width"></div>
                     ${ HTML.classList.contains("toc") ?
-                        `<div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; color:var(--grey-5);"><div class="align-center"><label for="page-full-width">Full page width:</label><input type="checkbox" class="menu-checkbox" id="page-full-width"></div><div class="align-center"><label for="show-toc">Show table of contents:</label><input type="checkbox" class="menu-checkbox" checked id="show-toc"></div></div>`
+                        `<div class="align-center"><label for="show-toc">Show table of contents:</label><input type="checkbox" class="menu-checkbox" checked id="show-toc"></div>`
                         : ""
                     }
+                </div>
             </div>
         </div>
     </div>
@@ -206,24 +210,24 @@ window.addEventListener("load", function() {
         HTML.classList.toggle("full-width", this.checked);
         localStorage.setItem(window.location.href + "-full-width", this.checked ? "true" : "false");
     });
-    document.getElementById("show-toc").addEventListener("change", function() {
-        if (this.checked) {
-            HTML.classList.add("toc");
-            window.addEventListener("resize", tocWidthCheck);
-            window.addEventListener("scroll", tocHighlightUpdateAttempt);
-        } else {
-            HTML.classList.remove("toc");
-            window.removeEventListener("resize", tocWidthCheck);
-            window.removeEventListener("scroll", tocHighlightUpdateAttempt);
-        }
-    });
     /* ---- ---- ---- ---- ---- ---- ---- table of contents ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     if (HTML.classList.contains("toc")) {
+        document.getElementById("show-toc").addEventListener("change", function() {
+            if (this.checked) {
+                HTML.classList.add("toc");
+                window.addEventListener("resize", tocWidthCheck);
+                window.addEventListener("scroll", tocHighlightUpdateAttempt);
+            } else {
+                HTML.classList.remove("toc");
+                window.removeEventListener("resize", tocWidthCheck);
+                window.removeEventListener("scroll", tocHighlightUpdateAttempt);
+            }
+        });
         const toc = document.getElementById("table-of-contents");
         const headings = Array.from(document.getElementById("article").getElementsByClassName("toc-include"));
-        toc.innerHTML = `<div class="toc-row"><div class="align-center space-between"><a class="toc-row" onclick="scrollToTop()" style="cursor: pointer;">(Top)</a>${ xButtonSvg }</div></div>` + headings.slice(1).map ( heading => `<a class="toc-row ${heading.tagName.toLowerCase()}" href="#${ heading.id }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
+        toc.innerHTML = `<div class="toc-row"><div class="align-center space-between"><a class="toc-row" onclick="scrollToTop()" style="cursor: pointer;">(Top)</a>${ xButtonSvg }</div></div>` + headings.slice(1).map ( heading => `<a class="toc-row ${ heading.tagName.toLowerCase() }" href="#${ heading.id }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
 
-        const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
+        const rowsInToc = Array.from(toc.getElementsByClassName("toc-row")).slice(1);
         let lastHeading = -1;
         
         let canTocHighlightUpdate = true;
@@ -239,12 +243,10 @@ window.addEventListener("load", function() {
         function tocHighlightUpdate() {
             let currentHeading = -1;
             for (let i = 0; i < headings.length; i += 1) {
-                if (pageYOffset > headings[i].offsetTop - (0.5 * window.innerHeight)) {
-                    currentHeading = i;
-                }
-                else {
+                if (pageYOffset < headings[i].offsetTop - (0.5 * window.innerHeight)) {
                     break;
                 }
+                currentHeading = i;
             }
             if (currentHeading != lastHeading) {
                 rowsInToc.forEach( (row, n) => {
@@ -387,21 +389,16 @@ function updateFonts() {
     document.getElementById("heading-font-select").value = headingFont;
     document.getElementById("body-font-select").value = bodyFont;
     document.getElementById("table-font-select").value = tableFont;
-    let numberFont = bodyFont;
-    if (numberFont == "Georgia") {
-        numberFont = "Georgia Pro";
-    }
-    if (headingFont == "Georgia") {
-        headingFont = "Georgia Pro";
-    }
+    let digitFont = bodyFont == "Georgia" ? "Georgia Pro" : bodyFont;
+    let tableDigitFont = tableFont == "Georgia" ? "Georgia Pro" : tableFont;
+    let headingDigitFont = headingFont == "Georgia" ? "Georgia Pro" : headingFont;
     document.getElementById("--custom-style").innerHTML = ` body {
         --ff-heading: ${ headingFont },sans-serif;
         --ff-heading-number: ${ headingFont == "Georgia" ? "Georgia Pro" : headingFont },sans-serif;
-        --ff-article: ${ bodyFont },Georgia,sans-serif;
-        --ff-number: ${ numberFont=="Georgia" ? "Georgia Pro":numberFont },Tahoma,sans-serif;
+        --ff-article: ${ bodyFont },sans-serif;
+        --ff-number: ${ digitFont },sans-serif;
         --ff-table: ${ tableFont },sans-serif;
-        --ff-table-number
-        ${ tableFont == "Georgia" ? "#article .auto-table .digit { font-family: Georgia Pro,sans-serif }" : "" }
+        --ff-table-digit: ${ tableDigitFont },sans-serif;
         ${ (bodyFont == "Times" || bodyFont == "Times New Roman") ? "--fs-article: 17px;" : "" }
     }
     ${ headingFont == "Georgia" ? " #article h1, #article h2 { font-weight: 600; } " : "" }`;
@@ -551,17 +548,17 @@ function interpreter(argValue) {
                 let title = row[0];
                 let videoCode = row[1];
                 let date = row[2];
-                
+
                 while (videoCode.charAt(videoCode.length - 1) == "/") {
                     videoCode = videoCode.substring(0, videoCode.length - 1);
                 }
                 videoCode = videoCode.split("/").slice(-1);
-                
+
                 let videoUrl = `https://www.youtube.com/watch?v=${ videoCode }`;
                 let thumbUrl = `https://i.ytimg.com/vi/${ videoCode }/hqdefault.jpg`;
-                
+
                 let videoLink = `<a href="${ videoUrl }"><img src="${ thumbUrl }"></a>`;
-                
+
                 return `<figure>
                     <div>${ videoLink }</div>
                     <figcaption><span class="yt-title"><a href="${ videoUrl }">${ title }</a></span> <span class="yt-date">${ wrapDigits(date, "table-digit") }</span></figcaption>
@@ -631,10 +628,10 @@ function interpreter(argValue) {
             }
             else {
                 if (displayText == "") {
-                    a = `<a href="${ address }" class="citeref">[${ linkNum }]</a>`;
+                    a = `<a href="${ address }" title="${ address }" class="citeref">[${ linkNum }]</a>`;
                 }
                 else {
-                    a = `<a href="${ address }">${ displayText }</a>`;
+                    a = `<a href="${ address }" title="${ address }">${ displayText }</a>`;
                 }
             }
             
@@ -698,9 +695,9 @@ function interpreter(argValue) {
                 let cells = rows[i].split("|");
                 if (cells.length == 1) { cells.push(""); }
                 for (let j = 0; j < cells.length; j += 1) {
-                    cells[j] = `<div class="cell col-${ j+1 }">${ format_(cells[j]) }</div>`;
+                    cells[j] = `<div class="cell col-${ j + 1 } col-${ (j + 1) % 2 == 1 ? "odd" : "even" }">${ format_(cells[j]) }</div>`;
                 }
-                rows[i] = `<div class="row row-${ i+1 }">${ cells.join("") }</div>`;
+                rows[i] = `<div class="row row-${ i + 1 } row-${ (i + 1) % 2 == 1 ? "odd" : "even" }">${ cells.join("") }</div>`;
             }
             return `<div class="table-wrapper"><div class="rows auto-table-${ tableNum++ }">${ rows.join("") }</div></div>`;
         }
