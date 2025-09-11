@@ -132,7 +132,6 @@ window.addEventListener("load", function() {
                 <footer class="article-footer">
                     <img alt="Theme painting ('A Beauty Holding a Bird' by Louis Emile Pinel de Grandchamp)" src="${ themePainting }" width="100" height"100">
                     <div class="social-links">
-                        <div class="profile-name">Perennial Iris</div>
                         ${ socialLinksdata }
                     </div>
                 </footer>
@@ -396,7 +395,7 @@ function updateFonts() {
         --ff-heading: ${ headingFont },sans-serif;
         --ff-heading-number: ${ headingFont == "Georgia" ? "Georgia Pro" : headingFont },sans-serif;
         --ff-article: ${ bodyFont },sans-serif;
-        --ff-number: ${ digitFont },sans-serif;
+        --ff-digit: ${ digitFont },sans-serif;
         --ff-table: ${ tableFont },sans-serif;
         --ff-table-digit: ${ tableDigitFont },sans-serif;
         ${ (bodyFont == "Times" || bodyFont == "Times New Roman") ? "--fs-article: 17px;" : "" }

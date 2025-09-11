@@ -73,7 +73,7 @@
         /* font-size */
         --fs-ui: 14px; /* nav and menu */
         --fs-header-title: 48px;
-        --fs-article: 16.4px; /* size inherited for p, ol, ul */
+        --fs-article: 16.2px; /* size inherited for p, ol, ul */
         --fs-blockquote: 0.975em;
         --fs-small: 14.4px;
         --fs-first-heading: 40px;
@@ -183,11 +183,11 @@
     }
     html.red {
         --header-bg: #111;
-        --header-color-2: #777;
-        --nav-bg: #5e2e2e;
+        --header-color-2: #844043;
+        --nav-bg: #592b2d;
         --nav-border: #4f2020;
         --nav-color: #b49d9d;
-        --nav-svg: #9e8181;
+        --nav-svg: #866868;
         --blockquote-accent: #935258;
         --page-bg: #f2f2f2;
         --link-color: #7b3d4e;
@@ -298,8 +298,7 @@
         background-image: linear-gradient(20deg, #070707, #000);
         background-attachment: fixed;
     }
-    .darker .article-footer img { opacity: 0.6; }
-    .darker #article img { opacity: 0.8; }
+    .darker img { opacity: 0.7; }
     
     /* default resets that I use: */
     * { margin: 0; padding: 0; }
@@ -314,7 +313,7 @@
     a:hover { text-decoration: underline; }
     mark { background-color: var(--c-pale-yellow); color: inherit; }
     input, select { font-family: var(--ff-ui); }
-    .btn-flat { cursor: pointer; padding: 3px 8px 3px; border: 1px solid var(--grey-a); background-color: var(--grey-f); line-height: 1.3; vertical-align: middle; }
+    .btn-flat { cursor: pointer; padding: 3px 8px 3px; border: 1px solid var(--grey-a); background-color: var(--grey-f); line-height: 1.3; vertical-align: middle; color: var(--grey-3); }
 
     html ::selection { background-color: var(--selection-bg); color: var(--selection-color); }
     a:target { background-color: #dfe9ff; }
@@ -630,6 +629,7 @@
             clear: both;
             max-width: var(--main-width);
             display: flex;
+            justify-content: center;
             align-items: center;
             gap: 1em;
         }
