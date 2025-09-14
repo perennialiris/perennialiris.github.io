@@ -16,6 +16,7 @@ const socialLinksdata = `<div title="This github repo"><a class="plug" href="htt
 <div title="My account on Substack"><a class="plug" href="https://perennialiris.substack.com">${ substackLogoSvg }</a></div>`;
 const xButtonSvg = `<svg id="toc-x-button" width="15" height="15" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 16 L60 60 M60 16 L16 60" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter"/></svg>`;
 const citerefIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" role="img"><path fill="currentcolor" d="M6 1h5v5L8.86 3.85 4.7 8 4 7.3l4.15-4.16z M2 3h2v1H2v6h6V8h1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1"/></svg>`;
+const upDownArrowsIconSvg = `↑↓`;
 const hamburgerIconSvg = `<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6H20 M4 12H20 M4 18H20" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const homeLink = document.getElementById("index") ? "" : "../../index.html";
 const themePainting = document.getElementById("index") ? "assets/grandchamp.png" : "../../assets/grandchamp.png";
@@ -43,7 +44,7 @@ window.addEventListener("load", function() {
                     <span><b>Theme:</b></span>
                     <select class="menu-select" id="brightness-select" style="padding-right:10px">
                         <option value="light">Light</option>
-                        <option value="medium">High contrast</option>
+                        <option value="medium">High contrast (Blue)</option>
                         <option value="red">Light (Red)</option>
                         <option value="dark">Dark</option>
                         <option value="darker">Extra dark</option>
@@ -123,9 +124,7 @@ window.addEventListener("load", function() {
         </div>
     </div>
     <div class="c1">
-        <div style="padding-top:40px">
-            <nav id="table-of-contents"></nav>
-        </div>
+        ${ HTML.classList.contains("toc") ? `<div class="toc-wrapper"><nav id="table-of-contents"></nav></div>` : "" }
         <div class="c2">
             <div class="c3">
                 <article id="article">${ document.body.innerHTML }</article>
@@ -153,8 +152,7 @@ window.addEventListener("load", function() {
     interpreter(article_);
     Array.from(article_.getElementsByTagName("p")).forEach(e => wrapDigits(e, "digit"));
     Array.from(article_.getElementsByTagName("li")).forEach(e => wrapDigits(e, "digit"));
-    Array.from(article_.getElementsByTagName("td")).forEach(e => wrapDigits(e, "table-number"));
-    Array.from(article_.getElementsByClassName("heading")).forEach(e => wrapDigits(e, "heading-number"));
+    Array.from(article_.getElementsByTagName("td")).forEach(e => wrapDigits(e, "table-digit"));
     
     document.querySelector(".lightbox-wrapper").addEventListener("click", () => { setLightbox("close") });
     
@@ -274,6 +272,8 @@ window.addEventListener("load", function() {
             }
             lastHeading = currentHeading;
         }
+        /* I do this after the toc creation so the heading-digit elements don't get pulled into the toc */
+        Array.from(article_.getElementsByClassName("heading")).forEach(e => wrapDigits(e, "heading-digit"));
         
         let canTocWidthCheck = true;
         function tocWidthCheck() {
@@ -393,14 +393,15 @@ function updateFonts() {
     let headingDigitFont = headingFont == "Georgia" ? "Georgia Pro" : headingFont;
     document.getElementById("--custom-style").innerHTML = ` body {
         --ff-heading: ${ headingFont },sans-serif;
-        --ff-heading-number: ${ headingFont == "Georgia" ? "Georgia Pro" : headingFont },sans-serif;
+        --ff-heading-digit: ${ headingFont == "Georgia" ? "Georgia Pro" : headingFont },sans-serif;
+        
         --ff-article: ${ bodyFont },sans-serif;
         --ff-digit: ${ digitFont },sans-serif;
         --ff-table: ${ tableFont },sans-serif;
         --ff-table-digit: ${ tableDigitFont },sans-serif;
-        ${ (bodyFont == "Times" || bodyFont == "Times New Roman") ? "--fs-article: 17px;" : "" }
-    }
-    ${ headingFont == "Georgia" ? " #article h1, #article h2 { font-weight: 600; } " : "" }`;
+        ${ bodyFont == "Times" || bodyFont == "Times New Roman" ? "--fs-article: 17px;" : "" }
+        ${ headingFont == "Georgia" ? " --fw-h1: 600; --fw-h2: 600; " : "" }
+    }`;
 }
 function menuRestoreDefaults() {
     localStorage.setItem("headingFont", "Inter");
@@ -531,8 +532,6 @@ function interpreter(argValue) {
             let rows = chunk.split("\n");
             let galleryInfo = rows.shift().substring("||yt-gallery".length);
             let sortInput = galleryInfo.includes("sort");
-            let numToInclude = parseInt(galleryInfo.replace(/\D/g, "")) || 6;
-            
             rows = rows.map(row => {
                 row = row.replace(/\\\|/g, "&verbar;").split("|").map(d => d.trim());
                 while (row.length < 3) {
@@ -541,8 +540,13 @@ function interpreter(argValue) {
                 return row;
             });
             if (sortInput) {
-                rows.sort((a, b) => (parseInt(b[2].replace(/\D/g, "")) || 0) - (parseInt(a[2].replace(/\D/g, "")) || 0) );
+                rows.sort((a, b) => {
+                    a = parseInt(a[2].replace(/\D/g, "")) || 0;
+                    b =parseInt(b[2].replace(/\D/g, "")) || 0;
+                    return b - a;
+                });
             }
+            let numToInclude = parseInt(galleryInfo.replace(/\D/g, "")) || rows.length;
             rows = rows.slice(0, numToInclude).map( row => {
                 let title = row[0];
                 let videoCode = row[1];
