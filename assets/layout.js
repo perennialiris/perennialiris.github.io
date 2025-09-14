@@ -42,10 +42,10 @@ window.addEventListener("load", function() {
             <div class="menu hidden">
                 <div class="align-center gap-8">
                     <span><b>Theme:</b></span>
-                    <select class="menu-select" id="brightness-select" style="padding-right:10px">
+                    <select class="menu-select" id="brightness-select">
                         <option value="light">Light</option>
-                        <option value="medium">High contrast (Blue)</option>
                         <option value="red">Light (Red)</option>
+                        <option value="medium">High contrast (Blue)</option>
                         <option value="dark">Dark</option>
                         <option value="darker">Extra dark</option>
                     </select>
@@ -150,9 +150,6 @@ window.addEventListener("load", function() {
     
     const article_ = document.getElementById("article");
     interpreter(article_);
-    Array.from(article_.getElementsByTagName("p")).forEach(e => wrapDigits(e, "digit"));
-    Array.from(article_.getElementsByTagName("li")).forEach(e => wrapDigits(e, "digit"));
-    Array.from(article_.getElementsByTagName("td")).forEach(e => wrapDigits(e, "table-digit"));
     
     document.querySelector(".lightbox-wrapper").addEventListener("click", () => { setLightbox("close") });
     
@@ -272,8 +269,6 @@ window.addEventListener("load", function() {
             }
             lastHeading = currentHeading;
         }
-        /* I do this after the toc creation so the heading-digit elements don't get pulled into the toc */
-        Array.from(article_.getElementsByClassName("heading")).forEach(e => wrapDigits(e, "heading-digit"));
         
         let canTocWidthCheck = true;
         function tocWidthCheck() {
@@ -319,6 +314,11 @@ window.addEventListener("load", function() {
     }
     /* ---- ---- ---- ---- ---- / table of contents ---- ---- ---- ---- ---- ---- ---- */
 
+    // Array.from(article_.getElementsByTagName("p")).forEach(e => wrapDigits(e, "digit"));
+    // Array.from(article_.getElementsByTagName("li")).forEach(e => wrapDigits(e, "digit"));
+    // Array.from(article_.getElementsByTagName("td")).forEach(e => wrapDigits(e, "table-digit"));
+    // Array.from(article_.getElementsByClassName("heading")).forEach(e => wrapDigits(e, "heading-digit"));
+    
     document.getElementById("to-top-button").addEventListener("click", scrollToTop);
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     const mainNav = document.querySelector(".main-nav");
@@ -382,29 +382,22 @@ function setBrightness(setValue) {
     document.getElementById("brightness-select").value = brightness;
 }
 function updateFonts() {
-    let headingFont = localStorage.getItem("headingFont") || "Inter";
+    let headingFont = localStorage.getItem("headingFont") || "Georgia";
     let bodyFont = localStorage.getItem("bodyFont") || "Georgia";
     let tableFont = localStorage.getItem("tableFont") || "Roboto";
     document.getElementById("heading-font-select").value = headingFont;
     document.getElementById("body-font-select").value = bodyFont;
     document.getElementById("table-font-select").value = tableFont;
-    let digitFont = bodyFont == "Georgia" ? "Georgia Pro" : bodyFont;
-    let tableDigitFont = tableFont == "Georgia" ? "Georgia Pro" : tableFont;
-    let headingDigitFont = headingFont == "Georgia" ? "Georgia Pro" : headingFont;
     document.getElementById("--custom-style").innerHTML = ` body {
         --ff-heading: ${ headingFont },sans-serif;
-        --ff-heading-digit: ${ headingFont == "Georgia" ? "Georgia Pro" : headingFont },sans-serif;
-        
         --ff-article: ${ bodyFont },sans-serif;
-        --ff-digit: ${ digitFont },sans-serif;
         --ff-table: ${ tableFont },sans-serif;
-        --ff-table-digit: ${ tableDigitFont },sans-serif;
         ${ bodyFont == "Times" || bodyFont == "Times New Roman" ? "--fs-article: 17px;" : "" }
         ${ headingFont == "Georgia" ? " --fw-h1: 600; --fw-h2: 600; " : "" }
     }`;
 }
 function menuRestoreDefaults() {
-    localStorage.setItem("headingFont", "Inter");
+    localStorage.setItem("headingFont", "Georgia");
     localStorage.setItem("bodyFont", "Georgia");
     localStorage.setItem("tableFont", "Roboto");
     updateFonts();

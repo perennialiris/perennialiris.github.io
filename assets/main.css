@@ -43,7 +43,7 @@
         --toc-side-pad: 30px;
         --main-width: 690px;
         --page-bottom-height: 86px;
-        --hamburger-size: 24px;
+        --menu-button-size: 24px;
         --menu-width: 264px;
         --article-side-pad: 44px;
         --right-correction-pad: clamp(0px, calc(0.275 * calc(100vw - var(--main-width) - var(--toc-width) - 15px)), 500px);
@@ -57,12 +57,9 @@
         --ff-header-title: Sacramento, serif;
         --ff-nav: Trebuchet MS, Nirmala UI, Segoe UI, system-ui, sans-serif;
         --ff-article: Georgia, sans-serif;
-        --ff-digit: Georgia Pro, sans-serif;
         --ff-heading: Georgia Pro, sans-serif;
-        --ff-heading-digit: inherit;
         --ff-first-heading: Lora,Georgia Pro, serif;
         --ff-table: Roboto, sans-serif;
-        --ff-table-digit: inherit;
         --ff-small: var(--ff-ui);
         --ff-citeref: Arial, var(--ff-ui);
         --ff-monospace: Consolas, monospace;
@@ -73,7 +70,7 @@
         /* font-size */
         --fs-ui: 14px; /* nav and menu */
         --fs-header-title: 48px;
-        --fs-article: 16.2px; /* size inherited for p, ol, ul */
+        --fs-article: 16px; /* size inherited for p, ol, ul */
         --fs-blockquote: 0.975em;
         --fs-small: 14.4px;
         --fs-first-heading: 40px;
@@ -137,13 +134,13 @@
         /* line-height */
         --lh-ui: 1.3;
         --lh-toc: 1.25;
-        --lh-article: 1.7; /* main text */
-        --lh-first-heading: 1.15;
+        --lh-article: 1.625; /* main text */
+        --lh-first-heading: 1.3;
         --lh-heading: 1.3;
         --lh-table: 1.5;
         --lh-small: 1.5;
-        --lh-blockquote: 1.55;
-        --lh-short-list: 1.5;
+        --lh-blockquote: 1.5;
+        --lh-short-list: 1.3;
         --lh-codeblock: 1.25;
         --lh-figcaption: 1.2;
         --lh-article-footer: 1.5;
@@ -151,7 +148,6 @@
         /* letter-spacing */
         --ls-bold: -0.3px;
         --ls-code: -0.3px;
-        --ls-digit: -0.5px;
         --fw-h1: 700;
         --fw-h2: 700;
         --fw-h3: 700;
@@ -374,7 +370,7 @@
             .page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; padding-right: 10px; user-select: text; }
             .main-nav a:not(.hamburger):hover { filter: brightness(1.25); }
 
-            .hamburger { cursor: pointer; height: var(--hamburger-size); width: calc(1.25 * var(--hamburger-size)); border: none; background-color: #0000; }
+            .hamburger { cursor: pointer; height: var(--menu-button-size); width: calc(1.25 * var(--menu-button-size)); border: none; background-color: #0000; }
                 .hamburger svg path { stroke: var(--nav-svg); }
                 .hamburger svg:hover { opacity: 0.8; }
 
@@ -472,10 +468,8 @@
             #article h3 { font-size: var(--fs-h3); font-weight: var(--fw-h3); }
             #article h4 { font-size: var(--fs-h4); font-weight: var(--fw-h4); }
 
-                .first-heading .heading-digit { font-family: inherit; }
-
             #article > * {
-                margin-top: 10px;
+                margin-top: 12px;
             }
             #article .table-wrapper {
                 margin-bottom: 1.1em;
@@ -531,11 +525,6 @@
 
             .indent #article > p + figure.image-float + p, .indent #article > p + p { text-indent: 2.5em; }
             .justify #article p, .justify #article li { text-align: justify; }
-
-            #article ol > li::marker,
-            .digit { font-family: var(--ff-digit); letter-spacing: var(--ls-digit); }
-            .table-digit { font-family: var(--ff-table-digit); }
-            .heading-digit { font-family: var(--ff-heading-digit); }
 
             #article .mdash { margin-inline: 1px; line-height: 1; font-family: var(--ff-mdash); }
 
