@@ -1,5 +1,13 @@
-<html><body><script>
+<!DOCTYPE html>
+<html><body>
+<script>
 const parts = window.location.pathname.split("/");
-if (parts[parts.length - 1] == "index.html") { parts.pop(); }
-window.location.href = "../page/israel-palestine/mcmahon-hussein-correspondence.html";
-</script></body></html>
+if (parts[parts.length - 1] == "index.html") {
+    window.location.href = "../page/" + parts[parts.length - 2] + "/index.html";
+    console.log("1")
+}
+else {
+    window.location.href = "../page/" + parts[parts.length - 1] + "/index.html";
+}
+</script>
+</body></html>

@@ -1,3 +1,13 @@
-<html><body><script>
-window.location.href = "../page/israel-palestine/index.html";
-</script></body></html>
+<!DOCTYPE html>
+<html><body>
+<script>
+const parts = window.location.pathname.split("/");
+if (parts[parts.length - 1] == "index.html") {
+    window.location.href = "../page/" + "israel-palestine" + "/index.html";
+    console.log("1")
+}
+else {
+    window.location.href = "../page/" + "israel-palestine" + "/index.html";
+}
+</script>
+</body></html>
