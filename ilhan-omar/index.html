@@ -1,15 +1,6 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html><body>
 <script>
-const parts = window.location.pathname.split("/");
-console.log(parts)
-if (parts[parts.length - 1] == "index.html") {
-    window.location.href = "../page/" + parts[parts.length - 2] + "/index.html";
-    console.log("1")
-}
-else {
-    window.location.href = "../page/" + parts[parts.length - 1] + "/index.html";
-    console.log("2")
-}
+window.location.href = "../page/" + window.location.pathname.split("/").pop().pop() + "/index.html";
 </script>
 </body></html>
