@@ -1,0 +1,5 @@
+<html><body><script>
+const parts = window.location.pathname.split("/");
+if (parts[parts.length - 1] == "index.html") { parts.pop(); }
+window.location.href = "../page/" + parts.pop() + "/index.html";
+</script></body></html>
