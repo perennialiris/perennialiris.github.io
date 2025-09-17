@@ -153,6 +153,26 @@ window.addEventListener("load", function() {
     
     document.querySelector(".lightbox-wrapper").addEventListener("click", () => { setLightbox("close") });
     
+    Array.from(document.getElementsByClassName("ie-expand")).forEach(e => {
+        e.classList.add("collapsed")
+        e.title = "Click to expand this section";
+        
+        e.addEventListener("click", function() {
+            this.classList.remove("collapsed");
+            e.title = "";
+        })
+        let b = e.appendChild(document.createElement("div"));
+        b.innerHTML = `<div class="collapse-button-container"><input type="button" class="flat-button" value="minimize this"></div>`;
+        b.querySelector(".flat-button").addEventListener("click", function(f) {
+            e.classList.add("collapsed");
+            e.title = "Click to expand this section";
+            f.stopPropagation();
+            if (e.getBoundingClientRect().top + window.scrollY < pageYOffset) {
+                e.scrollIntoView({ behavior: "smooth" });
+            }
+        })
+    })
+    
     /* ---------------------- setting up menu: ---------------------- */
     const hamburger = document.querySelector(".hamburger");
     const menu = document.querySelector(".menu");
@@ -221,6 +241,8 @@ window.addEventListener("load", function() {
         const headings = Array.from(document.getElementById("article").getElementsByClassName("toc-include"));
         toc.innerHTML = `<div class="toc-row"><div class="align-center space-between"><a class="toc-row" onclick="scrollToTop()" style="cursor: pointer;">(Top)</a>${ xButtonSvg }</div></div>` + headings.slice(1).map ( heading => `<a class="toc-row ${ heading.tagName.toLowerCase() }" href="#${ heading.id }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
 
+        console.log("headings.length: " + headings.length)
+        console.log(headings)
         const rowsInToc = Array.from(toc.getElementsByClassName("toc-row")).slice(1);
         let lastHeading = -1;
         
@@ -237,11 +259,16 @@ window.addEventListener("load", function() {
         function tocHighlightUpdate() {
             let currentHeading = -1;
             for (let i = 0; i < headings.length; i += 1) {
-                if (pageYOffset < headings[i].offsetTop - (0.5 * window.innerHeight)) {
+                let elementDistanceFromPageTop = window.scrollY + headings[i].getBoundingClientRect().top;
+                if (pageYOffset < elementDistanceFromPageTop - (0.4 * window.innerHeight)) {
                     break;
                 }
+                // if (pageYOffset < headings[i].offsetTop - (0.4 * window.innerHeight)) {
+                    // break;
+                // }
                 currentHeading = i;
             }
+            console.log("currentHeading: "+currentHeading )
             if (currentHeading != lastHeading) {
                 rowsInToc.forEach( (row, n) => {
                     if (n == currentHeading) {
@@ -349,6 +376,7 @@ function scrollToTop() {
     if (toc) {
         toc.scrollTo({ behavior: "instant", top: 0 });
     }
+    
 }
 
 function setLightbox(action) {
@@ -389,7 +417,7 @@ function updateFonts() {
     document.getElementById("body-font-select").value = bodyFont;
     document.getElementById("table-font-select").value = tableFont;
     document.getElementById("--custom-style").innerHTML = ` body {
-        --ff-heading: ${ headingFont },sans-serif;
+        --ff-heading: ${ headingFont=="Georgia"? "Georgia Pro":headingFont },sans-serif;
         --ff-article: ${ bodyFont },sans-serif;
         --ff-table: ${ tableFont },sans-serif;
         ${ bodyFont == "Times" || bodyFont == "Times New Roman" ? "--fs-article: 17px;" : "" }
@@ -666,15 +694,19 @@ function interpreter(argValue) {
             if (tableHead) {
                 tableHead = tableHead.replace(/\\\|/g, "&verbar;").split("|");
                 if (tableHead.length == 1) {
-                    tableHead = `<thead><th colspan="${ tableWidth }">${ tableHead[0] }</th></thead>`;
-                } else {
+                    /* for giving the table a title ("||th List of releases") */
+                    tableHead = tableHead[0];
+                    tableHead = `<thead><th class="toc-include" id="${ tableHead.replaceAll(" ", "_").replaceAll("*", "") }" colspan="${ tableWidth }">${ format_(tableHead) }</th></thead>`;
+                }
+                else {
+                    /* for labelling columns ("||th Date | Name | Category") */
                     tableHead = `<thead>${ tableHead.map(c => `<th>${ c }</th>`).join("") }</thead>`;
                 }
             }
             /* if ||table declaration had styling included: */
             let customTableStyle = "";
-            if (firstRow.length > 1) {
-                customTableStyle = `<style>${ firstRow.replace(/;/g, " !important;").replace(/this/g, ".auto-table-"+tableNum) }</style>`;
+            if (firstRow.replace(/\s/g, "").length > 1) {
+                customTableStyle = `<style>${ firstRow.replace(/this/g, ".auto-table-"+tableNum).replace(/;/g, " !important;") }</style>`;
             }
 
             let table = `${ customTableStyle }<div class="table-wrapper"><table class="auto-table auto-table-${ tableNum }">${ tableHead }<tbody>${ rows.join("") }</tbody></table></div>`;

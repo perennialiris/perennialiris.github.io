@@ -313,7 +313,7 @@
     a:hover { text-decoration: underline; }
     mark { background-color: var(--c-pale-yellow); color: inherit; }
     input, select { font-family: var(--ff-ui); }
-    .btn-flat { cursor: pointer; padding: 3px 8px 3px; border: 1px solid var(--grey-a); background-color: var(--grey-f); line-height: 1.3; vertical-align: middle; color: var(--grey-3); }
+    .flat-button { cursor: pointer; padding: 3px 7px 3px; border: 1px solid var(--grey-a); background-color: var(--grey-f); line-height: 1.3; vertical-align: middle; color: var(--grey-3); }
 
     html ::selection { background-color: var(--selection-bg); color: var(--selection-color); }
     a:target { background-color: #dfe9ff; }
@@ -436,6 +436,7 @@
                 .toc-row { max-width: calc(var(--toc-width) - var(--toc-side-pad) - 20px); box-sizing: border-box; color: var(--toc-color); display: block; }
                 .toc-row.h2 { padding-left: 20px; }
                 .toc-row.h3 { padding-left: 40px; }
+                .toc-row.th { display: none; }
                 .toc-row + .toc-row { margin-top: 10px; }
                 .toc-row.active-heading { transition: color 0.25s; color: var(--toc-active-color); }
                 #toc-x-button { opacity: 0.6; stroke: var(--toc-color); padding: 2px; cursor: pointer; }
@@ -551,13 +552,40 @@
             #article .auto-list blockquote { padding: 4px 14px; border-left: none; }
 
             .auto-table { border-collapse: collapse; }
-                .auto-table td div + div { margin-top: 0.5em; }
                 .auto-table br { margin-bottom: 0.5em; }
                 .auto-table th,
-                .auto-table td { padding: 5px 8px 4px; vertical-align: top; font-size: var(--fs-table); font-family: var(--ff-table); line-height: var(--lh-table); }
+                .auto-table td { padding: 5px 6px 4px; vertical-align: top; font-size: var(--fs-table); font-family: var(--ff-table); line-height: var(--lh-table); }
 
             .auto-video { background-color: var(--grey-1); }
             .auto-video video { display: block; margin-inline: auto; width: 100%; }
+
+            .ie-expand {
+                border: 1px solid var(--grey-a);
+                padding: 0.5em;
+                background-color: var(--grey-f);
+            }
+            .ie-expand.collapsed {
+                border-color: transparent;
+                cursor: pointer;
+                overflow: hidden;
+                max-height: 5.5em;
+                mask-image: linear-gradient(to bottom, black calc(100% - 20px), transparent);
+                -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent);
+                transition: mask-image 0.2s;
+            }
+                .collapse-button-container {
+                    display: flex;
+                    justify-content: flex-end;
+                }
+                    .collapse-button-container .flat-button {
+                        margin: 8px 0;
+                        background-color: var(--white);
+                        border: 1px solid var(--grey-a);
+                        padding: 3px 8px 4px;
+                    }
+                    .collapse-button-container .flat-button:hover {
+                        background-color: var(--grey-c);
+                    }
 
             .yt-gallery {
                 display: flex;
