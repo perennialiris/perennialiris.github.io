@@ -162,6 +162,9 @@
         html.full-width {
             --main-width: 1920px;
         }
+        html.full-width .article-footer {
+            justify-content: center;
+        }
         html.full-width .main-nav {
             padding-right: 1rem;
         }
@@ -646,7 +649,6 @@
             clear: both;
             max-width: var(--main-width);
             display: flex;
-            justify-content: center;
             align-items: center;
             gap: 1em;
         }
