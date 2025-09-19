@@ -413,8 +413,8 @@
             #article h3 { font-size: var(--fs-h3); font-weight: var(--fw-h3); }
             #article h4 { font-size: var(--fs-h4); font-weight: var(--fw-h4); }
 
-            #article > * { margin-top: 0.8em; }
-            #article .image-span, #article .image-float, #article .captioned-gallery, #article .square-gallery { margin-top: 1em; }
+            #article > * { margin-top: 1em; }
+            #article .image-span, #article .image-float, #article .captioned-gallery, #article .square-gallery { margin-top: 1.2em; }
             #article .table-wrapper { margin-bottom: 1.1em; }
 
             #article p b,
@@ -518,7 +518,7 @@
                         .square-gallery img { max-width: 100%; max-height: 100%; }
                     .square-gallery figcaption { max-width: var(--square-gallery-image-width); text-align: center; margin: 5px; line-height: var(--lh-figcaption); font-family: var(--ff-ui); color: var(--grey-5); font-size: var(--fs-small); }
 
-        .article-footer { color: var(--grey-9); line-height: var(--lh-article-footer); font-size: var(--fs-footer); margin: 30px auto 0; clear: both; max-width: var(--main-width); display: flex; align-items: center; gap: 1em; }
+        .article-footer { color: var(--grey-9); line-height: var(--lh-article-footer); font-size: var(--fs-footer); margin: 30px auto 0; clear: both; max-width: var(--main-width); display: flex; align-items: center; gap: 1em; padding-top: 30px; border-top: 1px solid var(--grey-c); }
             .article-footer > div + div { margin-top: 30px; }
             .article-footer img { width: 100px; height: 100px; border: 1px solid var(--grey-a); }
 
