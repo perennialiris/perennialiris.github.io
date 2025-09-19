@@ -57,9 +57,12 @@
         --ff-header-title: Sacramento, serif;
         --ff-nav: Trebuchet MS, Nirmala UI, Segoe UI, system-ui, sans-serif;
         --ff-article: Georgia, sans-serif;
+        --ff-article-digit: Georgia Pro, Georgia, sans-serif;
         --ff-heading: Georgia Pro, sans-serif;
+        --ff-heading-digit: inherit;
         --ff-first-heading: Lora,Georgia Pro, serif;
         --ff-table: Roboto, sans-serif;
+        --ff-table-digit: inherit;
         --ff-small: var(--ff-ui);
         --ff-citeref: Arial, var(--ff-ui);
         --ff-monospace: Consolas, monospace;
@@ -305,7 +308,7 @@
     
     /* default resets that I use: */
     * { margin: 0; padding: 0; }
-    sub, sup { font-size: 0.8em; }
+    sub, sup { font-size: 0.833em; }
     img { display: block; object-fit: contain; }
     ul { list-style-type: disc; }
     ol > li { padding-left: 2px; }
@@ -326,6 +329,9 @@
     .hidden { display: none !important; }
 
     .flex { display: flex; }
+    .gap-1 { gap: 1px; }
+    .gap-2 { gap: 2px; }
+    .gap-3 { gap: 3px; }
     .gap-4 { gap: 4px; }
     .gap-5 { gap: 5px; }
     .gap-6 { gap: 6px; }
@@ -333,6 +339,16 @@
     .gap-8 { gap: 8px; }
     .gap-9 { gap: 9px; }
     .gap-10 { gap: 10px; }
+    .gap-11 { gap: 11px; }
+    .gap-12 { gap: 12px; }
+    .gap-13 { gap: 13px; }
+    .gap-14 { gap: 14px; }
+    .gap-15 { gap: 15px; }
+    .gap-16 { gap: 16px; }
+    .gap-17 { gap: 17px; }
+    .gap-18 { gap: 18px; }
+    .gap-19 { gap: 19px; }
+    .gap-20 { gap: 20px; }
     .center { display: flex; justify-content: center; }
     .space-between { display: flex; justify-content: space-between; }
     .space-evenly { display: flex; justify-content: space-evenly; }
@@ -460,6 +476,11 @@
                 line-height: var(--lh-first-heading);
                 font-weight: 600;
             }
+            
+            #article .article-digit { font-family: var(--ff-article-digit); }
+            #article .table-digit { font-family: var(--ff-table-digit); }
+            #article .heading-digit { font-family: var(--ff-heading-digit); }
+            
             #article .heading {
                 line-height: var(--lh-heading);
                 clear: both;
@@ -489,7 +510,7 @@
                 padding: 0.15em 0.2em 0.1em
             }
 
-            #article sup { vertical-align: text-top; line-height: 1; }
+            #article sup { vertical-align: super; line-height: 1; }
             #article sub { vertical-align: sub; line-height: 1; }
 
             #article a { color: var(--link-color); }
@@ -505,8 +526,8 @@
                 #article .small a { color: var(--small-link-color); text-decoration: none; }
                 #article .small a.internal { color: var(--small-internal-link-color); }
 
-            .rows .row { display: flex; justify-content: space-between; }
-            .rows .cell { padding: 5px 9px 3px; font-family: var(--ff-table); line-height: var(--lh-table); font-size: var(--fs-table); }
+            .rows .row { display: flex; justify-content: space-between; gap: 10px; padding: 5px 8px 4px; }
+            .rows .cell { font-family: var(--ff-table); line-height: var(--lh-table); font-size: var(--fs-table); }
 
             .auto-list {
                 padding: 0 2.5em;
@@ -539,9 +560,9 @@
             .codeblock.cs { border-left: 2px solid var(--c-teal); }
             .codeblock.java { border-left: 2px solid var(--c-teal); }
                 .codeblock mark { background-color: var(--codeblock-mark); }
-                .codeblock .orange { color: var(--c-orange); }
-                .codeblock .purple { color: var(--c-purple); }
-                .codeblock .blue { color: var(--c-blue); }
+                .codeblock .code-orange { color: var(--c-orange); }
+                .codeblock .code-purple { color: var(--c-purple); }
+                .codeblock .code-blue { color: var(--c-blue); }
                 .codeblock .code-commented { color: var(--c-green); }
                 .codeblock .code-commented * { color: inherit !important; }
                 .codeblock .code-macro { color: var(--grey-5); }

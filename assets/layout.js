@@ -341,7 +341,7 @@ window.addEventListener("load", function() {
     }
     /* ---- ---- ---- ---- ---- / table of contents ---- ---- ---- ---- ---- ---- ---- */
 
-    // Array.from(article_.getElementsByTagName("p")).forEach(e => wrapDigits(e, "digit"));
+    Array.from(article_.getElementsByTagName("p")).forEach(e => wrapDigits(e, "digit"));
     // Array.from(article_.getElementsByTagName("li")).forEach(e => wrapDigits(e, "digit"));
     // Array.from(article_.getElementsByTagName("td")).forEach(e => wrapDigits(e, "table-digit"));
     // Array.from(article_.getElementsByClassName("heading")).forEach(e => wrapDigits(e, "heading-digit"));
@@ -418,8 +418,11 @@ function updateFonts() {
     document.getElementById("table-font-select").value = tableFont;
     document.getElementById("--custom-style").innerHTML = ` body {
         --ff-heading: ${ headingFont=="Georgia"? "Georgia Pro":headingFont },sans-serif;
+        --ff-heading-digit: ${ headingFont=="Georgia" ? "Georgia Pro":headingFont };
         --ff-article: ${ bodyFont },sans-serif;
+        --ff-article-digit: ${ bodyFont=="Georgia" ? "Georgia Pro":bodyFont };
         --ff-table: ${ tableFont },sans-serif;
+        --ff-table-digit: ${ tableFont=="Georgia" ? "Georgia Pro":tableFont };
         ${ bodyFont == "Times" || bodyFont == "Times New Roman" ? "--fs-article: 17px;" : "" }
         ${ headingFont == "Georgia" ? " --fw-h1: 600; --fw-h2: 600; " : "" }
     }`;
@@ -683,7 +686,7 @@ function interpreter(argValue) {
                 let cells = rows[r].replace(/\\\|/g, "&verbar;").split("|");
                 for (let c = 0; c < cells.length; c += 1) {
                     let cellNum = c + 1;
-                    cells[c] = `<td class="col-${ cellNum + " col-" + ((cellNum % 2 == 1) ? "odd" : "even") }">${ format_(cells[c].trim()) }</td>`;
+                    cells[c] = `<td class="cell col-${ cellNum + " col-" + ((cellNum % 2 == 1) ? "odd" : "even") }">${ format_(cells[c].trim()) }</td>`;
                     if (c + 1 > tableWidth) {
                         tableWidth = c + 1;
                     }
@@ -700,7 +703,7 @@ function interpreter(argValue) {
                 }
                 else {
                     /* for labelling columns ("||th Date | Name | Category") */
-                    tableHead = `<thead>${ tableHead.map(c => `<th>${ c }</th>`).join("") }</thead>`;
+                    tableHead = `<thead>${ tableHead.map(c => `<th class="cell">${ c }</th>`).join("") }</thead>`;
                 }
             }
             /* if ||table declaration had styling included: */
@@ -916,6 +919,11 @@ function wrapDigits(arg, targetClass) {
     }
 }
 
+function wrapElementType(rootElement, tagName, className) {
+    if (typeof rootElement == "string") { rootElement = document.getElementById("article") }
+    Array.from(rootElement.getElementsByTagName(tagName)).forEach(ele => wrapDigits(ele, className));
+}
+
 function tokenizeByWordChar(stringData) {
     let overflow_check = 0;
     
@@ -938,13 +946,13 @@ function tokenizeByWordChar(stringData) {
 function colorizeKeywords(stringInput, syntaxClass, customKeywords) {
     return tokenizeByWordChar(stringInput).map(word => {
         if (KEYWORDS[syntaxClass] && KEYWORDS[syntaxClass].includes(word)) {
-            return `<span style="color: var(--c-code-blue)">${ word }</span>`;
+            return `<span class="code-blue">${ word }</span>`;
         }
         else if (customKeywords && customKeywords.includes(word)) {
-            return `<span style="color: var(--c-code-purple)">${ word }</span>`;
+            return `<span class="code-purple">${ word }</span>`;
         }
         else if (/^\d+$/.test(word)) {
-            return `<span style="color: var(--c-code-orange)">${ word }</span>`;
+            return `<span class="code-orange">${ word }</span>`;
         }
         return word;
     }).join("");
