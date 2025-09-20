@@ -620,9 +620,9 @@ function interpreter(argValue) {
                 .replaceAll("*", "&ast;")
                 .replaceAll("\n", "<br>") }</code>`;
         });
-        
+
         let pStyle = [];
-        
+
         if (chunk.startsWith(".")) {
             chunk = chunk.slice(1);
             pStyle.push("small");

@@ -88,7 +88,7 @@
         /* colors */
         --page-bg: #ffffff;
         --header-bg: #333;
-        --header-color: #aaa;
+        --header-color: #ccc;
         --header-color-2: #7763c8;
         --nav-bg: #fff;
         --nav-color: #808080;
@@ -157,19 +157,20 @@
         --fw-h4: 700;
         --checkbox-check: url("data:image/svg+xml;utf8,<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><rect x='17' y='17' width='66' height='66' fill='%236a6a6a'/></svg>");
     }
-        html.wide { --main-width: 940px; }
-        html.narrow .c2 { max-width: calc(var(--main-width) - 200px); margin: auto; }
-        html.full-width { --main-width: 1920px; }
-        html.full-width .article-footer { justify-content: center; }
-        html.full-width .main-nav { padding-right: 1rem; }
+    html.wide { --main-width: 940px; }
+    html.narrow .c2 { max-width: calc(var(--main-width) - 200px); margin: auto; }
+    html.full-width { --main-width: 1920px; }
+    html.full-width .article-footer { justify-content: center; }
+    html.full-width .main-nav { padding-right: 1rem; }
     html.blue {
-        --page-bg: #35363c;
+        --page-bg: #262728;
         --header-bg: #111;
         --header-color: #d2d2d2;
-        --nav-bg: #383d57;
+        --header-color-2: #585fc4;
+        --nav-bg: #383e59;
         --nav-border: #444757;
-        --nav-color: #8c8e91;
-        --nav-svg: #727579;
+        --nav-color: #888c9f;
+        --nav-svg: #777b91;
         --blockquote-accent: #6a728a;
         --toc-color: #74777d;
         --toc-active-color: #b6b7bb;
@@ -367,7 +368,7 @@
         .toc .menu-aligner { max-width: calc(var(--main-width) + var(--toc-width)); }
             .menu { border: 1px solid var(--grey-a); border-top: none; position: absolute; background-color: var(--grey-f); max-width: var(--menu-width); padding: 1em; }
                 .menu > div + div { padding-top: 8px; margin-top: 10px; border-top: 1px dotted var(--grey-5); }
-                .menu select { height: 2em; border: 1px solid var(--grey-a); background-color: var(--white); color: var(--grey-3); padding: 0px 12px 0px 4px; }
+                .menu select { height: 2em; border: 1px solid var(--grey-a); background-color: var(--white); color: var(--grey-3); padding: 0px 16px 0px 4px; }
                 .menu td { vertical-align: middle; padding: 3px 0; }
                 .menu td:first-child { padding-right: 1em; }
                 .menu table select { width: 100%; min-width: 150px; }
