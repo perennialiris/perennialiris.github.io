@@ -43,11 +43,11 @@ window.addEventListener("load", function() {
                 <div class="align-center gap-8">
                     <span><b>Theme:</b></span>
                     <select class="menu-select" id="brightness-select">
-                        <option value="light">Light (White)</option>
-                        <option value="red">Light (Red)</option>
-                        <option value="medium">High contrast (Blue)</option>
+                        <option value="light">White</option>
+                        <option value="red">Red accent</option>
+                        <option value="blue">High contrast blue</option>
                         <option value="dark">Dark grey</option>
-                        <option value="darker">Black (very dark)</option>
+                        <option value="darker">Very dark</option>
                     </select>
                 </div>
                 <div>
