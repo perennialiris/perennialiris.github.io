@@ -5,7 +5,9 @@
     <link rel="stylesheet" href="assets/main.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
-
+        #article * {
+            font-family: Roboto, sans-serif !important;
+        }
         .article-footer,
         #to-top-button,
         #page-name-display {
@@ -32,13 +34,16 @@
         .rows .row div:hover + div {
             color: var(--grey-5) !important;
         }
-
         .rows .row-odd {
             background-color: var(--grey-f);
         }
         
         .yt-gallery {
-            justify-content: space-between !important;
+            flex-direction: column;
+        }
+        
+        .unique-front-heading {
+            margin-block: 0 8px !important;
         }
         
     </style>
@@ -46,15 +51,35 @@
 <body>
 
 \<div class="social-links"></div>
+<div class="reverse gap-24">
+<div>
+<h3 class="unique-front-heading">Videos</h3>
 
-||yt-gallery sort3
-The path of normalization | TYoe1jxBYPY  | 2025-09-19
+||yt-gallery sort5
+Talking with Flowers: Trans panic, Charlie Kirk, Fascism | LZgEe_UTO24 | 2025-09-24
+The path of normalization | TYoe1jxBYPY | 2025-09-19
 Why do people like Trump? | tcF0f-Dtgic | 2025-09-14
 My thoughts after the Charlie Kirk assassination | AjPF8pGv37U | 2025-09-12
 How to fix America in a few simple steps | iFHmA32NZAs | 2025-08-22
 Unpacking lies about Ilhan Omar | zgE4L-e9yg0 | 2025-09-03
 What just happened? News recap (Jan 20 to July 4) | n355Q15CX8g | 2025-08-18
 Canada's Conservative Populist \| An Overview of Pierre Poilievre | BZ-ztjpRchE | 2025-07-11
+The default politician is a normal white guy | GDjIBEq16zY | 2025-03-29
+Do I pass? \| Transsexual diaries | tCh_wJz9M-E | 2025-03-20
+What is with Trump and Russia? | G-sLZaP7oOA | 2025-03-18
+Pride 2025 in Toronto | PL3u9OOGxew | 2025-06-05
+Fireworks | tzJEv4jjKHM | 2025-06-23
+Talking with Mouse: Rorschach tests | K3A1g1274Kc | 2025-08-20
+Are trans people more likely to be sex offenders? | ZKglpuBen-w | 2025-07-12
+Are trans people delusional? | amzwAmae4vQ | 2025-06-28
+Trans fetishism & politics | vk57rvM1zWo | 2025-04-02
+Sex, gender, & transsexuals | _bCO2o1Z0sE | 2025-05-29
+Lies people still believe \| Donald Trump, Elizabeth Warren, Hillary Clinton | LPQD6sxlWOs | 2025-04-09
+Bernie Sanders and the military industrial complex | yt6O0OMdIT0 | 2025-03-22
+Types of masculinity | lOQSqMhjwZY | 2025-06-12
+
+\</div><div>
+<h3 class="unique-front-heading">Text</h3>
 
 ||rows
 [Following the news](page/news/index.html) | continually updated
@@ -83,26 +108,20 @@ Canada's Conservative Populist \| An Overview of Pierre Poilievre | BZ-ztjpRchE 
 [A beauty holding a bird](page/21/index.html) | 2024-12-17
 [Conservatism](page/conservatism/index.html) | 2025-01-30
 [Israel--Palestine](page/israel-palestine/index.html) | 2025-07-27
-[Transcript: McMahon–Hussein correspondence (1915--1916)](page/israel-palestine/mcmahon-hussein-correspondence.html)
-[Transcript: Mark Robinson speech (2024-06-30)](page/20/mark-keith-robinson-2024-06-30-transcript.html)
+[McMahon–Hussein correspondence (1915--1916)](page/israel-palestine/mcmahon-hussein-correspondence.html)
 [Style notes](page/style-notes/index.html)
+[5-letter maker thing](page/wordle/index.html)
 [Contact info](page/contact/index.html)
 
-<div id="index"></div>
+\</div></div>
+
+\<div id="index"></div>
 <script src="assets/layout.js"></script>
-
 <script>
-function sortRows(rowsElement, columnToSortBy) {
-    let rows = Array.from(rowsElement.getElementsByClassName("row"));
-    rows.sort((a, b) => sortAux(b, columnToSortBy) - sortAux(a, columnToSortBy));
-    rows.forEach(r => rowsElement.appendChild(r));
-}
 window.onload = function() {
-    document.querySelector(".social-links").innerHTML = socialLinksdata; /* element from layout.js */
-    Array.from(document.getElementsByClassName("rows")).forEach(r => sortRows(r));
-    document.querySelector(".yt-gallery").parentNode.innerHTML += `<div style="text-align: right; margin-top: 0; margin-inline: 1rem;"><span><a href="page/videos/index.html">Link to all videos →</a></span></div>`;
+    document.querySelector(".social-links").innerHTML = socialLinksdata;
+    document.querySelector(".yt-gallery").parentNode.innerHTML += `<div style="text-align: right; margin-top: 8px; margin-inline: 1rem;"><span><a href="page/videos/index.html">Link to all videos →</a></span></div>`;
 }
-
 </script>
 </body></html>
 
