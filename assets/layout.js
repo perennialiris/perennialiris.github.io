@@ -655,7 +655,7 @@ function interpreter(argValue) {
             }
             else {
                 if (displayText == "") {
-                    a = `<a href="${ address }" title="${ address }" class="citeref">[${ linkNum }]</a>`;
+                    a = `<a href="${ address }" title="${ address }" class="citeref">[${ linkNum }]</span></a>`;
                 }
                 else {
                     a = `<a href="${ address }" title="${ address }">${ displayText }</a>`;
@@ -797,6 +797,7 @@ function interpreter(argValue) {
                 return `<h4 id="${ headingId }" class="heading">${ format_(chunk) }</h4>`;
             }
             if (headingTag == "h1" && firstHeading) {
+                firstHeading = false;
                 return `<h1 id="${ headingId }" class="heading toc-include first-heading">${ format_(chunk) }</h1>`;
             }
             firstHeading = false;

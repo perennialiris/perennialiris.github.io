@@ -16,11 +16,11 @@
 
         /* ---- unique for front index: ---- */
 
-        .row + .row {
+        .auto-table .row {
             border-top: 1px dotted var(--grey-a);
         }
         .rows a {
-            color: var(--grey-3) !important;
+            color: inherit !important;
             border-bottom: none !important;
             text-decoration: none !important;
         }
@@ -28,22 +28,20 @@
             text-decoration: underline !important;
             color: var(--link-color) !important;
         }
-        .col-2 {
-            color: var(--grey-8) !important;
+        .rows .col-2 {
+            color: var(--grey-8);
+            white-space: nowrap;
         }
-        .rows .row div:hover + div {
-            color: var(--grey-5) !important;
+        .col-1:hover + .col-2 {
+            color: var(--grey-5);
         }
-        .rows .row-odd {
-            background-color: var(--grey-f);
-        }
+        .row-odd { background-color: var(--grey-f); }
         
         .yt-gallery {
             flex-direction: column;
         }
-        
-        .unique-front-heading {
-            margin-block: 0 8px !important;
+        .front-label {
+            margin: 0 6px 5px;
         }
         
     </style>
@@ -51,9 +49,9 @@
 <body>
 
 \<div class="social-links"></div>
-<div class="reverse gap-24">
+<div class="reverse gap-22">
 <div>
-<h3 class="unique-front-heading">Videos</h3>
+<h3 class="front-label">Videos</h3>
 
 ||yt-gallery sort5
 Talking with Flowers: Trans panic, Charlie Kirk, Fascism | LZgEe_UTO24 | 2025-09-24
@@ -78,42 +76,48 @@ Lies people still believe \| Donald Trump, Elizabeth Warren, Hillary Clinton | L
 Bernie Sanders and the military industrial complex | yt6O0OMdIT0 | 2025-03-22
 Types of masculinity | lOQSqMhjwZY | 2025-06-12
 
-\</div><div>
-<h3 class="unique-front-heading">Text</h3>
+\</div><div style="width: 100%">
+<h3 class="front-label">Text</h3>
 
 ||rows
-[Following the news](page/news/index.html) | continually updated
+[Following the news](page/news/index.html)
 [Liberalism, not extremism](page/29/index.html) | 2025-09-19
 [The path of normalization](page/28/index.html) | 2025-09-08
 [Ilhan Omar](page/ilhan-omar/index.html) | 2025-08-25
-[Why do people like Trump?](page/18/index.html) | 2024-12-03
+[Notes on Israel--Palestine](page/israel-palestine/index.html) | 2025-07-27
 [Pierre Poilievre](page/pierre-poilievre/index.html) | 2025-03-15
 [Trump and Russia](page/26/index.html) | 2025-03-06
 [Why get bottom surgery?](page/24/index.html) | 2025-02-09
 [Elon Musk and the Nazi Salute](page/23/index.html) | 2025-01-24
+[Conservatism](page/conservatism/index.html) | 2025-01-30
 [Enduring falsehoods (Elizabeth Warren and Hillary Clinton)](page/22/index.html) | 2024-12-19
 [Mark Robinson](page/20/index.html) | 2024-12-15
 [Dehumanization](page/dehumanization/index.html) | 2024-12-12
 [The standard relationship model](page/19/index.html) | 2024-12-08
+[Why do people like Trump?](page/18/index.html) | 2024-12-03
 [The default politician is a white guy with a normal name](page/14/index.html) | 2024-11-26
+[Sex, gender, & transsexuals](page/4/index.html) | 2024-11-19
 [Fetishism & politics](page/13/index.html) | 2024-11-14
 [Types of masculinity](page/12/index.html) | 2024-11-08
 [My anime reviews](page/11/index.html) | 2024-11-02
 [Poor things (2023 film)](page/poor-things/index.html) | 2024-10-31
 [The trans prison stats argument](page/9/index.html) | 2024-10-19
-[A running list of every movie I've ever seen](page/movie-list/index.html)
-[Public figures record](page/public-record/index.html)
-[Bluesky user directory](page/bluesky-listing/index.html)
-[Sex, gender, & transsexuals](page/4/index.html)
-[A beauty holding a bird](page/21/index.html) | 2024-12-17
-[Conservatism](page/conservatism/index.html) | 2025-01-30
-[Israel--Palestine](page/israel-palestine/index.html) | 2025-07-27
+
+||rows
+[Contact info](page/contact/index.html)
 [McMahon–Hussein correspondence (1915--1916)](page/israel-palestine/mcmahon-hussein-correspondence.html)
+[Bluesky user directory](page/bluesky-listing/index.html)
+[Public figures record](page/public-record/index.html)
 [Style notes](page/style-notes/index.html)
 [5-letter maker thing](page/wordle/index.html)
-[Contact info](page/contact/index.html)
+[A running list of every movie I've ever seen](page/movie-list/index.html)
+[A beauty holding a bird](page/21/index.html)
 
 \</div></div>
+
+. I'm fine with anybody copying or sharing the stuff I make and upload here, equivalent to a [CC BY license](https://creativecommons.org/licenses/by/4.0/). To contact me for any kind of serious reason you can email me at **perennialforces**@gmail.com.
+
+
 
 \<div id="index"></div>
 <script src="assets/layout.js"></script>

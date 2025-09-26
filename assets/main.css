@@ -64,7 +64,7 @@
         --ff-table: Roboto, sans-serif;
         --ff-table-digit: inherit;
         --ff-small: var(--ff-ui);
-        --ff-citeref: Arial, var(--ff-ui);
+        --ff-citeref: Verdana,var(--ff-monospace);
         --ff-monospace: Consolas, monospace;
         --ff-mdash: Ubuntu, var(--ff-ui);
         --ff-cite: Tahoma, Arial, sans-serif;
@@ -430,18 +430,15 @@
             #article sup { vertical-align: super; line-height: 1; }
             #article sub { vertical-align: sub; line-height: 1; }
 
-            #article a { color: var(--link-color); }
-            #article p a:not(.citeref),
-            #article li a:not(.citeref) { text-underline-offset: 3px; border-bottom: 1px dotted currentcolor; }
+            #article a { color: var(--link-color); text-decoration: 1px dotted underline var(--grey-9); }
             #article a:not(.citeref):not(.plug):hover { border-bottom: none; }
             
-            #article a.citeref { font-size: 0.95em; margin-left: 1px; }
+            #article a.citeref { vertical-align: top; font-size: 0.7em; margin-left: 2px; font-family: var(--ff-citeref); }
+            #article a.citeref::before { content: "\00A0"; font-size: 0.1px; }
 
             #article .small { color: var(--grey-8); font-size: var(--fs-small); font-family: var(--ff-small); line-height: var(--lh-small); }
                 #article .small ::marker,
                 #article .small * { color: inherit; font-size: inherit !important; font-family: inherit !important; }
-                #article .small a { color: var(--small-link-color); text-decoration: none; }
-                #article .small a.internal { color: var(--small-internal-link-color); }
 
             .rows .row { display: flex; justify-content: space-between; gap: 10px; padding: 5px 8px 4px; }
             .rows .cell { font-family: var(--ff-table); line-height: var(--lh-table); font-size: var(--fs-table); }
