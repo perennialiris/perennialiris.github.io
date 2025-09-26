@@ -430,8 +430,10 @@
             #article sup { vertical-align: super; line-height: 1; }
             #article sub { vertical-align: sub; line-height: 1; }
 
-            #article a { color: var(--link-color); text-decoration: 1px dotted underline var(--grey-9); }
+            #article a { color: var(--link-color); }
             #article a:not(.citeref):not(.plug):hover { border-bottom: none; }
+            #article p a, #article li a { text-decoration: 1px dotted underline var(--grey-9); }
+            #article a:hover { text-decoration: 1px solid underline currentcolor; }
             
             #article a.citeref { vertical-align: top; font-size: 0.7em; margin-left: 2px; font-family: var(--ff-citeref); }
             #article a.citeref::before { content: "\00A0"; font-size: 0.1px; }
@@ -439,6 +441,7 @@
             #article .small { color: var(--grey-8); font-size: var(--fs-small); font-family: var(--ff-small); line-height: var(--lh-small); }
                 #article .small ::marker,
                 #article .small * { color: inherit; font-size: inherit !important; font-family: inherit !important; }
+                #article .small a { text-decoration: 1px dotted underline var(--grey-9); }
 
             .rows .row { display: flex; justify-content: space-between; gap: 10px; padding: 5px 8px 4px; }
             .rows .cell { font-family: var(--ff-table); line-height: var(--lh-table); font-size: var(--fs-table); }
