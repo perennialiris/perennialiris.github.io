@@ -497,7 +497,7 @@
                     .collapse-button-container .flat-button { margin: 8px 0; background-color: var(--white); border: 1px solid var(--grey-a); padding: 3px 8px 4px; }
                     .collapse-button-container .flat-button:hover { background-color: var(--grey-c); }
 
-            .yt-gallery { display: flex; justify-content: flex-start; flex-wrap: wrap; line-height: var(--lh-figcaption); font-size: var(--fs-table); font-family: var(--ff-table); gap: 8px 15px; }
+            .yt-gallery { display: flex; justify-content: flex-start; flex-wrap: wrap; line-height: var(--lh-figcaption); font-size: var(--fs-table); font-family: var(--ff-table); gap: 9px 15px; }
                 .yt-gallery figure { width: 210px; }
                     .yt-gallery img { width: 100%; object-fit: cover; aspect-ratio: 16/8.5; border: 1px solid var(--grey-a); box-sizing: border-box; }
                 .yt-title { color: var(--grey-5); padding: 5px 0; display: block; }
