@@ -239,13 +239,11 @@ window.addEventListener("load", function() {
         });
         const toc = document.getElementById("table-of-contents");
         const headings = Array.from(document.getElementById("article").getElementsByClassName("toc-include"));
-        toc.innerHTML = `<div class="toc-row"><div class="align-center space-between"><a class="toc-row" onclick="scrollToTop()" style="cursor: pointer;">(Top)</a>${ xButtonSvg }</div></div>` + headings.slice(1).map ( heading => `<a class="toc-row ${ heading.tagName.toLowerCase() }" href="#${ heading.id }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a>` ).join("");
-
-        console.log("headings.length: " + headings.length)
-        console.log(headings)
-        const rowsInToc = Array.from(toc.getElementsByClassName("toc-row")).slice(1);
-        let lastHeading = -1;
+        toc.innerHTML = `<div class="toc-row"><div class="align-center space-between"><a onclick="scrollToTop()" style="cursor: pointer;">(Top)</a>${ xButtonSvg }</div></div>` + headings.slice(1).map ( heading => `<div class="toc-row ${ heading.tagName.toLowerCase() }"><a href="#${ heading.id }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a></div>` ).join("");
         
+        const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
+        let lastHeading = -1;
+
         let canTocHighlightUpdate = true;
         function tocHighlightUpdateAttempt() {
             if (!canTocHighlightUpdate) { return; }
@@ -268,7 +266,6 @@ window.addEventListener("load", function() {
                 // }
                 currentHeading = i;
             }
-            console.log("currentHeading: "+currentHeading )
             if (currentHeading != lastHeading) {
                 rowsInToc.forEach( (row, n) => {
                     if (n == currentHeading) {
@@ -366,6 +363,8 @@ window.addEventListener("load", function() {
 
     if (document.title == "") {
         document.title = "Perennial Iris";
+    } else if (!document.title.endsWith("Perennial Iris")) {
+        document.title += " | Perennial Iris";
     }
 })
 
