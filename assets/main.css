@@ -75,7 +75,7 @@
         --fs-header-title: 48px;
         --fs-article: 15.4px; /* size inherited for p, ol, ul */
         --fs-blockquote: 0.975em;
-        --fs-small: 14.4px;
+        --fs-small: 14.0px;
         --fs-first-heading: 40px;
         --fs-h1: 25px;
         --fs-h2: 22px;
@@ -171,6 +171,7 @@
     --nav-border: #414764;
     --nav-color: #888c9f;
     --nav-svg: #777b91;
+    --link-color: #435899;
     --blockquote-accent: #6a728a;
     --toc-color: #74777d;
     --toc-active-color: #b6b7bb;
@@ -445,7 +446,7 @@
                 #article .small * { color: inherit; font-size: inherit !important; font-family: inherit !important; }
                 #article .small a { text-decoration: 1px dotted underline var(--grey-9); }
 
-            .rows .row { display: flex; justify-content: space-between; gap: 10px; padding: 5px 8px 4px; }
+            .rows .row { display: flex; justify-content: space-between; gap: 10px; padding: 5px 8px 4px; line-height: var(--lh-table); }
             .rows .cell { font-family: var(--ff-table); line-height: var(--lh-table); font-size: var(--fs-table); }
 
             .auto-list { padding: 0 2.5em; margin: 0; }

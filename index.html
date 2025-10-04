@@ -13,53 +13,26 @@
         #page-name-display {
             display: none !important;
         }
-
-        /* ---- unique for front index: ---- */
-
-        .auto-table .row {
-            border-top: 1px dotted var(--grey-a);
-        }
-        .rows a {
-            color: inherit !important;
-            border-bottom: none !important;
-            text-decoration: none !important;
-        }
-        .rows a:hover {
-            text-decoration: underline !important;
-            color: var(--link-color) !important;
+        
+        .row {
+            border-bottom: 1px dotted var(--grey-c);
         }
         .rows .col-2 {
-            color: var(--grey-8);
-            white-space: nowrap;
+            color: var(--grey-9);
         }
-        .col-1:hover + .col-2 {
+        .rows .col-1:hover + .col-2 {
             color: var(--grey-5);
         }
-        .row-odd { background-color: var(--grey-f); }
-        
-        .yt-gallery {
-            flex-direction: column;
-        }
-        .front-label {
-            margin: 0 6px 5px;
-        }
-        
-        .rows,
-        .table-wrapper { width: 100%; }
-        
-        
     </style>
 </head>
 <body>
 
 \<div class="social-links"></div>
-<div class="reverse gap-22">
-<div>
-<h3 class="front-label">Videos</h3>
 
-||yt-gallery sort5
+Most recent videos:
+
+||yt-gallery sort3
 Liberalism against extremism | 6h7v-TAmQiQ | 2025-09-29
-Talking with Flowers: Trans panic, Charlie Kirk, Fascism | LZgEe_UTO24 | 2025-09-24
 The path of normalization | TYoe1jxBYPY | 2025-09-19
 Why do people like Trump? | tcF0f-Dtgic | 2025-09-14
 My thoughts after the Charlie Kirk assassination | AjPF8pGv37U | 2025-09-12
@@ -81,11 +54,10 @@ Lies people still believe \| Donald Trump, Elizabeth Warren, Hillary Clinton | L
 Bernie Sanders and the military industrial complex | yt6O0OMdIT0 | 2025-03-22
 Types of masculinity | lOQSqMhjwZY | 2025-06-12
 
-\</div><div style="width: 100%">
-<h3 class="front-label">Text</h3>
+Text:
 
 ||rows
-[Trying to keep up with the news](page/news/index.html)
+[Trying to keep up with the news (running list)](page/news/index.html)
 [Liberalism, not extremism](page/29/index.html) | 2025-09-19
 [The path of normalization](page/28/index.html) | 2025-09-08
 [Ilhan Omar](page/ilhan-omar/index.html) | 2025-08-25
@@ -108,7 +80,7 @@ Types of masculinity | lOQSqMhjwZY | 2025-06-12
 [Poor things (2023 film)](page/poor-things/index.html) | 2024-10-31
 [The trans prison stats argument](page/9/index.html) | 2024-10-19
 
-\<h3 class="front-label">Other</h3>
+A few other things:
 
 ||rows
 [Bluesky user directory](page/bluesky-listing/index.html)
@@ -116,9 +88,7 @@ Types of masculinity | lOQSqMhjwZY | 2025-06-12
 [My style notes](page/style-notes/index.html)
 [A beauty holding a bird](page/21/index.html)
 [5-letter maker thing](page/wordle/index.html)
-[Every movie I've ever seen](page/movie-list/index.html)
-
-\</div></div>
+[Every movie I've ever seen](page/movies/index.html)
 
 \<div id="index"></div>
 <script src="assets/layout.js"></script>
