@@ -46,7 +46,7 @@ window.addEventListener("load", function() {
                         <option value="light">White</option>
                         <option value="red">Red accent</option>
                         <option value="blue">High contrast blue</option>
-                        <option value="dark">Dark grey</option>
+                        <option value="dark">Dark</option>
                         <option value="darker">Very dark</option>
                     </select>
                 </div>
@@ -128,10 +128,13 @@ window.addEventListener("load", function() {
         <div class="c2">
             <div class="c3">
                 <article id="article">${ document.body.innerHTML }</article>
-                <footer class="article-footer">
+                <footer class="article-footer align-center gap-em">
                     <img alt="Theme painting ('A Beauty Holding a Bird' by Louis Emile Pinel de Grandchamp)" src="${ themePainting }" width="100" height"100">
-                    <div class="social-links">
-                        ${ socialLinksdata }
+                    <div class="column gap-5">
+                        <div style="font-family:'Georgia';font-size:15.4px;">I&rsquo;m Iris, a liberal transgender woman from Canada.</div>
+                        <div class="flex gap-5">
+                            ${ socialLinksdata }
+                        </div>
                     </div>
                 </footer>
             </div>
@@ -144,14 +147,16 @@ window.addEventListener("load", function() {
         <div class="lightbox-bottom-panel"><div id="lightbox-caption"></div></div>
     </div>
     <style id="--custom-style"></style>`;
-
+    
     HTML.classList.add("layout");
     Array.from(document.querySelector(".font-options").getElementsByTagName("option")).forEach(o => o.style.fontFamily = `"${ o.value }",system-ui` );
     
     const article_ = document.getElementById("article");
     interpreter(article_);
     
-    document.querySelector(".lightbox-wrapper").addEventListener("click", () => { setLightbox("close") });
+    document.querySelector(".lightbox-wrapper").addEventListener("click", () => {
+        setLightbox("close")
+    });
     
     Array.from(document.getElementsByClassName("ie-expand")).forEach(e => {
         e.classList.add("collapsed")
@@ -171,7 +176,7 @@ window.addEventListener("load", function() {
                 e.scrollIntoView({ behavior: "smooth" });
             }
         })
-    })
+    });
     
     /* ---------------------- setting up menu: ---------------------- */
     const hamburger = document.querySelector(".hamburger");
@@ -797,6 +802,9 @@ function interpreter(argValue) {
             }
             if (headingTag == "h1" && firstHeading) {
                 firstHeading = false;
+                if (document.title == "") {
+                    document.title = chunk;
+                }
                 return `<h1 id="${ headingId }" class="heading toc-include first-heading">${ format_(chunk) }</h1>`;
             }
             firstHeading = false;
