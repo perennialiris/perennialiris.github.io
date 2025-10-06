@@ -7,19 +7,26 @@ const twitterLogoSvg = `<svg class="inline-logo twitter-logo" role="img" xmlns="
 const blueskyLogoSvg = `<svg class="inline-logo bluesky-logo" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 57" width="18" height="18"><path d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z"></path></svg>`;
 const discordLogoSvg = `<svg class="inline-logo discord-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16"><path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/></svg>`;
 const substackLogoSvg = `<svg class="inline-logo substack-logo" role="img" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 64 64"><path d="M8 10 H56 V16 H8 Z" /><path d="M8 22 H56 V28 H8 Z" /><path d="M8 34 H56 V62 L32 50 L8 62 Z" /></svg>`;
-const socialLinksdata = `<div title="This github repo"><a class="plug" href="https://github.com/perennialiris/perennialiris.github.io">${ githubLogoSvg }</a></div>
+const socialLinksdata = `<div title="This github repo"><a class="plug" href="https://github.com/perennialiris">${ githubLogoSvg }</a></div>
 <div title="My YouTube channel"><a class="plug" href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA">${ youtubeLogoSvg }</a></div>
 <div title="My tumblr account"><a class="plug" href="https://perennialiris.tumblr.com/">${ tumblrLogoSvg }</a></div>
 <div title="Twitter"><a class="plug" href="https://x.com/perennialforces">${ twitterLogoSvg }</a></div>
 <div title="Bluesky"><a class="plug" href="https://bsky.app/profile/perennialforces.bsky.social">${ blueskyLogoSvg }</a></div>
 <div title="Invite to my Discord server"><a class="plug" href="https://discord.gg/fGdV7x5dk2">${ discordLogoSvg }</a></div>
 <div title="My account on Substack"><a class="plug" href="https://perennialiris.substack.com">${ substackLogoSvg }</a></div>`;
+
 const xButtonSvg = `<svg id="toc-x-button" width="15" height="15" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 16 L60 60 M60 16 L16 60" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter"/></svg>`;
 const citerefIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" role="img"><path fill="currentcolor" d="M6 1h5v5L8.86 3.85 4.7 8 4 7.3l4.15-4.16z M2 3h2v1H2v6h6V8h1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1"/></svg>`;
 const upDownArrowsIconSvg = `↑↓`;
 const hamburgerIconSvg = `<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6H20 M4 12H20 M4 18H20" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const homeLink = document.getElementById("index") ? "" : "../../index.html";
-const themePainting = document.getElementById("index") ? "assets/grandchamp.png" : "../../assets/grandchamp.png";
+const articleFooterImage = `<img alt="Theme painting ('A Beauty Holding a Bird' by Louis Emile Pinel de Grandchamp)" src="${ document.getElementById("index") ? "assets/grandchamp.png" : "../../assets/grandchamp.png" }" width="100" height"100">`;
+
+function age_() {
+  const today = new Date();
+  let age = today.getFullYear() - 1994;
+  return today.getMonth() > 2 ? age : age - 1;
+}
 
 window.addEventListener("load", function() {
     document.body.innerHTML =
@@ -115,10 +122,7 @@ window.addEventListener("load", function() {
                     <div style="text-align:right; color:var(--grey-8); padding:3px 0;"><span class="pseudo-link" onclick="menuRestoreDefaults()">restore defaults</span></div>
                 </div>
                     <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; color:var(--grey-5);"><div class="align-center"><label class="no-select" for="page-full-width">Full page width:</label><input type="checkbox" class="menu-checkbox" id="page-full-width"></div>
-                    ${ HTML.classList.contains("toc") ?
-                        `<div class="align-center"><label for="show-toc">Show table of contents:</label><input type="checkbox" class="menu-checkbox" checked id="show-toc"></div>`
-                        : ""
-                    }
+                    ${ HTML.classList.contains("toc") ? `<div class="align-center"><label for="show-toc">Show table of contents:</label><input type="checkbox" class="menu-checkbox" checked id="show-toc"></div>` : "" }
                 </div>
             </div>
         </div>
@@ -127,16 +131,18 @@ window.addEventListener("load", function() {
         ${ HTML.classList.contains("toc") ? `<div class="toc-wrapper"><nav id="table-of-contents"></nav></div>` : "" }
         <div class="c2">
             <div class="c3">
-                <article id="article">${ document.body.innerHTML }</article>
-                <footer class="article-footer align-center gap-em">
-                    <img alt="Theme painting ('A Beauty Holding a Bird' by Louis Emile Pinel de Grandchamp)" src="${ themePainting }" width="100" height"100">
-                    <div class="column gap-5">
-                        <div style="font-family:'Georgia';font-size:15.4px;">I&rsquo;m Iris, a liberal transgender woman from Canada.</div>
-                        <div class="flex gap-5">
-                            ${ socialLinksdata }
+                <div id="article">${ document.body.innerHTML }</div>
+                <div class="article-footer column gap-em">
+                    <div class="align-center gap-em">
+                        <div>${ articleFooterImage }</div>
+                        <div class="column gap-5">
+                            <div>I&rsquo;m Iris, a ${ age_() }-year-old liberal trans woman from Ottawa, Canada. Here are some other places you can find me:</div>
+                            <div class="flex gap-5">
+                                ${ socialLinksdata }
+                            </div>
                         </div>
                     </div>
-                </footer>
+                </div>
             </div>
         </div>
     </div>
@@ -147,7 +153,7 @@ window.addEventListener("load", function() {
         <div class="lightbox-bottom-panel"><div id="lightbox-caption"></div></div>
     </div>
     <style id="--custom-style"></style>`;
-    
+
     HTML.classList.add("layout");
     Array.from(document.querySelector(".font-options").getElementsByTagName("option")).forEach(o => o.style.fontFamily = `"${ o.value }",system-ui` );
     
@@ -813,12 +819,12 @@ function interpreter(argValue) {
 
         /* ----------------------------------- see also ----------------------------------- */
         if (chunk.startsWith("||see-also")) {
-            document.getElementById("article").parentNode.appendChild(document.createElement("div")).innerHTML = "<div class=\"see-also\"><div>This content was also posted here:</div>" + chunk.split("\n").slice(1)
+            document.querySelector(".article-footer").appendChild(document.createElement("div")).innerHTML = "<div>The content on this page was also posted in other places:</div>" + chunk.split("\n").slice(1)
                 .map( line => {
                     const url = line .replace(/substack\|(\w+)/, "https://perennialiris.substack.com/p/$1")
                         .replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1");
                     return `<div><a href="${ url }" target="_blank">${ url }</a></div>`;
-                }).join("") + "</div>";
+                }).join("");
             return;
         }
 
