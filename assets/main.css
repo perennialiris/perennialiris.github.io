@@ -51,7 +51,7 @@
         --image-float-height: 220px;
         --gallery-image-width: 340px;
         --square-gallery-image-width: 200px;
-        --plug-icon-size: 22px;
+        --plug-icon-size: 18px;
         /* font-family */
         --ff-ui: Segoe UI, Nirmala UI, system-ui, sans-serif;
         --ff-header-title: Sacramento, serif;
@@ -82,7 +82,7 @@
         --fs-h3: 18px;
         --fs-h4: 1em;
         --fs-table: 15px;
-        --fs-lb-caption: 15.4px;
+        --fs-lb-caption: 15px;
         --fs-footer: 14.4px;
         --fs-cite: 0.85em;
         /* colors */
@@ -357,13 +357,16 @@
 
     .main-header { height: 100px; background-color: var(--header-bg); }
         .title-container { width: 100%; max-width: var(--main-width); transform: translateY(9px); display: flex; justify-content: center; }
+        .toc .title-container { padding-left: calc(var(--toc-width) + var(--toc-side-pad)); padding-right: var(--right-correction-pad); }
             .header-title { color: var(--header-color); font-family: var(--ff-header-title); font-size: var(--fs-header-title); line-height: 1; margin-right: 1em; }
                 .header-title::after { max-width: 236px; content: ""; left: 0; height: 2px; bottom: 6px; width: 100%; background-color: var(--header-color); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; position: relative; display: block; }
                 .header-title:hover { text-decoration: none; }
                 .header-title:hover::after { transform: scaleX(1); }
 
     .nav-wrapper { font-family: var(--ff-nav); background-color: var(--nav-bg); color: var(--nav-color); position: sticky; top: -1px; height: var(--nav-height); border-bottom: 1px solid var(--nav-border); }
+    .toc .nav-wrapper { padding-right: var(--right-correction-pad); }
         .main-nav { max-width: var(--main-width); padding: 0 1rem; margin: 0 auto; height: var(--nav-height);  }
+        .toc .main-nav { padding-left: calc(var(--toc-width) + var(--article-side-pad) + var(--toc-side-pad)); padding-right: var(--article-side-pad); }
             .main-nav .align-center { gap: 10px; }
             .page-name-display { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; padding-right: 10px; user-select: text; }
             .main-nav a:not(.hamburger):hover { filter: brightness(1.25); }
@@ -391,7 +394,8 @@
 
     .c1 { margin: 0 auto; padding: 0; justify-content: center; display: flex; align-items: stretch; }
         .c2 { }
-            .c3 { background-color: var(--c3-bg); box-sizing: border-box; padding: 40px var(--article-side-pad); }
+        .toc .c2 { max-width: 100%; display: flex; justify-content: center; padding-right: var(--right-correction-pad); }
+            .c3 { max-width: calc(var(--main-width) + calc(2 * var(--article-side-pad))); background-color: var(--c3-bg); box-sizing: border-box; padding: 40px var(--article-side-pad); }
 
             .toc .toc-wrapper { display: block; padding-top: 40px; }
             .toc-wrapper { display: none; }
@@ -409,14 +413,7 @@
                     #toc-x-button { opacity: 0.6; stroke: var(--toc-color); padding: 2px; cursor: pointer; }
                     #toc-x-button:hover { opacity: 0.4; }
 
-    .toc .main-nav { padding-left: calc(var(--toc-width) + var(--article-side-pad) + var(--toc-side-pad)); padding-right: var(--article-side-pad); }
-        .toc .c2 { max-width: 100%; display: flex; justify-content: center; }
-        .toc .title-container,
-        .toc .nav-wrapper,
-        .toc .c2 { padding-right: var(--right-correction-pad); }
-        .toc .title-container { padding-left: calc(var(--toc-width) + var(--toc-side-pad)); }
-
-        #article { font-family: var(--ff-article); font-size: var(--fs-article); line-height: var(--lh-article); max-width: var(--main-width); width: 100%; }
+        #article { font-family: var(--ff-article); font-size: var(--fs-article); line-height: var(--lh-article); width: 100%; }
             #article > :nth-child(1) { margin-top: 0 !important; }
             #article .heading.first-heading { font-size: var(--fs-first-heading); font-family: var(--ff-first-heading); line-height: var(--lh-first-heading); font-weight: 700; }
             
@@ -535,10 +532,19 @@
                         .square-gallery img { max-width: 100%; max-height: 100%; }
                     .square-gallery figcaption { max-width: var(--square-gallery-image-width); text-align: center; margin: 5px; line-height: var(--lh-figcaption); font-family: var(--ff-ui); color: var(--grey-5); font-size: var(--fs-small); }
 
-        .article-footer { color: var(--grey-8); line-height: var(--lh-article-footer); font-size: var(--fs-footer); margin: 30px auto 0; clear: both; max-width: var(--main-width); padding-top: 30px; border-top: 1px solid var(--grey-c); }
-            .article-footer img { width: 100px; height: 100px; border: 1px solid var(--grey-a); }
+        #article-footer {
+            color: var(--grey-8);
+            line-height: var(--lh-article-footer);
+            font-size: var(--fs-footer);
+            margin: 30px auto 0;
+            clear: both;
+            border-top: 1px solid var(--grey-c);
+            padding-top: 30px;
+        }
+            #article-footer > div + div { margin-top: 12px; }
+            #article-footer img { width: 100px; height: 100px; border: 1px solid var(--grey-a); }
 
-            .plug { display: inline-block; text-decoration: none; color: var(--grey-8); white-space: nowrap; padding: 7px 9px; line-height: 1.15; }
+            .plug { display: inline-flex; align-items: center; gap: 5px; padding: 5px 7px; text-decoration: none; color: var(--grey-8); white-space: nowrap; line-height: 1; }
             .plug:hover { background-color: var(--grey-e); }
             .plug:hover span { text-decoration: underline; }
             .plug .inline-logo { height: var(--plug-icon-size); width: var(--plug-icon-size); vertical-align: text-bottom; fill: var(--grey-5); }
@@ -552,8 +558,6 @@
                     .inline-logo.tumblr-logo path:nth-child(2) { fill: var(--tumblr-white); }
                 .inline-logo.youtube-logo { fill: var(--youtube-color); }
                     .inline-logo.youtube-logo path:nth-child(2) { fill: var(--youtube-white); }
-
-        .see-also { color: var(--grey-8); line-height: var(--lh-article-footer); font-size: var(--fs-footer); margin: 30px auto 0; clear: both; max-width: var(--main-width); }
 
     .lightbox { overflow: hidden; }
     .lightbox .lb-container { display: flex; }
