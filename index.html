@@ -8,16 +8,16 @@
         #article * {
             font-family: Roboto, sans-serif !important;
         }
-        #to-top-button,
-        #page-name-display {
-            display: none !important;
+        
+        #article > #top-links {
+            margin-top: -1em !important;
+        }
+        #top-links > div > div + div {
+            margin-top: 1em;
         }
         
-        .rows .row:first-child {
+        .rows .row + .row {
             border-top: 1px dotted var(--grey-c);
-        }
-        .rows .row {
-            border-bottom: 1px dotted var(--grey-c);
         }
         .rows .col-2 {
             color: var(--grey-9);
@@ -32,7 +32,12 @@
 </head>
 <body>
 
+---
+
+Most recent uploads:
+
 ||yt-gallery sort3
+Jon Stewart is part of the problem | yYF2n0PDDRE | 2025-10-11
 The internet's latest over-reaction \| Riyadh Comedy Festival | XXXisl9wOC0 | 2025-10-08
 Ilhan Omar makes waves after Charlie Kirk shooting | JDseBrbtp6E | 2025-10-04
 Liberalism against extremism | 6h7v-TAmQiQ | 2025-09-29
@@ -56,6 +61,10 @@ Sex, gender, & transsexuals | _bCO2o1Z0sE | 2025-05-29
 Lies people still believe \| Donald Trump, Elizabeth Warren, Hillary Clinton | LPQD6sxlWOs | 2025-04-09
 Bernie Sanders and the military industrial complex | yt6O0OMdIT0 | 2025-03-22
 Types of masculinity | lOQSqMhjwZY | 2025-06-12
+
+---
+
+Text files:
 
 ||rows
 [Trying to keep up with the news (running list)](page/news-2025/index.html)
@@ -85,18 +94,18 @@ A few other things:
 
 ||rows
 [Bluesky user directory](page/bluesky-listing/index.html)
-[Public figures record](page/public-record/index.html)
+[Public record](page/public-record/index.html)
+[5-letter thing](page/wordle/index.html)
+[List of every movie I have ever seen](page/movies/index.html)
+[Art demo (Oct 2025)](page/31/index.html)
 [A beauty holding a bird](page/21/index.html)
-[5-letter maker thing](page/wordle/index.html)
-[Every movie I've ever seen](page/movies/index.html)
 
 \<div id="index"></div>
 <script src="assets/layout.js"></script>
 <script>
-window.onload = function() {
-    //document.querySelector(".social-links").innerHTML = socialLinksdata;
-    document.querySelector(".yt-gallery").parentNode.innerHTML += `<div style="text-align: right; margin-top: 8px; margin-inline: 1rem;"><span><a href="https://www.youtube.com/@perennialiris/videos">Link to all videos &rarr;</a></span></div>`;
-}
+window.addEventListener("load", function() {
+    document.querySelector(".yt-gallery").parentNode.innerHTML += `<div style="text-align: right; margin-top: 8px; margin-inline: 1rem;"><span><a href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA/videos">Link to all videos &rarr;</a></span></div>`;
+})
 </script>
 </body></html>
 

@@ -13,19 +13,20 @@ const socialLinks = `<a title="YouTube" class="plug" href="https://www.youtube.c
 <a title="Bluesky" class="plug" href="https://bsky.app/profile/perennialforces.bsky.social">${ blueskySvg } Bluesky</a>
 <a title="Tumblr" class="plug" href="https://perennialiris.tumblr.com/">${ tumblrSvg } Tumblr</a>
 <a title="Discord" class="plug" href="https://discord.gg/fGdV7x5dk2">${ discordSvg } Discord</a>
-<!--<a title="Ko-fi" class="plug" href="https://ko-fi.com/perennialiris">${ kofiSvg } Ko-fi</a>-->
-<!--<a title="Patreon" class="plug" href="https://www.patreon.com/perennialiris">${ patreonSvg } Patreon</a>-->
 <a title="Substack" class="plug" href="https://perennialiris.substack.com">${ substackSvg } Substack</a>
-<a title="Twitter" class="plug" href="https://x.com/perennialforces">${ twitterSvg } Twitter</a>
-`;
+<a title="Twitter" class="plug" href="https://x.com/perennialforces">${ twitterSvg } Twitter</a>`;
+const beggingLinks = `<a title="Ko-fi" class="plug" href="https://ko-fi.com/perennialiris">${ kofiSvg } Ko-fi</a>
+<a title="Patreon" class="plug" href="https://www.patreon.com/perennialiris">${ patreonSvg } Patreon</a>`;
 
 const xButtonSvg = `<svg id="toc-x-button" width="15" height="15" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 16 L60 60 M60 16 L16 60" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter"/></svg>`;
 const upDownArrowsIconSvg = `↑↓`; /* note to self: make an arrow svg */
 const hamburgerIconSvg = `<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6H20 M4 12H20 M4 18H20" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-const homeLink = document.getElementById("index") ? "" : "../../index.html";
-const themeImage = `<img width="100" height="100" style="width:100px; height:100px; border:1px solid var(--grey-a)" alt="Theme painting ('A Beauty Holding a Bird' by Louis Emile Pinel de Grandchamp)" src="${ document.getElementById("index") ? "assets/grandchamp.png" : "../../assets/grandchamp.png" }">`;
+
 
 window.addEventListener("load", function() {
+    const index = document.getElementById("index") != null;
+    const homeLink = index ? "" : "../../index.html";
+    
     document.body.innerHTML =
     `<header class="main-header center align-center">
         <div class="title-container"><a href="${ homeLink }" class="header-title">Perennial<span style="color: var(--header-color-2); margin-left: 1px;">Iris</span></a></div>
@@ -36,7 +37,7 @@ window.addEventListener("load", function() {
                 <div class="page-name-display text-select"><div><a href="${ homeLink }">Index</a> &#47; ${ document.title || "This Page" }</div></div>
             </div>
             <div class="align-center">
-                <a id="to-top-button">Jump to Top</a>
+                ${ index ? "" : `<a id="to-top-button">Jump to Top</a>` }
                 <a class="hamburger icon">${ hamburgerIconSvg }</a>
             </div>
         </div>
@@ -129,13 +130,9 @@ window.addEventListener("load", function() {
         ${ HTML.classList.contains("toc") ? `<div class="toc-wrapper"><nav id="table-of-contents"></nav></div>` : "" }
         <div class="c2">
             <div class="c3">
+                ${ index ? `<div id="homelinks"><div class="hl-row">${ socialLinks }</div></div>` : "" }
                 <div id="article">${ document.body.innerHTML }</div>
-                <div class="article-footer">
-                    <div>
-                        <div>${ themeImage }</div>
-                        <div class="column gap-10">${ socialLinks }</div>
-                    </div>
-                </div>
+                <div id="article-footer"></div>
             </div>
         </div>
     </div>
@@ -347,7 +344,9 @@ window.addEventListener("load", function() {
     // Array.from(article_.getElementsByTagName("td")).forEach(e => wrapDigits(e, "table-digit"));
     // Array.from(article_.getElementsByClassName("heading")).forEach(e => wrapDigits(e, "heading-digit"));
     
-    document.getElementById("to-top-button").addEventListener("click", scrollToTop);
+    if (!document.getElementById("index")) {
+        document.getElementById("to-top-button").addEventListener("click", scrollToTop);
+    }
     /* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
     const mainNav = document.querySelector(".main-nav");
     let canNavStickyCheck = true;
@@ -808,12 +807,12 @@ function interpreter(argValue) {
 
         /* ----------------------------------- see also ----------------------------------- */
         if (chunk.startsWith("||see-also")) {
-            document.querySelector(".article-footer").appendChild(document.createElement("div")).innerHTML = "<div><div>The content on this page was also posted in other places:</div>" + chunk.split("\n").slice(1)
+            document.getElementById("article-footer").appendChild(document.createElement("div")).innerHTML = "<div>The content on this page was also posted in other places:</div>" + chunk.split("\n").slice(1)
                 .map( line => {
                     const url = line .replace(/substack\|(\w+)/, "https://perennialiris.substack.com/p/$1")
                         .replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1");
                     return `<div><a href="${ url }" target="_blank">${ url }</a></div>`;
-                }).join("") + "</div>";
+                }).join("");
             return;
         }
 
