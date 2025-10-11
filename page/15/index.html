@@ -37,7 +37,11 @@ The code samples are usually in either C++ or C# because those are the languages
 
 Big-O notation is used to describe the time complexity of an algorithm---i.e., how many operations it may take in order to run to completion, as measured in relation to N, or the size of the data set. In the context of computer science, big-O notation usually refers to *worst-case time complexity*, but not necessarily so---the same notation *could* be used to describe average or best-case complexity. But for most algorithms, the theoretical worst-case is what we're interested in.
 
-!O stands for *order*, as the extent to which a function grows in relation to the size of its input used to be called the order of that function. N just stands for number, which isn't always capitalized.
+\<div class="info">
+
+O stands for *order*, as the extent to which a function grows in relation to the size of its input used to be called the order of that function. N just stands for number, which isn't always capitalized.
+
+\</div>
 
 Common big-O values and their meaning:
 
@@ -50,7 +54,11 @@ O(n log n) | This does LOG<sub>2</sub>N operations N times. The simplest case wo
 O(2<sup>N</sup>) | The inverse of O(LOG<sub>2</sub>N). The number of operations grows exponentially as N increases. This is horrible but can happen with recursion. A function that determines fibonacci numbers, a common example of a recursive function, runs at O(2<sup>N</sup>).
 O(N!) | A nightmare.
 
-!As the purpose of big-O is to *briefly summarize* how an algorithm *scales* with increases to N, anything other than the most significant term (i.e. the thing that increases the fastest as N increases) can be omitted. For example, an algorithm with an order of N<sub>3</sub> + 70N<sup>2</sup> + 50 is reduced simply to O(N<sup>3</sup>).
+\<div class="info">
+
+As the purpose of big-O is to *briefly summarize* how an algorithm *scales* with increases to N, anything other than the most significant term (i.e. the thing that increases the fastest as N increases) can be omitted. For example, an algorithm with an order of N<sub>3</sub> + 70N<sup>2</sup> + 50 is reduced simply to O(N<sup>3</sup>).
+
+\</div>
 
 Quick visualization of common big-O values:
 
@@ -1189,7 +1197,11 @@ These terms could've been any of their logical equivalents. "Last in, first out"
 
 The other major distinction to consider is whether the nodes are **singly-linked**, meaning each node holds just one pointer (to the next item), or **doubly-linked**, meaning the nodes hold two pointers (to both the next and previous nodes), allowing two-way traversal. This often isn't needed, though, so you'll commonly just be using singly-linked lists, and that's what a lot of material focuses on.
 
-!In both cases, the word 'linked' is an adjective describing 'list', whereas 'singly' and 'doubly' are adverbs describing how the list is linked. I see some students refer to a "singly-linked linked list", but this is redundant. We can just say "singly-linked list".
+\<div class="info">
+
+In both cases, the word 'linked' is an adjective describing 'list', whereas 'singly' and 'doubly' are adverbs describing how the list is linked. I see some students refer to a "singly-linked linked list", but this is redundant. We can just say "singly-linked list".
+
+\</div>
 
 ||image-span
 singly-doubly-linked.png|A visualization of singly- and doubly-linked lists.
@@ -1392,7 +1404,11 @@ int main()
 
 One way to go through the items of a list is to pop or dequeue them all, but sometimes you want to search through a list without doing that. Take a pointer to the starting node and move it forward by reässigning it to its own `next` property until it comes back null.
 
-!If you change the entry node-pointer held by the list itself, all data in the list is effectively lost.
+\<div class="info">
+
+If you change the entry node-pointer held by the list itself, all data in the list is effectively lost.
+
+\</div>
 
 ||codeblock cpp
 class Stack {

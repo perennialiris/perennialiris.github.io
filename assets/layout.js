@@ -130,16 +130,11 @@ window.addEventListener("load", function() {
         <div class="c2">
             <div class="c3">
                 <div id="article">${ document.body.innerHTML }</div>
-                <div class="article-footer gap-em column">
-                    <div class="center gap-em">
-                        <div style="border: 1px solid var(--grey-c); padding: 1em; border-radius: 0.5em;">
-                            <div class="center gap-em">
-                                <div>${ themeImage }</div>
-                                <div class="column gap-10">${ socialLinks }</div>
-                            </div>
-                        </div>
+                <div class="article-footer">
+                    <div>
+                        <div>${ themeImage }</div>
+                        <div class="column gap-10">${ socialLinks }</div>
                     </div>
-                    <div class="center"><div id="see-also"></div></div>
                 </div>
             </div>
         </div>
@@ -455,7 +450,6 @@ function interpreter(argValue) {
     let tableNum = 1;
     let galleryNum = 1;
     let linkNum = 1;
-    let infoNum = 1;
     let firstParagraph = true;
     let firstHeading = true;
     
@@ -467,10 +461,7 @@ function interpreter(argValue) {
         if (chunk == "---") {
             return "<hr>";
         }
-        if (chunk.startsWith("!")) {
-            return `<p class="info info-${infoNum++}">${ format_(chunk.slice(1)) }</p>`;
-        }
-
+        
         /* ------------------------------------ images ------------------------------------ */
         if (chunk.startsWith("||image-float")) {
             /* imgUrl | caption | alt-text/title */
@@ -817,12 +808,12 @@ function interpreter(argValue) {
 
         /* ----------------------------------- see also ----------------------------------- */
         if (chunk.startsWith("||see-also")) {
-            document.getElementById("see-also").innerHTML = "<div>The content on this page was also posted in other places:</div>" + chunk.split("\n").slice(1)
+            document.querySelector(".article-footer").appendChild(document.createElement("div")).innerHTML = "<div><div>The content on this page was also posted in other places:</div>" + chunk.split("\n").slice(1)
                 .map( line => {
                     const url = line .replace(/substack\|(\w+)/, "https://perennialiris.substack.com/p/$1")
                         .replace(/tumblr\|(\d+)/, "https://perennialiris.tumblr.com/post/$1");
                     return `<div><a href="${ url }" target="_blank">${ url }</a></div>`;
-                }).join("");
+                }).join("") + "</div>";
             return;
         }
 

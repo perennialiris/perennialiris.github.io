@@ -113,7 +113,7 @@
         --grey-e: #eaeaea;
         --grey-f: #f7f8f9; /* code, quote, figure bg color */
         --blockquote-accent: #999;
-        --link-color: #226bb0;
+        --link-color: #326caa;
         --small-link-color: #606eb5;
         --selection-color: #333333;
         --selection-bg: #d0dfff;
@@ -546,11 +546,11 @@
             line-height: var(--lh-article-footer);
             font-size: var(--fs-footer);
             clear: both;
-            border-top: 1px solid var(--grey-c);
-            padding-top: 30px;
-            margin: 30px auto 0;
+            margin: 4em auto 0;
         }
             .article-footer a:hover { color: var(--grey-5); text-decoration: 1px solid underline currentcolor; }
+            .article-footer > div { display: flex; justify-content: center; gap: 1em; }
+            .article-footer > div + div { margin-top: 2em; }
 
             .plug { display: flex; gap: 5px; white-space: nowrap; line-height: 1; }
             .plug:hover span { text-decoration: underline; }
