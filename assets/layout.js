@@ -132,7 +132,9 @@ window.addEventListener("load", function() {
             <div class="c3">
                 ${ index ? `<div id="homelinks"><div class="hl-row">${ socialLinks }</div></div>` : "" }
                 <div id="article">${ document.body.innerHTML }</div>
-                <div id="article-footer"></div>
+                <div id="article-footer">
+                    ${ index ? "" : `<div><a href="../../index.html">Link back to index</a></div>` }
+                </div>
             </div>
         </div>
     </div>
