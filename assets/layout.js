@@ -34,7 +34,7 @@ window.addEventListener("load", function() {
     <nav class="nav-wrapper no-select">
         <div class="main-nav stretch space-between">
             <div class="align-center">
-                <div class="page-name-display text-select"><div><a href="${ homeLink }">Index</a> &#47; ${ document.title || "This Page" }</div></div>
+                <div class="page-name-display text-select"><div><a href="${ homeLink }">Index</a> &#47; ${ document.title || "This page" }</div></div>
             </div>
             <div class="align-center">
                 ${ index ? "" : `<a id="to-top-button">Jump to Top</a>` }

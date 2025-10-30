@@ -22,9 +22,8 @@
         .rows .col-1:hover + .col-2 {
             color: var(--grey-5);
         }
-        .yt-gallery {
-            justify-content: space-between !important;
-        }
+        
+        
     </style>
 </head>
 <body>
@@ -36,8 +35,8 @@
 Most recent videos:
 
 ||yt-gallery sort3
-An overview: India(n immigrants) | Pz0Oq1rb14E | 2025-10-24
-More notes on Saudi Arabia | 9RhaYU21Qag | 2025-10-17
+India | Pz0Oq1rb14E | 2025-10-24
+Notes on Saudi Arabia | 9RhaYU21Qag | 2025-10-17
 Jon Stewart is part of the problem | yYF2n0PDDRE | 2025-10-11
 The internet's latest over-reaction \| Riyadh Comedy Festival | XXXisl9wOC0 | 2025-10-08
 Ilhan Omar makes waves after Charlie Kirk shooting | JDseBrbtp6E | 2025-10-04
@@ -102,7 +101,7 @@ A few other things:
 <script src="assets/layout.js"></script>
 <script>
 window.addEventListener("load", function() {
-    document.querySelector(".yt-gallery").parentNode.innerHTML += `<div style="text-align: right; margin-top: 8px; margin-inline: 1rem;"><span><a href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA/videos">Link to all videos &rarr;</a></span></div>`;
+    document.querySelector(".yt-gallery").parentNode.innerHTML += `<div style="text-align:right; margin-top:10px; margin-inline:1rem;"><span><a href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA/videos">Link to all videos &rarr;</a></span></div>`;
 })
 </script>
 </body></html>
