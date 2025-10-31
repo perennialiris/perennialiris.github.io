@@ -70,7 +70,6 @@
         --ff-article-digit: Georgia Pro, Georgia, sans-serif;
         --ff-heading: Georgia Pro, sans-serif;
         --ff-heading-digit: inherit;
-        --ff-first-heading: IBM Plex Sans, Roboto, Georgia, serif;
         --ff-table: Roboto, sans-serif;
         --ff-table-digit: inherit;
         --ff-small: var(--ff-ui);
@@ -87,9 +86,9 @@
         --fs-blockquote: 0.975em;
         --fs-small: 14.0px;
         --fs-first-heading: 36px;
-        --fs-h1: 25px;
+        --fs-h1: 24px;
         --fs-h2: 22px;
-        --fs-h3: 18px;
+        --fs-h3: 20px;
         --fs-h4: 1em;
         --fs-table: 15px;
         --fs-lb-caption: 15px;
@@ -97,8 +96,8 @@
         /* colors */
         --page-bg: #ffffff;
         --header-bg: #262626;
-        --header-color: #919099;
-        --header-color-2: #7763c8;
+        --header-text-color-1: #c1c0c8;
+        --header-text-color-2: #7763c8;
         --nav-bg: #fff;
         --nav-color: #808080;
         --nav-svg: #999;
@@ -120,7 +119,7 @@
         --grey-e: #eaeaea;
         --grey-f: #f7f8f9; /* code, quote, figure bg color */
         --blockquote-accent: #999;
-        --link-color: #36a;
+        --link-color: #3e6dac;
         --small-link-color: #606eb5;
         --selection-color: #333333;
         --selection-bg: #fff2c2;
@@ -155,7 +154,7 @@
         --lh-first-heading: 1.2;
         --lh-heading: 1.3;
         --lh-table: 1.5;
-        --lh-small: 1.5;
+        --lh-small: 1.366;
         --lh-blockquote: 1.5;
         --lh-short-list: 1.3;
         --lh-codeblock: 1.25;
@@ -177,8 +176,8 @@
     html.blue {
         --page-bg: #262728;
         --header-bg: #111;
-        --header-color: #d2d2d2;
-        --header-color-2: #585fc4;
+        --header-text-color-1: #d2d2d2;
+        --header-text-color-2: #585fc4;
         --nav-bg: #3b4255;
         --nav-border: #393f57;
         --nav-color: #888c9f;
@@ -196,8 +195,8 @@
     html.red {
         --page-bg: #f2f2f2;
         --header-bg: #111;
-        --header-color: #d2d2d2;
-        --header-color-2: #914a4d;
+        --header-text-color-1: #d2d2d2;
+        --header-text-color-2: #914a4d;
         --nav-bg: #592b2d;
         --nav-border: #4f2020;
         --nav-color: #b49d9d;
@@ -214,8 +213,8 @@
     html.dark {
         --page-bg: #262728;
         --header-bg: #121315;
-        --header-color: #999;
-        --header-color-2: #6657a2;
+        --header-text-color-1: #999;
+        --header-text-color-2: #6657a2;
         --nav-bg: #2c2c2f;
         --nav-color: #666;
         --nav-border: #393939;
@@ -264,8 +263,8 @@
     }
     html.darker {
         --header-bg: #000;
-        --header-color: #555;
-        --header-color-2: #4c3f7b;
+        --header-text-color-1: #555;
+        --header-text-color-2: #4c3f7b;
         --nav-bg: #080808;
         --nav-color: #333;
         --nav-svg: #303030;
@@ -313,7 +312,6 @@
         --substack: #714b33;
         --checkbox-check: url("data:image/svg+xml;utf8,<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><rect x='17' y='17' width='66' height='66' fill='%23444'/></svg>");
     }
-    html.darker body { background-image: linear-gradient(20deg, #070707, #000); background-attachment: fixed; }
     .darker img { opacity: 0.7; }
     
     /* default resets that I use: */
@@ -369,8 +367,9 @@
     .main-header { height: 100px; background-color: var(--header-bg); }
         .title-container { width: 100%; max-width: var(--main-width); transform: translateY(9px); display: flex; justify-content: center; }
         .toc .title-container { padding-left: calc(var(--toc-width) + var(--toc-side-pad)); padding-right: var(--right-correction-pad); }
-            .header-title { color: var(--header-color); font-family: var(--ff-header-title); font-size: var(--fs-header-title); line-height: 1; margin-right: 1em; }
-                .header-title::after { max-width: 236px; content: ""; left: 0; height: 2px; bottom: 6px; width: 100%; background-color: var(--header-color); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; position: relative; display: block; }
+            .header-title { color: var(--header-text-color-1); font-family: var(--ff-header-title); font-size: var(--fs-header-title); line-height: 1; margin-right: 1em; }
+                .header-title span { color: var(--header-text-color-2); margin-left: 1px; }
+                .header-title::after { max-width: 236px; content: ""; left: 0; height: 2px; bottom: 6px; width: 100%; background-color: var(--header-text-color-1); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; position: relative; display: block; }
                 .header-title:hover { text-decoration: none; }
                 .header-title:hover::after { transform: scaleX(1); }
 
@@ -429,7 +428,7 @@
 
         #article { font-family: var(--ff-article); font-size: var(--fs-article); line-height: var(--lh-article); width: 100%; }
             #article > :nth-child(1) { margin-top: 0 !important; }
-            #article .heading.first-heading { font-size: var(--fs-first-heading); font-family: var(--ff-first-heading); line-height: var(--lh-first-heading); font-weight: 700; }
+            #article .heading.first-heading { font-size: var(--fs-first-heading); line-height: var(--lh-first-heading); font-weight: 700; }
             
             #article .article-digit { font-family: var(--ff-article-digit); }
             #article .table-digit { font-family: var(--ff-table-digit); }
@@ -471,6 +470,7 @@
 
             .auto-list { padding: 0 2.5em; margin: 0; }
                 .auto-list li { margin-top: 0.6em; }
+                .small .auto-list li { margin-top: 0.5em; }
                     .auto-list li.no-marker { margin-top: 0.5em; list-style-type: none; }
 
             #article ol,

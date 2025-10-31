@@ -29,7 +29,7 @@ window.addEventListener("load", function() {
     
     document.body.innerHTML =
     `<header class="main-header center align-center">
-        <div class="title-container"><a href="${ homeLink }" class="header-title">Perennial<span style="color: var(--header-color-2); margin-left: 1px;">Iris</span></a></div>
+        <div class="title-container"><a href="${ homeLink }" class="header-title">Perennial<span>Iris</span></a></div>
     </header>
     <nav class="nav-wrapper no-select">
         <div class="main-nav stretch space-between">
@@ -64,20 +64,12 @@ window.addEventListener("load", function() {
                                     <td>Headings:</td>
                                     <td>
                                         <select class="menu-select" id="heading-font-select">
-                                            <option value="Arial">Arial</option>
                                             <option value="Faculty Glyphic">Faculty Glyphic</option>
                                             <option value="Georgia">Georgia</option>
-                                            <option value="Inter">Inter</option>
+                                            <option value="IBM Plex Serif">IBM Plex Serif</option>
                                             <option value="Lora">Lora</option>
-                                            <option value="Merriweather">Merriweather</option>
-                                            <option value="Open Sans">Open Sans</option>
-                                            <option value="Palatino Linotype">Palatino Linotype</option>
                                             <option value="Roboto">Roboto</option>
-                                            <option value="Roboto Slab">Roboto Slab</option>
-                                            <option value="Segoe UI">Segoe UI</option>
-                                            <option value="Times New Roman">Times New Roman</option>
                                             <option value="Trebuchet MS">Trebuchet MS</option>
-                                            <option value="Ubuntu">Ubuntu</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -85,16 +77,11 @@ window.addEventListener("load", function() {
                                     <td>Body:</td>
                                     <td>
                                         <select class="menu-select" id="body-font-select">
-                                            <option value="Arial">Arial</option>
                                             <option value="Faculty Glyphic">Faculty Glyphic</option>
                                             <option value="Georgia">Georgia</option>
-                                            <option value="Inter">Inter</option>
-                                            <option value="Palatino Linotype">Palatino Linotype</option>
                                             <option value="Roboto">Roboto</option>
-                                            <option value="Segoe UI">Segoe UI</option>
                                             <option value="Times New Roman">Times New Roman</option>
                                             <option value="Trebuchet MS">Trebuchet MS</option>
-                                            <option value="Ubuntu">Ubuntu</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -102,15 +89,11 @@ window.addEventListener("load", function() {
                                     <td>Tables:</td>
                                     <td>
                                         <select class="menu-select" id="table-font-select">
-                                            <option value="Arial">Arial</option>
                                             <option value="Faculty Glyphic">Faculty Glyphic</option>
                                             <option value="Georgia">Georgia</option>
-                                            <option value="Inter">Inter</option>
-                                            <option value="Palatino Linotype">Palatino Linotype</option>
                                             <option value="Roboto">Roboto</option>
                                             <option value="Segoe UI">Segoe UI</option>
                                             <option value="Trebuchet MS">Trebuchet MS</option>
-                                            <option value="Ubuntu">Ubuntu</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -242,7 +225,7 @@ window.addEventListener("load", function() {
         });
         const toc = document.getElementById("table-of-contents");
         const headings = Array.from(document.getElementById("article").getElementsByClassName("toc-include"));
-        toc.innerHTML = `<div class="toc-row"><div class="align-center space-between"><a onclick="scrollToTop()" style="cursor: pointer;">(Top)</a>${ xButtonSvg }</div></div>` + headings.slice(1).map ( heading => `<div class="toc-row ${ heading.tagName.toLowerCase() }"><a href="#${ heading.id }">${ heading.innerHTML.replace(/\/?i>/g, "") }</a></div>` ).join("");
+        toc.innerHTML = `<div class="toc-row"><div class="align-center space-between"><a onclick="scrollToTop()" style="cursor: pointer;">(Top)</a>${ xButtonSvg }</div></div>` + headings.slice(1).map ( heading => `<div class="toc-row ${ heading.tagName.toLowerCase() }"><a href="#${ heading.id }">${ heading.innerHTML }</a></div>` ).join("");
         
         const rowsInToc = Array.from(toc.getElementsByClassName("toc-row"));
         let lastHeading = -1;
@@ -414,7 +397,7 @@ function setBrightness(setValue) {
     document.getElementById("brightness-select").value = brightness;
 }
 function updateFonts() {
-    let headingFont = localStorage.getItem("headingFont") || "Georgia";
+    let headingFont = localStorage.getItem("headingFont") || "Lora";
     let bodyFont = localStorage.getItem("bodyFont") || "Georgia";
     let tableFont = localStorage.getItem("tableFont") || "Roboto";
     document.getElementById("heading-font-select").value = headingFont;
@@ -427,12 +410,12 @@ function updateFonts() {
         --ff-article-digit: ${ bodyFont=="Georgia" ? "Georgia Pro":bodyFont };
         --ff-table: ${ tableFont },sans-serif;
         --ff-table-digit: ${ tableFont=="Georgia" ? "Georgia Pro":tableFont };
-        ${ bodyFont == "Times" || bodyFont == "Times New Roman" ? "--fs-article: 17px;" : "" }
+        ${ bodyFont == "Times" || bodyFont == "Times New Roman" ? "--fs-article: 16.4px; --lh-article: 1.5;" : "" }
         ${ headingFont == "Georgia" ? " --fw-h1: 600; --fw-h2: 600; " : "" }
     }`;
 }
 function menuRestoreDefaults() {
-    localStorage.setItem("headingFont", "Georgia");
+    localStorage.setItem("headingFont", "Lora");
     localStorage.setItem("bodyFont", "Georgia");
     localStorage.setItem("tableFont", "Roboto");
     updateFonts();
