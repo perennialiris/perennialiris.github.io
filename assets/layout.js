@@ -22,7 +22,6 @@ const xButtonSvg = `<svg id="toc-x-button" width="15" height="15" viewBox="0 0 7
 const upDownArrowsIconSvg = `↑↓`; /* note to self: make an arrow svg */
 const hamburgerIconSvg = `<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6H20 M4 12H20 M4 18H20" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-
 window.addEventListener("load", function() {
     const index = document.getElementById("index") != null;
     const homeLink = index ? "" : "../../index.html";
@@ -52,6 +51,7 @@ window.addEventListener("load", function() {
                         <option value="red">Light (red accent)</option>
                         <option value="blue">High contrast blue</option>
                         <option value="dark">Dark</option>
+                        <option value="dark-warm">Dark (warm)</option>
                         <option value="darker">Very dark</option>
                     </select>
                 </div>

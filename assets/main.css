@@ -120,9 +120,9 @@
         --grey-f: #f7f8f9; /* code, quote, figure bg color */
         --blockquote-accent: #999;
         --link-color: #3e6dac;
-        --small-link-color: #606eb5;
+        --link-dotted-underline: #999;
         --selection-color: #333333;
-        --selection-bg: #fff2c2;
+        --selection-bg: #cddffb;
         --codeblock-mark: #ffefb2;
         --c-pale-yellow: #fea;
         --c-red: #bf2c2c;
@@ -174,7 +174,7 @@
     html.full-width { --main-width: 1920px; }
     html.full-width .main-nav { padding-right: 1rem; }
     html.blue {
-        --page-bg: #262728;
+        --page-bg: #292f3e;
         --header-bg: #111;
         --header-text-color-1: #d2d2d2;
         --header-text-color-2: #585fc4;
@@ -182,6 +182,7 @@
         --nav-border: #393f57;
         --nav-color: #888c9f;
         --nav-svg: #777b91;
+        --selection-bg: #c7d0fd;
         --link-color: #435fa2;
         --blockquote-accent: #546091;
         --toc-color: #74777d;
@@ -202,6 +203,7 @@
         --nav-color: #b49d9d;
         --nav-svg: #866868;
         --blockquote-accent: #935258;
+        --selection-bg: #f9eac7;
         --link-color: #863642;
         --c3-bg: #fff;
         --grey-f: #f8f8f8;
@@ -234,11 +236,62 @@
         --grey-e: #393a3c;
         --grey-f: #2e2f31;
         --link-color: #828eb0;
-        --small-link-color: #656e89;
+        --link-dotted-underline: #505666;
         --selection-color: #a4a4a4;
         --selection-bg: #4c4f5b;
         --codeblock-mark: #4a483e;
         --blockquote-accent: #5d6786;
+        --c-pale-yellow: #55503b;
+        --c-red: #a24f4f;
+        --c-green: #668266;
+        --c-teal: #3e5959;
+        --c-purple: #907ba6;
+        --c-dark-blue: #7c93ea;
+        --c-blue: #6b7fca;
+        --c-medium-blue: #5d6eae;
+        --c-light-blue: #39477f;
+        --c-pale-blue: #414757;
+        --c-orange: #bd8b49;
+        --github: #685c91;
+        --bluesky: #5e88b3;
+        --tumblr: #444480;
+        --tumblr-white: #fff;
+        --youtube: #b13a3a;
+        --youtube-white: #e6e6e6;
+        --twitter: #aaa;
+        --discord: #6068bf;
+        --substack: #bd723c;
+        --checkbox-check: url("data:image/svg+xml;utf8,<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><rect x='17' y='17' width='66' height='66' fill='%23888'/></svg>");
+    }
+    html.dark-warm {
+        --page-bg: #242423;
+        --header-bg: #121315;
+        --header-text-color-1: #999;
+        --header-text-color-2: #ac7443;
+        --nav-bg: #2f2f2f;
+        --nav-color: #666;
+        --nav-border: #393939;
+        --nav-svg: #606060;
+        --toc-color: #606060;
+        --toc-active-color: #b0b0b0;
+        --toc-scrollbar-color-1: #606060;
+        --toc-scrollbar-color-2: #444;
+        --white: #333;
+        --grey-2: #bfbfbf;
+        --grey-3: #9f9b9a;
+        --grey-5: #909090;
+        --grey-8: #707070;
+        --grey-9: #606060;
+        --grey-a: #555;
+        --grey-c: #505050;
+        --grey-e: #393a3c;
+        --grey-f: #2e2f31;
+        --link-color: #b2805c;
+        --link-dotted-underline: #5b4b47;
+        --selection-color: #a4a4a4;
+        --selection-bg: #4c4f5b;
+        --codeblock-mark: #4a483e;
+        --blockquote-accent: #996743;
         --c-pale-yellow: #55503b;
         --c-red: #a24f4f;
         --c-green: #668266;
@@ -285,7 +338,7 @@
         --grey-e: #0a0a0a;
         --grey-f: #050505;
         --link-color: #353f59;
-        --small-link-color: #4a3423;
+        --link-dotted-underline: #252b3b;
         --selection-color: #707070;
         --selection-bg: #121416;
         --codeblock-mark: #0f0e09;
@@ -454,7 +507,7 @@
 
             #article a { color: var(--link-color); }
             #article a:not(.citeref):not(.plug):hover { border-bottom: none; }
-            #article p a:not(.citeref), #article li a:not(.citeref) { text-decoration: 1px dotted underline var(--grey-9); }
+            #article p a:not(.citeref), #article li a:not(.citeref) { text-decoration: 1px dotted underline var(--link-dotted-underline); }
             #article a:hover { text-decoration: 1px solid underline currentcolor; }
             
             #article a.citeref { vertical-align: top; font-size: 0.7em; margin-left: 2px; font-family: var(--ff-citeref); }
