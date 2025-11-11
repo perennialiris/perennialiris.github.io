@@ -44,19 +44,43 @@ window.addEventListener("load", function() {
     <div class="menu-line center">
         <div class="menu-aligner">
             <div class="menu hidden">
-                <div class="align-center gap-8">
-                    <span><b>Theme:</b></span>
-                    <select class="menu-select" id="brightness-select">
-                        <option value="light">Light</option>
-                        <option value="red">Light (red accent)</option>
-                        <option value="blue">High contrast blue</option>
-                        <option value="dark">Dark</option>
-                        <option value="dark-warm">Dark (warm)</option>
-                        <option value="darker">Very dark</option>
-                    </select>
+                <div>
+                    <div><b>Display preferences:</b></div>
+                    <div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Theme:</td>
+                                    <td>
+                                        <select class="menu-select" id="brightness-select">
+                                            <option value="light">Light</option>
+                                            <option value="red">Light (red accent)</option>
+                                            <option value="blue">High contrast blue</option>
+                                            <option value="dark">Dark</option>
+                                            <option value="dark-warm">Dark (warm)</option>
+                                            <option value="darker">Very dark</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Text size:</td>
+                                    <td>
+                                        <select class="menu-select" id="size-select">
+                                            <option value="normal-text">Large</option>
+                                            <option value="small-text">Small</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; color:var(--grey-5);">
+                    <div class="align-center"><label class="no-select" for="page-full-width">Full page width:</label><input type="checkbox" class="menu-checkbox" id="page-full-width"></div>
+                    ${ HTML.classList.contains("toc") ? `<div class="align-center"><label for="show-toc">Show table of contents:</label><input type="checkbox" class="menu-checkbox" checked id="show-toc"></div>` : "" }
                 </div>
                 <div>
-                    <div><b>Fonts:</b></div>
+                    <div><b>Fonts override:</b></div>
                     <div>
                         <table class="font-options">
                             <tbody>
@@ -102,9 +126,8 @@ window.addEventListener("load", function() {
                     </div>
                     <div style="text-align:right; color:var(--grey-8); padding:3px 0;"><span class="pseudo-link" onclick="menuRestoreDefaults()">restore defaults</span></div>
                 </div>
-                <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; color:var(--grey-5);">
-                    <div class="align-center"><label class="no-select" for="page-full-width">Full page width:</label><input type="checkbox" class="menu-checkbox" id="page-full-width"></div>
-                    ${ HTML.classList.contains("toc") ? `<div class="align-center"><label for="show-toc">Show table of contents:</label><input type="checkbox" class="menu-checkbox" checked id="show-toc"></div>` : "" }
+                <div>
+                    <div style="font-style:italic; color:var(--grey-8)">These options are saved in session storage, not cookies, meaning they&rsquo;re cleared automatically when you close your browser.</div>
                 </div>
             </div>
         </div>
