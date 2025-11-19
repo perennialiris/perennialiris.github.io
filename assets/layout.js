@@ -10,11 +10,12 @@ const substackSvg = `<svg role="img" xmlns="http://www.w3.org/2000/svg" width="1
 const patreonSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 42" class="logomark"><path fill="var(--grey-2)" d="M36.975 12.392c0 .312.021.627-.004.937-.03.361-.082.722-.149 1.08a22.535 22.535 0 0 1-.331 1.512 8.59 8.59 0 0 1-.359 1.084c-.313.767-.66 1.518-1.117 2.21-.282.427-.57.849-.864 1.266a4.12 4.12 0 0 1-.37.431c-.225.238-.442.483-.686.695a13.5 13.5 0 0 1-1.123.905c-.356.25-.756.431-1.12.674-.404.268-.866.384-1.296.587-.384.18-.795.24-1.186.38-.498.18-1.021.222-1.531.331-.544.117-1.097.203-1.643.315-.449.09-.894.198-1.34.298-.254.056-.51.098-.756.173-.304.093-.6.214-.896.324-.201.072-.412.126-.604.219-.28.14-.544.315-.823.464-.457.242-.838.585-1.184.96-.292.32-.546.681-.8 1.036-.418.587-.706 1.244-.964 1.916-.254.657-.487 1.322-.725 1.986-.221.625-.43 1.252-.655 1.875a63.989 63.989 0 0 1-.618 1.615 13.447 13.447 0 0 1-1.12 2.215c-.331.531-.685 1.049-1.142 1.478-.366.343-.72.704-1.17.944-.446.24-.906.448-1.4.557a6.635 6.635 0 0 1-1.807.129c-.229-.012-.455-.075-.684-.117-.137-.026-.276-.047-.409-.089-.112-.035-.215-.097-.322-.151-.302-.147-.624-.264-.9-.448a8.802 8.802 0 0 1-.96-.776c-.554-.492-.97-1.103-1.342-1.74a13.04 13.04 0 0 1-.681-1.319c-.192-.436-.336-.893-.492-1.345a24.916 24.916 0 0 1-.34-1.063c-.092-.317-.165-.641-.243-.963-.073-.298-.15-.594-.212-.895-.112-.536-.215-1.073-.32-1.609a35.827 35.827 0 0 1-.133-.68c-.06-.34-.114-.681-.171-1.022-.044-.254-.092-.506-.13-.76-.044-.28-.08-.56-.124-.839-.036-.242-.078-.483-.112-.725-.032-.226-.06-.452-.089-.678a70.008 70.008 0 0 1-.094-.73c-.03-.236-.055-.471-.082-.707l-.096-.818c-.011-.098-.023-.193-.03-.291-.034-.401-.068-.804-.1-1.208a20.67 20.67 0 0 1-.05-.75c-.021-.39-.042-.777-.05-1.166A94.453 94.453 0 0 1 1 18.18c0-.378.002-.755.027-1.13.026-.392.08-.784.122-1.176.034-.312.064-.622.105-.934.023-.175.064-.348.1-.52.092-.432.176-.863.281-1.292.076-.31.181-.61.266-.916.157-.571.393-1.11.624-1.653.105-.25.235-.49.367-.725.186-.329.366-.66.576-.97.259-.378.533-.744.823-1.098a12.9 12.9 0 0 1 .873-.965c.24-.24.512-.448.77-.665.254-.212.501-.433.77-.624.412-.296.835-.576 1.263-.849.249-.158.514-.294.774-.434.405-.219.81-.44 1.22-.648.26-.13.527-.244.794-.354.683-.277 1.364-.557 2.055-.816.46-.17.932-.303 1.399-.452.24-.077.475-.161.717-.229.2-.056.402-.086.604-.133.22-.05.434-.119.656-.16.299-.059.603-.1.907-.147.34-.052.679-.105 1.02-.152.139-.019.283-.02.425-.03.47-.026.944-.054 1.414-.077.188-.01.382-.051.565-.019.443.08.889.017 1.332.05.428.03.853.076 1.278.127.306.038.608.103.914.15.268.04.535.065.802.107.215.035.43.081.645.128.46.103.919.196 1.374.317.404.11.797.275 1.204.37.469.113.899.332 1.351.479.462.149.86.424 1.3.608.515.217.96.546 1.418.858.347.238.685.492 1 .77.467.41.92.836 1.356 1.28.258.26.478.564.713.85.38.464.658.993.928 1.523.215.424.393.874.537 1.329.12.373.156.774.245 1.156.098.42.096.844.073 1.27l-.012.008z"></path></svg>`;
 const kofiSvg = `<svg width="241" height="194" viewBox="0 0 241 194" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="mask0_1_219" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-1" y="0" width="242" height="194"><path d="M240.469 0.958984H-0.00585938V193.918H240.469V0.958984Z" fill="var(--white)"/></mask><g mask="url(#mask0_1_219)"><path d="M96.1344 193.911C61.1312 193.911 32.6597 178.256 15.9721 149.829C1.19788 124.912 -0.00585938 97.9229 -0.00585938 67.7662C-0.00585938 49.8876 5.37293 34.3215 15.5413 22.7466C24.8861 12.1157 38.1271 5.22907 52.8317 3.35378C70.2858 1.14271 91.9848 0.958984 114.545 0.958984C151.259 0.958984 161.63 1.4088 176.075 2.85328C195.29 4.76026 211.458 11.932 222.824 23.5955C234.368 35.4428 240.469 51.2624 240.469 69.3627V72.9994C240.469 103.885 219.821 129.733 191.046 136.759C188.898 141.827 186.237 146.871 183.089 151.837L183.006 151.964C172.869 167.632 149.042 193.918 103.401 193.918H96.1281L96.1344 193.911Z" fill="var(--white)"/><path d="M174.568 17.9772C160.927 16.6151 151.38 16.1589 114.552 16.1589C90.908 16.1589 70.9008 16.387 54.7644 18.4334C33.3949 21.164 15.2058 37.5285 15.2058 67.7674C15.2058 98.0066 16.796 121.422 29.0741 142.107C42.9425 165.751 66.1302 178.707 96.1412 178.707H103.414C140.242 178.707 160.25 159.156 170.253 143.698C174.574 136.874 177.754 130.058 179.801 123.234C205.947 120.96 225.27 99.3624 225.27 72.9941V69.3577C225.27 40.9432 206.631 21.164 174.574 17.9772H174.568Z" fill="var(--white)"/><path d="M15.1975 67.7674C15.1975 37.5285 33.3866 21.164 54.7559 18.4334C70.8987 16.387 90.906 16.1589 114.544 16.1589C151.372 16.1589 160.919 16.6151 174.559 17.9772C206.617 21.1576 225.255 40.937 225.255 69.3577V72.9941C225.255 99.3687 205.932 120.966 179.786 123.234C177.74 130.058 174.559 136.874 170.238 143.698C160.235 159.156 140.228 178.707 103.4 178.707H96.1264C66.1155 178.707 42.9277 165.751 29.0595 142.107C16.7814 121.422 15.1912 98.4563 15.1912 67.7674" fill="var(--grey-2)"/><path d="M32.2469 67.9899C32.2469 97.3168 34.0654 116.184 43.6127 133.689C54.5225 153.924 74.3018 161.653 96.8117 161.653H103.857C133.411 161.653 147.736 147.329 155.693 134.829C159.558 128.462 162.966 121.417 164.784 112.547L166.147 106.864H174.332C192.521 106.864 208.208 92.09 208.208 73.2166V69.8082C208.208 48.6669 195.024 37.5228 172.058 34.7987C159.102 33.6646 151.372 33.2084 114.538 33.2084C89.7602 33.2084 72.0272 33.4364 58.6152 35.4828C39.7483 38.2134 32.2407 48.8951 32.2407 67.9899" fill="var(--white)"/><path d="M166.158 83.6801C166.158 86.4107 168.204 88.4572 171.841 88.4572C183.435 88.4572 189.802 81.8619 189.802 70.9523C189.802 60.0427 183.435 53.2195 171.841 53.2195C168.204 53.2195 166.158 55.2657 166.158 57.9963V83.6866V83.6801Z" fill="var(--grey-2)"/><path d="M54.5321 82.3198C54.5321 95.732 62.0332 107.326 71.5807 116.424C77.9478 122.562 87.9515 128.93 94.7685 133.022C96.8147 134.157 98.8611 134.841 101.136 134.841C103.866 134.841 106.134 134.157 107.959 133.022C114.782 128.93 124.779 122.562 130.919 116.424C140.694 107.332 148.195 95.7383 148.195 82.3198C148.195 67.7673 137.286 54.8115 121.599 54.8115C112.28 54.8115 105.912 59.5882 101.136 66.1772C96.8147 59.582 90.2259 54.8115 80.9001 54.8115C64.9855 54.8115 54.5256 67.7673 54.5256 82.3198" fill="var(--kofi)"/></g></svg>`;
 const socialLinks = `<a title="YouTube" class="plug" href="https://www.youtube.com/channel/UCXadODjAtT72eYW6xCGyuUA">${ youtubeSvg } YouTube</a>
-<a title="Bluesky" class="plug" href="https://bsky.app/profile/perennialforces.bsky.social">${ blueskySvg } Bluesky</a>
-<a title="Tumblr" class="plug" href="https://perennialiris.tumblr.com/">${ tumblrSvg } Tumblr</a>
-<a title="Discord" class="plug" href="https://discord.gg/fGdV7x5dk2">${ discordSvg } Discord</a>
-<a title="Substack" class="plug" href="https://perennialiris.substack.com">${ substackSvg } Substack</a>
-<a title="Twitter" class="plug" href="https://x.com/perennialforces">${ twitterSvg } Twitter</a>`;
+| <a title="Tumblr" class="plug" href="https://perennialiris.tumblr.com/">${ tumblrSvg } Tumblr</a>
+| <a title="Discord" class="plug" href="https://discord.gg/fGdV7x5dk2">${ discordSvg } Discord</a>
+| <a title="Bluesky" class="plug" href="https://bsky.app/profile/perennialforces.bsky.social">${ blueskySvg } Bluesky</a>
+| <a title="Substack" class="plug" href="https://perennialiris.substack.com">${ substackSvg } Substack</a>
+| <a title="Twitter" class="plug" href="https://x.com/perennialforces">${ twitterSvg } Twitter</a>
+`;
 const beggingLinks = `<a title="Ko-fi" class="plug" href="https://ko-fi.com/perennialiris">${ kofiSvg } Ko-fi</a>
 <a title="Patreon" class="plug" href="https://www.patreon.com/perennialiris">${ patreonSvg } Patreon</a>`;
 
@@ -28,7 +29,7 @@ window.addEventListener("load", function() {
     
     document.body.innerHTML =
     `<header class="main-header center align-center">
-        <div class="title-container"><a href="${ homeLink }" class="header-title">Perennial<span>Iris</span></a></div>
+        <div class="title-container"><a href="${ homeLink }" class="header-title">Iris<span>Embury</span></a></div>
     </header>
     <nav class="nav-wrapper no-select">
         <div class="main-nav stretch space-between">
@@ -44,90 +45,81 @@ window.addEventListener("load", function() {
     <div class="menu-line center">
         <div class="menu-aligner">
             <div class="menu hidden">
-                <div>
-                    <div><b>Display preferences:</b></div>
-                    <div>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>Theme:</td>
-                                    <td>
-                                        <select class="menu-select" id="brightness-select">
-                                            <option value="light">Light</option>
-                                            <option value="red">Light (red accent)</option>
-                                            <option value="blue">High contrast blue</option>
-                                            <option value="dark">Dark</option>
-                                            <option value="dark-warm">Dark (warm)</option>
-                                            <option value="darker">Very dark</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Text size:</td>
-                                    <td>
-                                        <select class="menu-select" id="size-select">
-                                            <option value="normal-text">Large</option>
-                                            <option value="small-text">Small</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; color:var(--grey-5);">
-                    <div class="align-center"><label class="no-select" for="page-full-width">Full page width:</label><input type="checkbox" class="menu-checkbox" id="page-full-width"></div>
-                    ${ HTML.classList.contains("toc") ? `<div class="align-center"><label for="show-toc">Show table of contents:</label><input type="checkbox" class="menu-checkbox" checked id="show-toc"></div>` : "" }
-                </div>
-                <div>
-                    <div><b>Fonts override:</b></div>
-                    <div>
-                        <table class="font-options">
-                            <tbody>
-                                <tr>
-                                    <td>Headings:</td>
-                                    <td>
-                                        <select class="menu-select" id="heading-font-select">
-                                            <option value="Faculty Glyphic">Faculty Glyphic</option>
-                                            <option value="Georgia">Georgia</option>
-                                            <option value="IBM Plex Serif">IBM Plex Serif</option>
-                                            <option value="Lora">Lora</option>
-                                            <option value="Roboto">Roboto</option>
-                                            <option value="Trebuchet MS">Trebuchet MS</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Body:</td>
-                                    <td>
-                                        <select class="menu-select" id="body-font-select">
-                                            <option value="Faculty Glyphic">Faculty Glyphic</option>
-                                            <option value="Georgia">Georgia</option>
-                                            <option value="Roboto">Roboto</option>
-                                            <option value="Times New Roman">Times New Roman</option>
-                                            <option value="Trebuchet MS">Trebuchet MS</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Tables:</td>
-                                    <td>
-                                        <select class="menu-select" id="table-font-select">
-                                            <option value="Faculty Glyphic">Faculty Glyphic</option>
-                                            <option value="Georgia">Georgia</option>
-                                            <option value="Roboto">Roboto</option>
-                                            <option value="Segoe UI">Segoe UI</option>
-                                            <option value="Trebuchet MS">Trebuchet MS</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div style="text-align:right; color:var(--grey-8); padding:3px 0;"><span class="pseudo-link" onclick="menuRestoreDefaults()">restore defaults</span></div>
-                </div>
-                <div>
-                    <div style="font-style:italic; color:var(--grey-8)">These options are saved in session storage, not cookies, meaning they&rsquo;re cleared automatically when you close your browser.</div>
+                <div class="menu-inner">
+                    <h3>Display preferences:</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Theme:</td>
+                                <td>
+                                    <select class="menu-select" id="brightness-select">
+                                        <option value="light">Light</option>
+                                        <option value="red">Light (red accent)</option>
+                                        <option value="blue">High contrast blue</option>
+                                        <option value="dark">Dark</option>
+                                        <option value="dark-warm">Dark (warm)</option>
+                                        <option value="darker">Very dark</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Text size:</td>
+                                <td>
+                                    <select class="menu-select" id="size-select">
+                                        <option value="normal-text">Large</option>
+                                        <option value="small-text">Small</option>
+                                    </select>
+                                </td>
+                        </tbody>
+                    </table>
+                    <div class="menu-switch-right"><label class="no-select" for="page-full-width">Full page width:</label><input type="checkbox" class="menu-checkbox" id="page-full-width"></div>
+                    ${ HTML.classList.contains("toc") ? `<div class="align-center flex-end"><label for="show-toc">Show table of contents:</label><input type="checkbox" class="menu-checkbox" checked id="show-toc"></div>` : "" }
+                    <hr>
+                    <h3>Fonts override:</h3>
+                    <table id="fonts">
+                        <tbody>
+                            <tr>
+                                <td>Headings:</td>
+                                <td>
+                                    <select class="menu-select" id="heading-font-select">
+                                        <option value="Faculty Glyphic">Faculty Glyphic</option>
+                                        <option value="Georgia">Georgia</option>
+                                        <option value="IBM Plex Serif">IBM Plex Serif</option>
+                                        <option value="Lora">Lora</option>
+                                        <option value="Roboto">Roboto</option>
+                                        <option value="Trebuchet MS">Trebuchet MS</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Body:</td>
+                                <td>
+                                    <select class="menu-select" id="body-font-select">
+                                        <option value="Faculty Glyphic">Faculty Glyphic</option>
+                                        <option value="Georgia">Georgia</option>
+                                        <option value="Roboto">Roboto</option>
+                                        <option value="Times New Roman">Times New Roman</option>
+                                        <option value="Trebuchet MS">Trebuchet MS</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tables:</td>
+                                <td>
+                                    <select class="menu-select" id="table-font-select">
+                                        <option value="Faculty Glyphic">Faculty Glyphic</option>
+                                        <option value="Georgia">Georgia</option>
+                                        <option value="Roboto">Roboto</option>
+                                        <option value="Segoe UI">Segoe UI</option>
+                                        <option value="Trebuchet MS">Trebuchet MS</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="menu-switch-right"><span class="pseudo-link" onclick="menuRestoreDefaults()">restore defaults</span></div>
+                    <hr>
+                    <span style="color:var(--grey-5)">These options are saved in session storage, not cookies, meaning they&rsquo;re cleared automatically when you close your browser.</span>
                 </div>
             </div>
         </div>
@@ -153,7 +145,7 @@ window.addEventListener("load", function() {
     <style id="--custom-style"></style>`;
 
     HTML.classList.add("layout");
-    Array.from(document.querySelector(".font-options").getElementsByTagName("option")).forEach(o => o.style.fontFamily = `"${ o.value }",system-ui` );
+    Array.from(document.getElementById("fonts").getElementsByTagName("option")).forEach(o => o.style.fontFamily = `"${ o.value }",system-ui` );
     
     const article_ = document.getElementById("article");
     interpreter(article_);
